@@ -71,4 +71,22 @@ The single biggest risk is the exit: a project with no buyer is stranded capital
 
 ---
 
+## How this assessment was done (methods)
+
+This report uses standard **CFA-curriculum industry-analysis frameworks** alongside the way **private-equity and infrastructure investors screen real deals**. Each conclusion above traces back to one of these methods:
+
+| What we wanted to know | Method used | Where it comes from |
+|---|---|---|
+| What exactly are we analysing? | Define the industry narrowly *before* analysing it (here: small ~5 MW distribution RTB) | CFA — Industry & Company Analysis |
+| Is the industry growing or maturing? | The industry life-cycle model | CFA |
+| How tough is the competition? | Porter's Five Forces — applied to the *RTB* market, not electricity | CFA / Michael Porter (Harvard) |
+| What outside forces help or hurt? | PESTLE — Political, Economic, Social, Technological, Legal, Environmental | CFA |
+| Is this a good *type* of deal? | The PE / VC deal screen — exit path, barriers to entry, capital intensity, recurring revenue | Real-world PE & infrastructure practice |
+| Will a project actually succeed? | A survival / "probability-of-default" chain: multiply the chance of clearing each gate | Real-world credit risk (Basel, IFRS 9) |
+| What return does it give? | Risk-adjusted NPV, three scenarios weighted (the First-Chicago method), IRR / MOIC | CFA (time value of money, expected value) + PE/VC practice |
+
+In every case the inputs come from **free public data**, and the manager's figures were **re-derived independently** rather than taken on trust. The full quantitative workings are in the [valuation model](financial_models/) and the [README](README.md).
+
+---
+
 *Independent findings draw on free public data (AEMO, CSIRO GenCost, the RBA, and the NSW/VIC/SA planning portals); see [`SOURCES.md`](SOURCES.md). The valuation rebuild that produces the return figures (a survival-curve / risk-adjusted model) lives in [`financial_models/`](financial_models/) and the [`notebooks/`](notebooks/). Manager figures are forward-looking claims and must be independently verified.*

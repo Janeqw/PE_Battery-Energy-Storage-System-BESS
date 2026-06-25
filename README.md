@@ -151,6 +151,22 @@ The headline story: *applying credit-risk (PD / survival) discipline and institu
 
 The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base investor IRR 17.5% in both); a `formulas`-library recalc confirms the model's master check reads **OK** with zero error cells.
 
+**Methods & theory (CFA curriculum + real-world practice).** Every result uses a recognised technique, not a bespoke one — in plain terms:
+
+| Technique | What it does (plain English) | Where it comes from |
+|---|---|---|
+| Life-cycle · Porter's Five Forces · PESTLE | Judge the industry's growth stage, competition and outside forces | CFA — industry analysis |
+| PE / VC deal screen | Score the deal like an infra/PE investor: exit path, barriers to entry, capital intensity | Real-world PE practice |
+| Discount rate = risk-free + risk premium | Required return = a safe government-bond yield + extra for development risk | CFA — required return / cost of capital |
+| Risk-adjusted NPV (rNPV) | Future cash flows × the chance they happen, discounted to today's money | CFA (time value of money, expected value); used in pharma & infrastructure development |
+| PD-style survival curve | Multiply the chance of clearing each gate to get the overall success rate | Credit-risk practice (Basel, IFRS 9 probability-of-default) |
+| Comparable transactions ($/MW) | Price the asset off what similar projects actually sold for | CFA — relative valuation; M&A practice |
+| Scenario analysis + First-Chicago method | Run Conservative/Base/Ideal and weight them by likelihood into one expected number | CFA (scenario analysis); PE/VC practice |
+| VC method | Work back from the exit value at a target return to today's value | Real-world VC practice |
+| IRR, MOIC, fee & carry waterfall | Investor return after fees and 20%-carry-over-an-8%-hurdle | PE fund economics; CFA return measures |
+
+Everything stays within methods a credit-risk, infrastructure or private-equity interviewer will recognise.
+
 **Quick start.**
 ```bash
 make install      # pip install -r requirements.txt (+ playwright chromium if used)
