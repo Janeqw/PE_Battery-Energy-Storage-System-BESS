@@ -73,7 +73,26 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees/car
 
 \*To deliver the ~35-project target, the starting pipeline must widen as success falls — which is why a lower success rate also raises total development cost.
 
-**Assumptions (manager claims unless noted):** ~$25m committed capital · 35 projects delivered/sold · dev cost ~$0.5m/project (+ partial spend on dropouts) · fees **2% entry / 2% p.a. management / 20% carry over an 8% hurdle** · 2+1-year term. RTB prices (claim): NSW $0.9–1.1m, VIC $0.8–1.0m, SA $0.5–0.7m per 5 MW project. Discount rate (for the asset cross-checks) 18.8% = RBA 10yr CGS **4.8%** + 14.0% development premium.
+**Key assumptions** *(manager claims unless noted):*
+
+| Assumption | Value |
+|---|---|
+| Committed capital | ~$25m |
+| Projects delivered / sold | 35 |
+| Development cost | ~$0.5m per project (+ partial spend on dropouts) |
+| Fund term | 2 + 1 years |
+| Entry fee | 2% of committed capital |
+| Management fee | 2% p.a. |
+| Carry / hurdle | 20% carry over an 8% preferred return |
+| Discount rate *(asset cross-checks)* | 18.8% = RBA 10yr CGS 4.8% + 14.0% development premium |
+
+**RTB sale price by state** *(manager claim — needs independent comps):*
+
+| State | Price per 5 MW project |
+|---|---|
+| NSW | $0.9m – $1.1m |
+| VIC | $0.8m – $1.0m |
+| SA | $0.5m – $0.7m |
 
 > **Read-through:** our rebuild is deliberately more conservative than the deck (full development spend across the funnel; independent costs/prices; no credit for the optimistic 65% base). The result — **expected return below the manager's, and a downside that can return less than capital** — is the credit-style scepticism this decision requires.
 
@@ -116,7 +135,12 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees/car
 
 ## Appendix — basis of analysis & how to reproduce
 
-**Why this exists (portfolio note).** This repository demonstrates two interview-tested skills: **(1) data engineering** — a config-driven, reproducible Python pipeline over free public Australian data (RBA, CSIRO GenCost, AEMO, NSW/VIC/SA planning, trade press) with verify-then-fallback and full source logging; and **(2) advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip pipeline and the **investor (LP) return** via a PD-style survival curve, per-project rNPV, a fund funnel with fees and carry, and First-Chicago scenario weighting. The headline story: *applying credit-risk (PD / survival) discipline and institutional Excel standards to an infrastructure-development fund — independently rebuilding a manager's claims on fully public data.*
+**Why this exists (portfolio note).** This repository demonstrates two interview-tested skills:
+
+1. **Data engineering** — a config-driven, reproducible Python pipeline over free public Australian data (RBA, CSIRO GenCost, AEMO, NSW/VIC/SA planning, trade press), with verify-then-fallback and full source logging.
+2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip pipeline and the **investor (LP) return**, via a PD-style survival curve, per-project rNPV, a fund funnel with fees and carry, and First-Chicago scenario weighting.
+
+The headline story: *applying credit-risk (PD / survival) discipline and institutional Excel standards to an infrastructure-development fund — independently rebuilding a manager's claims on fully public data.*
 
 **Methodology (what the model computes).**
 1. **PD-style survival curve** — `cumulative P(success) = p(planning) × p(connection) × p(sale)` from public data; the **independent ~45%** is the model's own estimate, with the optimism gap vs the manager's base flagged.
@@ -164,11 +188,36 @@ PE_Battery-Energy-Storage-System-BESS/
 
 **Data sources (all free, public).** Logged honestly in [`SOURCES.md`](SOURCES.md): 🟢 *live download* vs 🟡 *documented benchmark / manager claim (verify)*. The pipeline **never fabricates data** — it falls back to a documented benchmark and prints a manual-download instruction. RTB comps rely on publicly reported deals (paid databases — BNEF, Enerdatics, Mergermarket — out of scope) and currently mirror the manager's assumed prices, pending independent comps.
 
-**Excel model standards (house rules followed).** FAST / ICAEW / Macabacus / Operis: Inputs→Calcs→Outputs zones; one master Timeline; one-row-one-calc; no hardcoded numbers in formulas; single `CHOOSE` scenario switch (3 cases) + live-case row; checks built alongside with a master check on the Cover; colour code (blue input / black formula / green link); `INDEX-MATCH` not `VLOOKUP`; `IFERROR` on division; closed-form IRR (no volatile functions). **15 tabs:** Cover · Contents · Change Log · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary. An automated pre-handover scan enforces no long formulas / no nested IFs on calc sheets.
+**Excel model standards (house rules followed).** Built to FAST / ICAEW / Macabacus / Operis conventions:
 
-**Who built what (integrity).** This repo is a **v1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the manager's deck figures are claims to verify: the three scenario success rates (vs the independent ~45%), RTB $/MW by state (need independent comps), dev cost per project, fees/carry/hurdle, discount rate, cash-flow profile. They live in `config/assumptions.yaml` and on the model's Inputs/Scenarios tabs.
+- Inputs → Calcs → Outputs zones; one master Timeline; one row, one calculation
+- No hardcoded numbers in formulas; a single `CHOOSE` scenario switch (3 cases) with a live-case row
+- Checks built alongside, with a master check on the Cover
+- Colour code: blue = input, black = formula, green = cross-sheet link
+- `INDEX-MATCH` not `VLOOKUP`; `IFERROR` on division; closed-form IRR (no volatile functions)
+- An automated pre-handover scan enforces no long formulas and no nested IFs on calc sheets
 
-**Limitations.** Illustrative fund (independent rebuild of a manager's claims, not an endorsement); benchmark fallbacks where a source blocked automated access; RTB comps are publicly reported deals only; representative 6-project pipeline scaled by the funnel; blended (not per-state) survival curve; closed-form investor IRR over an effective hold; annual timing. All deliberately left for the analyst's review pass.
+**The 15 tabs:** Cover · Contents · Change Log · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary.
+
+**Who built what (integrity).** This repo is a **v1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the manager's deck figures are claims to verify:
+
+- the three scenario success rates (vs the independent ~45%)
+- RTB $/MW by state (need independent comps)
+- dev cost per project; fees / carry / hurdle
+- discount rate; cash-flow profile
+
+These live in `config/assumptions.yaml` and on the model's Inputs/Scenarios tabs.
+
+**Limitations.**
+
+- Illustrative fund — an independent rebuild of a manager's claims, not an endorsement
+- Benchmark fallbacks where a source blocked automated access
+- RTB comps are publicly reported deals only
+- Representative 6-project pipeline, scaled up by the funnel
+- Blended (not per-state) survival curve
+- Closed-form investor IRR over an effective hold; annual timing
+
+All deliberately left for the analyst's review pass.
 
 ---
 

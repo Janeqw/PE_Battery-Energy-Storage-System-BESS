@@ -24,13 +24,28 @@ Plausibly, but it needs checking. The fund's edge is that it deliberately works 
 
 ## The decisive risk: will there be buyers?
 
-This is the heart of the matter. Because the fund's entire return comes from selling, the strength of the buyer market decides everything. The good news is that the pool of buyers for Australian battery assets is real and well-funded: independent power producers, infrastructure funds (such as Palisade/Intera, Copenhagen Infrastructure Partners and Quinbrook), superannuation funds (such as Aware Super and HESTA), government green-investment bodies (the Clean Energy Finance Corporation and the Energy Security Corporation), and the large energy retailers.
+This is the heart of the matter. Because the fund's entire return comes from selling, the strength of the buyer market decides everything. The good news is that the pool of buyers for Australian battery assets is real and well-funded:
+
+- **Independent power producers**, building out their own portfolios
+- **Infrastructure funds** — for example Palisade/Intera, Copenhagen Infrastructure Partners, Quinbrook
+- **Superannuation funds** — for example Aware Super, HESTA
+- **Government green-investment bodies** — the Clean Energy Finance Corporation and the Energy Security Corporation
+- **Large energy retailers**, seeking firming capacity
 
 Two cautions dominate, though. First, the fund's "three interested buyers" are **not contractually committed** — interest is not a purchase. Second, and more important, the wider market increasingly pays up for projects that are *further along*, already contracted or construction-ready, whereas this fund sells at the *earlier* RTB stage. So the fund must show either that demand for RTB projects specifically is genuinely deep, or that its projects are de-risked enough to command the assumed prices. The single most useful thing the manager can provide is evidence of real, recent sales of comparable small projects at comparable prices.
 
 ## Can they execute? The success-rate question
 
-The other make-or-break is whether projects actually clear their hurdles on schedule. We model success as a chain: a project must win planning approval, *then* secure grid connection, *then* find a buyer. Using public data, a reasonable read is that roughly 80% pass planning, 70% secure connection, and 80% of those reach a sale — which multiplies out to about a **45% chance** that any given project makes it the whole way.
+The other make-or-break is whether projects actually clear their hurdles on schedule. We model success as a chain — a project must win planning approval, *then* secure grid connection, *then* find a buyer — and read each step from public data:
+
+| Step | Chance of passing |
+|---|---|
+| Planning approval | ~80% |
+| Grid connection | ~70% |
+| Reach a sale | ~80% |
+| **All three (multiplied)** | **~45%** |
+
+In other words, only about **45%** of projects started are likely to make it the whole way.
 
 That 45% is the key finding, because the manager's base case assumes **65%**. In plain terms, the fund's central plan looks optimistic on the very variable that matters most, and our independent estimate sits closer to the manager's *conservative* case than its base case. There is a fair counter-argument — the sub-5 MW exemption and the simplicity of small projects might genuinely lift success above the benchmark — so the right response is not to dismiss the fund, but to **ask the manager for project-by-project, state-by-state evidence** of its approval and connection record. Timing is the other enemy: approvals routinely take many months, and if they slip by six to twelve months the returns fall sharply.
 
