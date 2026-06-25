@@ -1,0 +1,7 @@
+project,state,location,mw,duration_h,mwh,exit_stage,years_to_sale,illustrative
+Riverina 5MW BESS (illustrative),NSW,"Wagga Wagga, NSW",5,2,10.0,rtb,2.5,YES
+Hunter Edge 5MW BESS (illustrative),NSW,"Hunter Valley, NSW",5,4,20.0,rtb,3.0,YES
+Illawarra 5MW BESS (illustrative),NSW,"Wollongong, NSW",5,2,10.0,rtb,2.0,YES
+Latrobe 5MW BESS (illustrative),VIC,"Latrobe Valley, VIC",5,2,10.0,rtb,2.5,YES
+Western Plains 5MW BESS (illustrative),VIC,"Horsham, VIC",5,2,10.0,rtb,2.0,YES
+Mid-North 5MW BESS (illustrative),SA,"Port Pirie, SA",5,2,10.0,rtb,2.5,YES

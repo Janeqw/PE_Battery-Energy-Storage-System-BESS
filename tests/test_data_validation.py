@@ -1,0 +1,156 @@
+"""Validation tests for the data pipeline and the valuation model.
+
+Covers: processed CSVs exist & are well-formed; gate
+probabilities are bounded and the cumulative is monotonic; the pipeline is
+positive; SOURCES.md is populated; and the model's check framework passes
+(mirrored by the Python engine, plus an optional live Excel recalculation when
+the `formulas` library is available).
+"""
+from __future__ import annotations
+
+import csv
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+PROCESSED = ROOT / "data" / "processed"
+MODEL = ROOT / "model" / "BESS_Pipeline_Valuation_v1.0.xlsx"
+
+
+def _rows(name):
+    with open(PROCESSED / name, newline="", encoding="utf-8") as fh:
+        return [r for r in csv.reader(fh) if r and not r[0].startswith("#")]
+
+
+# --------------------------------------------------------------------------- CSVs
+@pytest.mark.parametrize("name", ["pipeline.csv", "costs.csv", "gate_stats.csv", "rtb_comps.csv", "rates.csv"])
+def test_processed_csv_exists_and_nonempty(name):
+    path = PROCESSED / name
+    assert path.exists(), f"{name} missing — run `make transform`"
+    assert len(_rows(name)) >= 2, f"{name} has no data rows"
+
+
+def test_rtb_comps_positive_by_state():
+    rows = _rows("rtb_comps.csv")
+    header = rows[0]
+    s_i, p_i = header.index("state"), header.index("price_per_mw_m")
+    states = {r[s_i] for r in rows[1:]}
+    assert {"NSW", "VIC", "SA"} <= states, "rtb_comps.csv must cover NSW/VIC/SA"
+    for r in rows[1:]:
+        assert float(r[p_i]) > 0, f"RTB $/MW must be positive: {r}"
+
+
+def test_pipeline_columns_and_positive():
+    rows = _rows("pipeline.csv")
+    header = rows[0]
+    for col in ("project", "state", "mw", "duration_h", "mwh", "years_to_sale"):
+        assert col in header, f"pipeline.csv missing column {col}"
+    mw_i, mwh_i = header.index("mw"), header.index("mwh")
+    for r in rows[1:]:
+        assert float(r[mw_i]) > 0, "MW must be positive"
+        assert float(r[mwh_i]) > 0, "MWh must be positive"
+
+
+def test_gate_stats_prob_and_duration():
+    rows = _rows("gate_stats.csv")
+    header = rows[0]
+    p_i, d_i = header.index("probability"), header.index("duration_years")
+    gates = {r[0] for r in rows[1:]}
+    assert {"planning_approval", "grid_connection", "reach_sale"} <= gates
+    for r in rows[1:]:
+        p = float(r[p_i])
+        assert 0.0 <= p <= 1.0, f"gate probability out of [0,1]: {r}"
+        assert float(r[d_i]) > 0, "each gate needs a positive duration"
+
+
+def test_cumulative_le_each_gate():
+    rows = _rows("gate_stats.csv")
+    p_i = rows[0].index("probability")
+    probs = [float(r[p_i]) for r in rows[1:]]
+    cumulative = 1.0
+    for p in probs:
+        cumulative *= p
+    assert cumulative <= min(probs) + 1e-9, "cumulative survival must be <= each gate"
+
+
+def test_sources_md_populated():
+    src = ROOT / "SOURCES.md"
+    assert src.exists(), "SOURCES.md missing — run an extractor"
+    text = src.read_text(encoding="utf-8")
+    for token in ("RBA", "AEMO", "CSIRO", "Planning"):
+        assert token in text, f"SOURCES.md should mention {token}"
+
+
+# --------------------------------------------------------------------------- engine
+def test_engine_checks_all_pass():
+    from src.valuation_engine import load_inputs, run_checks
+
+    checks = run_checks(load_inputs())
+    failed = [k for k, v in checks.items() if not v]
+    assert not failed, f"engine checks failed: {failed}"
+
+
+def test_engine_scenarios_monotonic():
+    from src.valuation_engine import load_inputs, returns_by_scenario
+
+    rbs = returns_by_scenario(load_inputs())
+    assert rbs["Conservative"]["irr"] <= rbs["Base"]["irr"] <= rbs["Ideal"]["irr"]
+
+
+def test_first_chicago_within_scenario_range():
+    from src.valuation_engine import load_inputs, first_chicago
+
+    fc = first_chicago(load_inputs())
+    assert fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9
+
+
+def test_independent_survival_below_base_scenario():
+    """The headline DD finding: independent ~45% sits below Boman's Base (65%)."""
+    from src.valuation_engine import load_inputs, survival_curve
+
+    inp = load_inputs()
+    assert survival_curve(inp)["cumulative"] < float(inp.scenarios[2]["cum_success"])
+
+
+def test_valuation_range_is_a_range():
+    from src.valuation_engine import load_inputs, valuation_range
+
+    vr = valuation_range(load_inputs())
+    assert vr["low"] <= vr["high"], "a development-stage valuation must be a range, not a point"
+
+
+# --------------------------------------------------------------------------- model
+def test_model_exists():
+    assert MODEL.exists(), "model .xlsx missing — run `python -m src.build_model`"
+
+
+def test_model_recalculates_clean():
+    """Optional: recalc the workbook and assert master check OK + zero errors."""
+    formulas = pytest.importorskip("formulas")
+    import re
+    import warnings
+
+    warnings.filterwarnings("ignore")
+    xl = formulas.ExcelModel().loads(str(MODEL)).finish()
+    sol = xl.calculate()
+    errors = []
+    cells = {}            # (SHEET, CELL) -> value
+    master_row = None
+    for k, v in sol.items():
+        m = re.match(r"'\[.*?\]([^']+)'!([A-Z]+\d+)$", k)
+        if not m:
+            continue
+        sheet, cell = m.group(1).upper(), m.group(2)
+        val = v.value
+        if hasattr(val, "ravel"):
+            val = val.ravel()[0] if val.size else None
+        cells[(sheet, cell)] = val
+        if isinstance(val, str) and val.startswith("#") and val.endswith(("!", "?")):
+            errors.append(f"{sheet}!{cell}={val}")
+        if sheet == "CHECKS" and val == "MASTER CHECK":         # locate master dynamically
+            master_row = int(re.sub(r"[A-Z]", "", cell))
+    assert not errors, f"model has error cells: {errors[:10]}"
+    assert master_row, "could not find the MASTER CHECK row on the Checks tab"
+    master = cells.get(("CHECKS", f"B{master_row}"))
+    assert master == "OK", f"master check is {master!r}, expected OK"

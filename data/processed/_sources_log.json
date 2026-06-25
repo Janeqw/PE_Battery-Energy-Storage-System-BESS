@@ -1,0 +1,50 @@
+{
+  "rba": {
+    "name": "RBA \u2014 Cash Rate Target & Capital Market Yields",
+    "url": "https://www.rba.gov.au/statistics/cash-rate/",
+    "output": "data/processed/rates.csv",
+    "status": "LIVE",
+    "description": "Risk-free rate: Australian 10-year Commonwealth Government Securities yield (F2); cash rate (F1.1) as cross-check. Feeds the model discount rate.",
+    "retrieved": "2026-06-24"
+  },
+  "csiro_gencost": {
+    "name": "CSIRO \u2014 GenCost (annual, with AEMO)",
+    "url": "https://www.csiro.au/en/research/technology-space/energy/energy-data-modelling/gencost",
+    "output": "data/processed/costs.csv",
+    "status": "BENCHMARK",
+    "description": "Authoritative Australian battery capital cost ($/kWh, $/kW) by duration. Feeds build-cost inputs.",
+    "retrieved": "2026-06-24"
+  },
+  "aemo_generation_info": {
+    "name": "AEMO \u2014 NEM Generation Information",
+    "url": "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/nem-forecasting-and-planning/forecasting-and-planning-data/generation-information",
+    "output": "data/processed/pipeline.csv, gate_stats.csv (sale gate)",
+    "status": "BENCHMARK",
+    "description": "Full NEM project list (existing / committed / proposed). Filtered to NSW & VIC batteries to ground the illustrative pipeline, and to measure proposed->committed attrition.",
+    "retrieved": "2026-06-24"
+  },
+  "aemo_connections": {
+    "name": "AEMO \u2014 Connections Scorecard / Key Connection Information (KCI)",
+    "url": "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/connections",
+    "output": "data/processed/gate_stats.csv (connection gate)",
+    "status": "BENCHMARK",
+    "description": "Grid-connection success rate and typical duration -> the connection gate probability and timing.",
+    "retrieved": "2026-06-24"
+  },
+  "nsw_planning": {
+    "name": "NSW Planning Portal \u2014 Major Projects / Application Tracker",
+    "url": "https://www.planningportal.nsw.gov.au/major-projects",
+    "output": "data/processed/gate_stats.csv (planning gate)",
+    "status": "BENCHMARK",
+    "description": "BESS major-project applications: name, capacity, status, lodgement & determination dates -> planning approval rate + timeline. Public submissions readable per project.",
+    "retrieved": "2026-06-24"
+  },
+  "trade_press_comps": {
+    "name": "Energy trade press \u2014 battery M&A / deal comps",
+    "url": "https://www.energy-storage.news/tag/australia/",
+    "output": "data/raw/trade_press_candidates_<date>.csv -> data/processed/comps.csv",
+    "status": "LIVE",
+    "description": "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation).",
+    "retrieved": "2026-06-24"
+  }
+}

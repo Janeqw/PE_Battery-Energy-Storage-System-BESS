@@ -1,0 +1,35 @@
+# ---- Data ----
+# Raw downloads are large, date-stamped, and reproducible — never commit them.
+data/raw/
+# Processed CSVs ARE committed (they feed the Excel model) — do not ignore them.
+!data/processed/
+
+# ---- Excel lock / temp files ----
+~$*.xlsx
+*.tmp
+.~lock.*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ipynb_checkpoints/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Outputs that are regenerated ----
+# Keep committed: outputs/dashboard.pdf, outputs/figures/*.png (portfolio artefacts).
+# Ignore stray exports:
+outputs/*.log
+.claude/

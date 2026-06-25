@@ -1,0 +1,222 @@
+# =============================================================================
+# assumptions.yaml  —  every model assumption, with a source + date.
+# -----------------------------------------------------------------------------
+# DEAL: an ILLUSTRATIVE distribution-network BESS *develop-and-flip* fund, framed
+# on the Boman BESS Development Fund (a real opportunity the family trust may
+# back as an LP). Every Boman figure is the MANAGER'S forward-looking CLAIM; the
+# model is an INDEPENDENT rebuild — these inputs are the analyst's own, sourced
+# to public data or labelled illustrative, and clearly separated from Boman's.
+#
+# The business (carry this reframe everywhere):
+#   The fund develops ~5 MW distribution-connected (≈22 kV) batteries to
+#   shovel-ready (RTB / development rights) and SELLS them before construction.
+#   It never operates the asset, so MERCHANT-PRICE RISK PASSES TO THE BUYER.
+#   The fund's risk is the SURVIVAL CURVE (approve -> connect -> sell) and the
+#   RTB EXIT PRICE — not operating cash flows.
+#
+# Every value is ILLUSTRATIVE / a documented public benchmark as at the stated
+# date and MUST be re-verified before any real use. Live values (e.g. RBA yield)
+# are refreshed by `make extract` where reachable.
+# =============================================================================
+
+meta:
+  fund_name: "Illustrative Distribution-BESS Develop-and-Flip Fund (ILLUSTRATIVE — NOT A REAL FUND)"
+  framed_on: "Boman BESS Development Fund (manager claims independently rebuilt — not endorsed)"
+  currency: "AUD"
+  units: "$m unless stated"
+  as_at: "2026-06-24"
+  base_year: 2026
+  horizon_years: 3            # 2+1 year develop-and-flip term
+  exit_stage: "rtb"           # ready-to-build / development rights, sold pre-construction
+  geography: ["NSW", "VIC", "SA"]   # eastern NEM
+  notes: >
+    Develop-and-flip RTB model: develop ~5 MW distribution BESS to shovel-ready,
+    sell the project companies before construction. Merchant risk passes to the
+    buyer; the fund's risk is the survival curve + the RTB exit price. Boman's
+    figures are claims to verify; independent public-data findings sit alongside.
+
+# -----------------------------------------------------------------------------
+# 1. Discount rate  (Calc_Project_rNPV)   discount = risk_free + risk_premium
+# -----------------------------------------------------------------------------
+discount_rate:
+  risk_free:
+    value: 0.0420            # ~Australian 10yr CGS yield; refreshed from RBA F2
+    source: "RBA Statistical Table F2 (Capital Market Yields — 10yr CGS)"
+    as_at: "2026-06-24"
+    verify: true
+  risk_premium:
+    value: 0.140            # development-stage equity risk premium (illustrative)
+    source: "Renewable-development valuation guidance: early-stage dev hurdles ~20%+; premium so all-in base ~18%"
+    as_at: "2026-06-24"
+    verify: true
+  # discount_rate_base is computed in-model = risk_free + risk_premium (~0.182)
+
+# -----------------------------------------------------------------------------
+# 2. Returns / VC method  (Calc_CrossChecks)
+# -----------------------------------------------------------------------------
+returns:
+  vc_target_return:
+    value: 0.250            # 25%+ for development-stage equity (VC-like risk) — VC cross-check
+    source: "VC-method target return for development-stage equity (25%+ / ~2.5-3x MOIC) — analyst judgement"
+    as_at: "2026-06-24"
+    verify: true
+
+# -----------------------------------------------------------------------------
+# 3. Fund structure, fees & investor cash-flow profile  (Calc_Fund, Returns)
+#    The LP economics. Boman terms are CLAIMS — read the IM for the real terms.
+# -----------------------------------------------------------------------------
+fund:
+  committed_capital_m:
+    value: 25.0            # LP committed capital (Boman fund ~$25m) — CLAIM/illustrative
+    source: "Boman deck (claim) — fund size ~$25m; verify in the Information Memorandum"
+    as_at: "2026-06-24"
+    verify: true
+  projects_target:
+    value: 35              # projects DELIVERED & SOLD (Boman: deliver ~38, sell 30-35)
+    source: "Boman deck (claim) — sell 30-35 of ~38 delivered; verify"
+    as_at: "2026-06-24"
+    verify: true
+  term_years:
+    value: 3               # 2+1 year term / lock-up
+    source: "Boman deck (claim) — 2+1 year term; verify in the IM"
+    as_at: "2026-06-24"
+  fees:
+    entry_fee_pct:    0.02   # one-off entry fee on committed capital
+    mgmt_fee_pct_pa:  0.02   # annual management fee on committed capital
+    carry_pct:        0.20   # carried interest over the hurdle
+    hurdle_pct:       0.08   # 8% preferred return (hurdle for carry)
+    source: "Boman deck (claim) — 2% entry + 2%/yr mgmt + 20% carry over 8% hurdle; verify in the IM"
+    as_at: "2026-06-24"
+    verify: true
+  # Investor cash-flow timing across periods 0..3 (must each sum to 1.0):
+  capital_call_profile:
+    value: [0.50, 0.50, 0.0, 0.0]   # calls in yrs 0-1 (development)
+    source: "Illustrative — development capital called over the build-out period"
+    as_at: "2026-06-24"
+  distribution_profile:
+    value: [0.0, 0.0, 0.50, 0.50]   # distributions in yrs 2-3 (the 2+1 exit window)
+    source: "Illustrative — RTB sales realised across the 2-3 year exit window"
+    as_at: "2026-06-24"
+
+# -----------------------------------------------------------------------------
+# 4. Development cost & funnel attrition  (Calc_Fund)
+#    Funnel: projects_started = projects_target / cumulative_P(success).
+#    You spend FULL dev cost on delivered projects + a partial 'screening' spend
+#    on the ones that drop out (stage-weighted attrition) — credit-style.
+# -----------------------------------------------------------------------------
+dev_cost:
+  per_project_m:
+    value: 0.50            # $m full development cost per delivered project (~$500k)
+    source: "Boman deck (claim ~$500k/project) — verify bottom-up: site+EIA+grid+community+overhead"
+    as_at: "2026-06-24"
+    verify: true
+  abandonment_fraction:
+    value: 0.30            # failed projects sink ~30% of full dev cost before dropping out
+    source: "Illustrative (conservative) — partial spend before a project is abandoned"
+    as_at: "2026-06-24"
+    verify: true
+
+# -----------------------------------------------------------------------------
+# 5. Survival curve / gate probabilities  (Calc_Survival)
+#    Cumulative P(success) = p_planning * p_connection * p_sale  (INDEPENDENT
+#    public-data decomposition). Note this ~0.45 sits BELOW Boman's Base (0.65)
+#    — surfaced as a flag on Calc_Survival. Scenarios (below) set the success
+#    rate used in valuation; this curve is the independent benchmark.
+#    Computed by src/transform/gate_statistics.py; values below are the
+#    documented fallback benchmarks when sources are unreachable.
+# -----------------------------------------------------------------------------
+gates:
+  planning_approval:
+    probability: 0.80      # share of small BESS DAs reaching determination that are approved
+    duration_years: 1.00
+    source: "NSW/VIC/SA planning portals — approved vs refused/withdrawn small BESS (benchmark)"
+    as_at: "2026-06-24"
+    verify: true
+  grid_connection:
+    probability: 0.70      # share securing distribution connection (the bottleneck; sub-5MW exemption may lift this)
+    duration_years: 1.25
+    source: "AEMO Connections Scorecard / KCI; DNSP processes (benchmark). Sub-5MW AEMO registration exemption may improve this — verify."
+    as_at: "2026-06-24"
+    verify: true
+  reach_sale:
+    probability: 0.80      # given approved + connected, share that complete an RTB sale
+    duration_years: 0.50
+    source: "RTB buyer-pool depth + AEMO proposed->committed attrition (benchmark)"
+    as_at: "2026-06-24"
+    verify: true
+  # independent cumulative P(success) = 0.80*0.70*0.80 = 0.448
+
+# -----------------------------------------------------------------------------
+# 6. RTB exit price ($/MW by state)  (Inputs; Calc_Project_rNPV & Calc_Fund)
+#    Full development-rights (RTB) sale value per MW the buyer pays. Boman's
+#    assumed prices (CLAIMS) — find INDEPENDENT comps before relying on them.
+#    Per 5 MW project: NSW ~$1.0m, VIC ~$0.9m, SA ~$0.6m.
+# -----------------------------------------------------------------------------
+rtb_comps_per_mw_m:            # $m per MW (RTB / development rights)
+  NSW: 0.200                   # $0.18-0.22/MW  -> ~$0.9-1.1m per 5 MW
+  VIC: 0.180                   # $0.16-0.20/MW  -> ~$0.8-1.0m per 5 MW
+  SA:  0.120                   # $0.10-0.14/MW  -> ~$0.5-0.7m per 5 MW
+  source: "Boman deck assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope."
+  as_at: "2026-06-24"
+  verify: true
+
+# -----------------------------------------------------------------------------
+# 7. Build-cost CONTEXT (NOT in the fund's margin — the buyer funds construction)
+#    Used only for the 'RTB as % of built value' sense-check on Calc_CrossChecks.
+# -----------------------------------------------------------------------------
+built_cost_context:
+  per_mw_m:
+    value: 1.80            # ~$8-10m per 5 MW / 10 MWh built asset (~$1.6-2.0m/MW)
+    source: "CSIRO GenCost-anchored build cost; context only — the buyer (not the fund) funds construction"
+    as_at: "2026-06-24"
+    verify: true
+
+# -----------------------------------------------------------------------------
+# 8. Illustrative project pipeline  (representative ~5 MW distribution projects)
+#    src/transform/clean_pipeline.py builds pipeline.csv from these params. The
+#    fund funnel (Calc_Fund) scales this representative set up to projects_target
+#    using the state mix below. Sizes mirror small distribution BESS (illustrative).
+# -----------------------------------------------------------------------------
+pipeline:
+  n_projects: 6
+  state_split: {NSW: 3, VIC: 2, SA: 1}
+  projects:
+    - {name: "Riverina 5MW BESS (illustrative)",     state: NSW, location: "Wagga Wagga, NSW",   mw: 5, duration_h: 2, years_to_sale: 2.5}
+    - {name: "Hunter Edge 5MW BESS (illustrative)",  state: NSW, location: "Hunter Valley, NSW",  mw: 5, duration_h: 4, years_to_sale: 3.0}
+    - {name: "Illawarra 5MW BESS (illustrative)",    state: NSW, location: "Wollongong, NSW",     mw: 5, duration_h: 2, years_to_sale: 2.0}
+    - {name: "Latrobe 5MW BESS (illustrative)",      state: VIC, location: "Latrobe Valley, VIC", mw: 5, duration_h: 2, years_to_sale: 2.5}
+    - {name: "Western Plains 5MW BESS (illustrative)",state: VIC, location: "Horsham, VIC",        mw: 5, duration_h: 2, years_to_sale: 2.0}
+    - {name: "Mid-North 5MW BESS (illustrative)",    state: SA,  location: "Port Pirie, SA",       mw: 5, duration_h: 2, years_to_sale: 2.5}
+
+# -----------------------------------------------------------------------------
+# 9. Scenarios  (Scenarios tab; single CHOOSE switch drives the live-case row)
+#    Each scenario is defined PRIMARILY by the CUMULATIVE SUCCESS RATE (the
+#    master driver), plus an RTB price multiplier, a dev-cost multiplier and a
+#    discount override. Success rates mirror Boman's deck (40/65/80%) so the
+#    rebuild is directly comparable — but note the INDEPENDENT survival curve
+#    (~45%) sits below Boman's Base (65%): see the flag on Calc_Survival.
+#    1=Conservative 2=Base 3=Ideal
+# -----------------------------------------------------------------------------
+scenarios:
+  switch_default: 2
+  cases:
+    1:
+      name: "Conservative"
+      cum_success: 0.40           # Boman Conservative (claim)
+      sale_price_multiplier: 0.85 # RTB prices compress; buyers cautious
+      dev_cost_multiplier: 1.05
+      discount_rate_override: 0.220
+    2:
+      name: "Base"
+      cum_success: 0.65           # Boman Base (claim) — ABOVE the independent ~45%
+      sale_price_multiplier: 1.00
+      dev_cost_multiplier: 1.00
+      discount_rate_override: null  # null -> use risk_free + risk_premium (~0.182)
+    3:
+      name: "Ideal"
+      cum_success: 0.80           # Boman Ideal (claim)
+      sale_price_multiplier: 1.15
+      dev_cost_multiplier: 0.97
+      discount_rate_override: 0.160
+  # First-Chicago probability weights for the expected return (must sum to 1):
+  weights: {Conservative: 0.30, Base: 0.50, Ideal: 0.20}

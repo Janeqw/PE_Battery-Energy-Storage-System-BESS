@@ -1,0 +1,204 @@
+"""Generate figures + the one-page dashboard PDF from the valuation engine.
+
+Outputs (committed portfolio artefacts):
+    outputs/figures/survival_curve.png
+    outputs/figures/irr_by_scenario.png
+    outputs/figures/valuation_range.png
+    outputs/figures/sensitivity_heatmap.png
+    outputs/figures/tornado.png
+    outputs/dashboard.pdf   (one-page IC summary)
+
+DEAL: an ILLUSTRATIVE distribution-BESS develop-and-flip (RTB) fund, independently
+rebuilt from the Boman deck's claims. All figures are ILLUSTRATIVE — Boman figures
+are the manager's claims to verify. Not investment advice.
+"""
+from __future__ import annotations
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import numpy as np
+
+from src.utils import io
+from src import valuation_engine as ve
+
+FIG = io.PROJECT_ROOT / "outputs" / "figures"
+OUT = io.PROJECT_ROOT / "outputs"
+NAVY = "#1F3864"
+ACCENT = "#2E75B6"
+RED = "#C00000"
+GREEN = "#548235"
+SCEN = ["Conservative", "Base", "Ideal"]
+
+
+def _style(ax, title):
+    ax.set_title(title, fontsize=11, fontweight="bold", color=NAVY)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.grid(axis="y", alpha=0.3)
+
+
+def fig_survival(s):
+    sc = s["survival"]
+    stages = ["Start", "Planning", "+Connection", "+Sale"]
+    surv = [1.0, sc["survival_after_planning"], sc["survival_after_connection"], sc["cumulative"]]
+    fig, ax = plt.subplots(figsize=(6, 3.6))
+    ax.step(range(len(stages)), surv, where="post", color=NAVY, lw=2.5, marker="o")
+    for i, v in enumerate(surv):
+        ax.annotate(f"{v:.0%}", (i, v), textcoords="offset points", xytext=(0, 8),
+                    ha="center", fontsize=9, color=NAVY)
+    base = s["base_scenario_success"]
+    ax.axhline(base, color=RED, ls="--", lw=1.3, label=f"Boman Base claim {base:.0%}")
+    ax.set_xticks(range(len(stages)))
+    ax.set_xticklabels(stages)
+    ax.set_ylim(0, 1.08)
+    ax.set_ylabel("P(project still alive)")
+    ax.legend(fontsize=8)
+    _style(ax, "PD-style survival curve — independent cumulative P(success)")
+    fig.tight_layout()
+    fig.savefig(FIG / "survival_curve.png", dpi=150)
+    plt.close(fig)
+
+
+def fig_irr_by_scenario(s):
+    rbs = s["returns_by_scenario"]
+    vals = [rbs[n]["irr"] for n in SCEN]
+    colors = [RED if v < 0 else ACCENT for v in vals]
+    fig, ax = plt.subplots(figsize=(6, 3.6))
+    bars = ax.bar(SCEN, vals, color=colors)
+    ax.axhline(0, color="black", lw=0.8)
+    exp = s["first_chicago"]["expected_irr"]
+    ax.axhline(exp, color=NAVY, ls="--", lw=1.5, label=f"First-Chicago expected {exp:.1%}")
+    for b, v in zip(bars, vals):
+        ax.annotate(f"{v:.1%}", (b.get_x() + b.get_width() / 2, v),
+                    textcoords="offset points", xytext=(0, 6 if v >= 0 else -14),
+                    ha="center", fontsize=9, fontweight="bold")
+    ax.set_ylabel("Investor IRR (after fees)")
+    ax.legend(fontsize=8)
+    _style(ax, "Investor IRR by scenario (success rate driven)")
+    fig.tight_layout()
+    fig.savefig(FIG / "irr_by_scenario.png", dpi=150)
+    plt.close(fig)
+
+
+def fig_valuation_range(s):
+    methods = s["valuation_range"]["methods"]
+    labels = list(methods.keys())
+    vals = list(methods.values())
+    fig, ax = plt.subplots(figsize=(6.5, 3.6))
+    y = range(len(labels))
+    ax.barh(list(y), vals, color=ACCENT)
+    for i, v in enumerate(vals):
+        ax.annotate(f"${v:.2f}m", (v, i), textcoords="offset points", xytext=(5, 0),
+                    va="center", fontsize=9)
+    vr = s["valuation_range"]
+    ax.axvline(vr["midpoint"], color=NAVY, ls="--", lw=1.5, label=f"Midpoint ${vr['midpoint']:.2f}m")
+    ax.set_yticks(list(y))
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_xlabel("Per-pipeline value today ($m, representative 6 projects)")
+    ax.legend(fontsize=8)
+    _style(ax, "Per-pipeline value cross-check (three methods)")
+    ax.grid(axis="x", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(FIG / "valuation_range.png", dpi=150)
+    plt.close(fig)
+
+
+def fig_sensitivity(inp):
+    sens = ve.sensitivity_two_way(inp)
+    grid = np.array(sens["grid"]) * 100.0   # IRR %
+    fig, ax = plt.subplots(figsize=(6, 3.8))
+    im = ax.imshow(grid, cmap="RdYlGn", aspect="auto")
+    ax.set_xticks(range(len(sens["price_mults"])))
+    ax.set_xticklabels([f"{m:.2f}x" for m in sens["price_mults"]])
+    ax.set_yticks(range(len(sens["successes"])))
+    ax.set_yticklabels([f"{p:.0%}" for p in sens["successes"]])
+    ax.set_xlabel("RTB price multiplier")
+    ax.set_ylabel("Cumulative success")
+    for i in range(grid.shape[0]):
+        for j in range(grid.shape[1]):
+            ax.text(j, i, f"{grid[i, j]:.0f}", ha="center", va="center", fontsize=8)
+    _style(ax, "Investor IRR (%): success × RTB price")
+    ax.grid(False)
+    fig.colorbar(im, ax=ax, shrink=0.8, label="IRR %")
+    fig.tight_layout()
+    fig.savefig(FIG / "sensitivity_heatmap.png", dpi=150)
+    plt.close(fig)
+
+
+def fig_tornado(inp):
+    tor = ve.tornado(inp)
+    base = tor[0]["base"]
+    labels = [t["driver"] for t in tor][::-1]
+    lows = [(t["low"] - base) * 100 for t in tor][::-1]
+    highs = [(t["high"] - base) * 100 for t in tor][::-1]
+    fig, ax = plt.subplots(figsize=(6.5, 3.6))
+    y = range(len(labels))
+    ax.barh(list(y), lows, color=RED, label="Low")
+    ax.barh(list(y), highs, color=GREEN, label="High")
+    ax.axvline(0, color="black", lw=0.8)
+    ax.set_yticks(list(y))
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_xlabel(f"Investor IRR change vs Base ({base:.1%}), percentage points")
+    ax.legend(fontsize=8)
+    _style(ax, "Tornado — investor IRR sensitivity to key drivers")
+    ax.grid(axis="x", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(FIG / "tornado.png", dpi=150)
+    plt.close(fig)
+
+
+def dashboard_pdf(s):
+    inp = s["inputs"]
+    fc = s["first_chicago"]
+    rbs = s["returns_by_scenario"]
+    sc = s["survival"]
+    with PdfPages(OUT / "dashboard.pdf") as pdf:
+        fig = plt.figure(figsize=(11.69, 8.27))  # A4 landscape
+        fig.suptitle("Illustrative Distribution-BESS Develop-and-Flip Fund — Dashboard",
+                     fontsize=16, fontweight="bold", color=NAVY, y=0.97)
+        fig.text(0.5, 0.93, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA) • ILLUSTRATIVE • "
+                 "Boman figures are manager claims to verify • Not investment advice", ha="center", fontsize=9, color=RED, style="italic")
+
+        fig.text(0.06, 0.86, "EXPECTED INVESTOR RETURN (First-Chicago)", fontsize=11, fontweight="bold", color=NAVY)
+        fig.text(0.06, 0.82, f"IRR {fc['expected_irr']:.1%}   MOIC {fc['expected_moic']:.2f}x", fontsize=18, fontweight="bold", color=NAVY)
+        fig.text(0.06, 0.785, f"Scenario IRR range  {fc['min_irr']:.1%}  to  {fc['max_irr']:.1%}", fontsize=10, color=ACCENT)
+
+        fig.text(0.40, 0.86, "SURVIVAL (the key flag)", fontsize=11, fontweight="bold", color=NAVY)
+        fig.text(0.40, 0.82, f"Independent {sc['cumulative']:.0%}  vs  Base {s['base_scenario_success']:.0%}", fontsize=13, fontweight="bold", color=RED)
+        fig.text(0.40, 0.785, f"Optimism gap {s['optimism_gap']:+.0%} — Base sits above independent", fontsize=9, color="black")
+
+        fig.text(0.70, 0.86, "KEY ASSUMPTIONS", fontsize=11, fontweight="bold", color=NAVY)
+        ktxt = (f"Committed: ${inp.committed_capital:.0f}m  Target: {inp.projects_target:.0f} projects\n"
+                f"Dev cost: ${inp.dev_cost_per_project:.2f}m/project  Fees: 2/2/20 over 8%\n"
+                f"Conservative IRR {rbs['Conservative']['irr']:.1%} (capital can be lost)")
+        fig.text(0.70, 0.75, ktxt, fontsize=9, color="black", va="top")
+
+        for name, pos in [("survival_curve.png", [0.06, 0.40, 0.40, 0.30]),
+                          ("irr_by_scenario.png", [0.55, 0.40, 0.40, 0.30]),
+                          ("valuation_range.png", [0.06, 0.06, 0.40, 0.30]),
+                          ("tornado.png", [0.55, 0.06, 0.40, 0.30])]:
+            img = plt.imread(FIG / name)
+            ax = fig.add_axes(pos)
+            ax.imshow(img)
+            ax.axis("off")
+        pdf.savefig(fig)
+        plt.close(fig)
+
+
+def run() -> None:
+    FIG.mkdir(parents=True, exist_ok=True)
+    s = ve.summary()
+    inp = s["inputs"]
+    fig_survival(s)
+    fig_irr_by_scenario(s)
+    fig_valuation_range(s)
+    fig_sensitivity(inp)
+    fig_tornado(inp)
+    dashboard_pdf(s)
+    print(f"[make_report] wrote 5 figures to {FIG} and dashboard.pdf to {OUT}")
+
+
+if __name__ == "__main__":
+    run()

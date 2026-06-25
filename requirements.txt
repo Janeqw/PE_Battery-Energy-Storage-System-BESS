@@ -1,0 +1,26 @@
+# Battery Developer Valuation — Python pipeline dependencies
+# Pinned to >= the versions this project was developed against.
+
+# Core data engineering
+pandas>=2.0
+numpy>=1.24
+pyyaml>=6.0
+
+# Extraction (download + parse public sources)
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=4.9
+pdfplumber>=0.10        # parse AEMO connection-scorecard / KCI PDFs
+openpyxl>=3.1           # read AEMO/CSIRO/ISP .xlsx workbooks AND write model inputs
+
+# Optional: only needed if a source must be rendered by a browser
+# (NSW Planning Portal app falls back to this if no JSON endpoint is found)
+playwright>=1.40
+
+# Notebooks + figures
+jupyter>=1.0
+matplotlib>=3.7
+
+# Testing + model validation
+pytest>=7.4
+formulas>=1.2          # recalculates the .xlsx in tests (no Excel/LibreOffice needed)

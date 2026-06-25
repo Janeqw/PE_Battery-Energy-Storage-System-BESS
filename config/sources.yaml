@@ -1,0 +1,115 @@
+# =============================================================================
+# sources.yaml  —  every public data source, declared once.
+# -----------------------------------------------------------------------------
+# Design rule: config-driven, no hardcoded URLs in code.
+# Each extractor reads its block here. The pipeline tries, in order:
+#   1. the configured `url` (a direct, machine-readable file if one exists)
+#   2. else scrape `landing_page` for the current file link
+#   3. else exit with a clear manual-download instruction (never fabricate)
+#
+# All sources are FREE and PUBLIC. URLs verified to the correct host/portal;
+# AEMO/CSIRO file URLs change each release, so `landing_page` is authoritative
+# and the extractor discovers the latest file from it.
+# =============================================================================
+
+http:
+  user_agent: "battery-developer-valuation/1.0 (portfolio project; +https://github.com/)"
+  request_delay_seconds: 2.0      # polite delay between requests to one host
+  timeout_seconds: 60
+  respect_robots_txt: true
+
+sources:
+
+  rba:
+    name: "RBA — Cash Rate Target & Capital Market Yields"
+    landing_page: "https://www.rba.gov.au/statistics/cash-rate/"
+    # F1.1 (cash rate) and F2 (capital market yields, incl. 10yr CGS) as CSV:
+    url: "https://www.rba.gov.au/statistics/tables/csv/f2-data.csv"
+    fallback_url: "https://www.rba.gov.au/statistics/tables/csv/f11hist.csv"
+    format: "csv"
+    method: "download"
+    output_path: "data/processed/rates.csv"
+    description: "Risk-free rate: Australian 10-year Commonwealth Government Securities yield (F2); cash rate (F1.1) as cross-check. Feeds the model discount rate."
+
+  aemo_generation_info:
+    name: "AEMO — NEM Generation Information"
+    landing_page: "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/nem-forecasting-and-planning/forecasting-and-planning-data/generation-information"
+    url: null                      # file URL changes each release → discover from landing page
+    format: "xlsx"
+    method: "scrape_then_download"
+    discover_link_pattern: "(?i)generation.?information.*\\.xlsx?$"
+    output_path: "data/raw/aemo_generation_information_{date}.xlsx"
+    description: "Full NEM project list (existing / committed / proposed). Filtered to small NSW/VIC/SA batteries to ground the illustrative ~5 MW pipeline, and to measure proposed->committed attrition (the reach-sale gate)."
+
+  aemo_connections:
+    name: "AEMO — Connections Scorecard / Key Connection Information (KCI)"
+    landing_page: "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/connections"
+    url: null
+    format: "pdf_or_xlsx"
+    method: "scrape_then_download"
+    discover_link_pattern: "(?i)(connection.?scorecard|key.?connection.?information|kci).*\\.(pdf|xlsx?)$"
+    output_path: "data/raw/aemo_connections_{date}"
+    description: "Grid-connection success rate and typical duration -> the connection gate probability and timing."
+
+  csiro_gencost:
+    name: "CSIRO — GenCost (annual, with AEMO)"
+    landing_page: "https://www.csiro.au/en/research/technology-space/energy/energy-data-modelling/gencost"
+    url: null
+    format: "xlsx"
+    method: "scrape_then_download"
+    discover_link_pattern: "(?i)gencost.*(data|results|workbook).*\\.xlsx?$"
+    output_path: "data/raw/csiro_gencost_{date}.xlsx"
+    description: "Authoritative Australian battery capital cost ($/kWh, $/kW) by duration. Feeds build-cost inputs."
+
+  nsw_planning:
+    name: "NSW Planning Portal — Major Projects / Application Tracker"
+    landing_page: "https://www.planningportal.nsw.gov.au/major-projects"
+    # Inspect the Major Projects app for its JSON/REST endpoint before scraping.
+    # The app is backed by an API of the form below (path discovered at runtime):
+    url: "https://api.planningportal.nsw.gov.au/api/online/SearchService"
+    format: "json_or_html"
+    method: "api_then_playwright"
+    query:
+      development_type: "Electricity generating works (battery / energy storage)"
+      regions: ["NSW"]
+    output_path: "data/raw/nsw_planning_{date}.json"
+    description: "BESS major-project applications: name, capacity, status, lodgement & determination dates -> planning approval rate + timeline. Public submissions readable per project."
+
+  trade_press_comps:
+    name: "Energy trade press — RTB / development-rights deal comps"
+    landing_page: null
+    url: null
+    format: "html"
+    method: "semi_automated_curation"
+    # Keyword-matched article discovery across free trade press; human curates.
+    feeds:
+      - name: "Energy-Storage.news (Australia)"
+        url: "https://www.energy-storage.news/tag/australia/"
+      - name: "pv magazine Australia"
+        url: "https://www.pv-magazine-australia.com/?s=battery+acquisition"
+      - name: "RenewEconomy"
+        url: "https://reneweconomy.com.au/?s=battery+sale"
+    keywords: ["battery", "BESS", "acquire", "acquisition", "sale", "divest", "MW", "tolling", "offtake"]
+    output_path: "data/raw/trade_press_candidates_{date}.csv"
+    description: "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation)."
+
+  # ---- Context-only sources (cited in analysis, not parsed into model CSVs) ----
+  context_only:
+    - name: "AEMO — Integrated System Plan (ISP)"
+      landing_page: "https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp"
+      description: "Storage need to 2050; cost/technology assumptions; supply gap (needed vs committed)."
+    - name: "AEMO — Quarterly Energy Dynamics (QED)"
+      landing_page: "https://www.aemo.com.au/energy-systems/major-publications/quarterly-energy-dynamics-qed"
+      description: "Current market context: capacity added, prices, trends."
+    - name: "CEFC — investments"
+      landing_page: "https://www.cefc.com.au/where-we-invest/"
+      description: "Government green-capital deals — buyer-demand signal."
+    - name: "Energy Security Corporation"
+      landing_page: "https://www.energysecuritycorporation.gov.au/"
+      description: "Government storage investment — buyer-demand signal."
+    - name: "NSW DCCEEW — Electricity Infrastructure Roadmap"
+      landing_page: "https://www.energy.nsw.gov.au/business-and-industry/programs-grants-and-schemes/electricity-infrastructure-roadmap"
+      description: "NSW storage target / LTESA revenue underwriting (policy)."
+    - name: "VIC DEECA — Renewable energy storage target (VRET/storage)"
+      landing_page: "https://www.energy.vic.gov.au/renewable-energy/energy-storage-targets"
+      description: "Victorian storage targets and programs (policy)."
