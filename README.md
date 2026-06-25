@@ -140,11 +140,11 @@ Then open `model/BESS_Pipeline_Valuation_v1.0.xlsx` (recalculates on open; Cover
 - 📄 **Model results as a web page (recommended):** [`model/MODEL_PREVIEW.md`](model/MODEL_PREVIEW.md) — every key output rendered as Markdown tables, GitHub-native, auto-generated to match the workbook.
 - 📊 **One-page dashboard (PDF):** [`outputs/dashboard.pdf`](outputs/dashboard.pdf) — GitHub renders PDFs in-browser.
 - 📈 **Analysis with charts:** the executed notebooks in [`notebooks/`](notebooks/) render inline on GitHub.
-- 🖥️ **Open the live spreadsheet in your browser** (Excel for the web — recalculates, no download): **[BESS Pipeline Valuation — interactive workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)**. *(Alternative, once the repo is public: the Microsoft Office viewer on the raw file URL — `https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/<USER>/<REPO>/main/model/BESS_Pipeline_Valuation_v1.0.xlsx`.)*
+- 🖥️ **Open the live spreadsheet in your browser** (Excel for the web — recalculates, no download): **[BESS Pipeline Valuation — interactive workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)**. *(Alternative, once the repo is public: the Microsoft Office viewer on the raw file URL — `https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/Janeqw/PE_Battery-Energy-Storage-System-BESS/main/model/BESS_Pipeline_Valuation_v1.0.xlsx`.)*
 
 **Repository structure.**
 ```
-bess-developflip-valuation/
+PE_Battery-Energy-Storage-System-BESS/
 ├── README.md                         # this IC memo
 ├── INDUSTRY_REPORT.md / SOURCES.md   # board primer + auto-generated source log
 ├── Makefile / requirements.txt / LICENSE / .gitignore
