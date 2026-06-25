@@ -133,7 +133,7 @@ make install      # pip install -r requirements.txt (+ playwright chromium if us
 make all          # extract -> transform -> refresh model inputs -> export report
 make test         # pytest
 ```
-Then open `model/BESS_Pipeline_Valuation_v1.0.xlsx` (recalculates on open; Cover master check should read **OK**). Board primer: [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md). Deeper analysis: [`analysis/industry_analysis.md`](analysis/industry_analysis.md).
+Then open `model/BESS_Pipeline_Valuation_v1.0.xlsx` (recalculates on open; Cover master check should read **OK**). Industry write-up: [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md).
 
 **Viewing the model — no software needed.** GitHub does not render `.xlsx` files inline, and the workbook computes its values only when opened in Excel, so clicking the spreadsheet on GitHub offers a download rather than a preview. To review the results in the browser:
 
@@ -146,7 +146,7 @@ Then open `model/BESS_Pipeline_Valuation_v1.0.xlsx` (recalculates on open; Cover
 ```
 PE_Battery-Energy-Storage-System-BESS/
 ├── README.md                         # this IC memo
-├── INDUSTRY_REPORT.md / SOURCES.md   # board primer + auto-generated source log
+├── INDUSTRY_REPORT.md / SOURCES.md   # the industry analysis + auto-generated source log
 ├── Makefile / requirements.txt / LICENSE / .gitignore
 ├── config/                           # sources.yaml + assumptions.yaml (judgement inputs, sourced)
 ├── src/
@@ -157,7 +157,6 @@ PE_Battery-Energy-Storage-System-BESS/
 │   └── make_report.py                # figures + dashboard.pdf
 ├── data/processed/                   # committed clean CSVs (pipeline, gate_stats, rtb_comps, costs, rates)
 ├── model/BESS_Pipeline_Valuation_v1.0.xlsx   # THE financial model
-├── analysis/industry_analysis.md     # boundary, sizing, Porter (RTB), PESTLE, screen, verdict
 ├── notebooks/                        # 01_industry_analysis, 02_gate_probabilities
 ├── outputs/                          # dashboard.pdf + figures/
 └── tests/test_data_validation.py
