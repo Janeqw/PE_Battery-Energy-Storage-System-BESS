@@ -113,6 +113,21 @@ def test_independent_survival_below_base_scenario():
     assert survival_curve(inp)["cumulative"] < float(inp.scenarios[2]["cum_success"])
 
 
+def test_stage_analysis_risk_ladder():
+    """The three value-chain stages form a risk ladder: operating is the safest downside."""
+    from src.stage_analysis import compare
+
+    c = compare()
+    for r in c["rows"]:
+        assert r["expected_irr"] == r["expected_irr"], "expected IRR must be a number, not nan"
+        assert r["expected_moic"] > 0
+    s1, s2, s3 = c["s1"], c["s2"], c["s3"]
+    # own-and-operate (contracted) has the safest downside; develop/build can lose capital
+    assert s3["downside_irr"] > s1["downside_irr"]
+    assert s3["downside_irr"] > s2["downside_irr"]
+    assert s3["downside_irr"] >= 0, "contracted operating should stay non-negative in the downside"
+
+
 def test_valuation_range_is_a_range():
     from src.valuation_engine import load_inputs, valuation_range
 

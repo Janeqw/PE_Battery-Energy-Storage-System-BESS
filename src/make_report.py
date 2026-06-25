@@ -23,6 +23,7 @@ import numpy as np
 
 from src.utils import io
 from src import valuation_engine as ve
+from src import stage_analysis as sa
 
 FIG = io.PROJECT_ROOT / "outputs" / "figures"
 OUT = io.PROJECT_ROOT / "outputs"
@@ -149,6 +150,34 @@ def fig_tornado(inp):
     plt.close(fig)
 
 
+def fig_stage_comparison(c):
+    """Expected vs downside investor IRR for the three value-chain stages."""
+    rows = c["rows"]
+    labels = ["Stage 1\nDevelop & flip", "Stage 2\nBuild & sell", "Stage 3\nOwn & operate"]
+    exp = [r["expected_irr"] * 100 for r in rows]
+    down = [(0 if r["downside_irr"] != r["downside_irr"] else r["downside_irr"]) * 100 for r in rows]
+    x = np.arange(len(labels))
+    w = 0.38
+    fig, ax = plt.subplots(figsize=(6.5, 3.8))
+    b1 = ax.bar(x - w / 2, exp, w, color=ACCENT, label="Expected IRR")
+    b2 = ax.bar(x + w / 2, down, w, color=[RED if d < 0 else GREEN for d in down], label="Downside IRR")
+    ax.axhline(0, color="black", lw=0.8)
+    for bars in (b1, b2):
+        for b in bars:
+            v = b.get_height()
+            ax.annotate(f"{v:.0f}%", (b.get_x() + b.get_width() / 2, v),
+                        textcoords="offset points", xytext=(0, 5 if v >= 0 else -12),
+                        ha="center", fontsize=8, fontweight="bold")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, fontsize=8)
+    ax.set_ylabel("Investor IRR (levered, %)")
+    ax.legend(fontsize=8)
+    _style(ax, "Risk–return by stage: expected vs downside IRR")
+    fig.tight_layout()
+    fig.savefig(FIG / "stage_comparison.png", dpi=150)
+    plt.close(fig)
+
+
 def dashboard_pdf(s):
     inp = s["inputs"]
     fc = s["first_chicago"]
@@ -196,8 +225,10 @@ def run() -> None:
     fig_valuation_range(s)
     fig_sensitivity(inp)
     fig_tornado(inp)
+    fig_stage_comparison(sa.compare())
     dashboard_pdf(s)
-    print(f"[make_report] wrote 5 figures to {FIG} and dashboard.pdf to {OUT}")
+    sa.write_markdown()
+    print(f"[make_report] wrote 6 figures to {FIG}, dashboard.pdf to {OUT}, and STAGE_COMPARISON.md")
 
 
 if __name__ == "__main__":

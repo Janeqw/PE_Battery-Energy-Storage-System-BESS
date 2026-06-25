@@ -220,3 +220,52 @@ scenarios:
       discount_rate_override: 0.160
   # First-Chicago probability weights for the expected return (must sum to 1):
   weights: {Conservative: 0.30, Base: 0.50, Ideal: 0.20}
+
+# -----------------------------------------------------------------------------
+# 10. THREE-STAGE VALUE-CHAIN ANALYSIS  (src/stage_analysis.py)
+#     Compares the three ways to invest along the chain, on a per-reference-asset
+#     basis, as risk-adjusted LEVERED EQUITY returns:
+#       Stage 1  Develop & flip  — win approvals, sell RTB (the fund we modelled)
+#       Stage 2  Build & sell    — buy RTB, construct, sell the operating asset
+#       Stage 3  Own & operate   — buy/own the operating asset, run it ~15 yrs
+#     ALL figures here are ILLUSTRATIVE benchmarks (the analyst's to OWN): battery
+#     revenue and capex are uncertain and merchant-driven. Sources noted; verify.
+# -----------------------------------------------------------------------------
+stages:
+  ref_project:                 # one representative asset for the per-asset comparison
+    mw: 5
+    duration_h: 2              # -> 10 MWh
+    state: "NSW"              # RTB value uses rtb_comps_per_mw_m[NSW]
+
+  construction:                # Stage 2 — buy RTB, build, sell the operating asset
+    build_cost_per_mw_m: 1.20  # installed capex $m/MW (2h; CSIRO GenCost-anchored, declining)
+    build_years: 1.5
+    gearing: 0.60              # construction debt as % of total project cost
+    debt_rate: 0.070
+    completion_prob: 0.90      # P(reach commercial operation)
+    salvage_on_failure: 0.50   # fraction of equity recovered if a project fails to complete
+    cost_overrun_downside: 0.15  # +15% capex in the downside case
+    source: "CSIRO GenCost capex; project-finance market norms (illustrative — verify)"
+    as_at: "2026-06-24"
+    verify: true
+
+  operating:                   # Stage 3 — own & operate the asset
+    revenue_per_mw_yr_m: 0.220 # net trading + FCAS revenue $m/MW/yr (merchant, base year)
+    contracted_share: 0.50     # share of revenue under a toll/offtake (stable, not merchant-scaled)
+    opex_per_mw_yr_m: 0.030
+    degradation_pa: 0.02       # annual revenue decline (capacity fade / market)
+    life_years: 15
+    gearing: 0.55              # operating-asset debt as % of acquisition value
+    debt_rate: 0.070
+    debt_tenor_years: 12
+    terminal_ebitda_multiple: 6.0  # EV/EBITDA on final-year EBITDA (residual at exit)
+    asset_discount: 0.08       # unlevered discount rate to value the operating asset (infra)
+    source: "AEMO QED price context; battery revenue-stack & infra debt/return norms (illustrative — verify)"
+    as_at: "2026-06-24"
+    verify: true
+
+  operating_scenarios:         # merchant-revenue scenarios (multiplier on the MERCHANT portion)
+    low: 0.70
+    base: 1.00
+    high: 1.30
+    weights: {low: 0.30, base: 0.50, high: 0.20}

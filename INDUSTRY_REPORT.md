@@ -53,6 +53,27 @@ That 45% is the key finding, because the manager's base case assumes **65%**. In
 
 (The full figures are in the valuation model; this is the bottom line.) When we rebuild the fund's returns independently — using our own, more cautious success rate and costs — the expected investor return after fees comes out around **13–14%**, below the roughly **18%** the manager's own scenarios imply. More tellingly, the downside is real: in the conservative case the fund can return **less than the money invested**. So the opportunity looks attractive on the manager's numbers and merely adequate on ours, with a genuine risk of loss if execution disappoints.
 
+## Three ways to invest — and which stage to choose
+
+So far this report has assessed **Stage 1 — develop and flip.** But the same projects can be entered at three points on the value chain, and each is a genuinely different investment on a risk ladder: **develop (highest risk) → build (medium) → operate (lowest, if contracted).** Comparing them as risk-adjusted, levered returns on the same ~5 MW asset:
+
+| Stage | Hold | Expected return | Downside | In plain terms |
+|---|---|---|---|---|
+| 1 — Develop & flip (sell RTB) | ~3 yrs | ~14% | **can lose capital (−3%)** | capital-light, short, but binary |
+| 2 — Build & sell | ~1.5 yrs | ~26% | **heavy loss (−18%)** | highest return, but most fragile |
+| 3 — Own & operate (contracted) | ~15 yrs | ~8% | **still positive (+4%)** | steady, long, capital-preserving |
+
+![Risk-return by stage](outputs/figures/stage_comparison.png)
+
+**Which stage suits the family trust:**
+
+- **Stage 3 (own & operate, *contracted*) is the natural core.** It is the only stage that stays positive even in its downside — steady, long-dated, capital-preserving yield. It also plays to the trust's credit-risk strength: judging whether the toll/offtake buyer will actually pay is the same as judging whether a borrower can service a loan. Avoid uncontracted, merchant-only assets — that is just betting on electricity prices.
+- **Stage 1 (develop & flip) is a smaller, higher-risk satellite** — only on the conditions below.
+- **Stage 2 (build & sell) is best skipped on its own.** It shows the highest *expected* return, but it is the most fragile: the profit depends entirely on the finished asset being worth more than it costs to build — a thin, price-dependent margin — and the downside is a heavy loss. It also needs construction expertise the trust does not have.
+- **One alignment warning:** the manager keeps "the best 5–10 projects to operate" (Stage 3) and flips the rest, so the flip fund may be left the weaker projects. If the operating economics appeal, ask to **co-invest in the projects they keep.**
+
+*(Full workings — including the levered operating model and merchant-price scenarios — are in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). The figures are illustrative; the Stage 2 result in particular is very sensitive to the build margin.)*
+
 ## The verdict
 
 The market is real, growing, policy-supported and well-suited to a small, capital-light fund. The strategy is genuinely investable — **but only conditionally**, because two things the manager's deck cannot prove on its own decide the outcome: a deep and durable pool of buyers for RTB projects, and a realistic success rate. We would not commit on the strength of the deck alone.

@@ -24,6 +24,8 @@
 | **Conservative case loses capital** (IRR −3.3%, MOIC 0.93x) | Conservative case still positive (10.7%) |
 | Independent cumulative success **~45%** | Base-case success **65%** |
 
+**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)*. On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient family capital — it is the only one of the three value-chain stages that stays positive in its downside (see §5).
+
 **Single biggest risk:** *exit / buyer risk* (a flip with no buyer is a stranded asset), followed by *development / approval risk* and *success-rate optimism*.
 
 ---
@@ -98,7 +100,30 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees/car
 
 ---
 
-## 5. Key risks
+## 5. Where to invest across the value chain
+
+The same projects can be entered at three points on the chain — the classic infrastructure risk ladder of **development → construction → operation.** Compared as risk-adjusted, levered equity returns on one ~5 MW asset:
+
+| Stage | Hold | Expected IRR | Expected MOIC | Downside IRR | Main risk |
+|---|---|---|---|---|---|
+| 1 — Develop & flip (sell RTB) | ~3 yrs | **13.7%** | 1.31x | **−3.3%** | approvals + a buyer (can lose capital) |
+| 2 — Build & sell | ~1.5 yrs | **25.9%** | 1.41x | **−18.2%** | construction + thin build margin |
+| 3 — Own & operate (contracted) | ~15 yrs | **8.1%** | 2.41x | **+4.4%** | merchant price (steady if contracted) |
+
+![Risk-return by stage](outputs/figures/stage_comparison.png)
+
+**Recommendation by stage (for the family trust):**
+
+- **Stage 3 — own & operate (contracted): the natural core.** The only stage positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis*). Avoid merchant-only operating.
+- **Stage 1 — develop & flip: a smaller satellite,** only on the conditions in §7.
+- **Stage 2 — build & sell: skip as a standalone** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
+- **Alignment trap:** the manager keeps the best projects to operate and flips the rest — ask to co-invest in the ones they keep.
+
+Full workings: [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — battery revenue/capex are uncertain, and the Stage 2 result is highly sensitive to the build margin.
+
+---
+
+## 6. Key risks
 
 | Risk | Severity | Why it matters here |
 |---|---|---|
@@ -114,7 +139,7 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees/car
 
 ---
 
-## 6. Conditions to commit & questions for the manager
+## 7. Conditions to commit & questions for the manager
 
 **Commit only if all of the following are evidenced:**
 1. **Exit depth & pricing** — ≥3–4 credible, *contractually-progressing* RTB buyers and **independent comps** supporting the assumed $/project (not merely "interested").
@@ -148,6 +173,7 @@ The headline story: *applying credit-risk (PD / survival) discipline and institu
 3. **Fund funnel → investor return** — `started = target ÷ success`; dev cost (full on delivered + partial on dropouts); fees (entry + management + carry over hurdle); **investor IRR & MOIC** (closed-form over the effective hold).
 4. **Scenario / First-Chicago** — Conservative / Base / Ideal, probability-weighted to an expected return.
 5. **Cross-checks** — $/MW benchmark, VC method, and RTB-as-%-of-built (~10–12%).
+6. **Three-stage value-chain comparison** (`src/stage_analysis.py`) — Stage 1 develop-&-flip, Stage 2 build-&-sell (levered, with completion risk), Stage 3 own-&-operate (levered operating DCF with merchant scenarios), each as a risk-adjusted equity return → see §5.
 
 The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base investor IRR 17.5% in both); a `formulas`-library recalc confirms the model's master check reads **OK** with zero error cells.
 
@@ -192,11 +218,13 @@ PE_Battery-Energy-Storage-System-BESS/
 ├── src/
 │   ├── extract/ transform/ utils/    # the public-data pipeline (verify-then-fallback)
 │   ├── valuation_engine.py           # Python reference of the model (validates it; powers figures)
+│   ├── stage_analysis.py             # three-stage value-chain comparison (develop / build / operate)
 │   ├── build_model.py                # builds the formula-driven .xlsx (15 tabs)
 │   ├── refresh_model_inputs.py       # pushes CSV values into the model's input cells
-│   └── make_report.py                # figures + dashboard.pdf
+│   ├── make_report.py                # figures + dashboard.pdf
+│   └── export_model_preview.py       # writes financial_models/MODEL_PREVIEW.md
 ├── data/processed/                   # committed clean CSVs (pipeline, gate_stats, rtb_comps, costs, rates)
-├── financial_models/BESS_Valuation.xlsx      # THE financial model (+ MODEL_PREVIEW.md)
+├── financial_models/BESS_Valuation.xlsx      # THE financial model (+ MODEL_PREVIEW.md, STAGE_COMPARISON.md)
 ├── notebooks/                        # 01_industry_analysis, 02_gate_probabilities
 ├── outputs/                          # dashboard.pdf + figures/
 └── tests/test_data_validation.py
