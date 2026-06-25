@@ -56,4 +56,4 @@ The single biggest risk is the exit: a project with no buyer is stranded capital
 
 ---
 
-*Independent findings draw on free public data (AEMO, CSIRO GenCost, the RBA, and the NSW/VIC/SA planning portals); see [`SOURCES.md`](SOURCES.md). The valuation rebuild that produces the return figures (a survival-curve / risk-adjusted model) lives in [`model/`](model/) and the [`notebooks/`](notebooks/). Manager figures are forward-looking claims and must be independently verified.*
+*Independent findings draw on free public data (AEMO, CSIRO GenCost, the RBA, and the NSW/VIC/SA planning portals); see [`SOURCES.md`](SOURCES.md). The valuation rebuild that produces the return figures (a survival-curve / risk-adjusted model) lives in [`financial_models/`](financial_models/) and the [`notebooks/`](notebooks/). Manager figures are forward-looking claims and must be independently verified.*

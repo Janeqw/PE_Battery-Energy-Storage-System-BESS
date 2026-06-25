@@ -1,6 +1,6 @@
 # Model preview — BESS Develop-and-Flip Fund (read-only snapshot)
 
-> **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** This page mirrors the model's key outputs so you can review the results here, with no software. Numbers are produced by `valuation_engine.py`, the cell-for-cell Python reference of the workbook ([`model/BESS_Pipeline_Valuation_v1.0.xlsx`](BESS_Pipeline_Valuation_v1.0.xlsx)).
+> **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** This page mirrors the model's key outputs so you can review the results here, with no software. Numbers are produced by `valuation_engine.py`, the cell-for-cell Python reference of the workbook ([`financial_models/BESS_Valuation.xlsx`](BESS_Valuation.xlsx)).
 
 *Illustrative, independent rebuild of a manager's claims — not investment advice. See the [repository README](../README.md).*
 
@@ -83,7 +83,7 @@ All **14** model checks pass → master check reads `OK`.
 
 ## See the full model
 
-- **Open the live workbook** (recalculates on open): [`BESS_Pipeline_Valuation_v1.0.xlsx`](BESS_Pipeline_Valuation_v1.0.xlsx) — 15 tabs (Cover · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary).
+- **Open the live workbook** (recalculates on open): [`BESS_Valuation.xlsx`](BESS_Valuation.xlsx) — 15 tabs (Cover · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary).
 - **One-page dashboard (PDF, renders in-browser):** [`../outputs/dashboard.pdf`](../outputs/dashboard.pdf)
 - **Notebooks (render in-browser with charts):** [`../notebooks/`](../notebooks/)
 

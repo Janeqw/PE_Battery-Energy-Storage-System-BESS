@@ -1,6 +1,6 @@
 """Build the formula-driven Excel valuation model from scratch.
 
-Produces model/BESS_Pipeline_Valuation_v1.0.xlsx following the FAST/ICAEW/
+Produces financial_models/BESS_Valuation.xlsx following the FAST/ICAEW/
 Macabacus/Operis house rules: Inputs -> Calcs -> Outputs zones, one master
 Timeline, a single CHOOSE scenario switch (3 cases) with a live-case row,
 one-row-one-calculation, colour coding (blue input / black formula / green
@@ -851,7 +851,7 @@ def build():
                     if len(_re.findall(r"(?<!ERROR)\bIF\(", v)) >= 2:
                         nested_hits.append(f"{name}!{c.coordinate}")
 
-    out = io.PROJECT_ROOT / "model" / "BESS_Pipeline_Valuation_v1.0.xlsx"
+    out = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
     out.parent.mkdir(parents=True, exist_ok=True)
     b.wb.save(out)
     print(f"[build_model] wrote {out}")

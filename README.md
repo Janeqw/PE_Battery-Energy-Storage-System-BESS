@@ -12,7 +12,7 @@
 
 ---
 
-> **▶ Open the interactive model online:** **[BESS Pipeline Valuation — live Excel workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)** — opens in Excel for the web and recalculates in your browser (no download). No-click alternatives: [model results preview](model/MODEL_PREVIEW.md) · [one-page dashboard (PDF)](outputs/dashboard.pdf).
+> **▶ Open the interactive model online:** **[BESS Pipeline Valuation — live Excel workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)** — opens in Excel for the web and recalculates in your browser (no download). No-click alternatives: [model results preview](financial_models/MODEL_PREVIEW.md) · [one-page dashboard (PDF)](outputs/dashboard.pdf).
 
 ## 1. Recommendation (bottom line up front)
 
@@ -133,14 +133,14 @@ make install      # pip install -r requirements.txt (+ playwright chromium if us
 make all          # extract -> transform -> refresh model inputs -> export report
 make test         # pytest
 ```
-Then open `model/BESS_Pipeline_Valuation_v1.0.xlsx` (recalculates on open; Cover master check should read **OK**). Industry write-up: [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md).
+Then open `financial_models/BESS_Valuation.xlsx` (recalculates on open; Cover master check should read **OK**). Industry write-up: [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md).
 
 **Viewing the model — no software needed.** GitHub does not render `.xlsx` files inline, and the workbook computes its values only when opened in Excel, so clicking the spreadsheet on GitHub offers a download rather than a preview. To review the results in the browser:
 
-- 📄 **Model results as a web page (recommended):** [`model/MODEL_PREVIEW.md`](model/MODEL_PREVIEW.md) — every key output rendered as Markdown tables, GitHub-native, auto-generated to match the workbook.
+- 📄 **Model results as a web page (recommended):** [`financial_models/MODEL_PREVIEW.md`](financial_models/MODEL_PREVIEW.md) — every key output rendered as Markdown tables, GitHub-native, auto-generated to match the workbook.
 - 📊 **One-page dashboard (PDF):** [`outputs/dashboard.pdf`](outputs/dashboard.pdf) — GitHub renders PDFs in-browser.
 - 📈 **Analysis with charts:** the executed notebooks in [`notebooks/`](notebooks/) render inline on GitHub.
-- 🖥️ **Open the live spreadsheet in your browser** (Excel for the web — recalculates, no download): **[BESS Pipeline Valuation — interactive workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)**. *(Alternative, once the repo is public: the Microsoft Office viewer on the raw file URL — `https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/Janeqw/PE_Battery-Energy-Storage-System-BESS/main/model/BESS_Pipeline_Valuation_v1.0.xlsx`.)*
+- 🖥️ **Open the live spreadsheet in your browser** (Excel for the web — recalculates, no download): **[BESS Pipeline Valuation — interactive workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)**. *(Alternative, once the repo is public: the Microsoft Office viewer on the raw file URL — `https://view.officeapps.live.com/op/view.aspx?src=https://raw.githubusercontent.com/Janeqw/PE_Battery-Energy-Storage-System-BESS/main/financial_models/BESS_Valuation.xlsx`.)*
 
 **Repository structure.**
 ```
@@ -156,7 +156,7 @@ PE_Battery-Energy-Storage-System-BESS/
 │   ├── refresh_model_inputs.py       # pushes CSV values into the model's input cells
 │   └── make_report.py                # figures + dashboard.pdf
 ├── data/processed/                   # committed clean CSVs (pipeline, gate_stats, rtb_comps, costs, rates)
-├── model/BESS_Pipeline_Valuation_v1.0.xlsx   # THE financial model
+├── financial_models/BESS_Valuation.xlsx      # THE financial model (+ MODEL_PREVIEW.md)
 ├── notebooks/                        # 01_industry_analysis, 02_gate_probabilities
 ├── outputs/                          # dashboard.pdf + figures/
 └── tests/test_data_validation.py

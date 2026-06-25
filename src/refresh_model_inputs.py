@@ -16,7 +16,7 @@ from src.utils import io
 from src.valuation_engine import load_inputs
 from src import build_model
 
-MODEL = io.PROJECT_ROOT / "model" / "BESS_Pipeline_Valuation_v1.0.xlsx"
+MODEL = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
 
 # label substring (on Inputs col A) -> attribute on the Inputs dataclass (col C)
 SCALAR_MAP = {

@@ -15,7 +15,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 PROCESSED = ROOT / "data" / "processed"
-MODEL = ROOT / "model" / "BESS_Pipeline_Valuation_v1.0.xlsx"
+MODEL = ROOT / "financial_models" / "BESS_Valuation.xlsx"
 
 
 def _rows(name):

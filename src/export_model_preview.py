@@ -2,7 +2,7 @@
 
 GitHub does not render .xlsx files inline, and the workbook is formula-driven
 (values compute only when opened in Excel). So recruiters / HR browsing the repo
-can't see the numbers from the .xlsx alone. This writes `model/MODEL_PREVIEW.md`
+can't see the numbers from the .xlsx alone. This writes `financial_models/MODEL_PREVIEW.md`
 — the same outputs the workbook computes, rendered as Markdown tables that GitHub
 shows inline, with no software required.
 
@@ -14,7 +14,7 @@ from __future__ import annotations
 from src.utils import io
 from src import valuation_engine as ve
 
-OUT = io.PROJECT_ROOT / "model" / "MODEL_PREVIEW.md"
+OUT = io.PROJECT_ROOT / "financial_models" / "MODEL_PREVIEW.md"
 
 
 def _pct(x):
@@ -46,7 +46,7 @@ def build_markdown() -> str:
     L.append("> **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** "
              "This page mirrors the model's key outputs so you can review the results here, with no software. "
              "Numbers are produced by `valuation_engine.py`, the cell-for-cell Python reference of the workbook "
-             "([`model/BESS_Pipeline_Valuation_v1.0.xlsx`](BESS_Pipeline_Valuation_v1.0.xlsx)).")
+             "([`financial_models/BESS_Valuation.xlsx`](BESS_Valuation.xlsx)).")
     L.append("")
     L.append("*Illustrative, independent rebuild of a manager's claims — not investment advice. See the [repository README](../README.md).*")
     L.append("")
@@ -131,7 +131,7 @@ def build_markdown() -> str:
 
     L.append("## See the full model")
     L.append("")
-    L.append("- **Open the live workbook** (recalculates on open): [`BESS_Pipeline_Valuation_v1.0.xlsx`](BESS_Pipeline_Valuation_v1.0.xlsx) "
+    L.append("- **Open the live workbook** (recalculates on open): [`BESS_Valuation.xlsx`](BESS_Valuation.xlsx) "
              "— 15 tabs (Cover · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · "
              "Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary).")
     L.append("- **One-page dashboard (PDF, renders in-browser):** [`../outputs/dashboard.pdf`](../outputs/dashboard.pdf)")
