@@ -569,6 +569,41 @@ def build():
     b.put(RET, 41, 1, "High", "label", bold=True)
     b.put(RET, 41, 3, "=MAX(C36:C38)", "formula", fmt=FM2, bold=True, border=True)
 
+    # --- Full cap table (who owns what — ties to 100%) ---
+    b.put(RET, 43, 1, "Full cap table — who owns what (mechanical; ties to 100%)", "sect", fill="sect")
+    b.header(RET, 44, ["Holder", "At entry %", "At exit (diluted) %"])
+    pool, fut = R["option_pool"], R["future_dilution"]
+    b.put(RET, 45, 1, "Founders / existing holders", "label")
+    b.put(RET, 45, 2, f"=1-{R['own_entry']}", "formula", fmt=FPCT, border=True)
+    b.put(RET, 45, 3, f"=(1-{R['own_entry']})*(1-{pool})*(1-{fut})", "formula", fmt=FPCT, border=True)
+    b.put(RET, 46, 1, "Us (new investor)", "label", bold=True)
+    b.put(RET, 46, 2, f"={R['own_entry']}", "link", fmt=FPCT, border=True)
+    b.put(RET, 46, 3, f"={R['own_diluted']}", "link", fmt=FPCT, border=True, fill="sect")
+    b.put(RET, 47, 1, "Option pool (staff)", "label")
+    b.put(RET, 47, 2, 0.0, "formula", fmt=FPCT, border=True)
+    b.put(RET, 47, 3, f"={pool}*(1-{fut})", "formula", fmt=FPCT, border=True)
+    b.put(RET, 48, 1, "Future-round investors", "label")
+    b.put(RET, 48, 2, 0.0, "formula", fmt=FPCT, border=True)
+    b.put(RET, 48, 3, f"={fut}", "link", fmt=FPCT, border=True)
+    b.put(RET, 49, 1, "Total (must = 100%)", "label", bold=True)
+    b.put(RET, 49, 2, "=SUM(B45:B48)", "formula", fmt=FPCT, bold=True, border=True)
+    b.put(RET, 49, 3, "=SUM(C45:C48)", "formula", fmt=FPCT, bold=True, border=True)
+    R["captable_entry_total"] = b.ref(RET, 2, 49)
+    R["captable_exit_total"] = b.ref(RET, 3, 49)
+
+    # --- Exit waterfall (Base) — company exit equity distributes fully ---
+    b.put(RET, 51, 1, "Exit waterfall (Base) — full distribution of exit equity", "sect", fill="sect")
+    b.put(RET, 52, 1, "Company exit equity (Base)", "label")
+    b.put(RET, 52, 3, f"={R['exit_eq_by'][2]}", "link", fmt=FM2, border=True)
+    b.put(RET, 53, 1, "Our proceeds (1x pref / as-converted)", "label", bold=True)
+    b.put(RET, 53, 3, f"={R['proceeds_by'][2]}", "link", fmt=FM2, border=True)
+    b.put(RET, 54, 1, "Other holders' proceeds (residual)", "label")
+    b.put(RET, 54, 3, "=C52-C53", "formula", fmt=FM2, border=True)
+    b.put(RET, 55, 1, "Distributed (ours + others = exit equity)", "label", bold=True)
+    b.put(RET, 55, 3, "=C53+C54", "formula", fmt=FM2, bold=True, border=True)
+    R["waterfall_exit_eq"] = b.ref(RET, 3, 52)
+    R["waterfall_distributed"] = b.ref(RET, 3, 55)
+
     # =====================================================================
     # SENSITIVITY (OUR equity IRR: development-approval rate x RTB price)
     # =====================================================================
@@ -664,6 +699,10 @@ def build():
          "First-Chicago IRR within scenario range", "Weighting sanity (helpers E:G)"),
         (f'=IF(MIN({R["ret_proceeds_rng"]})>=0,"OK","ERROR")', "Our proceeds non-negative (all scenarios)", "Sign check"),
         (f'=IF(SUM(E{err_row}:G{err_row})=0,"OK","ERROR")', "No error cells in key outputs", "#REF!/#DIV0! scan"),
+        (f'=IF(AND(ABS({R["captable_entry_total"]}-1)<0.001,ABS({R["captable_exit_total"]}-1)<0.001),"OK","ERROR")',
+         "Cap table ties (ownership sums to 100%)", "VC cap-table integrity"),
+        (f'=IF(ABS({R["waterfall_distributed"]}-{R["waterfall_exit_eq"]})<0.001,"OK","ERROR")',
+         "Exit equity fully distributed (ours + others)", "VC waterfall integrity"),
     ]
     for i, (formula, label, note) in enumerate(checks):
         r = cr0 + i
@@ -774,9 +813,12 @@ def build():
         b.put(COV, r, 1, k, "label", bold=True)
         b.put(COV, r, 2, v, "label", wrap=True)
     b.put(COV, 18, 1, "Standards followed", "sect", fill="sect")
-    b.put(COV, 19, 2, "FAST / ICAEW / Macabacus / Operis: Inputs→Calcs→Outputs zones; one Timeline; one-row-one-calc; no hardcodes in "
-                      "formulas; CHOOSE scenario switch + live-case row; checks built alongside; colour code (blue input / black formula / "
-                      "green link); INDEX-MATCH not VLOOKUP; IFERROR on division; closed-form IRR (no volatile functions).", "label", wrap=True)
+    b.put(COV, 19, 2, "FAST / ICAEW / Macabacus / Operis + VC-method structure: Inputs→Calcs→Outputs zones; one Timeline; one-row-one-calc; "
+                      "no hardcodes in formulas; CHOOSE scenario switch + live-case row; checks built alongside; colour code (blue input / "
+                      "black formula / green link); INDEX-MATCH not VLOOKUP; IFERROR on division. VC method: work back from the company's exit "
+                      "equity value through the cap table; ownership = investment ÷ post-money; the required/target return (≥25%, VC cross-check) "
+                      "is a RETURN HURDLE that compensates for failure risk — NOT a WACC — and failure risk is also handled explicitly via "
+                      "First-Chicago scenario weighting.", "label", wrap=True)
     b.ws[COV].merge_cells("B19:B22")
     b.put(COV, 24, 1, "Judgement inputs to OWN (review pass)", "sect", fill="sect")
     b.put(COV, 25, 2, "Discount rate & premium • the THREE scenario success rates (vs the independent benchmark) • RTB $/MW by state (need "
@@ -788,8 +830,10 @@ def build():
     b.put(COV, 31, 2, "1. Trace every formula + colour audit; confirm master check = OK; stress the switch in all 3 positions.  "
                       "2. Replace BENCHMARK / claim inputs with verified independent values (RTB comps, per-state success, dev cost) and "
                       "CONFIRM the cap-table terms against a term sheet.  3. Stress a downside where RTB prices are 20–30% lower and success "
-                      "≈ the independent benchmark; confirm our shares can be wiped out (Conservative = total loss).", "label", wrap=True)
-    b.ws[COV].merge_cells("B31:B34")
+                      "≈ the independent benchmark; confirm our shares can be wiped out (Conservative = total loss).  4. Depth left out: a "
+                      "SINGLE funding round and a 1× NON-PARTICIPATING liquidation preference are scaffolded — add later rounds (Series B/C) to "
+                      "the cap table, and participation / anti-dilution / accrued preferred dividends if the term sheet carries them.", "label", wrap=True)
+    b.ws[COV].merge_cells("B31:B35")
     b.put(COV, 36, 1, "DISCLAIMER", "label", bold=True)
     b.put(COV, 36, 2, "ILLUSTRATIVE startup built from public benchmark data; an INDEPENDENT rebuild (not an endorsement). NOT investment "
                       "advice. Wholesale-investor context; read the term sheet / IM. The equity-deal terms are placeholders to confirm. All "
