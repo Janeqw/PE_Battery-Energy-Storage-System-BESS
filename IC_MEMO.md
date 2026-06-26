@@ -350,6 +350,10 @@ A bottom-up cross-check on a single representative pipeline, to sanity-check the
 | Venture-capital (VC) method | $0.45m |
 | **Range / midpoint** | **$0.45m – $0.58m; midpoint $0.53m** |
 
+### Cross-check 3 — comparable transactions (not available)
+
+**No credible comparable M&A deals for similar early-stage developer *platforms* were available** — the richest deal databases (BloombergNEF, Enerdatics, Mergermarket) are paid and out of scope, and the publicly-reported deals are built-asset / large-scale transactions (100 MW+), not RTB developer-platform sales (see [§4](#4-industry--market)). We therefore **do not** add a comps-based exit value; the **forward-pipeline basis stands as primary**, with the earnings multiple as the only quantitative cross-check. If credible developer-platform comps surface in diligence, add them here and set `exit_value_crosscheck.comps_available: true` in the config.
+
 **Key assumptions** *(founder claims unless noted):*
 
 | Assumption | Value |
