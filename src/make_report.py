@@ -151,14 +151,20 @@ def fig_tornado(inp):
 
 
 def fig_stage_comparison(c):
-    """Expected vs downside investor IRR for the three value-chain stages."""
+    """Expected vs downside investor IRR for the value-chain stages."""
     rows = c["rows"]
-    labels = ["Stage 1\nDevelop & flip", "Stage 2\nBuild & sell", "Stage 3\nOwn & operate"]
+
+    def _short(stage):                       # "Stage 1 — Develop & flip (RTB)" -> "Stage 1\nDevelop & flip"
+        num, _, rest = stage.partition("—")
+        name = rest.split("(")[0].strip()
+        return f"{num.strip()}\n{name}"
+
+    labels = [_short(r["stage"]) for r in rows]
     exp = [r["expected_irr"] * 100 for r in rows]
     down = [(0 if r["downside_irr"] != r["downside_irr"] else r["downside_irr"]) * 100 for r in rows]
     x = np.arange(len(labels))
     w = 0.38
-    fig, ax = plt.subplots(figsize=(6.5, 3.8))
+    fig, ax = plt.subplots(figsize=(7.5, 3.9))
     b1 = ax.bar(x - w / 2, exp, w, color=ACCENT, label="Expected IRR")
     b2 = ax.bar(x + w / 2, down, w, color=[RED if d < 0 else GREEN for d in down], label="Downside IRR")
     ax.axhline(0, color="black", lw=0.8)

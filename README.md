@@ -25,7 +25,7 @@
 
 *Basis — the full data-source-and-method table is in [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md). In brief: the **45%** comes from public planning-approval and grid-connection data via a probability-of-default / survival method (0.80 × 0.70 × 0.80); the **IRRs** come from our model (risk-adjusted net present value + fund funnel + First-Chicago weighting); the manager's figures are stated claims to verify.*
 
-**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)*. On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient private capital — it is the only one of the three value-chain stages that stays positive in its downside (see [§5](#5-where-to-invest-across-the-value-chain)).
+**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)*. On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient private capital — among the standalone entry points it is the only one that stays positive in its downside (the fully-integrated develop-build-operate path also does, but locks capital up ~18 years; see [§5](#5-where-to-invest-across-the-value-chain)).
 
 **Single biggest risk:** *exit / buyer risk* (a flip with no buyer is a stranded asset), followed by *development / approval risk* and *success-rate optimism*.
 
@@ -109,24 +109,26 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees and
 
 ## 5. Where to invest across the value chain
 
-The same projects can be entered at three points on the chain — the classic infrastructure risk ladder of **development → construction → operation.** Compared as risk-adjusted, levered equity returns on one ~5 MW asset:
+The same projects can be entered at several points on the chain — the standalone entry points along the infrastructure risk ladder (**development → construction → operation**), plus an **integrated** path that carries one project through all three. Compared as risk-adjusted, levered equity returns on one ~5 MW asset:
 
 | Stage | Hold | Expected IRR | Expected MOIC | Downside IRR | Main risk |
 |---|---|---|---|---|---|
 | 1 — Develop & flip (sell ready-to-build) | ~3 years | **13.7%** | 1.31× | **−3.3%** | approvals + a buyer (can lose capital) |
 | 2 — Build & sell | ~1.5 years | **25.9%** | 1.41× | **−18.2%** | construction + thin build margin |
 | 3 — Own & operate (contracted) | ~15 years | **8.1%** | 2.41× | **+4.4%** | merchant price (steady if contracted) |
+| 4 — Integrated (develop→build→operate) | ~18 years | **12.6%** | 4.57× | **+8.6%** | all risks stacked (development + construction + merchant), but no exit risk |
 
 ![Risk-return by stage](outputs/figures/stage_comparison.png)
 
 **Recommendation by stage (for patient private capital):**
 
-- **Stage 3 — own & operate (contracted): the natural core.** The only stage positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis*). Avoid merchant-only operating.
+- **Stage 3 — own & operate (contracted): the natural core.** The only *standalone* stage positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis*). Avoid merchant-only operating.
 - **Stage 1 — develop & flip: a smaller satellite,** only on the conditions in [§7](#7-conditions-to-commit--questions-for-the-manager).
 - **Stage 2 — build & sell: skip as a standalone** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
+- **Stage 4 — integrated (develop → build → operate): a different business model.** Captures the whole value chain and removes exit risk; because you build at cost, operating returns are strong with a positive downside *if it reaches operation*. But it is the longest lock-up (~18 years), stacks all the risks, and only ~50% of starts reach operation. For a patient owner-operator, not a passive limited partner.
 - **Alignment trap:** the manager keeps the best projects to operate and sells the rest — ask to co-invest in the ones they keep.
 
-> **The success rate only affects Stage 1.** The ~45% (independent) / 65% (manager) figure is the chance a project clears planning, connection and a sale — a **development** risk. Stage 2 and Stage 3 investors buy a project that has *already* cleared development (at its market price), so they bear construction-completion (~90%) and merchant-price risk instead — not the development-success rate. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's 65% drives only the Stage 1 number.
+> **The sale-gated 65% success rate is a Stage-1 number.** The ~45% (independent) / 65% (manager) figure is the chance a project clears planning, connection *and* a sale — so it includes exit risk. Stage 2 and Stage 3 investors buy a project that has *already* cleared development (at market price), so they bear construction-completion (~90%) and merchant-price risk instead. The integrated **Stage 4 also runs development, but without the sale gate** — its survival is planning × connection (≈56%), because it keeps the asset rather than selling it. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's 65% drives only the Stage 1 number.
 
 *Basis — **Data source:** [`config/assumptions.yaml`](config/assumptions.yaml) (development cost, construction cost, operating revenue, debt terms) + the RBA risk-free rate. **Method:** levered equity IRR per stage — Stage 1 is the fund funnel; Stage 2 is a build-and-sell model risk-adjusted by completion probability; Stage 3 is a levered operating discounted-cash-flow (DCF) with low/base/high merchant-price scenarios. **Calculation:** full workings in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — the Stage 2 result is highly sensitive to the build margin.*
 

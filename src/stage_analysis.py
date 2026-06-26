@@ -59,6 +59,7 @@ class Stages:
         self.con = s["construction"]
         self.op = s["operating"]
         self.scen = s["operating_scenarios"]
+        self.integrated = s.get("integrated", {"dev_to_rtb_years": 1.75})
         self.mw = float(self.ref["mw"])
         self.state = self.ref["state"]
         # engine inputs (RTB price by state, the fund returns for Stage 1)
@@ -157,6 +158,60 @@ def stage3(st: Stages) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Stage 4 — integrated: develop -> build -> operate the SAME asset
+# ---------------------------------------------------------------------------
+def _integrated_basis(st: Stages) -> tuple[float, float, float]:
+    """Reach-operation probability, grossed development cost, and net equity sunk.
+
+    Development survival for an integrated owner = planning x grid connection
+    (the 'reach sale' gate does NOT apply — the asset is kept, not sold), times
+    construction completion. Development cost is grossed for the funnel of failed
+    attempts; the operating asset is financed at the operating gearing.
+    """
+    p_dev = st.inp.p_planning * st.inp.p_connection           # no sale gate
+    reach_op = max(1e-6, p_dev * float(st.con["completion_prob"]))
+    abandon = st.inp.abandonment_fraction
+    dev_cost = st.inp.dev_cost_per_project
+    dev_total = dev_cost * (1.0 + abandon * (1.0 / reach_op - 1.0))   # funnel-grossed
+    op_debt = float(st.op["gearing"]) * operating_ev(st, 1.0)
+    equity0 = dev_total + st.build_cost - op_debt              # equity sunk to develop + build
+    return reach_op, dev_total, equity0
+
+
+def stage4_scenario(st: Stages, mult: float) -> dict:
+    """Levered equity IRR for develop->build->operate under a merchant scenario."""
+    reach_op, dev_total, equity0 = _integrated_basis(st)
+    op = st.op
+    op_debt = float(op["gearing"]) * operating_ev(st, 1.0)
+    fcf, terminal = _project_fcf(st, mult)
+    life = len(fcf)
+    tenor, rate = int(op["debt_tenor_years"]), float(op["debt_rate"])
+    principal, bal, eq_cf = op_debt / tenor, op_debt, []
+    for t in range(1, life + 1):
+        interest = bal * rate
+        prin = principal if t <= tenor else 0.0
+        bal = max(0.0, bal - prin)
+        eq_cf.append(fcf[t - 1] - interest - prin)
+    eq_cf[-1] += terminal - bal
+    lead = int(round(float(st.integrated["dev_to_rtb_years"]) + float(st.con["build_years"])))
+    cf = [-equity0] + [0.0] * (lead - 1) + eq_cf               # equity sunk up front; cash flows after the build lead
+    moic = sum(eq_cf) / equity0 if equity0 > 0 else float("nan")
+    return {"mult": mult, "irr": irr(cf), "moic": moic, "equity0": equity0, "lead": lead, "life": life}
+
+
+def stage4(st: Stages) -> dict:
+    """Probability-weighted integrated (develop->build->operate) return."""
+    sc, w = st.scen, st.scen["weights"]
+    res = {n: stage4_scenario(st, float(sc[n])) for n in ("low", "base", "high")}
+    exp_irr = sum(res[n]["irr"] * float(w[n]) for n in res)
+    exp_moic = sum(res[n]["moic"] * float(w[n]) for n in res)
+    reach_op, _, _ = _integrated_basis(st)
+    return {"by_scenario": res, "expected_irr": exp_irr, "expected_moic": exp_moic,
+            "downside_irr": res["low"]["irr"], "equity0": res["base"]["equity0"],
+            "reach_op": reach_op, "hold_years": res["base"]["lead"] + res["base"]["life"]}
+
+
+# ---------------------------------------------------------------------------
 # Stage 2 — build & sell
 # ---------------------------------------------------------------------------
 def stage2(st: Stages) -> dict:
@@ -203,7 +258,7 @@ def stage1(st: Stages) -> dict:
 # ---------------------------------------------------------------------------
 def compare(st: Stages | None = None) -> dict:
     st = st or Stages()
-    s1, s2, s3 = stage1(st), stage2(st), stage3(st)
+    s1, s2, s3, s4 = stage1(st), stage2(st), stage3(st), stage4(st)
     rows = [
         {"stage": "Stage 1 — Develop & flip (RTB)",
          "capital": "Low (~$0.5m dev/project; fund ~$25m)", "hold": f"~{s1['hold_years']:.0f} yrs",
@@ -222,8 +277,14 @@ def compare(st: Stages | None = None) -> dict:
          "expected_irr": s3["expected_irr"], "expected_moic": s3["expected_moic"],
          "downside_irr": s3["downside_irr"],
          "key_risk": "Merchant price risk (steady if contracted)"},
+        {"stage": "Stage 4 — Integrated (develop→build→operate)",
+         "capital": f"Highest, longest (~${s4['equity0']:.1f}m equity; only ~{s4['reach_op']:.0%} of starts reach operation)",
+         "hold": f"~{s4['hold_years']:.0f} yrs",
+         "expected_irr": s4["expected_irr"], "expected_moic": s4["expected_moic"],
+         "downside_irr": s4["downside_irr"],
+         "key_risk": "ALL risks stacked: development + construction + merchant (but NO buyer/exit risk)"},
     ]
-    return {"stages": st, "s1": s1, "s2": s2, "s3": s3, "rows": rows}
+    return {"stages": st, "s1": s1, "s2": s2, "s3": s3, "s4": s4, "rows": rows}
 
 
 def _pct(x):
@@ -286,6 +347,14 @@ def write_markdown(path=STAGE_MD) -> None:
              "**most fragile**: it depends entirely on the built asset being worth more than it costs to build (a thin, "
              "merchant-dependent margin), its downside is a heavy loss, and it needs construction expertise. Fine only "
              "inside a managed vehicle.")
+    L.append("- **Stage 4 (integrated: develop → build → operate) — for a patient owner-operator, not a passive investor.** "
+             "Carrying one project the whole way captures the entire value chain (development + construction margin + "
+             "operating yield) and **removes the buyer/exit risk** — you keep the asset, so the 'reach-sale' gate disappears "
+             "and development survival is just planning × connection. The trade-offs: the **longest lock-up (~18 years)** and "
+             "bearing development + construction + merchant risk together. Only ~50% of started developments reach operation "
+             "(development is cheap, so the failures cost little); the downside shown is the low-merchant case *given the "
+             "project reaches operation*. Because you build the asset at cost rather than buying it at market, the operating "
+             "returns are strong and the downside stays positive — if you have the patience and the operating capability.")
     L.append("- **Watch the alignment trap.** The manager keeps \"the best 5–10 projects to operate\" (Stage 3) and flips "
              "the rest — so the flip fund may be left the weaker projects. If you like the operating economics, ask to "
              "**co-invest in the assets they keep.**")

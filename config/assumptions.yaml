@@ -269,3 +269,12 @@ stages:
     base: 1.00
     high: 1.30
     weights: {low: 0.30, base: 0.50, high: 0.20}
+
+  integrated:                  # Stage 4 — develop -> build -> operate the SAME asset (vertically integrated)
+    dev_to_rtb_years: 1.75     # greenfield -> ready-to-build lead (no sale step; the project is kept)
+    note: >
+      You carry one project the whole way: develop it, build it, then own & operate it ~15 years.
+      Development survival for an integrated owner = planning approval x grid connection ONLY — the
+      'reach sale' gate does not apply because you keep the asset rather than sell it. Captures the
+      whole value chain (development + construction margin + operating yield) but bears development,
+      construction AND merchant-price risk over the longest horizon. Illustrative — verify.
