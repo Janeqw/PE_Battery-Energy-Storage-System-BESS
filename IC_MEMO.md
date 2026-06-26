@@ -692,6 +692,20 @@ Rows are the **development-approval (DA) gate** (with the resulting whole-funnel
 
 *The Base company exit equity (~$7.2m) is **below** the ~$10m post-money we pay, so our diluted ~14.4% as-converted share (~$1.04m) is worth less than our $2m preference — we take the **preference ($2.0m)**, i.e. our money back with no gain. In the Conservative case the company's exit equity is only the residual forward pipeline (~$0.9m), so the preference is capped at ~$0.9m and our shares suffer a deep loss; a total loss if even that pipeline finds no buyer.*
 
+### Exhibit D — Exit-value sensitivity: our expected return across pipeline depth at exit × discount rate
+
+The exit assumption is now the single biggest swing factor in the memo, so we show it as a range, not a buried placeholder. Rows are the **pipeline depth at exit** (projects still in flight when we sell — the dominant driver); columns are the **discount rate**. Cells are our **First-Chicago expected return on our shares: IRR (MOIC)** — i.e. the headline number re-run at each pair. The Base cell (depth 25 × 18.8%) ties to the §7 headline (≈ −2.6% / 0.88×).
+
+| Depth at exit ↓ / Discount rate → | 12% | 15% | 18.8% (base) | 22% | 26% |
+|---|---|---|---|---|---|
+| **10 projects** | −5.0% (0.78×) | −5.1% (0.77×) | −5.2% (0.76×) | −5.4% (0.76×) | −5.5% (0.75×) |
+| **20 projects** | −2.9% (0.86×) | −3.1% (0.85×) | −3.4% (0.84×) | −3.6% (0.83×) | −3.9% (0.82×) |
+| **25 projects (base)** | −1.9% (0.91×) | −2.2% (0.89×) | **−2.5% (0.88×)** | −2.8% (0.87×) | −3.1% (0.85×) |
+| **30 projects** | −1.0% (0.95×) | −1.3% (0.94×) | −1.7% (0.92×) | −2.0% (0.90×) | −2.4% (0.89×) |
+| **40 projects** | +0.8% (1.04×) | +0.4% (1.02×) | −0.1% (1.00×) | −0.5% (0.97×) | −1.0% (0.95×) |
+
+*Reading: across the **plausible** range (a company targeting ~35 delivered projects realistically carries ~10–40 in flight at exit), the expected return on our shares stays **between roughly −5.5% and +0.8%** — i.e. break-even at best and value-destructive at the central estimate. Only a deep forward pipeline at a low discount rate lifts it above water. Note that at any single scenario the **1× liquidation preference** floors our return near break-even, masking depth/discount at the Base *point*; this grid shows the **probability-weighted (First-Chicago) expected** return, which does move with the exit assumption via the Conservative and Ideal tails. Basis — engine `exit_sensitivity()`; same gates × cap table × First-Chicago as the headline. The depth and discount are `[[TO CONFIRM]]`.*
+
 ---
 
 ## Inputs to confirm
