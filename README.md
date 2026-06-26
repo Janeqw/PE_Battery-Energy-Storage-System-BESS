@@ -223,6 +223,7 @@ Then open `financial_models/BESS_Valuation.xlsx` (recalculates on open; Cover ma
 ```
 PE_Battery-Energy-Storage-System-BESS/
 ├── README.md                         # this assessment
+├── COMMITTEE_REPORT.md               # formal investment-committee memo (recommendation + exhibits)
 ├── INDUSTRY_REPORT.md / SOURCES.md   # the industry analysis + auto-generated source log
 ├── Makefile / requirements.txt / LICENSE / .gitignore
 ├── config/                           # sources.yaml + assumptions.yaml (judgement inputs, sourced)
