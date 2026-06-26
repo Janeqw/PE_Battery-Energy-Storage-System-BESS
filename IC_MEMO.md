@@ -426,6 +426,13 @@ The same scenarios viewed by the exit-equity build and our cap-table proceeds:
 
 > **Read-through:** our rebuild is deliberately more conservative than the founders' (full development spend across the funnel; independent costs/prices; the 65% treated as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%; and — decisively — the company valued at exit on its **forward pipeline**, not a profit multiple). The result — **expected return now negative (≈ −2.6% / 0.88× on our shares), well below the founders', with a deep-loss downside** — is the credit-style scepticism this decision requires.
 
+### Cash convention — guarding against double-counting
+
+A develop-and-flip company throws off cash every cycle, so our return could come from **distributions along the way**, the **terminal share sale**, or both. We model convention **(b): distributions + terminal sale** — but with one rule that prevents any dollar of profit being counted twice:
+
+- **The exit value uses RETAINED cash only.** Realised programme profit either gets **distributed** during the hold (our diluted share is our interim distribution) **or** is **retained** on the balance sheet and carried into the terminal exit value at **face value (1×, never a multiple)** — never both. The forward pipeline added to the exit value is **future** profit, separate from realised profit. So: *total distributed to all holders + terminal exit equity = realised profit + forward-pipeline rNPV − debt*, exactly — nothing is lost or double-counted. The model's Checks tab enforces this ("No double-count (exit value ≤ realised + forward pipeline)"), and an engine test asserts it (see [§Appendix A](#appendix-a--methods--sources)).
+- **The interim distribution fraction is a `[[TO CONFIRM]]` placeholder set to 0%** (conservative): with no distributions modelled, all realised profit is retained and captured once in the exit value, and our return is effectively the terminal sale. Raising the fraction would move our share of profit from the terminal value into interim cash dollar-for-dollar — leaving the total unchanged, by construction.
+
 ---
 
 ## 8. Risks & protections
