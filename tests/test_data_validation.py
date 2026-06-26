@@ -2,7 +2,7 @@
 
 Covers: processed CSVs exist & are well-formed; gate
 probabilities are bounded and the cumulative is monotonic; the pipeline is
-positive; SOURCES.md is populated; and the model's check framework passes
+positive; the sources log is populated; and the model's check framework passes
 (mirrored by the Python engine, plus an optional live Excel recalculation when
 the `formulas` library is available).
 """
@@ -76,11 +76,11 @@ def test_cumulative_le_each_gate():
 
 
 def test_sources_md_populated():
-    src = ROOT / "SOURCES.md"
-    assert src.exists(), "SOURCES.md missing — run an extractor"
+    src = ROOT / "financial_models" / "SOURCES_LOG.md"
+    assert src.exists(), "financial_models/SOURCES_LOG.md missing — run an extractor"
     text = src.read_text(encoding="utf-8")
     for token in ("RBA", "AEMO", "CSIRO", "Planning"):
-        assert token in text, f"SOURCES.md should mention {token}"
+        assert token in text, f"SOURCES_LOG.md should mention {token}"
 
 
 # --------------------------------------------------------------------------- engine
