@@ -46,5 +46,29 @@
     "status": "LIVE",
     "description": "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation).",
     "retrieved": "2026-06-24"
+  },
+  "aemo_isp": {
+    "name": "AEMO \u2014 Integrated System Plan 2026 (Step Change); pv magazine Australia; RenewEconomy; Energy-Storage.news",
+    "url": "https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp",
+    "output": "data/processed/market_demand.csv",
+    "status": "REPORTED",
+    "description": "Documented public benchmark gathered from named sources; verify.",
+    "retrieved": "2026-06-26"
+  },
+  "community_batteries": {
+    "name": "DNSP community-battery programmes (Ausgrid, Endeavour); Energy Networks Australia; AER; ARENA",
+    "url": "https://www.energy-storage.news/tag/community-batteries/",
+    "output": "data/processed/end_use.csv",
+    "status": "REPORTED",
+    "description": "Documented public benchmark gathered from named sources; verify.",
+    "retrieved": "2026-06-26"
+  },
+  "bess_deals": {
+    "name": "Energy-Storage.news; pv magazine Australia; power-technology; Quinbrook; Energy Security Corporation",
+    "url": "https://www.energy-storage.news/tag/australia/",
+    "output": "data/processed/deal_sizes.csv",
+    "status": "REPORTED",
+    "description": "Documented public benchmark gathered from named sources; verify.",
+    "retrieved": "2026-06-26"
   }
 }

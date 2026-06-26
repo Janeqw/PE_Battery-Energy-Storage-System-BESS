@@ -178,6 +178,35 @@ def fig_stage_comparison(c):
     plt.close(fig)
 
 
+def fig_buyer_sizes():
+    """Recent BESS deals are large — visualises the 5 MW vs 100 MW+ buyer gap."""
+    import csv as _csv
+    path = io.DATA_PROCESSED / "deal_sizes.csv"
+    rows = []
+    with open(path, newline="", encoding="utf-8") as fh:
+        for r in _csv.reader(fh):
+            if r and not r[0].startswith("#") and r[0] != "project":
+                try:
+                    rows.append((r[0], float(r[2])))
+                except (IndexError, ValueError):
+                    pass
+    rows.sort(key=lambda x: x[1])
+    labels = [p.replace("THIS FUND's project (reference)", "THIS FUND (5 MW)") for p, _ in rows]
+    mws = [m for _, m in rows]
+    colors = [RED if m <= 5 else ACCENT for m in mws]
+    fig, ax = plt.subplots(figsize=(7, 4))
+    bars = ax.barh(labels, mws, color=colors)
+    for b, m in zip(bars, mws):
+        ax.annotate(f"{m:.0f} MW", (m, b.get_y() + b.get_height() / 2),
+                    textcoords="offset points", xytext=(4, 0), va="center", fontsize=8)
+    ax.set_xlabel("Project / deal size (MW)")
+    _style(ax, "Recent Australian BESS deals are large — 5 MW is a different market")
+    ax.grid(axis="x", alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(FIG / "buyer_sizes.png", dpi=150)
+    plt.close(fig)
+
+
 def dashboard_pdf(s):
     inp = s["inputs"]
     fc = s["first_chicago"]
@@ -226,9 +255,10 @@ def run() -> None:
     fig_sensitivity(inp)
     fig_tornado(inp)
     fig_stage_comparison(sa.compare())
+    fig_buyer_sizes()
     dashboard_pdf(s)
     sa.write_markdown()
-    print(f"[make_report] wrote 6 figures to {FIG}, dashboard.pdf to {OUT}, and STAGE_COMPARISON.md")
+    print(f"[make_report] wrote 7 figures to {FIG}, dashboard.pdf to {OUT}, and STAGE_COMPARISON.md")
 
 
 if __name__ == "__main__":

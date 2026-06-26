@@ -24,7 +24,8 @@ def _rows(name):
 
 
 # --------------------------------------------------------------------------- CSVs
-@pytest.mark.parametrize("name", ["pipeline.csv", "costs.csv", "gate_stats.csv", "rtb_comps.csv", "rates.csv"])
+@pytest.mark.parametrize("name", ["pipeline.csv", "costs.csv", "gate_stats.csv", "rtb_comps.csv", "rates.csv",
+                                  "end_use.csv", "market_demand.csv", "deal_sizes.csv"])
 def test_processed_csv_exists_and_nonempty(name):
     path = PROCESSED / name
     assert path.exists(), f"{name} missing — run `make transform`"

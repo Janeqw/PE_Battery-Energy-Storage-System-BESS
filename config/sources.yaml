@@ -93,6 +93,34 @@ sources:
     output_path: "data/raw/trade_press_candidates_{date}.csv"
     description: "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation)."
 
+  aemo_isp:
+    name: "AEMO — Integrated System Plan 2026 (storage trajectory)"
+    landing_page: "https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp"
+    url: null
+    format: "pdf"
+    method: "scrape_then_download"
+    discover_link_pattern: "(?i)integrated.?system.?plan.*\\.pdf$"
+    output_path: "data/processed/market_demand.csv"
+    description: "Storage trajectory by segment: small-scale/distributed vs grid-scale (GW/GWh) to 2030/2050 (Step Change). Answers 'is the market big?'."
+
+  community_batteries:
+    name: "Community / distribution battery programs (DNSPs, CEFC, state)"
+    landing_page: "https://www.energy-storage.news/tag/community-batteries/"
+    url: null
+    format: "html"
+    method: "reference_curation"
+    output_path: "data/processed/end_use.csv"
+    description: "What ~5 MW distribution/community batteries are for and who uses/owns them (households, DNSPs, government programs, aggregators)."
+
+  bess_deals:
+    name: "Reported Australian BESS deals & projects (size & buyer)"
+    landing_page: "https://www.energy-storage.news/tag/australia/"
+    url: null
+    format: "html"
+    method: "reference_curation"
+    output_path: "data/processed/deal_sizes.csv"
+    description: "Recent reported BESS deals by size and buyer — evidence on whether deep-pocketed buyers transact small (~5 MW) or large (100 MW+)."
+
   # ---- Context-only sources (cited in analysis, not parsed into model CSVs) ----
   context_only:
     - name: "AEMO — Integrated System Plan (ISP)"

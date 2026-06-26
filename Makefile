@@ -33,6 +33,7 @@ extract:
 	$(PY) -m src.extract.aemo_connections
 	$(PY) -m src.extract.nsw_planning
 	$(PY) -m src.extract.trade_press_comps
+	$(PY) -m src.extract.market_demand
 
 transform:
 	$(PY) -m src.transform.clean_pipeline

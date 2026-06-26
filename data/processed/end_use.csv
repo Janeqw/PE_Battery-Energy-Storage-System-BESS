@@ -1,0 +1,7 @@
+"# What a ~5 MW distribution/community battery is for and who uses it. Source: DNSP community-battery programmes (Ausgrid, Endeavour); Energy Networks Australia; AER; ARENA. As at 2026-06-26. Verify."
+service,description,primary_user
+Store & shift rooftop solar,"Charge on the midday solar surplus, discharge into the evening peak",Households & local community
+Local network support,Voltage/reliability support; defers local poles-and-wires upgrades,Distribution network operator (DNSP)
+Energy arbitrage,"Buy power when cheap, sell when expensive on the wholesale market",Energy market (via AEMO)
+Frequency & ancillary services (FCAS),Fast grid-stability services,AEMO / the grid
+Firming local renewables,Backs up variable local solar and wind,Retailers & community

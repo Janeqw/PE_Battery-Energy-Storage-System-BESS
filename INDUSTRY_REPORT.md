@@ -12,6 +12,30 @@ The fund does not build batteries and sell electricity. It buys small sites, tak
 
 This is the most important thing to understand, because it changes which risks matter. A normal battery owner lives or dies on the volatile price of electricity over fifteen or twenty years. This fund is gone before the battery ever switches on, so **that price risk belongs to the buyer, not to us.** Our two real questions are therefore simpler and sharper: **can the fund get its projects approved and connected on time, and will there be buyers willing to pay the assumed prices when it comes time to sell?**
 
+## What the stations are for, who uses them, and how big the market is
+
+*(The committee asked exactly this. Short version: a 5 MW battery is a "community/neighbourhood" battery; the overall storage market is huge, but the 5 MW slice is a distinct, smaller, government-supported segment — and that matters for who will buy it.)*
+
+**What a 5 MW battery does.** A 5 MW distribution-connected battery is, in practice, a **community / neighbourhood battery** — these connect to the local network and are typically up to 5 MW. Its jobs, and who benefits, are:
+
+| What it does | Who uses / benefits |
+|---|---|
+| Stores the midday rooftop-solar surplus and releases it into the evening peak | Households & local community |
+| Supports the local network (voltage, reliability) and defers poles-and-wires upgrades | Distribution network operator (DNSP) |
+| Buys power cheap / sells dear (arbitrage) and provides fast frequency services (FCAS) | The wholesale market, via AEMO |
+| Firms local solar and wind | Retailers & community |
+
+**Who owns them today — a telling fact.** Almost all existing community/distribution batteries are **owned and operated by the network companies (DNSPs)** or funded by **government programmes** — the federal $200m Community Batteries programme, Victoria's 100 Neighbourhood Batteries, Power Melbourne, and DNSP roll-outs (Ausgrid has commissioned a 5 MW community battery). Most still need a discounted network tariff to stack up financially.
+
+**Is the market big?** Storage demand is large and growing fast — but the 5 MW niche is a *distinct, smaller slice* of it (AEMO 2026 ISP, Step Change scenario):
+
+| Segment | 2026 | 2030 | 2050 |
+|---|---|---|---|
+| Small-scale / distributed (home + community) | 5 GW | 12 GW | 35 GW |
+| Grid-scale (developer-built, ~100 MW+) | ~45 GW in the connections queue | — | ~40 GW of need |
+
+So the demand is real and structural — **but the capital and the deals sit overwhelmingly at the grid-scale (100 MW+) end**, which leads straight to the buyer question below. *(Data stored in [`data/processed/market_demand.csv`](data/processed/market_demand.csv) and [`data/processed/end_use.csv`](data/processed/end_use.csv); sources: AEMO ISP 2026, DNSP/government programmes, trade press — illustrative benchmarks, verify.)*
+
 ## Is the market real and growing?
 
 Yes, and for structural rather than fashionable reasons. Australia is closing its ageing coal power stations while adding large amounts of solar and wind. Because solar and wind are intermittent, the grid increasingly needs storage that can deliver power on demand, and batteries are the cheapest and fastest way to provide it for the short durations that matter most today. Governments have backed this with firm targets and subsidy schemes, which turns a physical need into real, financeable demand. Importantly, the amount of storage actually funded still lags well behind the targets, so there is genuine room for new projects.
@@ -33,6 +57,22 @@ This is the heart of the matter. Because the fund's entire return comes from sel
 - **Large energy retailers**, seeking firming capacity
 
 Two cautions dominate, though. First, the fund's "three interested buyers" are **not contractually committed** — interest is not a purchase. Second, and more important, the wider market increasingly pays up for projects that are *further along*, already contracted or construction-ready, whereas this fund sells at the *earlier* RTB stage. So the fund must show either that demand for RTB projects specifically is genuinely deep, or that its projects are de-risked enough to command the assumed prices. The single most useful thing the manager can provide is evidence of real, recent sales of comparable small projects at comparable prices.
+
+**Do buyers actually want 5 MW assets — or do they prefer 100 MW+?** This is the committee's sharpest question, and the recent deal record answers it plainly: **the deep-pocketed buyers transact at scale, not at 5 MW.**
+
+| Recent deal / project | Size | Buyer |
+|---|---|---|
+| Summerfield BESS (SA) | 240 MW / 960 MWh | Palisade (with CEFC, Aware Super, HESTA) |
+| Supernode Stage 1 (QLD) | 260 MW / 619 MWh | Origin (12-year toll) |
+| ESC platform (NSW) | 200 MW | Energy Security Corporation |
+| Ebor (NSW) | 100 MW / 870 MWh | NSW LTESA tender |
+| **A community / distribution battery** | **~5 MW** | **DNSP / government programme / aggregator** |
+
+![Recent BESS deals are large](outputs/figures/buyer_sizes.png)
+
+Infrastructure and super funds say it out loud — Aware Super and HESTA described the 240 MW Summerfield deal as exactly the **"large scale"** infrastructure they want. A single 5 MW project is simply **too small** for them: the due-diligence and management effort is much the same as for a 200 MW asset, so they favour size. The natural buyers of *individual* 5 MW batteries are a **thinner, more specialised, often grant-dependent pool** — DNSPs, government programmes and aggregators.
+
+**The mitigation — and the catch.** The way a small-project developer reaches the big buyers is to **bundle many projects into a portfolio.** The fund's ~35 projects (~175 MW combined) could, aggregated, reach the scale an infrastructure fund wants, and the market increasingly supports aggregation. But that changes the exit: the fund would likely have to **sell the whole portfolio as a single platform** — one large, all-or-nothing transaction — rather than flip 5 MW projects one at a time. That **concentrates** the exit risk rather than removing it, and it only works if the portfolio is deliberately built and marketed as one block. *(Deal data: [`data/processed/deal_sizes.csv`](data/processed/deal_sizes.csv); sources: Energy-Storage.news, pv magazine, Quinbrook, ESC — verify.)*
 
 ## Can they execute? The success-rate question
 

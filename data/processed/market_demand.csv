@@ -1,0 +1,7 @@
+"# Storage market size by segment (AEMO 2026 ISP, Step Change). Source: AEMO — Integrated System Plan 2026 (Step Change); pv magazine Australia; RenewEconomy; Energy-Storage.news. As at 2026-06-26. Verify."
+segment,year,power_gw,energy_gwh,note
+Small-scale / distributed,2026,5,12,consumer- & community-led (home + community batteries)
+Small-scale / distributed,2030,12,33,Step Change scenario
+Small-scale / distributed,2050,35,78,~2/3 of solar homes have batteries by 2050
+Grid-scale (in NEM connections),2026,45,,of ~67 GW of storage in the connections process
+Grid-scale (storage need),2050,40,,35 GW short/medium + 5 GW long-duration
