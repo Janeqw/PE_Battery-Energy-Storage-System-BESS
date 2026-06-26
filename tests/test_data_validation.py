@@ -130,6 +130,41 @@ def test_cap_table_ownership_identity():
     assert ct["ownership_diluted"] <= ct["ownership_initial"] + 1e-9, "dilution must not increase ownership"
 
 
+def test_exit_value_is_pipeline_rnpv_plus_retained_less_debt():
+    """change2.md PRIMARY exit basis: exit equity = forward-pipeline rNPV +
+    retained cash − debt (not net programme profit × a platform multiple)."""
+    from src.valuation_engine import (load_inputs, exit_equity_value,
+                                      forward_pipeline_rnpv, company_metrics)
+
+    inp = load_inputs()
+    assert inp.exit_basis == "pipeline_rnpv", "the default exit basis must be the pipeline rNPV"
+    for case in inp.scenarios.values():
+        eqv = exit_equity_value(inp, case)
+        fwd = forward_pipeline_rnpv(inp, case)
+        realised = company_metrics(inp, case)["net_business_profit"]
+        retained = max(0.0, realised) * (1.0 - inp.interim_distribution_fraction)
+        expected = max(0.0, fwd + retained - inp.debt_at_exit)
+        assert abs(eqv["forward_pipeline_rnpv"] - fwd) < 1e-9
+        assert abs(eqv["retained_cash"] - retained) < 1e-9
+        assert abs(eqv["company_exit_equity"] - expected) < 1e-9, "exit eq must = fwd + retained − debt"
+
+
+def test_no_double_count_of_cash():
+    """The double-count guard: distributions to all holders + the terminal exit
+    equity must not exceed realised profit + forward-pipeline value — no dollar of
+    profit is counted both as a distribution and in the terminal sale price."""
+    from src.valuation_engine import load_inputs, exit_equity_value, investor_return
+
+    inp = load_inputs()
+    for case in inp.scenarios.values():
+        eqv = exit_equity_value(inp, case)
+        lifetime = max(0.0, eqv["realised_profit"]) + eqv["forward_pipeline_rnpv"]
+        assert eqv["distributed_all"] + eqv["company_exit_equity"] <= lifetime + 1e-6
+        # and our own draw cannot exceed our diluted share of that lifetime value plus our preference
+        r = investor_return(inp, case)
+        assert r["interim_distributions"] + r["terminal_proceeds"] <= lifetime + 1e-6
+
+
 def test_stage_analysis_risk_ladder():
     """The three value-chain stages form a risk ladder: operating is the safest downside."""
     from src.stage_analysis import compare
