@@ -10,9 +10,9 @@
 
 | Metric | Value |
 |---|---|
-| Expected equity IRR on our shares | **7.6%** |
-| Expected MOIC (multiple of money) | **1.44x** |
-| Scenario IRR range | -100.0% … 30.2% |
+| Expected equity IRR on our shares | **-2.6%** |
+| Expected MOIC (multiple of money) | **0.88x** |
+| Scenario IRR range | -15.0% … 4.2% |
 
 > The Conservative case is a **total loss** (the company's net programme profit is negative, so its equity is worth ~0). This is the venture-style shape: a real chance of zero, a modest base case, and meaningful upside if approvals run hot.
 
@@ -33,11 +33,24 @@
 
 | Scenario | Flip success | Company exit equity | Our proceeds | MOIC | IRR |
 |---|---|---|---|---|---|
-| Conservative | 22.4% | $0.0m | $0.0m | **0.00x** | **-100.0%** |
-| Base | 36.4% | $19.3m | $2.8m | **1.39x** | **6.8%** |
-| Ideal | 44.8% | $51.9m | $7.5m | **3.74x** | **30.2%** |
+| Conservative | 22.4% | $0.9m | $0.9m | **0.44x** | **-15.0%** |
+| Base | 36.4% | $7.2m | $2.0m | **1.00x** | **0.0%** |
+| Ideal | 44.8% | $17.0m | $2.5m | **1.23x** | **4.2%** |
 
-> *Our proceeds = the greater of our 1× liquidation preference or our diluted ownership × the company's exit equity value. Company exit equity value = the company's net programme profit × a platform exit multiple (4.0× `[[TO CONFIRM]]`), over a 5-year hold `[[TO CONFIRM]]`.*
+> *Our proceeds = the greater of our 1× liquidation preference or our diluted ownership × the company's exit equity value, plus any interim distributions. The PRIMARY exit equity value is the **forward-pipeline rNPV** (projects still in flight at exit) + retained cash − debt — over a 5-year hold `[[TO CONFIRM]]`.*
+
+## The company's exit equity value — PRIMARY basis (forward-pipeline rNPV)
+
+> A develop-and-flip company is a development **platform**: a buyer pays for its **forward pipeline**, not past profit. So exit equity = forward-pipeline rNPV + retained cash − debt (the earnings multiple below is a cross-check only).
+
+| Component (Base) | Value |
+|---|---|
+| Forward-pipeline rNPV (depth 25 `[[TO CONFIRM]]` × per-project rNPV) | $2.4m |
+| + Net cash retained at exit (realised profit not distributed) | $4.8m |
+| − Debt at exit `[[TO CONFIRM]]` | $0.0m |
+| **= Company exit equity (primary)** | **$7.2m** |
+
+*Cross-check — earnings multiple on forward run-rate profit ($1.6m/yr) at 3× / 5× / 7× `[[TO CONFIRM]]` (+ retained cash − debt): $9.7m / $12.9m / $16.1m. We anchor on the more conservative pipeline basis; comps were not available (publicly reported deals only).*
 
 ## Survival gates — separate; flip success = their product
 
@@ -60,8 +73,8 @@
 | Projects started (funnel = target ÷ flip success) | 96 |
 | Total development cost | $26.7m |
 | Gross proceeds (RTB sales) | $31.5m |
-| Net programme profit (gross − dev cost) | $4.8m |
-| → Company exit equity value (× 4.0 platform multiple) | $19.3m |
+| Realised net programme profit (gross − dev cost) | $4.8m |
+| Forward run-rate annual dev profit (= realised ÷ term) | $1.6m |
 
 *RTB prices (founder claim): NSW $1.0m · VIC $0.9m · SA $0.6m per 5 MW project. No fund fees or carry — we own shares directly.*
 
@@ -76,7 +89,7 @@
 
 ## Integrity checks
 
-All **15** model checks pass → master check reads `OK`.
+All **17** model checks pass → master check reads `OK`.
 
 | Check | Result |
 |---|---|
@@ -94,6 +107,8 @@ All **15** model checks pass → master check reads `OK`.
 | investor MOIC monotonic | ✅ OK |
 | weights sum to 100% | ✅ OK |
 | First-Chicago IRR within range | ✅ OK |
+| exit basis is pipeline_rnpv | ✅ OK |
+| no double-count (distributed + exit value <= realised + forward pipeline) | ✅ OK |
 | every input has a source | ✅ OK |
 
 ## See the full model

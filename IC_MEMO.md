@@ -17,31 +17,33 @@
 
 ## 1. Recommendation (bottom line up front)
 
-**Conditional. The opportunity is genuine, but on our independent rebuild the expected return on our shares is modest and the downside is a total loss of our invested capital. Do not commit on the projections, and only on stronger downside terms than a diversified fund would require.** Proceed to confirmatory due diligence and commit **only if** the founders evidence (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects, (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) confirmed equity terms (pre-money valuation, share class, a 1× liquidation preference, option pool and governance). Absent those, decline.
+**Conditional, pass-leaning. The opportunity is genuine, but on our independent rebuild — valuing the company as a development platform on its forward pipeline — the expected return on our shares is now slightly NEGATIVE (value-destructive at the central estimate), with a deep loss in the downside. Do not commit on the projections; commit only on stronger downside terms than a diversified fund would require, and only if the conditions below lift the deal above water.** Proceed to confirmatory due diligence and commit **only if** the founders evidence (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects — and a credible **forward pipeline at exit**, which is now the single biggest value driver — (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) confirmed equity terms (pre-money valuation, share class, a 1× liquidation preference, option pool and governance). Absent those, decline.
 
 | Our independent view | The founders' claim |
 |---|---|
-| First-Chicago **expected return on our shares: internal rate of return (IRR) ≈ 7.6%** (multiple on invested capital, MOIC ~1.44×) | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
-| **Conservative case is a total loss** (IRR −100%, MOIC 0.00×) — the company's net programme profit turns negative, so the equity is worth ~$0 | Conservative case still positive (10.7%) |
+| First-Chicago **expected return on our shares: internal rate of return (IRR) ≈ −2.6%** (multiple on invested capital, MOIC ~0.88×) — value-destructive at the central estimate | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
+| **Conservative case is a deep loss** (IRR ≈ −15%, MOIC ≈ 0.44× — we recover only ~$0.9m of our $2m, via the 1× liquidation preference on the residual forward pipeline); a **total loss** if that forward pipeline also fails to attract a buyer | Conservative case still positive (10.7%) |
 | The headline **65% is the development-approval gate ONLY**; true whole-funnel flip success ≈ **36%** (0.65 × 0.70 × 0.80) | Base case presented as **65%** success |
 
-*Basis — the full data-source-and-method table is in [Appendix A — Methods & sources](#appendix-a--methods--sources). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **return on our shares** comes from our model (the company's exit equity = net programme profit × a platform exit multiple, First-Chicago weighted, then our diluted ownership through the cap table, protected by a 1× liquidation preference); the founders' figures are stated claims to verify.*
+*Basis — the full data-source-and-method table is in [Appendix A — Methods & sources](#appendix-a--methods--sources). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **return on our shares** comes from our model — the company's exit equity value on the **primary forward-pipeline basis** (forward-pipeline risk-adjusted net present value + retained cash − debt), First-Chicago weighted, then our diluted ownership through the cap table, protected by a 1× liquidation preference; the founders' figures are stated claims to verify.*
 
-**Recommendation in full: CONDITIONAL PROCEED (PASS-LEANING)** — proceed to confirmatory due diligence; commit **only if** every condition in [§10](#10-conditions--questions-for-the-founders) is met (else **Pass**). On the corrected gates the develop-and-flip is the **weakest risk-adjusted business model on the value chain** (~7.6% expected on our shares, with a Conservative case that is a total loss of our capital):
+> **The decisive change (this rebuild).** We replaced the earlier exit basis — net programme profit × a single ~4× platform multiple ($19.3m company exit equity at Base) — with the **forward-pipeline basis**: what a buyer of a development platform actually pays is its **forward pipeline**, not past profit. On that basis the Base company exit equity falls to **~$7.2m**, *below* the **$10m post-money** we would pay — so our stake is underwater and we rely on the **1× liquidation preference** to recover most of our money. The expected return on our shares moves from **+7.6% / 1.44×** (old basis) to **−2.6% / 0.88×** (corrected). This single assumption — the **exit basis and the pipeline depth at exit** — is now the biggest swing factor in the memo (see [Appendix C, Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate)).
+
+**Recommendation in full: CONDITIONAL PROCEED (PASS-LEANING)** — proceed to confirmatory due diligence; commit **only if** every condition in [§10](#10-conditions--questions-for-the-founders) is met (else **Pass**). On the corrected gates *and* the corrected (forward-pipeline) exit basis the develop-and-flip is the **weakest risk-adjusted business model on the value chain** (expected return on our shares now **≈ −2.6% / 0.88×** — value-destructive at the central estimate, with a deep-loss Conservative case):
 
 - **Buyer pool** — a deep, contractually-progressing ready-to-build buyer pool is evidenced.
 - **Approval rate** — sub-5 MW, per-state development-approval evidence supports the 65% DA gate, and the grid-connection (70%) and sale (80%) gates are substantiated.
 - **Equity terms** — confirmed pre-money valuation, share class, a 1× liquidation preference, option-pool sizing and meaningful governance / minority-shareholder protections.
 
-**Business-model choice:** the company is pursuing *develop-and-flip* — which, on the corrected gates, is the **weakest risk-adjusted business model** (≈7.6% expected return on our shares, with a Conservative case that wipes out our stake). On a risk-adjusted basis, an *own-and-operate (contracted)* model is a better fit for patient private capital — among the standalone models it is the only one positive in its downside (the fully-integrated develop-build-operate model also is, but holds the asset ~18 years; see [§5](#5-business-model--value-chain-choice)).
+**Business-model choice:** the company is pursuing *develop-and-flip* — which, on the corrected gates *and* exit basis, is the **weakest risk-adjusted business model** (expected return on our shares now **≈ −2.6% / 0.88×** — value-destructive at the central estimate, with a deep-loss Conservative case). On a risk-adjusted basis, an *own-and-operate (contracted)* model is a better fit for patient private capital — among the standalone models it is the only one positive in its downside (the fully-integrated develop-build-operate model also is, but holds the asset ~18 years; see [§5](#5-business-model--value-chain-choice)).
 
 **Top 3 risks**
 
 - **Single-company concentration** — our money is tied to one early-stage startup with one strategy; there is no fund-level diversification, so a single company failure is a total loss.
 - **Founder & key-person risk** — a brand-new company with no operating history; execution depends almost entirely on the founder(s).
-- **Exit / buyer risk** — a flip with no buyer is a stranded asset; if the company cannot sell its ready-to-build projects, its net programme profit turns negative and our equity is worth ~$0.
+- **Exit / buyer risk** — a flip with no buyer is a stranded asset, and the buyer pool now drives value twice over: it sets the realised programme profit *and* the **forward pipeline** a buyer pays for at our exit. If the company cannot sell projects, the realised profit turns negative *and* the forward pipeline is worth little — our equity collapses toward zero.
 
-> **Returns attribution (the credibility line):** *Of the expected ~1.44× / ~7.6% on our shares, all of the value is the development margin the company captures — selling ~35 ready-to-build projects for ~$31.5m against ~$26.7m of development cost gives ~$4.8m net programme profit, valued at a ~4× platform multiple ([[TO CONFIRM]]) for ~$19.3m of company exit equity at Base; our diluted ~14.4% stake, protected by a 1× liquidation preference, is worth ~$2.78m. ZERO comes from merchant or operating upside (that passes to the buyers of the projects). The Conservative case is a total loss because the company's net programme profit turns negative.*
+> **Returns attribution (the credibility line):** *Of the expected ~0.88× / ~−2.6% on our shares, the company's Base exit equity (~$7.2m) is its **forward pipeline** (~$2.4m of risk-adjusted value in ~25 projects still in flight `[[TO CONFIRM]]`) plus **retained cash** (~$4.8m of realised programme profit not yet distributed) less debt (~$0). That ~$7.2m is **below** the ~$10m post-money we would pay, so our diluted ~14.4% as-converted stake (~$1.0m) is worth less than our money — and we fall back on the **1× liquidation preference**, recovering ~$2.0m (≈ our cost) at Base. ZERO comes from merchant or operating upside (that passes to the buyers of the projects). The Conservative case is a **deep loss** (we recover only ~$0.9m of our $2m) because realised profit turns negative and only the residual forward pipeline has value; a **total loss** if that pipeline also fails to attract a buyer.*
 
 ---
 
@@ -71,7 +73,7 @@ The company **develops ~5 MW distribution-connected (about 22-kilovolt, or 22 kV
 | 3 | **Execution (survival) — the headline rate is the approval gate alone, not whole-funnel success.** The founders' **40% / 65% / 80%** are the development-approval (DA) gate only; a flip must also clear grid connection (≈70%) and a sale (≈80%). So **true Base-case flip success ≈ 36%** (0.65 × 0.70 × 0.80), and the independent public benchmark (approval 80%) is **≈ 45%** (0.80 × 0.70 × 0.80). The 65% headline **overstates** whole-funnel success. | 🔴 Key flag |
 | 4 | **Exit market is deep but unproven for *this* product — and skewed to scale.** The deep-pocketed buyers (infrastructure funds, superannuation funds, the Clean Energy Finance Corporation/Energy Security Corporation, retailers) transact at **100 MW and above**; a single 5 MW asset is too small for them, so the natural buyers are a thinner pool (network companies, government programmes, aggregators). The "3 interested buyers" are **non-binding**. | 🔴 The decisive risk |
 | 5 | **Economics are capital-light; the margin is the de-risking uplift.** Ready-to-build value is ~10–12% of built-asset value — confirming this is the development premium, not the build. Development cost ~$0.5m/project; the funnel widens as success falls (`started = target ÷ success`). | ✅ Coherent |
-| 6 | **Independent returns on our shares are far below the founders', with a total-loss case.** Expected IRR ~7.6% (MOIC ~1.44×) versus the founders' ~17.7% claim; the conservative case is a **total loss** (company net programme profit turns negative → equity ~$0 → our shares worth ~0, IRR −100%, MOIC 0.00×). | 🔴 Decision-driving |
+| 6 | **Independent returns on our shares are far below the founders' and now negative in expectation.** On the corrected forward-pipeline exit basis, expected IRR ~−2.6% (MOIC ~0.88×) versus the founders' ~17.7% claim; the Base case barely returns our money (the company is worth ~$7.2m at exit, below the ~$10m we pay, so the 1× liquidation preference floors us at ~break-even); the Conservative case is a **deep loss** (~0.44×, ~−15%). | 🔴 Decision-driving |
 
 *Basis — each finding's data source, method and calculation are tabulated in [Appendix A — Methods & sources](#appendix-a--methods--sources). Headline methods: industry life-cycle model and Porter's Five Forces (Chartered Financial Analyst, or CFA, curriculum); probability-of-default / survival analysis (credit-risk practice) for the gate decomposition (approval × connection × sale); comparable-transactions evidence (energy trade press) for the buyer-size finding.*
 
@@ -147,10 +149,10 @@ The company's economics are the **funnel** — how many projects it must start t
 | Projects started (= target ÷ flip success) | ~96 |
 | Total development cost (delivered + partial on the ~61 dropouts) | $26.7 million |
 | Gross proceeds (35 sales) | $31.5 million |
-| **Net programme profit** | **$4.8 million** *(= $31.5m proceeds − $26.7m development cost)* |
-| **Company exit equity** (net programme profit × ~4.0 platform multiple `[[TO CONFIRM]]`) | **~$19.3 million** |
+| **Realised net programme profit** | **$4.8 million** *(= $31.5m proceeds − $26.7m development cost)* |
+| **Company exit equity** (forward-pipeline rNPV ~$2.4m + retained cash ~$4.8m − debt ~$0) | **~$7.2 million** |
 
-*Earnings-quality note: there are no operating earnings to scrutinise — the "quality" question is whether the **ready-to-build sale prices and the gate success rates** are real. Both are founder claims requiring independent comparable-transaction and per-state approval evidence. Note the 65% headline is the **development-approval gate alone**; the whole-funnel flip success (after the grid-connection and sale gates) is ~36%. There are no fund fees or carried interest in this structure — we own shares directly. (Conservative case: net programme profit turns **negative**, so the company's exit equity is ~$0 and our shares are worth ~0.)*
+*Earnings-quality note: there are no operating earnings to scrutinise — the "quality" question is whether the **ready-to-build sale prices and the gate success rates** are real, and how deep the **forward pipeline** is at exit. All are founder claims requiring independent comparable-transaction, per-state approval, and pipeline evidence. Note the 65% headline is the **development-approval gate alone**; the whole-funnel flip success (after the grid-connection and sale gates) is ~36%. There are no fund fees or carried interest in this structure — we own shares directly. The company is valued at exit as a development **platform** on its forward pipeline (not its past profit × a multiple); see [§6](#6-valuation--your-stake). (Conservative case: realised profit turns **negative**, so the exit equity is only the residual forward pipeline ~$0.9m and our shares recover ~$0.9m of $2m via the liquidation preference — a deep loss.)*
 
 ---
 
@@ -226,7 +228,7 @@ Two cautions dominate, though. First, the company's "three interested buyers" ar
 
 Infrastructure and superannuation funds say it out loud — Aware Super and the Health Employees Superannuation Trust Australia described the 240 MW Summerfield deal as exactly the **"large scale"** infrastructure they want. A single 5 MW project is simply **too small** for them: the due-diligence and management effort is much the same as for a 200 MW asset, so they favour size. The natural buyers of *individual* 5 MW batteries are a **thinner, more specialised, often grant-dependent pool** — distribution network service providers, government programmes and aggregators.
 
-**The mitigation — and the catch.** The way a small-project developer reaches the big buyers is to **bundle many projects into a portfolio.** The company's ~35 projects (~175 MW combined) could, aggregated, reach the scale an infrastructure fund wants, and the market increasingly supports aggregation. But that changes the exit: the company would likely have to **sell the whole portfolio as a single platform** — one large, all-or-nothing transaction — rather than sell 5 MW projects one at a time. That **concentrates** the exit risk rather than removing it, and it only works if the portfolio is deliberately built and marketed as one block. (This is also the basis of the ~4× platform exit multiple applied to the company's net programme profit in [§6](#6-valuation--your-stake).)
+**The mitigation — and the catch.** The way a small-project developer reaches the big buyers is to **bundle many projects into a portfolio.** The company's ~35 projects (~175 MW combined) could, aggregated, reach the scale an infrastructure fund wants, and the market increasingly supports aggregation. But that changes the exit: the company would likely have to **sell the whole portfolio as a single platform** — one large, all-or-nothing transaction — rather than sell 5 MW projects one at a time. That **concentrates** the exit risk rather than removing it, and it only works if the portfolio is deliberately built and marketed as one block. (This portfolio/platform sale is exactly what the **forward-pipeline exit basis** in [§6](#6-valuation--your-stake) values — a buyer pays for the pipeline of projects in flight, not past profit.)
 
 *Basis — Data source: energy trade press (Energy-Storage.news, pv magazine Australia, power-technology, Quinbrook, Energy Security Corporation); stored in [`data/processed/deal_sizes.csv`](data/processed/deal_sizes.csv). Method: comparable-transactions analysis (CFA relative-valuation; mergers-and-acquisitions practice) — recent deals listed by size and buyer. Calculation: none — observed deal sizes; the chart simply plots reported megawatts per deal.*
 
@@ -248,9 +250,9 @@ In other words, the founders' **65% base case is the approval gate only** — it
 
 ### What this means for the returns
 
-(The full figures are in [§6 Valuation & your stake](#6-valuation--your-stake) and [§7 Returns to your shares](#7-returns-to-your-shares); this is the bottom line.) When we rebuild the company's economics independently — applying the **true three-gate flip success** (development approval × grid connection × sale) rather than the approval gate alone — the expected return on our shares comes out at roughly **7.6%** (internal rate of return, IRR; multiple on invested capital, MOIC ≈ 1.44×), far below what the founders' headline approval rates suggest. The reason is the corrected gates: the develop-and-flip clears the whole funnel only ~36% of the time in the Base case, so far more projects must be started and far more capital is consumed on failures, leaving the company's net programme profit thin (~$4.8m, valued at ~$19.3m of company exit equity). More tellingly, the downside is severe: in the conservative case the company's net programme profit turns **negative**, so the company's equity is worth ~$0 and **our shares are a total loss** (MOIC ≈ 0.00×; IRR ≈ −100%) — even a 1× liquidation preference cannot pay out when there is nothing to pay it from. So on the corrected gates the develop-and-flip is no longer attractive; it is the **weakest risk-adjusted business model**, with a total-loss downside.
+(The full figures are in [§6 Valuation & your stake](#6-valuation--your-stake) and [§7 Returns to your shares](#7-returns-to-your-shares); this is the bottom line.) When we rebuild the company's economics independently — applying the **true three-gate flip success** (development approval × grid connection × sale) *and* valuing the company at exit as a development platform on its **forward pipeline** (not past profit × a multiple) — the expected return on our shares comes out at roughly **−2.6%** (internal rate of return, IRR; multiple on invested capital, MOIC ≈ 0.88×): value-destructive at the central estimate, and far below what the founders' headline approval rates suggest. Two corrections compound. First, the gates: the develop-and-flip clears the whole funnel only ~36% of the time in the Base case, so far more projects must be started and far more capital is consumed on failures, leaving realised programme profit thin (~$4.8m). Second, the exit basis: a buyer of a development platform pays for the **forward pipeline** (~$2.4m of risk-adjusted value at Base) plus retained cash (~$4.8m), so Base company exit equity is ~$7.2m — **below the ~$10m post-money we would pay**, leaving our as-converted stake under water and floored at ~break-even by the 1× liquidation preference. The downside is severe: in the conservative case realised profit turns **negative**, the company's equity is just the residual forward pipeline (~$0.9m), and **our shares suffer a deep loss** (MOIC ≈ 0.44×; IRR ≈ −15%) — the preference recovers only ~$0.9m of our $2m, and a **total loss** results if even that pipeline finds no buyer. So on the corrected gates and exit basis the develop-and-flip is no longer attractive; it is the **weakest risk-adjusted business model**, value-destructive in expectation.
 
-*Basis — Data source: the model's inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). Method: risk-adjusted net present value (rNPV) per project; a development "funnel" (projects started = target ÷ true flip success); the company's net programme profit × a platform exit multiple = company exit equity; our diluted ownership through the cap table, protected by a 1× liquidation preference; then probability-weighting the scenarios with the First-Chicago method (CFA scenario analysis + private-equity/venture-capital practice). Calculation: First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 1.44×, IRR ≈ 7.6%; the conservative case's net programme profit is negative, so company equity ≈ $0 and our shares ≈ 0 (MOIC 0.00×, IRR −100%).*
+*Basis — Data source: the model's inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). Method: risk-adjusted net present value (rNPV) per project; a development "funnel" (projects started = target ÷ true flip success); the company's exit equity on the **primary forward-pipeline basis** (forward-pipeline rNPV + retained cash − debt — the earnings multiple is a cross-check only); our diluted ownership through the cap table, protected by a 1× liquidation preference; then probability-weighting the scenarios with the First-Chicago method (CFA scenario analysis + private-equity/venture-capital practice). Calculation: First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 0.88×, IRR ≈ −2.6%; the conservative case's realised profit is negative, so company equity ≈ the residual forward pipeline (~$0.9m) and our shares recover ~$0.9m (MOIC 0.44×, IRR −15%).*
 
 ---
 
@@ -283,39 +285,45 @@ The question for the committee is **which business model is this startup pursuin
 
 ## 6. Valuation & your stake
 
-The valuation runs in two steps: **(1) value the whole company** (its exit equity = net programme profit × a platform exit multiple, probability-weighted across scenarios), then **(2) apply the cap table** to get the value of *our* shares.
+The valuation runs in two steps: **(1) value the whole company** — its exit equity on the **primary forward-pipeline basis** (the risk-adjusted value of the projects still in flight at exit, plus cash retained on the balance sheet, less debt), probability-weighted across scenarios — then **(2) apply the cap table** to get the value of *our* shares.
+
+> **Why the forward pipeline, not a profit multiple.** A develop-and-flip company is a development **platform**: what a buyer pays for at our exit is its **forward pipeline** of future projects, **not** the profit it has already earned (and largely distributed). The earlier draft valued the company at *net programme profit × a single ~4× platform multiple* — which (a) multiplies *cumulative* profit a buyer doesn't re-earn, and (b) rested on one unsourced number. We therefore make **forward-pipeline risk-adjusted net present value (rNPV) the primary basis**, and keep the earnings multiple and any comparable deals only as **cross-checks** (below). The forward-pipeline rNPV uses the **same gate decomposition** (approval × grid connection × sale) and the **same discount rate** as the rest of the model.
 
 - **What we pay:** we buy **~$2 million `[[TO CONFIRM]]` of newly-issued shares** at a **$10 million post-money** valuation ($8 million pre-money `[[TO CONFIRM]]` + our $2 million), for **20.0% ownership at entry**. We pay the company's price for its equity; we do not fund the development spend directly (the company does, from its own capital base).
 - **The value ladder:** a ready-to-build project sells for roughly **$0.5–1.1 million per 5 MW** (founder claim — New South Wales $0.9–1.1m, Victoria $0.8–1.0m, South Australia $0.5–0.7m), which is only **~10–12% of the ~$8–10 million built-asset value**. That confirms this is the early-stage development premium, not the construction value — and it needs independent comparables.
 - **Structure & terms:** a direct minority equity stake; we should require **preferred shares carrying a 1× non-participating liquidation preference** `[[TO CONFIRM]]`, plus anti-dilution and governance protections (see [§3](#3-the-company--what-youre-buying) and [§8](#8-risks--protections)). Cap table before/after: [Appendix C, Exhibit 1](#exhibit-1--cap-table-before-and-after-our-investment).
-- **Discount rate (for the per-pipeline asset cross-check):** 18.8% = Reserve Bank of Australia 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium (build-up method).
+- **Discount rate:** 18.8% = Reserve Bank of Australia 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium (build-up method) — used for both the forward-pipeline rNPV and the per-pipeline asset cross-check.
 
-### Step 1 — the company's exit equity (Base case)
+### Step 1 — the company's exit equity (Base case), primary forward-pipeline basis
 
-| The company's programme → equity (Base) | Value |
+| The company's programme → exit equity (Base) | Value |
 |---|---|
-| Programme capital (illustrative) | ~$25m |
 | Whole-funnel flip success (DA 65% × grid 70% × sale 80%) | 36.4% |
 | Projects delivered / sold (target) | 35 |
 | Projects started (= 35 ÷ 36.4%) | ~96 |
 | Total development cost | ~$26.7m |
 | Gross proceeds (35 sales) | ~$31.5m |
-| **Net programme profit** | **~$4.8m** *(= $31.5m − $26.7m)* |
-| Platform exit multiple `[[TO CONFIRM]]` | 4.0× |
-| **Company exit equity** | **~$19.3m** *(= $4.8m × 4.0)* |
+| Realised net programme profit | ~$4.8m *(= $31.5m − $26.7m)* |
+| **Forward-pipeline rNPV at exit** (~25 projects in flight `[[TO CONFIRM]]` × ~$0.10m per-project rNPV) | **~$2.4m** |
+| + Net cash retained at exit (realised profit not yet distributed) | ~$4.8m |
+| − Debt at exit `[[TO CONFIRM]]` | ~$0.0m |
+| **Company exit equity (primary)** | **~$7.2m** |
 
-*(Conservative case: net programme profit is **negative**, so the company's exit equity is ~$0.)*
+*Basis — Data source: [`config/assumptions.yaml`](config/assumptions.yaml) `exit_value:` block. Method: forward-pipeline rNPV (same gates × same discount rate as the per-project rNPV) + retained cash − debt. Calculation: 25 × ~$0.10m + $4.8m − $0 = ~$7.2m. (Conservative case: realised profit is **negative**, so the company's exit equity is just the residual forward pipeline ~$0.9m.) The pipeline depth at exit is the dominant assumption — see [Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate).*
 
 ### Step 2 — the cap table → our proceeds (Base case)
 
 | Bridge to our proceeds (Base) | Value |
 |---|---|
-| Company exit equity | ~$19.3m |
+| Company exit equity (primary basis) | ~$7.2m |
 | Our diluted ownership at exit | 14.4% *(20.0% × (1−10% pool) × (1−20% round))* |
-| Our share of exit equity | ~$2.78m *(= $19.3m × 14.4%)* |
+| Our as-converted share | ~$1.04m *(= $7.2m × 14.4%)* |
 | 1× liquidation preference floor | $2.00m *(our $2m investment)* |
-| **Our proceeds** (greater of the two) | **~$2.78m** |
-| **MOIC / IRR on our shares** | **1.39× / +6.8%** *(exit year 5 `[[TO CONFIRM]]`)* |
+| **Our terminal proceeds** (greater of the two) | **~$2.00m** *(the preference binds — our stake is under water)* |
+| + Interim distributions `[[TO CONFIRM]]` (distribution fraction 0% by default) | ~$0.00m |
+| **MOIC / IRR on our shares** | **1.00× / 0.0%** *(exit year 5 `[[TO CONFIRM]]`)* |
+
+*The company's ~$7.2m Base exit equity is **below** the ~$10m post-money we pay, so our diluted ~14.4% as-converted stake (~$1.04m) is worth less than our $2m cheque. The **1× liquidation preference** floors our terminal proceeds at ~$2.0m (we get our money back, no more) — i.e. at Base we make essentially nothing.*
 
 ### Per-pipeline asset valuation cross-check (unchanged)
 
@@ -340,11 +348,13 @@ A bottom-up cross-check on a single representative pipeline, to sanity-check the
 | Future-round dilution | 20% `[[TO CONFIRM]]` |
 | Diluted ownership at exit | 14.4% |
 | Liquidation preference | 1× non-participating `[[TO CONFIRM]]` |
-| Platform exit multiple | 4.0× `[[TO CONFIRM]]` |
+| Pipeline depth at exit *(primary exit driver)* | 25 projects `[[TO CONFIRM]]` |
+| Interim distribution fraction | 0% `[[TO CONFIRM]]` |
+| Debt at exit | $0m `[[TO CONFIRM]]` |
 | Exit year | 5 `[[TO CONFIRM]]` |
 | Projects delivered / sold | 35 |
 | Development cost | ~$0.5m per project (+ partial spend on dropouts) |
-| Discount rate *(asset cross-check)* | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium |
+| Discount rate | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium |
 
 **Ready-to-build sale price by state** *(founder claim — needs independent comparables):*
 
@@ -354,45 +364,49 @@ A bottom-up cross-check on a single representative pipeline, to sanity-check the
 | Victoria | $0.8m – $1.0m |
 | South Australia | $0.5m – $0.7m |
 
-*Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. The company exit equity = net programme profit × platform multiple; our proceeds = greater of the 1× liquidation preference or diluted ownership × company exit equity. All founder rows are projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence; the cap-table inputs are placeholders to confirm.*
+*Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. The company exit equity is the **primary forward-pipeline basis** (forward-pipeline rNPV + retained cash − debt); our terminal proceeds = greater of the 1× liquidation preference or diluted ownership × company exit equity, plus any interim distributions. All founder rows are projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence; the cap-table and exit-value inputs are placeholders to confirm.*
 
 ---
 
 ## 7. Returns to your shares
 
-Modelled bottom-up from public data (survival curve → company net programme profit → company exit equity → cap-table dilution & liquidation preference → return on our shares), with scenarios driven by **flip success (= development approval × grid connection × sale) — the master driver, which the scenarios move via the development-approval (DA) gate** — and weighted via the **First-Chicago** method. Our proceeds in each scenario are the **greater of the 1× liquidation preference or our diluted-ownership share of the company's exit equity**; dilution (to ~14.4%) and the preference are applied *before* our proceeds are struck.
+Modelled bottom-up from public data (survival curve → realised programme profit + forward-pipeline rNPV → company exit equity → cap-table dilution & liquidation preference → return on our shares), with scenarios driven by **flip success (= development approval × grid connection × sale) — the master operating driver, which the scenarios move via the development-approval (DA) gate** — and weighted via the **First-Chicago** method. The company's exit equity uses the **primary forward-pipeline basis** ([§6](#6-valuation--your-stake)). Our terminal proceeds in each scenario are the **greater of the 1× liquidation preference or our diluted-ownership share of the company's exit equity**, plus any interim distributions; dilution (to ~14.4%) and the preference are applied *before* our proceeds are struck.
 
 | Scenario | Flip success* | Company exit equity | Our proceeds | MOIC (our shares) | IRR (our shares) |
 |---|---|---|---|---|---|
-| Conservative | 22.4% | $0.0m | $0.00m | **0.00×** | **−100% (total loss)** |
-| Base | 36.4% | $19.3m | $2.78m | **1.39×** | **+6.8%** |
-| Ideal | 44.8% | $51.9m | $7.47m | **3.74×** | **+30.2%** |
-| **First-Chicago expected** (30/50/20 weighting on proceeds) | — | — | — | **~1.44×** | **~7.6%** |
+| Conservative | 22.4% | $0.9m | $0.89m | **0.44×** | **−15% (deep loss)** |
+| Base | 36.4% | $7.2m | $2.00m | **1.00×** | **0.0% (preference floor)** |
+| Ideal | 44.8% | $17.0m | $2.45m | **1.23×** | **+4.2%** |
+| **First-Chicago expected** (30/50/20 weighting on proceeds) | — | — | — | **~0.88×** | **~−2.6%** |
 
 \*Flip success = DA gate × grid connection (70%) × sale (80%): e.g. Base 0.65 × 0.70 × 0.80 = **36.4%**. The headline 40% / 65% / 80% are the **approval gate alone**, not whole-funnel success.
 
-The same scenarios viewed by company net programme profit and our cap-table proceeds:
+The same scenarios viewed by the exit-equity build and our cap-table proceeds:
 
 | Metric | Conservative (flip 22.4%) | Base (flip 36.4%) | Ideal (flip 44.8%) |
 |---|---|---|---|
-| Net programme profit ($m) | negative | 4.8 | 13.0 |
-| Company exit equity ($m) | ~0.0 | 19.3 | 51.9 |
-| Our diluted share @14.4% ($m) | ~0.0 | 2.78 | 7.47 |
-| 1× liquidation preference floor ($m) | 2.00 | 2.00 | 2.00 |
-| **Our proceeds — greater of the two ($m)** | **0.00** | **2.78** | **7.47** |
-| MOIC / IRR on our shares | 0.00× / −100% | 1.39× / +6.8% | 3.74× / +30.2% |
+| Realised net programme profit ($m) | negative | 4.8 | 13.0 |
+| Forward-pipeline rNPV at exit ($m) | 0.9 | 2.4 | 4.1 |
+| + Retained cash ($m) | 0.0 | 4.8 | 13.0 |
+| **Company exit equity ($m)** (fwd + retained − debt) | **0.9** | **7.2** | **17.0** |
+| Our diluted share @14.4% ($m) | 0.13 | 1.04 | 2.45 |
+| 1× liquidation preference floor ($m) | 0.89 † | 2.00 | 2.00 |
+| **Our proceeds — greater of the two ($m)** | **0.89** | **2.00** | **2.45** |
+| MOIC / IRR on our shares | 0.44× / −15% | 1.00× / 0.0% | 1.23× / +4.2% |
 
-*The Conservative case is a total loss: net programme profit is negative, so company exit equity is ~$0 and there is nothing for the liquidation preference to attach to — the preference cannot pay out from an empty estate.*
+† In the Conservative case the company's exit equity (~$0.9m) is less than our $2m preference, so the preference is **capped by what is available** — we recover only ~$0.9m of our $2m (a deep loss), and a **total loss** if even the residual forward pipeline finds no buyer.
 
-**Probability-weighted (First-Chicago, 30/50/20 on proceeds, then convert): expected MOIC ≈ 1.44×, IRR ≈ 7.6%.** Scenario IRR range −100% … +30%. For comparison, the founders' own scenarios imply a far higher ~17.7% — the gap is the funnel correction: the founders' headline is the approval gate alone, while the corrected number applies all three gates.
+*Across the Base and Ideal cases the **1× liquidation preference binds or nearly binds** — the company's exit equity is too small for our diluted ~14.4% as-converted stake to beat our $2m preference, so we are floored at ~break-even and our upside only opens once the company is worth more than ~$14m at exit. This is the preference doing its job: it protects the downside but, on the corrected exit basis, also caps us near our cost.*
 
-*Attribution (ties to [Appendix C, Exhibit 3](#exhibit-3--cap-table--our-proceeds-bridge-base-case)):* the entire value is the development margin the company captures — gross proceeds of $31.5 million less ~$26.7 million development cost gives ~$4.8 million net programme profit, valued at a ~4× platform multiple `[[TO CONFIRM]]` for ~$19.3 million of company exit equity at Base; our diluted ~14.4% stake, protected by a 1× liquidation preference, is worth ~$2.78 million. None of the return relies on merchant or operating upside (that passes to the buyers of the projects). The return is therefore most sensitive to the **development-approval rate** and the **ready-to-build price** ([Appendix C, Exhibit 2](#exhibit-2--returns-sensitivity-our-equity-irr-across-development-approval-da-gate--ready-to-build-price)): at the Base DA rate our equity IRR is ≈ +6.8%, and a 15–30% price fall or a low approval rate turns it sharply negative.
+**Probability-weighted (First-Chicago, 30/50/20 on proceeds, then convert): expected MOIC ≈ 0.88×, IRR ≈ −2.6%** — value-destructive at the central estimate. Scenario IRR range −15% … +4%. For comparison, the founders' own scenarios imply a far higher ~17.7% — the gap is the funnel correction (approval gate alone vs all three gates) compounded by the corrected exit basis (forward pipeline, not a profit multiple).
+
+*Attribution (ties to [Appendix C, Exhibit 3](#exhibit-3--cap-table--our-proceeds-bridge-base-case)):* the company's Base exit equity (~$7.2m) is its **forward pipeline** (~$2.4m of risk-adjusted value in ~25 projects in flight `[[TO CONFIRM]]`) plus **retained cash** (~$4.8m of realised profit) less debt (~$0); that is below the ~$10m post-money we pay, so our as-converted ~14.4% stake (~$1.04m) is under water and we fall back on the **1× liquidation preference** for ~$2.0m at Base. None of the return relies on merchant or operating upside (that passes to the buyers of the projects). The return is therefore most sensitive to the **exit basis — the pipeline depth at exit and the discount rate** ([Appendix C, Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate)) — and then to the **development-approval rate** and **ready-to-build price** ([Appendix C, Exhibit 2](#exhibit-2--returns-sensitivity-our-equity-irr-across-development-approval-da-gate--ready-to-build-price)).
 
 **Key assumptions** *(founder claims unless noted):* the full list is in [§6 Valuation & your stake](#6-valuation--your-stake).
 
-*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; the company's net programme profit × a platform exit multiple = company exit equity; our diluted ownership through the cap table, with proceeds = greater of the 1× liquidation preference or diluted-ownership × company exit equity; First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 1.44×, IRR ≈ 7.6%; the conservative case's net programme profit is negative, so our shares are worth ~0 (MOIC 0.00×, IRR −100%).*
+*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; the company's exit equity on the **primary forward-pipeline basis** (forward-pipeline rNPV + retained cash − debt); our diluted ownership through the cap table, with terminal proceeds = greater of the 1× liquidation preference or diluted-ownership × company exit equity (plus interim distributions); First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 0.88×, IRR ≈ −2.6%; the conservative case's realised profit is negative, so company equity ≈ the residual forward pipeline (~$0.9m) and our shares recover ~$0.9m (MOIC 0.44×, IRR −15%).*
 
-> **Read-through:** our rebuild is deliberately more conservative than the founders' (full development spend across the funnel; independent costs/prices; and — decisively — treating the 65% as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%, not 65%). The result — **expected return modest (≈7.6% on our shares), well below the founders', and a downside that is a total loss of our capital** — is the credit-style scepticism this decision requires.
+> **Read-through:** our rebuild is deliberately more conservative than the founders' (full development spend across the funnel; independent costs/prices; the 65% treated as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%; and — decisively — the company valued at exit on its **forward pipeline**, not a profit multiple). The result — **expected return now negative (≈ −2.6% / 0.88× on our shares), well below the founders', with a deep-loss downside** — is the credit-style scepticism this decision requires.
 
 ---
 
@@ -402,7 +416,7 @@ The same scenarios viewed by company net programme profit and our cap-table proc
 |---|---|---|
 | **Single-company concentration** | **High** | We are tied to **one** early-stage company with one strategy — there is no diversification across companies or deals; a single company failure is a total loss of our stake. *Size the investment as a small, risk-tolerant allocation; do not treat it as a diversified holding.* |
 | **Founder & key-person risk** | **High** | A brand-new company with no operating history; execution, relationships and pipeline depend almost entirely on the founder(s). *Require key-person provisions, vesting on founder equity, and information rights to monitor execution.* |
-| **Exit / buyer risk** | **High** | The decisive operating risk. Buyers are non-binding, transact at 100 MW+ (not 5 MW), and the market leans to *contracted* assets, not raw ready-to-build. A flip with no buyer is stranded capital and turns net programme profit negative. *Require ≥3–4 credible, contractually-progressing buyers and independent price comparables; require the company to aggregate projects into a saleable portfolio.* |
+| **Exit / buyer risk** | **High** | The decisive operating risk, and it now drives value twice: buyers set the realised programme profit *and* the **forward pipeline** a buyer pays for at our exit. Buyers are non-binding, transact at 100 MW+ (not 5 MW), and the market leans to *contracted* assets, not raw ready-to-build. A flip with no buyer is stranded capital and collapses both the realised profit and the forward-pipeline exit value. *Require ≥3–4 credible, contractually-progressing buyers, independent price comparables, and evidence of a deep forward pipeline; require the company to aggregate projects into a saleable portfolio.* |
 | **Development / approval risk** | **High** | Planning + grid connection on time across three states; the master driver of company value via flip success (approval × connection × sale). *Require sub-5 MW, per-state development-approval and grid-connection track record; stress a 6–12-month slip.* |
 | **65% is the approval gate alone (whole-funnel overstatement)** | **High** | The founders' 65% is the development-approval gate only, not whole-funnel success; true Base flip success ≈ 36% (0.65 × 0.70 × 0.80). *Re-underwrite on whole-funnel flip success (DA × grid 70% × sale 80%), not the approval-gate headline; require evidence for each of the three gates.* |
 | **Down-round / dilution risk** | **Medium–High** | A future financing round can issue new shares below our entry price, cutting our percentage and our value; we already model dilution to ~14.4%. *Require pre-emption rights and anti-dilution protection `[[TO CONFIRM]]`; size the option pool sensibly.* |
@@ -415,13 +429,13 @@ The same scenarios viewed by company net programme profit and our cap-table proc
 
 **Downside protections we should secure:**
 
-- **1× non-participating liquidation preference** — on a sale, we get our $2m back before ordinary holders share the rest; this floors our proceeds *whenever there is value to attach to* (it cannot pay out in the Conservative case, where company equity is ~$0). `[[TO CONFIRM]]`
+- **1× non-participating liquidation preference** — on a sale, we get our $2m back before ordinary holders share the rest; on the corrected exit basis this preference is **load-bearing** — it floors our proceeds at Base (where our as-converted stake is under water) and recovers what it can in the Conservative case (~$0.9m, *capped* by the company's residual ~$0.9m exit equity). `[[TO CONFIRM]]`
 - **Anti-dilution** — protection against a future down round repricing our stake. `[[TO CONFIRM]]`
 - **Option-pool sizing** — agree the employee pool (modelled at 10%) up front so the dilution we bear is known, not open-ended. `[[TO CONFIRM]]`
 
 > **Single-company caveat.** Because this is a brand-new startup rather than a diversified fund, the committee should weight the **failure scenario more heavily** and demand **stronger downside terms** (preference, anti-dilution, governance) than it would for a fund commitment — there is no portfolio to absorb a single failure.
 
-*Stress case:* at the Base development-approval rate our equity return is **modest** (+6.8% / 1.39× on our shares), and at the conservative 40% approval rate (flip ~22%) the company's net programme profit turns negative, its equity is worth ~$0, and **our shares are a total loss** (−100% / 0.00×) — the 1× liquidation preference cannot pay out from an empty estate. With ready-to-build prices 20–30% lower on top, the Base case also slides negative. Survivable only because the investment is sized as a small, risk-tolerant allocation — not because the downside is mild.
+*Stress case:* at the Base development-approval rate our equity return is **break-even** (0.0% / 1.00× — the company's ~$7.2m exit equity is below our ~$10m entry, so the 1× preference merely returns our money), and at the conservative 40% approval rate (flip ~22%) realised profit turns negative, the company's equity is just the residual forward pipeline (~$0.9m), and **our shares suffer a deep loss** (−15% / 0.44×) — the preference recovers only ~$0.9m of our $2m, and a **total loss** if even that pipeline finds no buyer. A thinner forward pipeline at exit, ready-to-build prices 20–30% lower, or a higher discount rate push the expected return further below water (see [Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate)). Survivable only because the investment is sized as a small, risk-tolerant allocation — not because the downside is mild.
 
 ---
 
@@ -432,7 +446,7 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 - **A trade sale of the company** — a buyer acquires the whole business (most likely after the company has aggregated its ~175 MW pipeline into a saleable platform), and we are paid out alongside the other shareholders. This is the primary route and the expected source of our proceeds (exit year 5 `[[TO CONFIRM]]`).
 - **A secondary sale of our shares** — we sell our minority stake to another investor before a company-wide sale. This depends on finding a willing buyer at an acceptable price and on transfer rights; it is uncertain and may be at a discount.
 
-**The liquidation preference governs the split on a sale.** On a trade sale, our **1× non-participating liquidation preference** `[[TO CONFIRM]]` means we take the **greater of** our $2m back **or** our diluted ~14.4% share of the company's exit equity ($2.78m at Base) — but only if there is value to share; in the Conservative case the company's equity is ~$0 and there is nothing to pay out.
+**The liquidation preference governs the split on a sale.** On a trade sale, our **1× non-participating liquidation preference** `[[TO CONFIRM]]` means we take the **greater of** our $2m back **or** our diluted ~14.4% share of the company's exit equity — but capped by what is available. On the corrected forward-pipeline basis the Base exit equity (~$7.2m) makes our as-converted share (~$1.0m) smaller than the preference, so we take the **$2m preference** (our money back, no gain); in the Conservative case the company's equity is only ~$0.9m, so the preference recovers just ~$0.9m of our $2m.
 
 **The exit is the binding constraint — and it sits one level removed from us.** The company's own exit depends on selling its ready-to-build projects (or an aggregated portfolio) to a deep buyer pool — infrastructure funds, superannuation funds, independent power producers, government green-capital bodies (the Clean Energy Finance Corporation, the Energy Security Corporation) and retailers — most of whom transact at scale, so the realistic path is **one large, all-or-nothing platform sale** rather than 35 separate flips. Our exit then depends on the company's exit. The committee should treat a demonstrated, contractually-progressing buyer path **and** clear share-transfer / drag-along / tag-along rights as gating conditions.
 
@@ -440,7 +454,7 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 
 ## 10. Conditions & questions for the founders
 
-**Recommendation: CONDITIONAL PROCEED (PASS-LEANING)** (to confirmatory due diligence; commit only as a small, risk-tolerant allocation, and only if every condition below is met). On the corrected gates the develop-and-flip is the **weakest risk-adjusted business model on the value chain** — expected return on our shares ~7.6% (1.44× MOIC) is modest, and the conservative downside (−100% / 0.00×) is a **total loss of our capital**. Absent strong evidence on the conditions and stronger downside terms than a diversified fund would require, the default is **Pass**.
+**Recommendation: CONDITIONAL PROCEED (PASS-LEANING)** (to confirmatory due diligence; commit only as a small, risk-tolerant allocation, and only if every condition below is met). On the corrected gates *and* the corrected (forward-pipeline) exit basis the develop-and-flip is the **weakest risk-adjusted business model on the value chain** — the expected return on our shares is now **≈ −2.6% (0.88× MOIC), value-destructive at the central estimate**; the Base case merely returns our money via the preference, and the conservative downside (−15% / 0.44×) is a **deep loss**. Absent strong evidence on the conditions — above all a **deeper, contractually-progressing forward pipeline at exit** — and stronger downside terms than a diversified fund would require, the default is **Pass**.
 
 **Commit only if all of the following are evidenced (the bar is explicit — any one unmet ⇒ Pass):**
 
@@ -448,7 +462,7 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 2. **Governance & minority protections** — a board seat or observer, information rights, and veto / protective provisions over major decisions `[[TO CONFIRM]]`.
 3. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested"); a credible portfolio-aggregation exit (a **deep buyer pool**).
 4. **Success rate / gate evidence** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
-5. **Survivable downside** — the conservative case (total loss) and a stressed Base (ready-to-build prices down 20–30%, flip success near ~22%) impair no more than the allocated, risk-tolerant amount.
+5. **Survivable downside** — the conservative case (deep loss, ~0.44×) and a stressed Base (a thin forward pipeline at exit, ready-to-build prices down 20–30%, flip success near ~22%) impair no more than the allocated, risk-tolerant amount.
 
 **Approval sought:** authority to conduct confirmatory due diligence and, if every condition is met, to invest up to ~$2 million `[[TO CONFIRM]]` for a ~20% stake as a small, risk-tolerant allocation — noting that owning and integrating score better per unit of downside risk than develop-and-flip.
 
@@ -463,7 +477,7 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 - Of the "3 interested buyers," what is **contractual** (signed options/memoranda of understanding, price/terms)?
 - The **bottom-up ~$0.5m/project** development-cost build-up, and **independent comparables** behind the ready-to-build prices ($0.5–1.1m/project)?
 - What happens to the company's value and our return if approvals slip **6–12 months**?
-- The genuine downside — **in which scenario do we lose our entire stake** (Conservative: negative net programme profit → equity ~$0)?
+- The genuine downside — **in which scenario do we suffer a deep or total loss** (Conservative: negative realised profit → exit equity is only the residual forward pipeline ~$0.9m → we recover ~$0.9m via the preference, or nothing if the pipeline finds no buyer)? And **how deep is the forward pipeline at exit** (the dominant value driver)?
 - The realistic **exit route and timing** for our shares (trade sale of the company vs secondary), and our **transfer / tag-along / drag-along** rights?
 
 ---
@@ -473,7 +487,7 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 **Why this exists (portfolio note).** This repository demonstrates two interview-tested skills:
 
 1. **Data engineering** — a configuration-driven, reproducible Python pipeline over free public Australian data (Reserve Bank of Australia; the Commonwealth Scientific and Industrial Research Organisation's GenCost report; the Australian Energy Market Operator; New South Wales / Victoria / South Australia planning portals; energy trade press), with verify-then-fallback and full source logging.
-2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip company and the **return on our direct-equity stake**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a development funnel, a company-equity build (net programme profit × platform multiple), a cap table with dilution and a 1× liquidation preference, and First-Chicago scenario weighting.
+2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip company and the **return on our direct-equity stake**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a development funnel, a **forward-pipeline exit-equity build** (forward-pipeline rNPV + retained cash − debt, with an earnings-multiple cross-check), a cap table with dilution and a 1× liquidation preference, and First-Chicago scenario weighting.
 
 The headline story: *applying credit-risk (probability-of-default / survival) discipline and institutional Excel standards to a direct-equity stake in an infrastructure-development startup — independently rebuilding a founder's claims on fully public data.*
 
@@ -481,7 +495,7 @@ The headline story: *applying credit-risk (probability-of-default / survival) di
 
 1. **Probability-of-default-style survival curve** — `flip success = p(development approval) × p(connection) × p(sale)` from public data. The headline 40% / 65% / 80% are the **development-approval gate only**; the scenarios move that gate, and true flip success is the product (Base 0.65 × 0.70 × 0.80 ≈ 36%; independent benchmark, approval 80%, ≈ 45%), so the 65% headline overstates whole-funnel success.
 2. **Per-project risk-adjusted net present value** — `ready-to-build sale − development cost = margin`, `× flip success` (= approval × connection × sale), discounted (development cost only — the buyer funds construction).
-3. **Development funnel → company exit equity** — `started = target ÷ success`; development cost (full on delivered + partial on dropouts); `net programme profit = gross proceeds − development cost`; `company exit equity = net programme profit × platform exit multiple`.
+3. **Development funnel → company exit equity (forward-pipeline basis)** — `started = target ÷ success`; development cost (full on delivered + partial on dropouts); `realised net programme profit = gross proceeds − development cost`; then `company exit equity = forward-pipeline rNPV (depth at exit × per-project rNPV) + retained cash − debt` (the earnings multiple on forward run-rate profit is kept only as a cross-check).
 4. **Cap table → return on our shares** — `ownership at entry = investment ÷ post-money`; dilution for the option pool and a future round to the diluted exit ownership; `our proceeds = greater of the 1× liquidation preference or diluted-ownership × company exit equity`; then **MOIC & IRR on our shares**.
 5. **Scenario / First-Chicago** — Conservative / Base / Ideal, probability-weighted (on proceeds) to an expected return.
 6. **Cross-checks** — dollar-per-MW benchmark, venture-capital method, and ready-to-build-as-%-of-built (~10–12%).
@@ -518,9 +532,9 @@ The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell**
 | Discount rate 18.8% | Reserve Bank of Australia 10-year Commonwealth Government Securities yield (live, `rates.csv`) + a development risk premium (judgement) | Build-up method: required return = risk-free rate + risk premium (CFA) | 4.8% + 14.0% = 18.8% |
 | Ownership at entry = 20.0% | Cap-table inputs (`config/assumptions.yaml`, `[[TO CONFIRM]]`) | Pre-/post-money | Investment $2m ÷ post-money $10m = 20.0% |
 | Diluted ownership at exit = 14.4% | Same | Dilution (option pool + future round) | 20.0% × (1−10%) × (1−20%) = 14.4% |
-| Company exit equity ≈ $19.3m (Base) | Model inputs (`config/assumptions.yaml`) | Net programme profit × platform multiple | $4.8m net programme profit × 4.0× = $19.3m |
-| Expected return on our shares ≈ 7.6% (MOIC ≈ 1.44×) | Model inputs (`config/assumptions.yaml`) | Cap table + 1× liquidation preference + First-Chicago weighting | Proceeds weighted 30/50/20 ($0.00m / $2.78m / $7.47m) → MOIC ≈ 1.44×, IRR ≈ 7.6% |
-| Conservative case is a total loss (−100%) | Same model, conservative scenario | Same | Net programme profit negative → company equity ≈ $0 → our shares ≈ 0 (MOIC 0.00×) |
+| Company exit equity ≈ $7.2m (Base) | Model inputs (`config/assumptions.yaml`) | Forward-pipeline rNPV + retained cash − debt | 25 × ~$0.10m forward + $4.8m retained − $0 debt = ~$7.2m |
+| Expected return on our shares ≈ −2.6% (MOIC ≈ 0.88×) | Model inputs (`config/assumptions.yaml`) | Cap table + 1× liquidation preference + First-Chicago weighting | Proceeds weighted 30/50/20 ($0.89m / $2.00m / $2.45m) → MOIC ≈ 0.88×, IRR ≈ −2.6% |
+| Conservative case is a deep loss (≈ −15%) | Same model, conservative scenario | Same | Realised profit negative → company equity ≈ residual forward pipeline ~$0.9m → we recover ~$0.9m via the preference (MOIC 0.44×) |
 | Buyer deal sizes (100–260 MW) | Energy trade press (`deal_sizes.csv`) | Comparable transactions | Named, dated deals |
 | Business-model returns 3.7% / 25.9% / 8.1% (integrated 12.2%) | Model (`config/assumptions.yaml`) | Risk-adjusted business return; operating discounted-cash-flow; build-and-sell with completion risk | See [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md) |
 
@@ -574,7 +588,7 @@ In every case the inputs come from **free public data**, and the founders' figur
 
 - the three scenario development-approval gates (40% / 65% / 80%) and the connection/sale gates beyond them — i.e. true flip success (Base ≈ 36%; independent benchmark ≈ 45%).
 - ready-to-build dollar-per-MW by state (need independent comparables).
-- development cost per project; the platform exit multiple.
+- development cost per project; the exit-value drivers (pipeline depth at exit, distribution fraction, debt at exit, and the cross-check multiple range).
 - the cap-table terms (pre-money, option pool, future-round dilution, liquidation preference); discount rate; cash-flow profile.
 
 These live in `config/assumptions.yaml` and on the model's Inputs/Scenarios tabs.
@@ -629,33 +643,36 @@ All deliberately left for the analyst's review pass.
 
 ### Exhibit 2 — Returns Sensitivity: our equity IRR across development-approval (DA) gate × ready-to-build price
 
-Rows are the **development-approval (DA) gate** (with the resulting whole-funnel flip success — DA × grid 70% × sale 80% — in brackets); columns are the ready-to-build (RTB) price multiplier. Cells are the **IRR on our shares** (after dilution and the 1× liquidation preference). Where the company's net programme profit turns negative the equity is worth ~$0 and our shares are a **total loss (−100%)**.
+Rows are the **development-approval (DA) gate** (with the resulting whole-funnel flip success — DA × grid 70% × sale 80% — in brackets); columns are the ready-to-build (RTB) price multiplier. Cells are the **IRR on our shares** (after dilution and the 1× liquidation preference), on the **forward-pipeline exit basis** at the Base pipeline depth. The many **0%** cells are where the 1× liquidation preference floors us at our money back (our as-converted stake is under water); losses are bounded by the residual forward pipeline and the capped preference (no −100% cells at the Base depth).
 
 | DA gate ↓ / RTB price → | 0.70× | 0.85× | 1.00× | 1.15× | 1.30× |
 |---|---|---|---|---|---|
-| **DA 40%** *(flip 22%)* | −100% | −100% | −100% | −12% | −4% |
-| **DA 55%** *(flip 31%)* | −100% | −9% | +1% | +9% | +16% |
-| **DA 65%** *(flip 36%, founders' base)* | −12% | −2% | **+6.8%** | +14% | +20% |
-| **DA 80%** *(flip 45%, independent benchmark)* | −6% | +4% | +30.2% | +35% | +40% |
-| **DA 95%** *(flip 53%)* | −2% | +8% | +38% | +44% | +50% |
+| **DA 40%** *(flip 22%)* | −25% | −13% | −6% | 0% | 0% |
+| **DA 55%** *(flip 31%)* | −20% | −8% | 0% | 0% | +2% |
+| **DA 65%** *(flip 36%, founders' base)* | −17% | −3% | **0%** | 0% | +6% |
+| **DA 80%** *(flip 45%, independent benchmark)* | −14% | 0% | 0% | +3% | +10% |
+| **DA 95%** *(flip 53%)* | −11% | 0% | 0% | +6% | +12% |
 
-*Reading: the Base cell is DA 65% × price 1.00 = **+6.8%**. A 15–30% RTB price fall, or a low approval rate, turns our equity IRR sharply negative — and in the worst cells the company's net programme profit goes negative, wiping out our stake entirely (−100%). Illustrative — the precise off-base cells depend on the cap-table terms still `[[TO CONFIRM]]`.*
+*Reading: the Base cell is DA 65% × price 1.00 = **0%** — the preference returns our money but no more. A 15–30% RTB price fall, or a low approval rate, turns our equity IRR negative; only strongly above-Base prices/approval lift us above the preference floor. This grid varies the operating drivers at the Base exit assumption; the **exit assumption itself** (pipeline depth × discount rate) is the bigger swing factor — see [Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate). Illustrative — the precise cells depend on the cap-table and exit-value terms still `[[TO CONFIRM]]`.*
 
 ### Exhibit 3 — Cap-table → our-proceeds bridge (Base case)
 
 | Step | $m |
 |---|---|
-| Net programme profit (gross proceeds $31.5m − development cost $26.7m) | 4.8 |
-| × platform exit multiple (4.0× `[[TO CONFIRM]]`) | |
-| **Company exit equity** | **19.3** |
+| Realised net programme profit (gross proceeds $31.5m − development cost $26.7m) | 4.8 |
+| Forward-pipeline rNPV at exit (~25 projects in flight `[[TO CONFIRM]]` × ~$0.10m) | 2.4 |
+| + Retained cash (realised profit not distributed) | 4.8 |
+| − Debt at exit `[[TO CONFIRM]]` | 0.0 |
+| **Company exit equity (primary forward-pipeline basis)** | **7.2** |
 | × our diluted ownership at exit (14.4%) | |
-| Our share of exit equity | 2.78 |
+| Our as-converted share | 1.04 |
 | 1× liquidation preference floor (our $2m investment) | 2.00 |
-| **Our proceeds — greater of the two** | **2.78** |
+| **Our terminal proceeds — greater of the two** | **2.00** |
+| + Interim distributions (0% distribution fraction) | 0.00 |
 | Our investment | (2.00) |
-| **Net gain on our shares** | **+0.78** → MOIC 1.39×, IRR +6.8% |
+| **Net gain on our shares** | **0.00** → MOIC 1.00×, IRR 0.0% |
 
-*The value is entirely the development margin the company captures; nothing from merchant/operating upside. Our diluted ~14.4% share of the $19.3m company exit equity ($2.78m) exceeds the 1× liquidation preference floor ($2.0m), so we take the greater — $2.78m. In the Conservative case net programme profit is negative, company exit equity is ~$0, and there is nothing for the preference to attach to → our shares are a total loss.*
+*The Base company exit equity (~$7.2m) is **below** the ~$10m post-money we pay, so our diluted ~14.4% as-converted share (~$1.04m) is worth less than our $2m preference — we take the **preference ($2.0m)**, i.e. our money back with no gain. In the Conservative case the company's exit equity is only the residual forward pipeline (~$0.9m), so the preference is capped at ~$0.9m and our shares suffer a deep loss; a total loss if even that pipeline finds no buyer.*
 
 ---
 
@@ -675,9 +692,13 @@ Rows are the **development-approval (DA) gate** (with the resulting whole-funnel
 - [ ] **Anti-dilution / pre-emption** rights
 - [ ] **Governance** — board seat / observer, information rights, veto / protective provisions
 
-**Valuation / returns drivers**
+**Exit-value drivers (now the dominant sensitivity — see Exhibit D)**
 
-- [ ] **Platform exit multiple** (4.0× assumed)
+- [ ] **Pipeline depth at exit** — projects still in flight when we sell (25 assumed); the single biggest value driver
+- [ ] **Interim distribution fraction** — share of realised profit distributed during the hold (0% assumed, conservative)
+- [ ] **Debt at exit** ($0m assumed — the company is equity-funded)
+- [ ] **Earnings-multiple cross-check range** — low / base / high (3× / 5× / 7× assumed), each needing a comp or sector benchmark
+- [ ] **Comparable developer-platform M&A deals** (none credible at present; the pipeline basis stands as primary)
 - [ ] **Exit year** (year 5 assumed)
 - [ ] Exit route and **share-transfer / tag-along / drag-along** rights
 

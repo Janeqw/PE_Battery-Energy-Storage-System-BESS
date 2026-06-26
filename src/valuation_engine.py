@@ -12,14 +12,21 @@ CORRECTED GATE LOGIC (carried over):
       flip success = DA x grid connection (~70%) x sale (~80%)
   e.g. Base = 0.65 x 0.70 x 0.80 = 0.364 — NOT 65%.
 
-HOW THE EQUITY VALUE IS BUILT:
-  1. The company's development programme (the pipeline maths) gives its expected
-     NET PROFIT in each scenario; we value the company at exit as a repeatable
-     platform = net profit x an exit multiple -> the company's EXIT EQUITY VALUE.
-  2. First-Chicago weights the scenarios.
-  3. A CAP TABLE turns it into OUR return: ownership = investment / post-money,
-     reduced by dilution (option pool + future rounds), then our exit proceeds =
-     the GREATER of our 1x liquidation preference or our as-converted share.
+HOW THE EQUITY VALUE IS BUILT (change2.md — forward-pipeline basis):
+  1. PRIMARY exit basis. A develop-and-flip company is a development PLATFORM, so a
+     buyer pays for its FORWARD PIPELINE, not its past profit:
+        exit equity value = forward-pipeline rNPV (projects still in flight at exit)
+                          + net cash RETAINED on the balance sheet (not distributed)
+                          - debt outstanding at exit
+     The forward-pipeline rNPV uses the SAME gate decomposition (approval x grid
+     connection x sale) and the SAME discount rate as the rest of the model.
+  2. CROSS-CHECKS (not the primary number): an earnings multiple on FORWARD RUN-RATE
+     annual development profit (a sourced low/base/high range), and comps if any.
+  3. First-Chicago weights the scenarios.
+  4. A CAP TABLE turns it into OUR return: ownership = investment / post-money,
+     reduced by dilution (option pool + future rounds), then our terminal proceeds =
+     the GREATER of our 1x liquidation preference or our as-converted share, plus any
+     interim distributions (convention (b); the distribution fraction is a placeholder).
 
 All figures illustrative; many equity-deal inputs are [[TO CONFIRM]] placeholders.
 Not investment advice.
@@ -66,8 +73,17 @@ class Inputs:
     option_pool_pct: float
     future_round_dilution_pct: float
     liquidation_pref_x: float
-    exit_equity_multiple: float
     exit_year: float
+    # exit value — PRIMARY basis = forward-pipeline rNPV + retained cash − debt
+    exit_basis: str
+    pipeline_depth_at_exit: float
+    interim_distribution_fraction: float
+    debt_at_exit: float
+    # exit value CROSS-CHECK — earnings multiple range (on forward run-rate profit)
+    xmult_low: float
+    xmult_base: float
+    xmult_high: float
+    comps_available: bool
     # scenarios (cases carry da_rate, sale_price_multiplier, dev_cost_multiplier)
     scenarios: dict
     weights: dict
@@ -173,6 +189,8 @@ def load_inputs() -> Inputs:
             projects.append({**p, "mwh": p["mw"] * p["duration_h"], "years_to_sale": p["years_to_sale"]})
 
     co, eq = a["company"], a["equity_deal"]
+    xv, xc = a["exit_value"], a["exit_value_crosscheck"]
+    em = xc["earnings_multiple"]
     return Inputs(
         risk_free=risk_free,
         risk_premium=float(a["discount_rate"]["risk_premium"]["value"]),
@@ -194,8 +212,15 @@ def load_inputs() -> Inputs:
         option_pool_pct=float(eq["option_pool_pct"]["value"]),
         future_round_dilution_pct=float(eq["future_round_dilution_pct"]["value"]),
         liquidation_pref_x=float(eq["liquidation_preference_x"]["value"]),
-        exit_equity_multiple=float(eq["exit_equity_multiple"]["value"]),
         exit_year=float(eq["exit_year"]["value"]),
+        exit_basis=str(xv["exit_basis"]),
+        pipeline_depth_at_exit=float(xv["pipeline_depth_at_exit"]["value"]),
+        interim_distribution_fraction=float(xv["interim_distribution_fraction"]["value"]),
+        debt_at_exit=float(xv["debt_at_exit_m"]["value"]),
+        xmult_low=float(em["low"]["value"]),
+        xmult_base=float(em["base"]["value"]),
+        xmult_high=float(em["high"]["value"]),
+        comps_available=bool(xc.get("comps_available", False)),
         scenarios=a["scenarios"]["cases"], weights=a["scenarios"]["weights"],
         switch_default=int(a["scenarios"]["switch_default"]),
         projects=projects, sources=sources,
@@ -264,12 +289,44 @@ def blended_sale_value(inp: Inputs, case: dict) -> float:
     return sum(vals) / len(vals) if vals else 0.0
 
 
+def avg_years_to_sale(inp: Inputs) -> float:
+    return sum(p["years_to_sale"] for p in inp.projects) / len(inp.projects) if inp.projects else 0.0
+
+
+def per_project_rnpv_blended(inp: Inputs, case: dict | None = None) -> float:
+    """Average per-project rNPV (blended sale, average discount period).
+
+    Same gate decomposition (flip success = approval x connection x sale) and the
+    same discount rate as Calc_Project_rNPV; uses the blended RTB sale and the
+    average years-to-sale so the company's FORWARD pipeline can be valued per
+    project. (Equals the precise per-project rNPV when project timings are equal.)"""
+    case = _case(inp, case)
+    smult = float(case["sale_price_multiplier"])
+    dmult = float(case["dev_cost_multiplier"])
+    flip = inp.flip_success(float(case["da_rate"]))
+    blended_sale = sum(p["mw"] * inp.rtb_comps.get(p["state"], 0.0) for p in inp.projects)
+    blended_sale = blended_sale / len(inp.projects) if inp.projects else 0.0
+    margin = blended_sale * smult - inp.dev_cost_per_project * dmult
+    df = 1.0 / (1.0 + inp.discount_base) ** avg_years_to_sale(inp)
+    return margin * flip * df
+
+
+def forward_pipeline_rnpv(inp: Inputs, case: dict | None = None) -> float:
+    """rNPV of the projects still IN FLIGHT at exit = depth x per-project rNPV.
+
+    This is what a buyer of a development platform actually pays for — the forward
+    pipeline of future projects, NOT past (already-earned) profit."""
+    return inp.pipeline_depth_at_exit * per_project_rnpv_blended(inp, _case(inp, case))
+
+
 # ---------------------------------------------------------------------------
 # The company's development programme & exit equity value (per scenario)
 # ---------------------------------------------------------------------------
 def company_metrics(inp: Inputs, case: dict | None = None) -> dict:
-    """The company's own business plan: funnel -> net programme profit -> the
-    company's exit equity value (net profit x platform exit multiple)."""
+    """The company's development programme: funnel -> REALISED net programme profit
+    (profit earned by exit) and the forward RUN-RATE annual development profit (the
+    yearly stream an acquirer inherits). The exit equity value itself is built in
+    exit_equity_value() from the FORWARD pipeline — not from this realised profit."""
     case = _case(inp, case)
     da = float(case["da_rate"])
     flip_success = inp.flip_success(da)
@@ -284,8 +341,8 @@ def company_metrics(inp: Inputs, case: dict | None = None) -> dict:
     sale_per_project = blended_sale_value(inp, case)
     gross_proceeds = target * sale_per_project
 
-    net_business_profit = gross_proceeds - total_dev_cost
-    company_exit_equity = max(0.0, net_business_profit) * inp.exit_equity_multiple
+    net_business_profit = gross_proceeds - total_dev_cost     # realised profit by exit
+    run_rate_annual_dev_profit = net_business_profit / inp.term_years if inp.term_years > 0 else 0.0
 
     # company-level (business) return on the development programme, over the term
     business_moic = gross_proceeds / total_dev_cost if total_dev_cost > 0 else float("nan")
@@ -293,29 +350,79 @@ def company_metrics(inp: Inputs, case: dict | None = None) -> dict:
     return {"da_rate": da, "flip_success": flip_success, "projects_target": target,
             "projects_started": started, "total_dev_cost": total_dev_cost,
             "sale_per_project": sale_per_project, "gross_proceeds": gross_proceeds,
-            "net_business_profit": net_business_profit, "company_exit_equity": company_exit_equity,
+            "net_business_profit": net_business_profit,
+            "run_rate_annual_dev_profit": run_rate_annual_dev_profit,
             "business_moic": business_moic, "business_irr": business_irr}
+
+
+def exit_equity_value(inp: Inputs, case: dict | None = None) -> dict:
+    """The company's EXIT EQUITY VALUE on the PRIMARY (forward-pipeline) basis:
+
+        exit equity = forward-pipeline rNPV (projects in flight at exit)
+                    + net cash RETAINED on the balance sheet (not yet distributed)
+                    - debt outstanding at exit
+
+    Retained cash = realised profit that was NOT distributed during the hold (so it
+    is counted ONCE, at face value — never at a multiple). 'distributed_all' is the
+    portion paid out to ALL shareholders along the way (convention (b), §7); the
+    two never overlap, which is the double-count guard."""
+    case = _case(inp, case)
+    cm = company_metrics(inp, case)
+    realised = cm["net_business_profit"]
+    fwd = forward_pipeline_rnpv(inp, case)
+    retained = max(0.0, realised) * (1.0 - inp.interim_distribution_fraction)
+    distributed_all = max(0.0, realised) * inp.interim_distribution_fraction
+    terminal = fwd + retained - inp.debt_at_exit
+    return {"forward_pipeline_rnpv": fwd, "realised_profit": realised,
+            "retained_cash": retained, "distributed_all": distributed_all,
+            "debt_at_exit": inp.debt_at_exit, "company_exit_equity": max(0.0, terminal)}
+
+
+def earnings_multiple_crosscheck(inp: Inputs, case: dict | None = None) -> dict:
+    """CROSS-CHECK only: value the company on a FORWARD RUN-RATE earnings multiple
+    (low/base/high range) PLUS retained cash − debt, so it is comparable to the
+    primary (pipeline) exit equity. Never the headline number."""
+    case = _case(inp, case)
+    cm = company_metrics(inp, case)
+    rr = max(0.0, cm["run_rate_annual_dev_profit"])
+    retained = max(0.0, cm["net_business_profit"]) * (1.0 - inp.interim_distribution_fraction)
+    adj = retained - inp.debt_at_exit
+    return {"run_rate": cm["run_rate_annual_dev_profit"], "retained_cash": retained,
+            "mult_low": inp.xmult_low, "mult_base": inp.xmult_base, "mult_high": inp.xmult_high,
+            "low": max(0.0, rr * inp.xmult_low + adj),
+            "base": max(0.0, rr * inp.xmult_base + adj),
+            "high": max(0.0, rr * inp.xmult_high + adj)}
 
 
 # ---------------------------------------------------------------------------
 # OUR return as a shareholder (cap table -> dilution -> liquidation preference)
 # ---------------------------------------------------------------------------
 def investor_return(inp: Inputs, case: dict | None = None) -> dict:
-    """Return on OUR shares: diluted ownership of the company's exit equity value,
-    floored/greater-of by a 1x non-participating liquidation preference."""
+    """Return on OUR shares = TERMINAL proceeds + INTERIM distributions.
+
+    Terminal: diluted ownership of the company's exit equity value (forward-pipeline
+    basis), greater-of a 1x non-participating liquidation preference. Interim: our
+    diluted share of any profit distributed during the hold (convention (b), §7;
+    distribution fraction is a placeholder defaulting to 0). The exit equity uses
+    RETAINED cash only, so interim + terminal never double-count the same profit."""
     cm = company_metrics(inp, case)
+    eqv = exit_equity_value(inp, case)
     inv = inp.investment_amount
-    eq = cm["company_exit_equity"]
+    eq = eqv["company_exit_equity"]
     diluted = inp.ownership_diluted
 
     pref_claim = min(inp.liquidation_pref_x * inv, eq)     # preference, capped by what's available
     as_converted = diluted * eq                            # convert to ordinary
-    proceeds = max(pref_claim, as_converted)               # 1x non-participating: the greater
+    terminal_proceeds = max(pref_claim, as_converted)      # 1x non-participating: the greater
+    interim_distributions = diluted * inp.interim_distribution_fraction * max(0.0, cm["net_business_profit"])
+    proceeds = terminal_proceeds + interim_distributions
 
     moic = proceeds / inv if inv > 0 else float("nan")
     irr = moic ** (1.0 / inp.exit_year) - 1.0 if (moic > 0 and inp.exit_year > 0) else -1.0
-    return {**cm, "ownership_diluted": diluted, "invested_capital": inv,
-            "our_proceeds": proceeds, "pref_claim": pref_claim, "as_converted": as_converted,
+    return {**cm, **eqv, "ownership_diluted": diluted, "invested_capital": inv,
+            "company_exit_equity": eq, "terminal_proceeds": terminal_proceeds,
+            "interim_distributions": interim_distributions, "our_proceeds": proceeds,
+            "pref_claim": pref_claim, "as_converted": as_converted,
             "took_preference": pref_claim > as_converted, "moic": moic, "irr": irr,
             "exit_year": inp.exit_year}
 
@@ -408,6 +515,35 @@ def sensitivity_two_way(inp: Inputs, da_rates=(0.40, 0.55, 0.65, 0.80, 0.95),
     return {"da_rates": list(da_rates), "price_mults": list(price_mults), "grid": grid}
 
 
+def exit_sensitivity(inp: Inputs,
+                     depths=(10, 20, 25, 30, 40),
+                     discounts=(0.12, 0.15, 0.182, 0.22, 0.26)) -> dict:
+    """Our First-Chicago EXPECTED equity IRR & MOIC across the two exit drivers:
+    pipeline depth at exit (rows) x discount rate (columns). The exit assumption is
+    now the biggest swing factor, so it is shown as a grid (Exhibit D), not a point.
+
+    Also returns the Base-scenario company exit equity grid, so the reader can see
+    what is moving underneath: at the Base point our return is floored near
+    break-even by the 1x liquidation preference, but the EXPECTED return moves with
+    depth via the Conservative/Ideal tails (which are not pref-pinned)."""
+    import dataclasses
+    base_case = inp.scenarios[2]
+    irr_grid, moic_grid, exiteq_grid = [], [], []
+    for d in depths:
+        irr_row, moic_row, eq_row = [], [], []
+        for disc in discounts:
+            inp2 = dataclasses.replace(inp, pipeline_depth_at_exit=float(d),
+                                       risk_free=float(disc), risk_premium=0.0)
+            fc = first_chicago(inp2)
+            irr_row.append(fc["expected_irr"]); moic_row.append(fc["expected_moic"])
+            eq_row.append(exit_equity_value(inp2, base_case)["company_exit_equity"])
+        irr_grid.append(irr_row); moic_grid.append(moic_row); exiteq_grid.append(eq_row)
+    return {"depths": list(depths), "discounts": list(discounts),
+            "irr": irr_grid, "moic": moic_grid, "exit_equity_base": exiteq_grid,
+            "base_depth": inp.pipeline_depth_at_exit, "base_discount": inp.discount_base,
+            "metric": "First-Chicago expected return on our shares"}
+
+
 def tornado(inp: Inputs) -> list[dict]:
     """OUR equity-IRR sensitivity to each business driver, swung low<->high around Base."""
     base_case = inp.scenarios[2]
@@ -438,6 +574,9 @@ def run_checks(inp: Inputs) -> dict:
     gates = [inp.da_independent, inp.p_connection, inp.p_sale]
     das = [float(inp.scenarios[i]["da_rate"]) for i in (1, 2, 3)]
     rows = project_rows(inp, inp.scenarios[2])
+    eqv = exit_equity_value(inp, inp.scenarios[2])      # Base, for the double-count guard
+    double_count_ok = (eqv["distributed_all"] + eqv["company_exit_equity"]
+                       <= max(0.0, eqv["realised_profit"]) + eqv["forward_pipeline_rnpv"] + 1e-6)
     return {
         "gate probabilities in [0,1]": all(0 <= p <= 1 for p in gates + das),
         "flip cumulative <= each gate": sc["flip_cumulative"] <= min(gates) + 1e-9,
@@ -453,6 +592,8 @@ def run_checks(inp: Inputs) -> dict:
         "investor MOIC monotonic": rbs["Conservative"]["moic"] <= rbs["Base"]["moic"] <= rbs["Ideal"]["moic"],
         "weights sum to 100%": abs(sum(inp.weights.values()) - 1.0) < 1e-6,
         "First-Chicago IRR within range": fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9,
+        "exit basis is pipeline_rnpv": inp.exit_basis == "pipeline_rnpv",
+        "no double-count (distributed + exit value <= realised + forward pipeline)": double_count_ok,
         "every input has a source": len(inp.sources) >= 4,
     }
 
@@ -467,6 +608,10 @@ def summary(inp: Inputs | None = None) -> dict:
             "da_independent": inp.da_independent, "da_base_manager": da_base,
             "flip_independent": inp.flip_independent, "flip_base_manager": inp.flip_base,
             "cap_table": cap_table(inp), "company_base": company_metrics(inp, inp.scenarios[2]),
+            "exit_basis": inp.exit_basis, "exit_base": exit_equity_value(inp, inp.scenarios[2]),
+            "exit_by_scenario": {c["name"]: exit_equity_value(inp, c) for c in inp.scenarios.values()},
+            "earnings_crosscheck": earnings_multiple_crosscheck(inp, inp.scenarios[2]),
+            "exit_sensitivity": exit_sensitivity(inp),
             "returns_by_scenario": rbs, "first_chicago": fc,
             "business_returns": develop_flip_business(inp),
             "pipeline_rnpv_base": pipeline_rnpv(inp),
@@ -477,7 +622,7 @@ def summary(inp: Inputs | None = None) -> dict:
 
 if __name__ == "__main__":
     s = summary()
-    inp = s["inputs"]; ct = s["cap_table"]; fc = s["first_chicago"]
+    inp = s["inputs"]; ct = s["cap_table"]; fc = s["first_chicago"]; xb = s["exit_base"]
     print("=" * 74)
     print("ILLUSTRATIVE BATTERY-DEVELOPER STARTUP — DIRECT-EQUITY VALUATION ENGINE")
     print("(cap table + First Chicago; founder figures are claims — not advice)")
@@ -489,8 +634,10 @@ if __name__ == "__main__":
     print("\nCAP TABLE (PLACEHOLDERS — confirm):")
     print(f"  ${ct['investment']:.1f}m into ${ct['pre_money']:.1f}m pre -> ${ct['post_money']:.1f}m post "
           f"=> {ct['ownership_initial']:.1%} initial, {ct['ownership_diluted']:.1%} after dilution")
-    print(f"  Company exit equity = net programme profit x {inp.exit_equity_multiple:.1f} (Base "
-          f"${s['company_base']['company_exit_equity']:.1f}m); 1x liq pref; exit yr {inp.exit_year:.0f}")
+    print(f"\nEXIT BASIS = {inp.exit_basis} (PRIMARY): forward-pipeline rNPV + retained cash − debt")
+    print(f"  Base: forward pipeline (depth {inp.pipeline_depth_at_exit:.0f}) ${xb['forward_pipeline_rnpv']:.1f}m "
+          f"+ retained ${xb['retained_cash']:.1f}m − debt ${xb['debt_at_exit']:.1f}m "
+          f"= exit equity ${xb['company_exit_equity']:.1f}m; 1x liq pref; exit yr {inp.exit_year:.0f}")
     print("\nReturn on OUR shares by scenario:")
     for n in ("Conservative", "Base", "Ideal"):
         m = s["returns_by_scenario"][n]

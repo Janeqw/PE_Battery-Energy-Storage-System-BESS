@@ -239,7 +239,7 @@ def dashboard_pdf(s):
         fig.text(0.70, 0.86, "OUR STAKE & KEY TERMS (placeholders)", fontsize=11, fontweight="bold", color=NAVY)
         ktxt = (f"${ct['investment']:.0f}m into ${ct['pre_money']:.0f}m pre-money -> {ct['ownership_initial']:.0%} "
                 f"({ct['ownership_diluted']:.0%} diluted)\n"
-                f"1x liq. preference; exit yr {inp.exit_year:.0f}; platform exit multiple {inp.exit_equity_multiple:.1f}x\n"
+                f"1x liq. preference; exit yr {inp.exit_year:.0f}; exit = fwd-pipeline rNPV (depth {inp.pipeline_depth_at_exit:.0f})\n"
                 f"Conservative IRR {rbs['Conservative']['irr']:.0%} (total loss possible)")
         fig.text(0.70, 0.75, ktxt, fontsize=9, color="black", va="top")
 

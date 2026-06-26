@@ -37,6 +37,8 @@ def build_markdown() -> str:
     sc = s["survival"]
     ct = s["cap_table"]
     cb = s["company_base"]
+    xb = s["exit_base"]
+    xc = s["earnings_crosscheck"]
     vr = s["valuation_range"]
     checks = s["checks"]
     master = "OK" if all(checks.values()) else "ERROR"
@@ -93,9 +95,27 @@ def build_markdown() -> str:
         L.append(f"| {name} | {_pct(m['flip_success'])} | {_m(m['company_exit_equity'])} | "
                  f"{_m(m['our_proceeds'])} | **{_x(m['moic'])}** | **{_pct(m['irr'])}** |")
     L.append("")
-    L.append("> *Our proceeds = the greater of our 1× liquidation preference or our diluted ownership × the company's exit equity value. "
-             "Company exit equity value = the company's net programme profit × a platform exit multiple "
-             f"({inp.exit_equity_multiple:.1f}× `[[TO CONFIRM]]`), over a {inp.exit_year:.0f}-year hold `[[TO CONFIRM]]`.*")
+    L.append("> *Our proceeds = the greater of our 1× liquidation preference or our diluted ownership × the company's exit equity value, "
+             "plus any interim distributions. The PRIMARY exit equity value is the **forward-pipeline rNPV** (projects still in flight "
+             f"at exit) + retained cash − debt — over a {inp.exit_year:.0f}-year hold `[[TO CONFIRM]]`.*")
+    L.append("")
+
+    L.append("## The company's exit equity value — PRIMARY basis (forward-pipeline rNPV)")
+    L.append("")
+    L.append("> A develop-and-flip company is a development **platform**: a buyer pays for its **forward pipeline**, not past "
+             "profit. So exit equity = forward-pipeline rNPV + retained cash − debt (the earnings multiple below is a cross-check only).")
+    L.append("")
+    L.append("| Component (Base) | Value |")
+    L.append("|---|---|")
+    L.append(f"| Forward-pipeline rNPV (depth {inp.pipeline_depth_at_exit:.0f} `[[TO CONFIRM]]` × per-project rNPV) | {_m(xb['forward_pipeline_rnpv'])} |")
+    L.append(f"| + Net cash retained at exit (realised profit not distributed) | {_m(xb['retained_cash'])} |")
+    L.append(f"| − Debt at exit `[[TO CONFIRM]]` | {_m(xb['debt_at_exit'])} |")
+    L.append(f"| **= Company exit equity (primary)** | **{_m(xb['company_exit_equity'])}** |")
+    L.append("")
+    L.append(f"*Cross-check — earnings multiple on forward run-rate profit ({_m(xc['run_rate'])}/yr) "
+             f"at {xc['mult_low']:.0f}× / {xc['mult_base']:.0f}× / {xc['mult_high']:.0f}× `[[TO CONFIRM]]` "
+             f"(+ retained cash − debt): {_m(xc['low'])} / {_m(xc['base'])} / {_m(xc['high'])}. We anchor on the more "
+             "conservative pipeline basis; comps were not available (publicly reported deals only).*")
     L.append("")
 
     L.append("## Survival gates — separate; flip success = their product")
@@ -124,8 +144,8 @@ def build_markdown() -> str:
     L.append(f"| Projects started (funnel = target ÷ flip success) | {cb['projects_started']:.0f} |")
     L.append(f"| Total development cost | {_m(cb['total_dev_cost'])} |")
     L.append(f"| Gross proceeds (RTB sales) | {_m(cb['gross_proceeds'])} |")
-    L.append(f"| Net programme profit (gross − dev cost) | {_m(cb['net_business_profit'])} |")
-    L.append(f"| → Company exit equity value (× {inp.exit_equity_multiple:.1f} platform multiple) | {_m(cb['company_exit_equity'])} |")
+    L.append(f"| Realised net programme profit (gross − dev cost) | {_m(cb['net_business_profit'])} |")
+    L.append(f"| Forward run-rate annual dev profit (= realised ÷ term) | {_m(cb['run_rate_annual_dev_profit'])} |")
     L.append("")
     L.append(f"*RTB prices (founder claim): NSW {_m(inp.rtb_comps['NSW']*5)} · VIC {_m(inp.rtb_comps['VIC']*5)} · "
              f"SA {_m(inp.rtb_comps['SA']*5)} per 5 MW project. No fund fees or carry — we own shares directly.*")

@@ -178,8 +178,7 @@ def build():
     srow(15, "Option pool % (created at our round)", inp.option_pool_pct, "option_pool", FPCT, "decimal", status="TO CONFIRM")
     srow(16, "Future-round dilution %", inp.future_round_dilution_pct, "future_dilution", FPCT, "decimal", status="TO CONFIRM")
     srow(17, "Liquidation preference (x)", inp.liquidation_pref_x, "liq_pref", FX, "multiple", status="TO CONFIRM")
-    srow(18, "Platform exit multiple (on net programme profit)", inp.exit_equity_multiple, "exit_mult", FMULT, "multiple", status="TO CONFIRM")
-    srow(19, "Exit year (we sell our shares)", inp.exit_year, "exit_year", FNUM, "years", status="TO CONFIRM")
+    srow(18, "Exit year (we sell our shares)", inp.exit_year, "exit_year", FNUM, "years", status="TO CONFIRM")
 
     b.put(INP, 20, 1, "Development cost & funnel attrition", "sect", fill="sect")
     srow(21, "Development cost per project", inp.dev_cost_per_project, "dev_cost", FM2, "$m/project", "dev")
@@ -229,6 +228,17 @@ def build():
     R["pipe_name0"] = pr0 + 1
     R["pipe_mw"] = b.rng(INP, 4, pr0 + 1, 4, pr1)
     R["pipe_years"] = b.rng(INP, 7, pr0 + 1, 7, pr1)
+
+    # Exit value — PRIMARY = forward-pipeline rNPV + retained cash − debt (change2.md)
+    xv0 = 47
+    b.put(INP, xv0, 1, "Exit value — PRIMARY basis (forward-pipeline rNPV + retained cash − debt)", "sect", fill="sect")
+    srow(xv0 + 1, "Pipeline depth at exit (projects in flight)", inp.pipeline_depth_at_exit, "exit_depth", FNUM, "count", status="TO CONFIRM")
+    srow(xv0 + 2, "Interim distribution fraction (of realised profit)", inp.interim_distribution_fraction, "dist_frac", FPCT, "decimal", status="TO CONFIRM")
+    srow(xv0 + 3, "Debt at exit", inp.debt_at_exit, "debt_exit", FM, "$m", status="TO CONFIRM")
+    b.put(INP, xv0 + 4, 1, "Exit value CROSS-CHECK — earnings multiple on forward run-rate profit", "sect", fill="sect")
+    srow(xv0 + 5, "Cross-check multiple — low", inp.xmult_low, "xmult_low", FMULT, "multiple", status="TO CONFIRM")
+    srow(xv0 + 6, "Cross-check multiple — base", inp.xmult_base, "xmult_base", FMULT, "multiple", status="TO CONFIRM")
+    srow(xv0 + 7, "Cross-check multiple — high", inp.xmult_high, "xmult_high", FMULT, "multiple", status="TO CONFIRM")
 
     # =====================================================================
     # SCENARIOS (3 cases: Conservative / Base / Ideal)
@@ -386,12 +396,12 @@ def build():
     # =====================================================================
     # CALC_COMPANY (the company's development programme -> exit equity value)
     # =====================================================================
-    b.width(FUND, {"A": 44, "B": 4, "C": 14, "D": 10, "E": 10, "F": 10})
+    b.width(FUND, {"A": 50, "B": 4, "C": 14, "D": 10, "E": 10, "F": 10})
     b.put(FUND, 1, 1, "CALC — THE COMPANY'S DEVELOPMENT PROGRAMME & EXIT EQUITY VALUE (live scenario)", "title")
-    b.put(FUND, 2, 1, "The company's own business plan (no fund fees, no carry): the funnel widens as success falls "
-                      "(projects_started = target ÷ flip success). Net programme profit = gross proceeds − total development "
-                      "cost. We value the company at exit as a repeatable platform = net profit × the platform exit multiple. "
-                      "All figures AUD $m.", "note", wrap=True)
+    b.put(FUND, 2, 1, "A develop-and-flip company is a development PLATFORM, so a buyer pays for its FORWARD pipeline, not past "
+                      "profit. PRIMARY exit equity = forward-pipeline rNPV (projects still in flight at exit) + cash RETAINED on "
+                      "the balance sheet − debt. Realised programme profit feeds RETAINED cash (counted once, at face value — never "
+                      "at a multiple). The earnings multiple below is a CROSS-CHECK only. All figures AUD $m.", "note", wrap=True)
     b.put(FUND, 4, 1, "Development funnel (live scenario)", "sect", fill="sect")
     b.put(FUND, 5, 1, "Live flip success (DA × conn × sale)", "label")
     b.put(FUND, 5, 3, f"={R['live_success']}", "link", fmt=FPCT, border=True)
@@ -407,22 +417,51 @@ def build():
     b.put(FUND, 10, 3, f"=C6*C9+C8*{R['abandon']}*C9", "formula", fmt=FM, border=True)
     R["co_devcost"] = b.ref(FUND, 3, 10)
 
-    b.put(FUND, 11, 1, "Proceeds & net programme profit", "sect", fill="sect")
+    b.put(FUND, 11, 1, "Proceeds & realised programme profit", "sect", fill="sect")
     b.put(FUND, 12, 1, "Blended RTB sale per project (live)", "label")
     b.put(FUND, 12, 3, f"={R['base_blended']}*{R['live_sale_mult']}", "formula", fmt=FM2, border=True)
     b.put(FUND, 13, 1, "Gross proceeds", "label", bold=True)
     b.put(FUND, 13, 3, "=C6*C12", "formula", fmt=FM, border=True)
     R["co_gross"] = b.ref(FUND, 3, 13)
-    b.put(FUND, 14, 1, "Net programme profit (gross − total dev cost)", "label", bold=True)
+    b.put(FUND, 14, 1, "Realised net programme profit (gross − total dev cost)", "label", bold=True)
     b.put(FUND, 14, 3, "=C13-C10", "formula", fmt=FM, border=True)
     R["co_net"] = b.ref(FUND, 3, 14)
+    b.put(FUND, 15, 1, "Forward run-rate annual dev profit (= realised ÷ term)", "label")
+    b.put(FUND, 15, 3, f"=IFERROR(C14/{R['term']},0)", "formula", fmt=FM2, border=True)
+    R["co_runrate"] = b.ref(FUND, 3, 15)
 
-    b.put(FUND, 15, 1, "Company exit equity value (live)", "sect", fill="sect")
-    b.put(FUND, 16, 1, "Platform exit multiple", "label")
-    b.put(FUND, 16, 3, f"={R['exit_mult']}", "link", fmt=FMULT, border=True)
-    b.put(FUND, 17, 1, "Company exit equity = MAX(0, net) × multiple", "label", bold=True)
-    b.put(FUND, 17, 3, "=MAX(0,C14)*C16", "formula", fmt=FM, bold=True, border=True, fill="sect")
-    R["co_exit_equity"] = b.ref(FUND, 3, 17)
+    b.put(FUND, 16, 1, "Company exit equity — PRIMARY (forward-pipeline rNPV + retained − debt)", "sect", fill="sect")
+    b.put(FUND, 17, 1, "Avg years to sale (pipeline)", "label")
+    b.put(FUND, 17, 3, f"=AVERAGE({R['rnpv_years']})", "formula", fmt=FNUM1, border=True)
+    b.put(FUND, 18, 1, "Discount factor @ base over avg years", "label")
+    b.put(FUND, 18, 3, f"=1/(1+{R['discount_base']})^C17", "formula", fmt=FFAC, border=True)
+    R["df_avg"] = b.ref(FUND, 3, 18)
+    b.put(FUND, 19, 1, "Per-project rNPV (blended; live scenario)", "label")
+    b.put(FUND, 19, 3, f"=({R['base_blended']}*{R['live_sale_mult']}-C9)*C5*C18", "formula", fmt=FM2, border=True)
+    R["co_rnpv_proj"] = b.ref(FUND, 3, 19)
+    b.put(FUND, 20, 1, "Pipeline depth at exit (projects in flight)", "label")
+    b.put(FUND, 20, 3, f"={R['exit_depth']}", "link", fmt=FNUM, border=True)
+    b.put(FUND, 21, 1, "Forward pipeline rNPV at exit (= depth × per-project)", "label", bold=True)
+    b.put(FUND, 21, 3, "=C20*C19", "formula", fmt=FM, border=True)
+    R["co_fwd"] = b.ref(FUND, 3, 21)
+    b.put(FUND, 22, 1, "Net cash retained at exit (= MAX(0,realised) × (1−dist frac))", "label")
+    b.put(FUND, 22, 3, f"=MAX(0,C14)*(1-{R['dist_frac']})", "formula", fmt=FM, border=True)
+    R["co_retained"] = b.ref(FUND, 3, 22)
+    b.put(FUND, 23, 1, "Debt at exit", "label")
+    b.put(FUND, 23, 3, f"={R['debt_exit']}", "link", fmt=FM, border=True)
+    b.put(FUND, 24, 1, "Company exit equity = forward + retained − debt", "label", bold=True)
+    b.put(FUND, 24, 3, "=MAX(0,C21+C22-C23)", "formula", fmt=FM, bold=True, border=True, fill="sect")
+    R["co_exit_equity"] = b.ref(FUND, 3, 24)
+
+    b.put(FUND, 25, 1, "Cross-check — earnings multiple on run-rate (NOT the primary number)", "sect", fill="sect")
+    b.put(FUND, 26, 1, "Cross-check exit eq — low (run-rate × low mult + retained − debt)", "label")
+    b.put(FUND, 26, 3, f"=MAX(0,C15)*{R['xmult_low']}+C22-C23", "formula", fmt=FM, border=True)
+    b.put(FUND, 27, 1, "Cross-check exit eq — base", "label")
+    b.put(FUND, 27, 3, f"=MAX(0,C15)*{R['xmult_base']}+C22-C23", "formula", fmt=FM, border=True)
+    b.put(FUND, 28, 1, "Cross-check exit eq — high", "label")
+    b.put(FUND, 28, 3, f"=MAX(0,C15)*{R['xmult_high']}+C22-C23", "formula", fmt=FM, border=True)
+    b.put(FUND, 29, 1, "Primary (pipeline) vs cross-check (base mult): anchor on the more conservative pipeline basis; if they "
+                       "diverge materially, the multiple is more generous than the risk-adjusted forward pipeline.", "note", wrap=True)
 
     # =====================================================================
     # RETURNS (cap table -> return on OUR shares by scenario, First Chicago)
@@ -430,8 +469,9 @@ def build():
     b.width(RET, {"A": 40, "B": 13, "C": 13, "D": 13, "E": 13})
     b.put(RET, 1, 1, "RETURNS — cap table & return on OUR shares by scenario, First-Chicago, valuation range", "title")
     b.put(RET, 2, 1, "We buy SHARES directly. Ownership = our investment ÷ post-money, reduced by dilution. Each scenario's company "
-                     "exit equity value (net programme profit × the platform exit multiple) flows through the cap table; our proceeds = "
-                     "the GREATER of our 1× liquidation preference or our as-converted (diluted) share. All figures AUD $m unless stated.", "note", wrap=True)
+                     "exit equity value (PRIMARY basis: forward-pipeline rNPV + retained cash − debt) flows through the cap table; our "
+                     "TERMINAL proceeds = the GREATER of our 1× liquidation preference or our as-converted (diluted) share, plus any "
+                     "INTERIM distributions (convention (b); dist fraction is a placeholder, default 0). All figures AUD $m unless stated.", "note", wrap=True)
 
     # --- Cap table block ---
     b.put(RET, 3, 1, "Cap table (our stake)", "sect", fill="sect")
@@ -453,6 +493,7 @@ def build():
     b.put(RET, 10, 1, "Return on OUR shares by scenario", "sect", fill="sect")
     b.header(RET, 11, ["Metric", "Conservative", "Base", "Ideal"])
     scol = {1: "B", 2: "C", 3: "D"}
+    bold_rows = (23, 26, 28, 29, 30)
     metric_rows = [
         (12, "Flip success (DA × conn × sale)", lambda c: f"={R['scn_flip'][c]}", FPCT, "formula"),
         (13, "RTB price multiplier", lambda c: f"={R['scn_salemult'][c]}", FMULT, "link"),
@@ -462,52 +503,61 @@ def build():
         (17, "Projects failed", lambda c: f"={scol[c]}16-{R['target']}", FNUM1, "formula"),
         (18, "Total dev cost", lambda c: f"={R['target']}*{scol[c]}15+{scol[c]}17*{R['abandon']}*{scol[c]}15", FM, "formula"),
         (19, "Gross proceeds", lambda c: f"={R['target']}*{R['base_blended']}*{scol[c]}13", FM, "formula"),
-        (20, "Net programme profit", lambda c: f"={scol[c]}19-{scol[c]}18", FM, "formula"),
-        (21, "Company exit equity = MAX(0,net)×mult", lambda c: f"=MAX(0,{scol[c]}20)*{R['exit_mult']}", FM, "formula"),
-        (22, "As-converted (diluted × exit equity)", lambda c: f"={R['own_diluted']}*{scol[c]}21", FM2, "formula"),
-        (23, "Preference claim = MIN(liq×inv, exit eq)", lambda c: f"=MIN({R['liq_pref']}*{R['investment']},{scol[c]}21)", FM2, "formula"),
-        (24, "Our proceeds = MAX(pref, as-converted)", lambda c: f"=MAX({scol[c]}23,{scol[c]}22)", FM2, "formula"),
-        (25, "MOIC = our proceeds ÷ our investment", lambda c: f"=IFERROR({scol[c]}24/{R['investment']},0)", FX, "formula"),
-        (26, "Equity IRR = MOIC^(1/exit yr) − 1", lambda c: f"=IFERROR({scol[c]}25^(1/{R['exit_year']})-1,-1)", FPCT, "formula"),
+        (20, "Realised net programme profit", lambda c: f"={scol[c]}19-{scol[c]}18", FM, "formula"),
+        (21, "Forward pipeline rNPV at exit (depth × per-project)",
+         lambda c: f"={R['exit_depth']}*({R['base_blended']}*{scol[c]}13-{scol[c]}15)*{scol[c]}12*{R['df_avg']}", FM2, "formula"),
+        (22, "Net cash retained = MAX(0,realised)×(1−dist)", lambda c: f"=MAX(0,{scol[c]}20)*(1-{R['dist_frac']})", FM2, "formula"),
+        (23, "Company exit equity = fwd + retained − debt", lambda c: f"=MAX(0,{scol[c]}21+{scol[c]}22-{R['debt_exit']})", FM, "formula"),
+        (24, "As-converted (diluted × exit equity)", lambda c: f"={R['own_diluted']}*{scol[c]}23", FM2, "formula"),
+        (25, "Preference claim = MIN(liq×inv, exit eq)", lambda c: f"=MIN({R['liq_pref']}*{R['investment']},{scol[c]}23)", FM2, "formula"),
+        (26, "Terminal proceeds = MAX(pref, as-converted)", lambda c: f"=MAX({scol[c]}25,{scol[c]}24)", FM2, "formula"),
+        (27, "Interim distributions (diluted×dist×realised)", lambda c: f"={R['own_diluted']}*{R['dist_frac']}*MAX(0,{scol[c]}20)", FM2, "formula"),
+        (28, "Our total proceeds = terminal + interim", lambda c: f"={scol[c]}26+{scol[c]}27", FM2, "formula"),
+        (29, "MOIC = our proceeds ÷ our investment", lambda c: f"=IFERROR({scol[c]}28/{R['investment']},0)", FX, "formula"),
+        (30, "Equity IRR = MOIC^(1/exit yr) − 1", lambda c: f"=IFERROR({scol[c]}29^(1/{R['exit_year']})-1,-1)", FPCT, "formula"),
     ]
     for r, label, fn, fmt, kind in metric_rows:
-        b.put(RET, r, 1, label, "label", bold=(r in (24, 25, 26)))
+        b.put(RET, r, 1, label, "label", bold=(r in bold_rows))
         for c in (1, 2, 3):
-            b.put(RET, r, 1 + c, fn(c), kind, fmt=fmt, border=True, bold=(r in (24, 25, 26)))
-    R["proceeds_by"] = {1: b.ref(RET, 2, 24), 2: b.ref(RET, 3, 24), 3: b.ref(RET, 4, 24)}
-    R["irr_by"] = {1: b.ref(RET, 2, 26), 2: b.ref(RET, 3, 26), 3: b.ref(RET, 4, 26)}
-    R["moic_by"] = {1: b.ref(RET, 2, 25), 2: b.ref(RET, 3, 25), 3: b.ref(RET, 4, 25)}
-    R["exit_eq_by"] = {1: b.ref(RET, 2, 21), 2: b.ref(RET, 3, 21), 3: b.ref(RET, 4, 21)}
-    R["ret_irr_rng"] = b.rng(RET, 2, 26, 4, 26)
-    R["ret_moic_rng"] = b.rng(RET, 2, 25, 4, 25)
-    R["ret_proceeds_rng"] = b.rng(RET, 2, 24, 4, 24)
+            b.put(RET, r, 1 + c, fn(c), kind, fmt=fmt, border=True, bold=(r in bold_rows))
+    R["proceeds_by"] = {1: b.ref(RET, 2, 28), 2: b.ref(RET, 3, 28), 3: b.ref(RET, 4, 28)}
+    R["terminal_by"] = {1: b.ref(RET, 2, 26), 2: b.ref(RET, 3, 26), 3: b.ref(RET, 4, 26)}
+    R["irr_by"] = {1: b.ref(RET, 2, 30), 2: b.ref(RET, 3, 30), 3: b.ref(RET, 4, 30)}
+    R["moic_by"] = {1: b.ref(RET, 2, 29), 2: b.ref(RET, 3, 29), 3: b.ref(RET, 4, 29)}
+    R["exit_eq_by"] = {1: b.ref(RET, 2, 23), 2: b.ref(RET, 3, 23), 3: b.ref(RET, 4, 23)}
+    R["fwd_by"] = {1: b.ref(RET, 2, 21), 2: b.ref(RET, 3, 21), 3: b.ref(RET, 4, 21)}
+    R["retained_by"] = {1: b.ref(RET, 2, 22), 2: b.ref(RET, 3, 22), 3: b.ref(RET, 4, 22)}
+    R["realised_by"] = {1: b.ref(RET, 2, 20), 2: b.ref(RET, 3, 20), 3: b.ref(RET, 4, 20)}
+    R["ret_irr_rng"] = b.rng(RET, 2, 30, 4, 30)
+    R["ret_moic_rng"] = b.rng(RET, 2, 29, 4, 29)
+    R["ret_proceeds_rng"] = b.rng(RET, 2, 28, 4, 28)
 
     # --- First-Chicago block (weight PROCEEDS, then derive MOIC/IRR) ---
-    b.put(RET, 28, 1, "First-Chicago probability-weighted expected return", "sect", fill="sect")
-    b.header(RET, 29, ["", "Conservative", "Base", "Ideal", "Expected"])
-    b.put(RET, 30, 1, "Weight", "label")
+    b.put(RET, 32, 1, "First-Chicago probability-weighted expected return", "sect", fill="sect")
+    b.header(RET, 33, ["", "Conservative", "Base", "Ideal", "Expected"])
+    b.put(RET, 34, 1, "Weight", "label")
     for ci, name in enumerate(["Conservative", "Base", "Ideal"]):
-        b.put(RET, 30, 2 + ci, f"={b.ref(SCN, 2 + ci, 13)}", "link", fmt=FPCT, border=True, align="center")
-    b.put(RET, 31, 1, "Our proceeds", "label")
+        b.put(RET, 34, 2 + ci, f"={b.ref(SCN, 2 + ci, 13)}", "link", fmt=FPCT, border=True, align="center")
+    b.put(RET, 35, 1, "Our proceeds", "label")
     for c in (1, 2, 3):
-        b.put(RET, 31, 1 + c, f"={R['proceeds_by'][c]}", "link", fmt=FM2, border=True)
-    b.put(RET, 31, 5, f"=SUMPRODUCT({R['weights']},B31:D31)", "formula", fmt=FM2, bold=True, border=True)
-    R["expected_proceeds"] = b.ref(RET, 5, 31)
-    b.put(RET, 32, 1, "Expected MOIC = exp proceeds ÷ investment", "label", bold=True)
-    b.put(RET, 32, 5, f"=IFERROR(E31/{R['investment']},0)", "formula", fmt=FX, bold=True, border=True)
-    R["expected_moic"] = b.ref(RET, 5, 32)
-    b.put(RET, 33, 1, "Expected equity IRR = exp MOIC^(1/exit yr) − 1", "label", bold=True)
-    b.put(RET, 33, 5, f"=IFERROR(E32^(1/{R['exit_year']})-1,-1)", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
-    R["expected_irr"] = b.ref(RET, 5, 33)
+        b.put(RET, 35, 1 + c, f"={R['proceeds_by'][c]}", "link", fmt=FM2, border=True)
+    b.put(RET, 35, 5, f"=SUMPRODUCT({R['weights']},B35:D35)", "formula", fmt=FM2, bold=True, border=True)
+    R["expected_proceeds"] = b.ref(RET, 5, 35)
+    b.put(RET, 36, 1, "Expected MOIC = exp proceeds ÷ investment", "label", bold=True)
+    b.put(RET, 36, 5, f"=IFERROR(E35/{R['investment']},0)", "formula", fmt=FX, bold=True, border=True)
+    R["expected_moic"] = b.ref(RET, 5, 36)
+    b.put(RET, 37, 1, "Expected equity IRR = exp MOIC^(1/exit yr) − 1", "label", bold=True)
+    b.put(RET, 37, 5, f"=IFERROR(E36^(1/{R['exit_year']})-1,-1)", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
+    R["expected_irr"] = b.ref(RET, 5, 37)
 
-    b.put(RET, 35, 1, "Valuation range (per-pipeline asset value — cross-check)", "sect", fill="sect")
-    b.put(RET, 35, 3, "Representative 6-project pipeline (asset-level), NOT the company's whole exit equity value.", "note")
-    b.put(RET, 36, 1, "rNPV pipeline (Base)", "label")
-    b.put(RET, 36, 3, f"={R['pipeline_rnpv']}", "link", fmt=FM2, border=True)
-    # rows 37-38 ($/MW, VC method) + 39-41 (low/mid/high) backfilled after CC built
-    R["ret_val_low"] = b.ref(RET, 3, 39)
-    R["ret_val_mid"] = b.ref(RET, 3, 40)
-    R["ret_val_high"] = b.ref(RET, 3, 41)
+    b.put(RET, 39, 1, "Valuation range (per-pipeline asset value — cross-check)", "sect", fill="sect")
+    b.put(RET, 39, 3, "Representative 6-project pipeline (asset-level), NOT the company's whole exit equity value.", "note")
+    b.put(RET, 40, 1, "rNPV pipeline (Base)", "label")
+    b.put(RET, 40, 3, f"={R['pipeline_rnpv']}", "link", fmt=FM2, border=True)
+    # rows 41-42 ($/MW, VC method) + 43-45 (low/mid/high) backfilled after CC built
+    R["ret_val_low"] = b.ref(RET, 3, 43)
+    R["ret_val_mid"] = b.ref(RET, 3, 44)
+    R["ret_val_high"] = b.ref(RET, 3, 45)
 
     # =====================================================================
     # CALC_CROSSCHECKS ($/MW benchmark, VC method, RTB-as-%-of-built)
@@ -558,113 +608,118 @@ def build():
     b.put(CC, 25, 1, "Expect ~10–12% — confirms RTB is the early-stage development slice, not the built asset.", "note", wrap=True)
 
     # backfill Returns valuation range now that CC refs exist
-    b.put(RET, 37, 1, "$/MW benchmark (dev value)", "label")
-    b.put(RET, 37, 3, f"={R['dpmw_dev']}", "link", fmt=FM2, border=True)
-    b.put(RET, 38, 1, "VC method (today value)", "label")
-    b.put(RET, 38, 3, f"={R['vc_today']}", "link", fmt=FM2, border=True)
-    b.put(RET, 39, 1, "Low", "label", bold=True)
-    b.put(RET, 39, 3, "=MIN(C36:C38)", "formula", fmt=FM2, bold=True, border=True)
-    b.put(RET, 40, 1, "Midpoint", "label", bold=True)
-    b.put(RET, 40, 3, "=AVERAGE(C36:C38)", "formula", fmt=FM2, bold=True, border=True, fill="sect")
-    b.put(RET, 41, 1, "High", "label", bold=True)
-    b.put(RET, 41, 3, "=MAX(C36:C38)", "formula", fmt=FM2, bold=True, border=True)
+    b.put(RET, 41, 1, "$/MW benchmark (dev value)", "label")
+    b.put(RET, 41, 3, f"={R['dpmw_dev']}", "link", fmt=FM2, border=True)
+    b.put(RET, 42, 1, "VC method (today value)", "label")
+    b.put(RET, 42, 3, f"={R['vc_today']}", "link", fmt=FM2, border=True)
+    b.put(RET, 43, 1, "Low", "label", bold=True)
+    b.put(RET, 43, 3, "=MIN(C40:C42)", "formula", fmt=FM2, bold=True, border=True)
+    b.put(RET, 44, 1, "Midpoint", "label", bold=True)
+    b.put(RET, 44, 3, "=AVERAGE(C40:C42)", "formula", fmt=FM2, bold=True, border=True, fill="sect")
+    b.put(RET, 45, 1, "High", "label", bold=True)
+    b.put(RET, 45, 3, "=MAX(C40:C42)", "formula", fmt=FM2, bold=True, border=True)
 
     # --- Full cap table (who owns what — ties to 100%) ---
-    b.put(RET, 43, 1, "Full cap table — who owns what (mechanical; ties to 100%)", "sect", fill="sect")
-    b.header(RET, 44, ["Holder", "At entry %", "At exit (diluted) %"])
+    b.put(RET, 47, 1, "Full cap table — who owns what (mechanical; ties to 100%)", "sect", fill="sect")
+    b.header(RET, 48, ["Holder", "At entry %", "At exit (diluted) %"])
     pool, fut = R["option_pool"], R["future_dilution"]
-    b.put(RET, 45, 1, "Founders / existing holders", "label")
-    b.put(RET, 45, 2, f"=1-{R['own_entry']}", "formula", fmt=FPCT, border=True)
-    b.put(RET, 45, 3, f"=(1-{R['own_entry']})*(1-{pool})*(1-{fut})", "formula", fmt=FPCT, border=True)
-    b.put(RET, 46, 1, "Us (new investor)", "label", bold=True)
-    b.put(RET, 46, 2, f"={R['own_entry']}", "link", fmt=FPCT, border=True)
-    b.put(RET, 46, 3, f"={R['own_diluted']}", "link", fmt=FPCT, border=True, fill="sect")
-    b.put(RET, 47, 1, "Option pool (staff)", "label")
-    b.put(RET, 47, 2, 0.0, "formula", fmt=FPCT, border=True)
-    b.put(RET, 47, 3, f"={pool}*(1-{fut})", "formula", fmt=FPCT, border=True)
-    b.put(RET, 48, 1, "Future-round investors", "label")
-    b.put(RET, 48, 2, 0.0, "formula", fmt=FPCT, border=True)
-    b.put(RET, 48, 3, f"={fut}", "link", fmt=FPCT, border=True)
-    b.put(RET, 49, 1, "Total (must = 100%)", "label", bold=True)
-    b.put(RET, 49, 2, "=SUM(B45:B48)", "formula", fmt=FPCT, bold=True, border=True)
-    b.put(RET, 49, 3, "=SUM(C45:C48)", "formula", fmt=FPCT, bold=True, border=True)
-    R["captable_entry_total"] = b.ref(RET, 2, 49)
-    R["captable_exit_total"] = b.ref(RET, 3, 49)
+    b.put(RET, 49, 1, "Founders / existing holders", "label")
+    b.put(RET, 49, 2, f"=1-{R['own_entry']}", "formula", fmt=FPCT, border=True)
+    b.put(RET, 49, 3, f"=(1-{R['own_entry']})*(1-{pool})*(1-{fut})", "formula", fmt=FPCT, border=True)
+    b.put(RET, 50, 1, "Us (new investor)", "label", bold=True)
+    b.put(RET, 50, 2, f"={R['own_entry']}", "link", fmt=FPCT, border=True)
+    b.put(RET, 50, 3, f"={R['own_diluted']}", "link", fmt=FPCT, border=True, fill="sect")
+    b.put(RET, 51, 1, "Option pool (staff)", "label")
+    b.put(RET, 51, 2, 0.0, "formula", fmt=FPCT, border=True)
+    b.put(RET, 51, 3, f"={pool}*(1-{fut})", "formula", fmt=FPCT, border=True)
+    b.put(RET, 52, 1, "Future-round investors", "label")
+    b.put(RET, 52, 2, 0.0, "formula", fmt=FPCT, border=True)
+    b.put(RET, 52, 3, f"={fut}", "link", fmt=FPCT, border=True)
+    b.put(RET, 53, 1, "Total (must = 100%)", "label", bold=True)
+    b.put(RET, 53, 2, "=SUM(B49:B52)", "formula", fmt=FPCT, bold=True, border=True)
+    b.put(RET, 53, 3, "=SUM(C49:C52)", "formula", fmt=FPCT, bold=True, border=True)
+    R["captable_entry_total"] = b.ref(RET, 2, 53)
+    R["captable_exit_total"] = b.ref(RET, 3, 53)
 
     # --- Exit waterfall (Base) — company exit equity distributes fully ---
-    b.put(RET, 51, 1, "Exit waterfall (Base) — full distribution of exit equity", "sect", fill="sect")
-    b.put(RET, 52, 1, "Company exit equity (Base)", "label")
-    b.put(RET, 52, 3, f"={R['exit_eq_by'][2]}", "link", fmt=FM2, border=True)
-    b.put(RET, 53, 1, "Our proceeds (1x pref / as-converted)", "label", bold=True)
-    b.put(RET, 53, 3, f"={R['proceeds_by'][2]}", "link", fmt=FM2, border=True)
-    b.put(RET, 54, 1, "Other holders' proceeds (residual)", "label")
-    b.put(RET, 54, 3, "=C52-C53", "formula", fmt=FM2, border=True)
-    b.put(RET, 55, 1, "Distributed (ours + others = exit equity)", "label", bold=True)
-    b.put(RET, 55, 3, "=C53+C54", "formula", fmt=FM2, bold=True, border=True)
-    R["waterfall_exit_eq"] = b.ref(RET, 3, 52)
-    R["waterfall_distributed"] = b.ref(RET, 3, 55)
+    b.put(RET, 55, 1, "Exit waterfall (Base) — full distribution of exit equity", "sect", fill="sect")
+    b.put(RET, 56, 1, "Company exit equity (Base)", "label")
+    b.put(RET, 56, 3, f"={R['exit_eq_by'][2]}", "link", fmt=FM2, border=True)
+    b.put(RET, 57, 1, "Our terminal proceeds (1x pref / as-converted)", "label", bold=True)
+    b.put(RET, 57, 3, f"={R['terminal_by'][2]}", "link", fmt=FM2, border=True)
+    b.put(RET, 58, 1, "Other holders' proceeds (residual)", "label")
+    b.put(RET, 58, 3, "=C56-C57", "formula", fmt=FM2, border=True)
+    b.put(RET, 59, 1, "Distributed (ours + others = exit equity)", "label", bold=True)
+    b.put(RET, 59, 3, "=C57+C58", "formula", fmt=FM2, bold=True, border=True)
+    R["waterfall_exit_eq"] = b.ref(RET, 3, 56)
+    R["waterfall_distributed"] = b.ref(RET, 3, 59)
 
     # =====================================================================
     # SENSITIVITY (OUR equity IRR: development-approval rate x RTB price)
     # =====================================================================
-    b.width(SENS, {"A": 24, "B": 11, "C": 9, "D": 9, "E": 9, "F": 9, "G": 9,
-                   "H": 10, "I": 10, "J": 10, "K": 3,
-                   "L": 9, "M": 10, "N": 10, "O": 10, "P": 10, "Q": 10})
-    b.put(SENS, 1, 1, "SENSITIVITY — OUR equity IRR: development approval × RTB price", "title")
+    b.width(SENS, {"A": 28, "B": 11, "C": 9, "D": 9, "E": 9, "F": 9, "G": 9,
+                   "H": 9, "I": 9, "J": 9, "K": 3, "L": 9, "M": 9, "N": 9, "O": 9, "P": 9,
+                   "Q": 3, "R": 9, "S": 9, "T": 9, "U": 9, "V": 9})
+    b.put(SENS, 1, 1, "SENSITIVITY — OUR equity IRR: development approval × RTB price (forward-pipeline exit basis)", "title")
     b.put(SENS, 2, 1, "Return on OUR shares (equity IRR = MOIC^(1/exit year) − 1) vs DEVELOPMENT-APPROVAL rate (down) × RTB price "
-                      "multiplier (across); all else at Base. Flip success = DA × grid connection × sale, so the funnel widens with the "
-                      "FULL gate chain. Each scenario flows through the company exit equity value, dilution and the 1× liquidation "
-                      "preference. Helper columns H–J (per DA) and the proceeds grid M–Q keep every formula short. AUD $m / %.", "note", wrap=True)
+                      "multiplier (across); all else at Base. Exit equity now uses the PRIMARY forward-pipeline basis: forward rNPV "
+                      "(depth × per-project) + retained cash − debt; our proceeds = the GREATER of the 1× liquidation preference or our "
+                      "as-converted share. Helper columns H–J (per DA), the exit-equity grid L–P and the proceeds grid R–V keep every "
+                      "formula short. The exit assumption (pipeline depth × discount) is profiled separately in IC_MEMO Exhibit D. AUD $m / %.", "note", wrap=True)
     da_rates = [0.40, 0.55, 0.65, 0.80, 0.95]
     price_mults = [0.70, 0.85, 1.00, 1.15, 1.30]
-    GC0 = 3   # IRR grid columns C..G
-    PG0 = 13  # proceeds helper grid columns M..Q
+    GC0, EQ0, PG0 = 3, 12, 18   # IRR grid C..G ; exit-equity grid L..P ; proceeds grid R..V
     # constants (SENS-local, short refs)
-    b.put(SENS, 4, 1, "Conn × sale (flip adj)", "label")
-    b.put(SENS, 4, 2, f"={R['p_conn']}*{R['p_sale']}", "formula", fmt=FPCT, border=True)
-    b.put(SENS, 5, 1, "Diluted ownership", "label")
-    b.put(SENS, 5, 2, f"={R['own_diluted']}", "link", fmt=FPCT, border=True)
-    b.put(SENS, 6, 1, "Platform exit multiple", "label")
-    b.put(SENS, 6, 2, f"={R['exit_mult']}", "link", fmt=FMULT, border=True)
-    b.put(SENS, 7, 1, "Preference cap (liq × investment) $m", "label")
-    b.put(SENS, 7, 2, f"={R['liq_pref']}*{R['investment']}", "formula", fmt=FM2, border=True)
-    b.put(SENS, 8, 1, "Our investment $m", "label")
-    b.put(SENS, 8, 2, f"={R['investment']}", "link", fmt=FM2, border=True)
-    b.put(SENS, 9, 1, "Exit year", "label")
-    b.put(SENS, 9, 2, f"={R['exit_year']}", "link", fmt=FNUM, border=True)
+    consts = [
+        (4, "Conn × sale (flip adj)", f"={R['p_conn']}*{R['p_sale']}", FPCT),
+        (5, "Diluted ownership", f"={R['own_diluted']}", FPCT),
+        (6, "Pipeline depth at exit", f"={R['exit_depth']}", FNUM),
+        (7, "Preference cap (liq × investment) $m", f"={R['liq_pref']}*{R['investment']}", FM2),
+        (8, "Our investment $m", f"={R['investment']}", FM2),
+        (9, "Exit year", f"={R['exit_year']}", FNUM),
+        (10, "Base blended sale/project $m", f"={R['base_blended']}", FM2),
+        (11, "Dev cost/project $m", f"={R['dev_cost']}", FM2),
+        (12, "Disc factor @ base over avg years", f"={R['df_avg']}", FFAC),
+        (13, "Retain fraction (1 − dist)", f"=1-{R['dist_frac']}", FPCT),
+        (14, "Debt at exit $m", f"={R['debt_exit']}", FM2),
+    ]
+    for r, label, val, fmt in consts:
+        b.put(SENS, r, 1, label, "label")
+        b.put(SENS, r, 2, val, "formula" if val.count("*") + val.count("-") else "link", fmt=fmt, border=True)
     R["s_flipadj"] = b.ref(SENS, 2, 4)
-    # price header (row 10) and gross-per-scenario helper row (row 11)
-    b.put(SENS, 10, 2, "Price mult →", "label", bold=True, align="right")
-    b.put(SENS, 11, 2, "Gross $m →", "label", bold=True, align="right")
+    # price header (row 17) + gross-per-price helper (row 18), both across the IRR-grid columns
+    b.put(SENS, 17, 2, "Price mult →", "label", bold=True, align="right")
+    b.put(SENS, 18, 2, "Gross $m →", "label", bold=True, align="right")
     for j, pm in enumerate(price_mults):
-        # price drives both the IRR-grid column header and the proceeds-grid column
-        for base in (GC0, PG0):
-            cl = get_column_letter(base + j)
-            b.put(SENS, 10, base + j, pm, "input", fmt=FMULT, fill="yel", align="center", border=True)
-            b.put(SENS, 11, base + j, f"={R['target']}*{R['base_blended']}*{cl}10", "formula", fmt=FM, align="center", border=True)
-    # header row 12 + helper col labels
-    b.put(SENS, 12, 2, "DA gate ↓", "head", fill="head", align="center", border=True)
+        cl = get_column_letter(GC0 + j)
+        b.put(SENS, 17, GC0 + j, pm, "input", fmt=FMULT, fill="yel", align="center", border=True)
+        b.put(SENS, 18, GC0 + j, f"={R['target']}*{R['base_blended']}*{cl}17", "formula", fmt=FM, align="center", border=True)
+    # header row 19 + helper-col / grid labels
+    b.put(SENS, 19, 2, "DA gate ↓", "head", fill="head", align="center", border=True)
     for j in range(len(price_mults)):
-        b.put(SENS, 12, GC0 + j, "IRR", "head", fill="head", align="center", border=True)
-        b.put(SENS, 12, PG0 + j, "Proceeds", "head", fill="head", align="center", wrap=True, border=True)
+        b.put(SENS, 19, GC0 + j, "IRR", "head", fill="head", align="center", border=True)
+        b.put(SENS, 19, EQ0 + j, "Exit eq", "head", fill="head", align="center", wrap=True, border=True)
+        b.put(SENS, 19, PG0 + j, "Proceeds", "head", fill="head", align="center", wrap=True, border=True)
     for k, lab in enumerate(["Flip succ", "Started", "Total dev"]):
-        b.put(SENS, 12, 8 + k, lab, "head", fill="head", align="center", wrap=True, border=True)
+        b.put(SENS, 19, 8 + k, lab, "head", fill="head", align="center", wrap=True, border=True)
     for i, da in enumerate(da_rates):
-        r = 13 + i
+        r = 20 + i
         b.put(SENS, r, 2, da, "input", fmt=FPCT, fill="yel", align="center", border=True)
         b.put(SENS, r, 8, f"=$B{r}*$B$4", "formula", fmt=FPCT, border=True)
         b.put(SENS, r, 9, f"=IFERROR({R['target']}/H{r},0)", "formula", fmt=FNUM1, border=True)
         b.put(SENS, r, 10, f"={R['target']}*{R['dev_cost']}+(I{r}-{R['target']})*{R['abandon']}*{R['dev_cost']}", "formula", fmt=FM, border=True)
         for j in range(len(price_mults)):
-            gcl = get_column_letter(PG0 + j)   # gross-per-column helper
-            # exit equity = MAX(0, gross - total dev) * mult ; proceeds = MAX(pref claim, as-converted)
-            pf = f"=MAX(MIN($B$7,MAX(0,{gcl}$11-$J{r})*$B$6),$B$5*MAX(0,{gcl}$11-$J{r})*$B$6)"
-            b.put(SENS, r, PG0 + j, pf, "formula", fmt=FM2, border=True)
-            icl = get_column_letter(PG0 + j)
-            # IRR = (proceeds / investment) ^ (1/exit year) - 1 ; total loss -> -100%
-            irrf = f"=IFERROR(({icl}{r}/$B$8)^(1/$B$9)-1,-1)"
-            b.put(SENS, r, GC0 + j, irrf, "formula", fmt=FPCT, border=True)
-    R["sens_grid"] = b.rng(SENS, GC0, 13, GC0 + len(price_mults) - 1, 13 + len(da_rates) - 1)
+            pc = get_column_letter(GC0 + j)    # price header / gross helper column
+            eqc = get_column_letter(EQ0 + j)   # exit-equity grid column
+            prc = get_column_letter(PG0 + j)   # proceeds grid column
+            # exit equity = MAX(0, forward rNPV + retained − debt)
+            eqf = f"=MAX(0,$B$6*($B$10*{pc}$17-$B$11)*$H{r}*$B$12+MAX(0,{pc}$18-$J{r})*$B$13-$B$14)"
+            b.put(SENS, r, EQ0 + j, eqf, "formula", fmt=FM2, border=True)
+            # proceeds = MAX(1× pref cap, diluted × exit equity)
+            b.put(SENS, r, PG0 + j, f"=MAX(MIN($B$7,{eqc}{r}),$B$5*{eqc}{r})", "formula", fmt=FM2, border=True)
+            # IRR = (proceeds / investment) ^ (1/exit year) − 1 ; total loss → −100%
+            b.put(SENS, r, GC0 + j, f"=IFERROR(({prc}{r}/$B$8)^(1/$B$9)-1,-1)", "formula", fmt=FPCT, border=True)
+    R["sens_grid"] = b.rng(SENS, GC0, 20, GC0 + len(price_mults) - 1, 20 + len(da_rates) - 1)
 
     # =====================================================================
     # CHECKS
@@ -703,6 +758,8 @@ def build():
          "Cap table ties (ownership sums to 100%)", "VC cap-table integrity"),
         (f'=IF(ABS({R["waterfall_distributed"]}-{R["waterfall_exit_eq"]})<0.001,"OK","ERROR")',
          "Exit equity fully distributed (ours + others)", "VC waterfall integrity"),
+        (f'=IF({R["exit_eq_by"][2]}<={R["fwd_by"][2]}+{R["retained_by"][2]}+0.000001,"OK","ERROR")',
+         "No double-count (exit value ≤ realised + forward pipeline)", "Retained-cash-only guard"),
     ]
     for i, (formula, label, note) in enumerate(checks):
         r = cr0 + i
@@ -785,7 +842,7 @@ def build():
     b.put(COV, 1, 1, "Battery-Developer Startup Valuation — Direct-Equity Stake", "title")
     cover = [
         (2, "Subtitle", "Return on OUR shares (equity IRR/MOIC) in an illustrative distribution-BESS develop-and-flip startup (NSW/VIC/SA)"),
-        (3, "Version", "v2.0"),
+        (3, "Version", "v3.0"),
         (4, "Author", "Portfolio project (independent rebuild; founder/manager claims verified)"),
         (5, "Date", a["meta"]["as_at"]),
         (6, "Currency / Units", "AUD, $ millions ($m)"),
@@ -803,8 +860,9 @@ def build():
     brief = [
         ("Decision", "Whether to buy SHARES DIRECTLY (a minority equity stake) in an (illustrative) develop-and-flip RTB battery startup, and at what expected return on our shares."),
         ("Structure", "We invest as a SHAREHOLDER, NOT as a fund limited partner. A cap table (pre-/post-money, ownership, dilution, 1x liquidation preference) turns the company's exit equity value into OUR return. The equity-deal terms are PLACEHOLDERS to confirm."),
+        ("Exit basis", "PRIMARY exit equity = forward-pipeline rNPV (projects in flight at exit) + retained cash − debt — what a buyer of a development platform pays. The earnings multiple is a CROSS-CHECK only (run-rate × a sourced low/base/high range). Pipeline depth at exit is the main sensitivity (Exhibit D)."),
         ("Reframe", "The company sells RTB before construction — MERCHANT RISK PASSES TO THE BUYER. Its risk is the survival curve (approve→connect→sell) + the RTB price; ours is also dilution and the cap-table terms."),
-        ("Outputs", "Cap table, return on our shares (equity IRR & MOIC) by scenario, First-Chicago expected return, per-pipeline valuation cross-check, sensitivities."),
+        ("Outputs", "Cap table, return on our shares (equity IRR & MOIC) by scenario, First-Chicago expected return, forward-pipeline exit + earnings-multiple cross-check, per-pipeline valuation cross-check, sensitivities."),
         ("Detail / horizon", "Company programme ~2+1-year cycle; our exit year is a placeholder. AUD, $m."),
         ("Out of scope", "Post-sale operating/merchant cash flows, construction (buyer-funded), full multi-round waterfall, tax structuring, FX, debt."),
     ]
@@ -823,16 +881,19 @@ def build():
     b.put(COV, 24, 1, "Judgement inputs to OWN (review pass)", "sect", fill="sect")
     b.put(COV, 25, 2, "Discount rate & premium • the THREE scenario success rates (vs the independent benchmark) • RTB $/MW by state (need "
                       "independent comps) • dev cost per project & abandonment • the equity-deal terms (pre-money, our cheque, option pool, "
-                      "future dilution, liquidation preference, platform exit multiple, exit year — ALL placeholders). Founder/manager figures "
-                      "are CLAIMS to verify — defend your own.", "label", wrap=True)
+                      "future dilution, liquidation preference, exit year) • the EXIT-VALUE drivers (pipeline depth at exit, distribution "
+                      "fraction, debt at exit, and the cross-check multiple range — ALL placeholders). Founder/manager figures are CLAIMS "
+                      "to verify — defend your own.", "label", wrap=True)
     b.ws[COV].merge_cells("B25:B28")
     b.put(COV, 30, 1, "TO COMPLETE (analyst review pass)", "sect", fill="sect")
     b.put(COV, 31, 2, "1. Trace every formula + colour audit; confirm master check = OK; stress the switch in all 3 positions.  "
                       "2. Replace BENCHMARK / claim inputs with verified independent values (RTB comps, per-state success, dev cost) and "
                       "CONFIRM the cap-table terms against a term sheet.  3. Stress a downside where RTB prices are 20–30% lower and success "
-                      "≈ the independent benchmark; confirm our shares can be wiped out (Conservative = total loss).  4. Depth left out: a "
-                      "SINGLE funding round and a 1× NON-PARTICIPATING liquidation preference are scaffolded — add later rounds (Series B/C) to "
-                      "the cap table, and participation / anti-dilution / accrued preferred dividends if the term sheet carries them.", "label", wrap=True)
+                      "≈ the independent benchmark; confirm our shares can be wiped out (Conservative = total loss).  4. Pressure-test the "
+                      "EXIT BASIS (now the biggest swing factor): vary pipeline depth at exit and the discount rate (Exhibit D); confirm comps "
+                      "if any (else the pipeline basis stands).  5. Depth left out: a SINGLE funding round and a 1× NON-PARTICIPATING "
+                      "liquidation preference are scaffolded — add later rounds (Series B/C) to the cap table, and participation / "
+                      "anti-dilution / accrued preferred dividends if the term sheet carries them.", "label", wrap=True)
     b.ws[COV].merge_cells("B31:B35")
     b.put(COV, 36, 1, "DISCLAIMER", "label", bold=True)
     b.put(COV, 36, 2, "ILLUSTRATIVE startup built from public benchmark data; an INDEPENDENT rebuild (not an endorsement). NOT investment "
@@ -852,7 +913,7 @@ def build():
         TL: "Master timeline (built once)", SCN: "Scenarios + switch (DA gate) + live case + weights",
         SURV: "Separate gates; flip success = DA × connection × sale + flag",
         RNPV: "Per-project risk-adjusted NAV (RTB − dev cost)",
-        FUND: "Company programme: funnel → net profit → company exit equity value (live)",
+        FUND: "Company programme: funnel → realised profit + forward-pipeline rNPV → exit equity value (+ earnings cross-check)",
         RET: "Cap table; return on OUR shares (equity IRR/MOIC) by scenario, First-Chicago, valuation range",
         CC: "$/MW benchmark, VC method, RTB vs built",
         SENS: "Our equity IRR grid (development approval × RTB price)",
@@ -879,7 +940,11 @@ def build():
     b.put(CL, 5, 2, "v2.0", "input", align="center")
     b.put(CL, 5, 3, "Reframed from a fund LP investment to a DIRECT-EQUITY stake: removed fees/carry/hurdle; renamed Calc_Fund→Calc_Company (programme → net profit → company exit equity value); added a cap table (pre-/post-money, ownership, dilution, 1x liquidation preference) on Returns; outputs are now the return on OUR shares (equity IRR/MOIC), First-Chicago weights proceeds; sensitivity outputs our equity IRR.", "label", wrap=True)
     b.put(CL, 5, 4, "Claude Code (v2 reframe)", "input")
-    b.put(CL, 6, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
+    b.put(CL, 6, 1, a["meta"]["as_at"], "input", align="center")
+    b.put(CL, 6, 2, "v3.0", "input", align="center")
+    b.put(CL, 6, 3, "Fixed the exit-value basis (change2.md): PRIMARY exit equity is now FORWARD-PIPELINE rNPV (depth × per-project) + retained cash − debt, not net profit × a platform multiple. The earnings multiple is demoted to a CROSS-CHECK on FORWARD RUN-RATE profit (a sourced low/base/high range). Added pipeline depth / distribution-fraction / debt inputs; a retained-cash double-count guard; and the exit-value sensitivity (Exhibit D). Return = terminal proceeds + interim distributions (convention (b)).", "label", wrap=True)
+    b.put(CL, 6, 4, "Claude Code (v3 exit-basis)", "input")
+    b.put(CL, 7, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
 
     # =====================================================================
     # SOURCES & GLOSSARY
@@ -913,7 +978,10 @@ def build():
         ("rNPV", "Risk-adjusted NPV — each cash flow × probability of occurring, then discounted."),
         ("Survival curve / PD", "Cumulative probability a project clears all gates; structurally a multi-period probability-of-default curve."),
         ("Development funnel", "projects_started = target ÷ flip success; the company funds dev cost on every started project (full on delivered, partial on dropouts)."),
-        ("Net programme profit", "The company's gross RTB proceeds minus its total development cost across the programme."),
+        ("Realised net programme profit", "The company's gross RTB proceeds minus its total development cost — profit EARNED by exit (feeds retained cash; counted once, at face value)."),
+        ("Forward pipeline rNPV", "The risk-adjusted value of projects still IN FLIGHT at exit (depth × per-project rNPV) — the PRIMARY exit equity, what a buyer of a development platform pays for."),
+        ("Retained cash / run-rate", "Retained cash = realised profit not yet distributed (carried into the exit value). Run-rate = realised profit ÷ term — the yearly stream the earnings-multiple CROSS-CHECK is applied to."),
+        ("Exit equity (primary)", "Forward-pipeline rNPV + retained cash − debt at exit. The earnings multiple on run-rate profit is a CROSS-CHECK, not the headline."),
         ("Pre-money / post-money", "Pre-money = the company's agreed value before our money goes in; post-money = pre-money + our investment."),
         ("Ownership %", "Our share of the company = our investment ÷ post-money valuation."),
         ("Dilution", "The fall in our ownership % when new shares are issued — here a staff option pool and future funding rounds."),

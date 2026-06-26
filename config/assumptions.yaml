@@ -82,8 +82,44 @@ equity_deal:
   option_pool_pct:           {value: 0.10, source: "[[TO CONFIRM]] PLACEHOLDER — staff option pool created at our round (dilutes us)", as_at: "2026-06-26", verify: true}
   future_round_dilution_pct: {value: 0.20, source: "[[TO CONFIRM]] PLACEHOLDER — expected dilution from future capital raises before exit", as_at: "2026-06-26", verify: true}
   liquidation_preference_x:  {value: 1.0,  source: "PLACEHOLDER — 1x non-participating preferred (the greater of our money back or our as-converted share); confirm in the term sheet", as_at: "2026-06-26", verify: true}
-  exit_equity_multiple:      {value: 4.0,  source: "[[TO CONFIRM]] PLACEHOLDER — multiple on the company's modelled net programme profit to value it as a repeatable develop-and-flip platform at exit", as_at: "2026-06-26", verify: true}
   exit_year:                 {value: 5,    source: "[[TO CONFIRM]] PLACEHOLDER — years to our exit (we sell our shares)", as_at: "2026-06-26", verify: true}
+
+# -----------------------------------------------------------------------------
+# 2c. EXIT VALUE — how the company's exit equity value is built at our exit.
+#     PRIMARY basis = risk-adjusted FORWARD-PIPELINE value (rNPV): what a buyer of
+#     a development PLATFORM actually pays is the forward pipeline of future
+#     projects, NOT past profit already earned. The earnings multiple (§2d) and
+#     any comparable deals are CROSS-CHECKS only — they no longer drive the memo.
+#
+#       Exit equity value (per scenario)
+#         = rNPV of the projects still in the pipeline at exit (forward pipeline)
+#         + net cash RETAINED on the balance sheet at exit (not yet distributed)
+#         - any debt outstanding at exit
+#
+#     The forward pipeline rNPV uses the SAME gate decomposition (approval x grid
+#     connection x sale) and the SAME discount rate as the rest of the model.
+#     Double-count guard (see IC_MEMO §7): retained cash is realised profit NOT yet
+#     distributed; the forward pipeline is FUTURE profit — neither is the other.
+# -----------------------------------------------------------------------------
+exit_value:
+  exit_basis: "pipeline_rnpv"   # PRIMARY switch: pipeline_rnpv (default) | earnings_multiple | comps (cross-checks)
+  pipeline_depth_at_exit:        {value: 25,  source: "[[TO CONFIRM]] PLACEHOLDER — number of projects still IN FLIGHT (not yet sold) when we exit; the MAIN sensitivity of the pipeline basis (see Exhibit D). The company targets ~35 delivered over its programme.", as_at: "2026-06-26", verify: true}
+  interim_distribution_fraction: {value: 0.0, source: "[[TO CONFIRM]] PLACEHOLDER — fraction of realised net programme profit DISTRIBUTED to shareholders during the hold (convention (b), IC_MEMO §7). 0% (conservative) retains all realised profit and counts it ONCE, at face value, in the exit value — never at a multiple. Raise once the distribution policy is confirmed.", as_at: "2026-06-26", verify: true}
+  debt_at_exit_m:                {value: 0.0, source: "[[TO CONFIRM]] PLACEHOLDER — company debt outstanding at exit; the company is equity-funded, so 0 by default.", as_at: "2026-06-26", verify: true}
+
+# -----------------------------------------------------------------------------
+# 2d. EXIT VALUE CROSS-CHECK — earnings multiple (NOT the primary basis).
+#     A sanity check on §2c, applied to FORWARD RUN-RATE annual development profit
+#     (the yearly stream an acquirer inherits) — NOT cumulative programme profit.
+#     A lone, unsourced multiple must not drive the memo, so this is a sourced
+#     low / base / high RANGE; each needs a comp or sector benchmark to confirm.
+# -----------------------------------------------------------------------------
+exit_value_crosscheck:
+  earnings_multiple:
+    low:  {value: 3.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — low EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    base: {value: 5.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — base EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    high: {value: 7.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — high EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+  comps_available: false   # set true and add Appendix-A comps if credible comparable developer-platform M&A deals exist
 
 # -----------------------------------------------------------------------------
 # 3. Development cost & funnel attrition

@@ -36,8 +36,13 @@ SCALAR_MAP = {
     "Option pool": "option_pool_pct",
     "Future-round dilution": "future_round_dilution_pct",
     "Liquidation preference": "liquidation_pref_x",
-    "Platform exit multiple": "exit_equity_multiple",
     "Exit year": "exit_year",
+    "Pipeline depth at exit": "pipeline_depth_at_exit",
+    "Interim distribution fraction": "interim_distribution_fraction",
+    "Debt at exit": "debt_at_exit",
+    "Cross-check multiple — low": "xmult_low",
+    "Cross-check multiple — base": "xmult_base",
+    "Cross-check multiple — high": "xmult_high",
     "VC target return": "vc_target_return",
 }
 DURATION_MAP = {"Development approval": "dur_da", "Grid connection": "dur_connection", "Reach sale": "dur_sale"}
