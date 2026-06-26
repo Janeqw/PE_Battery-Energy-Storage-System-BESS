@@ -8,10 +8,10 @@
 
 | Stage | Hold | Capital | Expected IRR | Expected MOIC | Downside IRR | Main risk |
 |---|---|---|---|---|---|---|
-| Stage 1 — Develop & flip (RTB) | ~3 yrs | Low (~$0.5m dev/project; fund ~$25m) | **13.7%** | 1.31x | **-3.3%** | Approvals on time + a buyer pays (can lose capital) |
+| Stage 1 — Develop & flip (RTB) | ~3 yrs | Low (~$0.5m dev/project; fund ~$25m) | **0.8%** | 1.03x | **-17.6%** | Approvals on time + a buyer pays (can lose capital) |
 | Stage 2 — Build & sell | ~1.5 yrs | High (~$2.8m equity / $7.0m project) | **25.9%** | 1.41x | **-18.2%** | Construction cost/delay + thin build margin (can lose capital) |
 | Stage 3 — Own & operate | ~15 yrs | Highest (~$3.8m equity), locked up longest | **8.1%** | 2.41x | **4.4%** | Merchant price risk (steady if contracted) |
-| Stage 4 — Integrated (develop→build→operate) | ~18 yrs | Highest, longest (~$2.0m equity; only ~50% of starts reach operation) | **12.6%** | 4.57x | **8.6%** | ALL risks stacked: development + construction + merchant (but NO buyer/exit risk) |
+| Stage 4 — Integrated (develop→build→operate) | ~18 yrs | Highest, longest (~$2.1m equity; only ~41% of starts reach operation) | **12.2%** | 4.41x | **8.3%** | ALL risks stacked: development + construction + merchant (but NO buyer/exit risk) |
 
 ![Risk-return by stage](../outputs/figures/stage_comparison.png)
 

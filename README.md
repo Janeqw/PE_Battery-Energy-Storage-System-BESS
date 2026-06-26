@@ -15,19 +15,19 @@
 
 ## 1. Recommendation (bottom line up front)
 
-**Conditional. The opportunity is genuine, but on our independent rebuild it is materially less attractive than the manager presents, and the downside can impair capital. Do not commit on the projections.** Proceed to confirmatory due diligence and commit **only if** the manager evidences (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects, (2) sub-5-megawatt (MW), per-state success rates that reconcile our ~45% independent estimate with their 65% base case, and (3) a survivable downside. Absent those, decline.
+**Conditional. The opportunity is genuine, but on our independent rebuild it is materially less attractive than the manager presents, and the downside can impair capital. Do not commit on the projections.** Proceed to confirmatory due diligence and commit **only if** the manager evidences (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects, (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) a survivable downside. Absent those, decline.
 
 | Our independent view | The manager's claim |
 |---|---|
-| First-Chicago **expected investor internal rate of return (IRR) ≈ 13.7%** (multiple on invested capital, MOIC ~1.31×) | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
-| **Conservative case loses capital** (IRR −3.3%, MOIC 0.93×) | Conservative case still positive (10.7%) |
-| Independent cumulative success **~45%** | Base-case success **65%** |
+| First-Chicago **expected investor internal rate of return (IRR) ≈ 0.8%** (multiple on invested capital, MOIC ~1.03×) | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
+| **Conservative case loses capital** (IRR −17.6%, MOIC 0.68×) | Conservative case still positive (10.7%) |
+| The headline **65% is the development-approval gate ONLY**; true whole-funnel flip success ≈ **36%** (0.65 × 0.70 × 0.80) | Base case presented as **65%** success |
 
-*Basis — the full data-source-and-method table is in [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md). In brief: the **45%** comes from public planning-approval and grid-connection data via a probability-of-default / survival method (0.80 × 0.70 × 0.80); the **IRRs** come from our model (risk-adjusted net present value + fund funnel + First-Chicago weighting); the manager's figures are stated claims to verify.*
+*Basis — the full data-source-and-method table is in [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **IRRs** come from our model (risk-adjusted net present value + fund funnel + First-Chicago weighting); the manager's figures are stated claims to verify.*
 
-**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)*. On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient private capital — among the standalone entry points it is the only one that stays positive in its downside (the fully-integrated develop-build-operate path also does, but locks capital up ~18 years; see [§5](#5-where-to-invest-across-the-value-chain)).
+**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)* — which, on the corrected gates, is now the **weakest risk-adjusted entry** (≈0.8% expected IRR with a −17.6% downside that impairs capital). On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient private capital — among the standalone entry points it is the only one that stays positive in its downside (the fully-integrated develop-build-operate path also does, but locks capital up ~18 years; see [§5](#5-where-to-invest-across-the-value-chain)).
 
-**Single biggest risk:** *exit / buyer risk* (a flip with no buyer is a stranded asset), followed by *development / approval risk* and *success-rate optimism*.
+**Single biggest risk:** *exit / buyer risk* (a flip with no buyer is a stranded asset), followed by *development / approval risk* and the fact that the **65% headline is the approval gate alone** — the gates beyond approval (connection, sale) are not free.
 
 ---
 
@@ -51,12 +51,12 @@ The fund **develops ~5 MW distribution-connected (about 22-kilovolt, or 22 kV) b
 |---|---|---|
 | 1 | **Market is real, growing and policy-backed.** Coal retirement plus the renewables build-out create a structural firming gap; the growth stage is a *tailwind* for a develop-and-flip (more buyers), not the buy-and-hold "yellow flag." | ✅ Supportive |
 | 2 | **The niche is plausibly defensible.** Large developers chase 100 MW-plus transmission projects, leaving ~5 MW distribution under-contested; sub-5 MW projects get an Australian Energy Market Operator (AEMO) registration exemption → faster approval. | ⚠️ Verify the white space is durable |
-| 3 | **Execution (survival) — the manager's success rate looks optimistic.** Our independent public-data decomposition (planning ≈80% × connection ≈70% × sale ≈80%) = **~45% cumulative**, which sits **below** the manager's 65% base case and only just above their 40% conservative case. | 🔴 Key flag |
+| 3 | **Execution (survival) — the headline rate is the approval gate alone, not whole-funnel success.** The manager's **40% / 65% / 80%** are the development-approval (DA) gate only; a flip must also clear grid connection (≈70%) and a sale (≈80%). So **true Base-case flip success ≈ 36%** (0.65 × 0.70 × 0.80), and the independent public benchmark (approval 80%) is **≈ 45%** (0.80 × 0.70 × 0.80). The 65% headline **overstates** whole-funnel success. | 🔴 Key flag |
 | 4 | **Exit market is deep but unproven for *this* product — and skewed to scale.** The deep-pocketed buyers (infrastructure funds, superannuation funds, the Clean Energy Finance Corporation/Energy Security Corporation, retailers) transact at **100 MW and above**; a single 5 MW asset is too small for them, so the natural buyers are a thinner pool (network companies, government programmes, aggregators). The "3 interested buyers" are **non-binding**. | 🔴 The decisive risk |
 | 5 | **Economics are capital-light; the margin is the de-risking uplift.** Ready-to-build value is ~10–12% of built-asset value — confirming this is the development premium, not the build. Development cost ~$0.5m/project; the funnel widens as success falls (`started = target ÷ success`). | ✅ Coherent |
-| 6 | **Independent returns are below the manager's, with a real loss case.** Expected IRR ~13.7% versus the manager's ~17.7%; the conservative case can lose capital. | 🔴 Decision-driving |
+| 6 | **Independent returns are far below the manager's, with a real loss case.** Expected IRR ~0.8% versus the manager's ~17.7% claim; the conservative case impairs capital (IRR −17.6%, MOIC 0.68×). | 🔴 Decision-driving |
 
-*Basis — each finding's data source, method and calculation are tabulated in [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md) ("Where every figure comes from"). Headline methods: industry life-cycle model and Porter's Five Forces (Chartered Financial Analyst, or CFA, curriculum); probability-of-default / survival analysis (credit-risk practice) for the 45%; comparable-transactions evidence (energy trade press) for the buyer-size finding.*
+*Basis — each finding's data source, method and calculation are tabulated in [`INDUSTRY_REPORT.md`](INDUSTRY_REPORT.md) ("Where every figure comes from"). Headline methods: industry life-cycle model and Porter's Five Forces (Chartered Financial Analyst, or CFA, curriculum); probability-of-default / survival analysis (credit-risk practice) for the gate decomposition (approval × connection × sale); comparable-transactions evidence (energy trade press) for the buyer-size finding.*
 
 Supporting visuals (independent model):
 
@@ -67,18 +67,20 @@ Supporting visuals (independent model):
 
 ## 4. Returns — independent rebuild
 
-Modelled bottom-up from public data (survival curve → fund funnel → fees and carried interest → investor IRR and MOIC), with scenarios driven by the **cumulative success rate** (the master driver) and weighted via the **First-Chicago** method.
+Modelled bottom-up from public data (survival curve → fund funnel → fees and carried interest → investor IRR and MOIC), with scenarios driven by **flip success (= development approval × grid connection × sale) — the master driver, which the scenarios move via the development-approval (DA) gate** — and weighted via the **First-Chicago** method.
 
-| Scenario | Success rate | Projects started* | Investor MOIC (net) | Investor IRR (net) |
-|---|---|---|---|---|
-| Conservative | 40% | ~88 | **0.93×** | **−3.3%** |
-| Base | 65% | ~54 | **1.38×** | **17.5%** |
-| Ideal | 80% | ~44 | **1.68×** | **29.7%** |
-| **First-Chicago expected** (30/50/20 weighting) | — | — | **~1.31×** | **~13.7%** |
+| Scenario | DA gate | Flip success* | Projects started† | Investor MOIC (net) | Investor IRR (net) |
+|---|---|---|---|---|---|
+| Conservative | 40% | 22.4% | ~156 | **0.68×** | **−17.6%** |
+| Base | 65% | 36.4% | ~96 | **1.10×** | **+4.8%** |
+| Ideal | 80% | 44.8% | ~78 | **1.40×** | **+18.3%** |
+| **First-Chicago expected** (30/50/20 weighting) | — | — | — | **~1.03×** | **~0.8%** |
 
-\*To deliver the ~35-project target, the starting pipeline must widen as success falls — which is why a lower success rate also raises total development cost.
+\*Flip success = DA gate × grid connection (70%) × sale (80%): e.g. Base 0.65 × 0.70 × 0.80 = **36.4%**. The headline 40% / 65% / 80% are the **approval gate alone**, not whole-funnel success.
 
-*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; a fund funnel; fees and carried interest; First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** each scenario's after-fee IRR weighted 30% / 50% / 20% → ≈ 13.7%; the conservative case's MOIC of 0.93× (below 1.0×) is a capital loss.*
+†To deliver the ~35-project target, the starting pipeline must widen as flip success falls — which is why a lower success rate also raises total development cost.
+
+*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; a fund funnel; fees and carried interest; First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** each scenario's after-fee IRR weighted 30% / 50% / 20% → ≈ 0.8%; the conservative case's MOIC of 0.68× (below 1.0×) is a capital loss.*
 
 **Key assumptions** *(manager claims unless noted):*
 
@@ -103,7 +105,7 @@ Modelled bottom-up from public data (survival curve → fund funnel → fees and
 
 *Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. All other rows are the manager's projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence.*
 
-> **Read-through:** our rebuild is deliberately more conservative than the manager's (full development spend across the funnel; independent costs/prices; no credit for the optimistic 65% base). The result — **expected return below the manager's, and a downside that can return less than capital** — is the credit-style scepticism this decision requires.
+> **Read-through:** our rebuild is deliberately more conservative than the manager's (full development spend across the funnel; independent costs/prices; and — decisively — treating the 65% as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%, not 65%). The result — **expected return only marginally positive (≈0.8%), well below the manager's, and a downside that returns far less than capital** — is the credit-style scepticism this decision requires.
 
 ---
 
@@ -113,22 +115,22 @@ The same projects can be entered at several points on the chain — the standalo
 
 | Stage | Hold | Expected IRR | Expected MOIC | Downside IRR | Main risk |
 |---|---|---|---|---|---|
-| 1 — Develop & flip (sell ready-to-build) | ~3 years | **13.7%** | 1.31× | **−3.3%** | approvals + a buyer (can lose capital) |
-| 2 — Build & sell | ~1.5 years | **25.9%** | 1.41× | **−18.2%** | construction + thin build margin |
+| 1 — Develop & flip (sell ready-to-build) | ~3 years | **0.8%** | 1.03× | **−17.6%** | approvals on time + a buyer pays (can lose capital) |
+| 2 — Build & sell | ~1.5 years | **25.9%** | 1.41× | **−18.2%** | construction cost/delay + thin build margin |
 | 3 — Own & operate (contracted) | ~15 years | **8.1%** | 2.41× | **+4.4%** | merchant price (steady if contracted) |
-| 4 — Integrated (develop→build→operate) | ~18 years | **12.6%** | 4.57× | **+8.6%** | all risks stacked (development + construction + merchant), but no exit risk |
+| 4 — Integrated (develop→build→operate, keep) | ~18 years | **12.2%** | 4.41× | **+8.3%** | all risks stacked (development + construction + merchant), but NO buyer/exit risk |
 
 ![Risk-return by stage](outputs/figures/stage_comparison.png)
 
 **Recommendation by stage (for patient private capital):**
 
 - **Stage 3 — own & operate (contracted): the natural core.** The only *standalone* stage positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis*). Avoid merchant-only operating.
-- **Stage 1 — develop & flip: a smaller satellite,** only on the conditions in [§7](#7-conditions-to-commit--questions-for-the-manager).
+- **Stage 1 — develop & flip: now the weakest entry, at most a small satellite.** On the corrected gates it earns only ~0.8% expected IRR with a −17.6% downside that impairs capital — the worst risk-adjusted return of the four. Only on the conditions in [§7](#7-conditions-to-commit--questions-for-the-manager), and even then sized small.
 - **Stage 2 — build & sell: skip as a standalone** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
 - **Stage 4 — integrated (develop → build → operate): a different business model.** Captures the whole value chain and removes exit risk; because you build at cost, operating returns are strong with a positive downside *if it reaches operation*. But it is the longest lock-up (~18 years), stacks all the risks, and only ~50% of starts reach operation. For a patient owner-operator, not a passive limited partner.
 - **Alignment trap:** the manager keeps the best projects to operate and sells the rest — ask to co-invest in the ones they keep.
 
-> **The sale-gated 65% success rate is a Stage-1 number.** The ~45% (independent) / 65% (manager) figure is the chance a project clears planning, connection *and* a sale — so it includes exit risk. Stage 2 and Stage 3 investors buy a project that has *already* cleared development (at market price), so they bear construction-completion (~90%) and merchant-price risk instead. The integrated **Stage 4 also runs development, but without the sale gate** — its survival is planning × connection (≈56%), because it keeps the asset rather than selling it. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's 65% drives only the Stage 1 number.
+> **The headline 40% / 65% / 80% are the development-approval (DA) gate only — and only Stage 1 bears all three gates.** A develop-and-flip (Stage 1) project must clear **development approval × grid connection (70%) × sale (80%)**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ **36%** (Ideal, approval 80%, ≈ 45%) — the 65% is *not* whole-funnel success. Stage 2 and Stage 3 investors **buy past development** (a project that has already cleared it, at market price), so they bear construction-completion (~90%) and merchant-price risk instead. The integrated **Stage 4 also runs development, but has no sale gate** — it bears approval × connection × construction, i.e. ~56% development survival × ~90% construction, because it keeps the asset rather than selling it. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's approval gate drives only the Stage 1 number.
 
 *Basis — **Data source:** [`config/assumptions.yaml`](config/assumptions.yaml) (development cost, construction cost, operating revenue, debt terms) + the RBA risk-free rate. **Method:** levered equity IRR per stage — Stage 1 is the fund funnel; Stage 2 is a build-and-sell model risk-adjusted by completion probability; Stage 3 is a levered operating discounted-cash-flow (DCF) with low/base/high merchant-price scenarios. **Calculation:** full workings in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — the Stage 2 result is highly sensitive to the build margin.*
 
@@ -139,8 +141,8 @@ The same projects can be entered at several points on the chain — the standalo
 | Risk | Severity | Why it matters here |
 |---|---|---|
 | **Exit / buyer risk** | **High** | The decisive risk. Buyers are non-binding, transact at 100 MW+ (not 5 MW), and the market leans to *contracted* assets, not raw ready-to-build. A flip with no buyer is stranded capital. |
-| **Development / approval risk** | **High** | Planning + grid connection on time across three states; the master driver of returns via the success rate. |
-| **Success-rate optimism** | **High** | The manager's 65% base case sits above our ~45% independent estimate; verify with sub-5 MW, per-state evidence. |
+| **Development / approval risk** | **High** | Planning + grid connection on time across three states; the master driver of returns via flip success (approval × connection × sale). |
+| **65% is the approval gate alone** | **High** | The manager's 65% is the development-approval gate only, not whole-funnel success; true Base flip success ≈ 36% (0.65 × 0.70 × 0.80). Verify the approval gate, and the connection/sale gates beyond it, with sub-5 MW, per-state evidence. |
 | **Policy dependency** | **Medium–High** | Buyer appetite rests on net-zero / state schemes and the sub-5 MW exemption; a mid-window change hits all projects at once. |
 | **Concentration** | **Medium** | ~35 projects, one strategy, three states — correlated to a single policy/rule change. |
 | **Fees & liquidity** | **Medium** | 2%/2%/20%-over-8% is a meaningful gross-to-net drag; two-plus-one-year lock-up with no early redemption. |
@@ -154,12 +156,12 @@ The same projects can be entered at several points on the chain — the standalo
 
 **Commit only if all of the following are evidenced:**
 1. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested").
-2. **Success rate** — sub-5 MW, per-state planning-approval and grid-connection data reconciling the 65% base case with our independent ~45%.
-3. **Survivable downside** — the fee-adjusted conservative case stressed further (ready-to-build prices down 20–30%, success near ~45%) without impairing capital.
+2. **Success rate** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
+3. **Survivable downside** — the fee-adjusted conservative case stressed further (ready-to-build prices down 20–30%, flip success near ~22%) without impairing capital.
 4. **Alignment** — a transparent rule for selecting the "keep-best 5–10" projects.
 
 **Questions for the manager:**
-- Historical/expected approval and connection success **by state**, specifically for **sub-5 MW** — with evidence?
+- Historical/expected **approval, connection and sale** success **by state**, specifically for **sub-5 MW** — with evidence that 65% is the approval gate and not whole-funnel success?
 - Of the "3 interested buyers," what is **contractual** (signed options/memoranda of understanding, price/terms)?
 - The **bottom-up ~$0.5m/project** development-cost build-up?
 - **Independent comparables** behind the ready-to-build prices ($0.5–1.1m/project)?
@@ -179,14 +181,14 @@ The same projects can be entered at several points on the chain — the standalo
 The headline story: *applying credit-risk (probability-of-default / survival) discipline and institutional Excel standards to an infrastructure-development fund — independently rebuilding a manager's claims on fully public data.*
 
 **Methodology (what the model computes).**
-1. **Probability-of-default-style survival curve** — `cumulative probability of success = p(planning) × p(connection) × p(sale)` from public data; the independent ~45% is the model's own estimate, with the optimism gap versus the manager's base case flagged.
-2. **Per-project risk-adjusted net present value** — `ready-to-build sale − development cost = margin`, `× cumulative success`, discounted (development cost only — the buyer funds construction).
+1. **Probability-of-default-style survival curve** — `flip success = p(development approval) × p(connection) × p(sale)` from public data. The headline 40% / 65% / 80% are the **development-approval gate only**; the scenarios move that gate, and true flip success is the product (Base 0.65 × 0.70 × 0.80 ≈ 36%; independent benchmark, approval 80%, ≈ 45%), so the 65% headline overstates whole-funnel success.
+2. **Per-project risk-adjusted net present value** — `ready-to-build sale − development cost = margin`, `× flip success` (= approval × connection × sale), discounted (development cost only — the buyer funds construction).
 3. **Fund funnel → investor return** — `started = target ÷ success`; development cost (full on delivered + partial on dropouts); fees (entry + management + carried interest over the hurdle); **investor IRR & MOIC** (closed-form over the effective hold).
 4. **Scenario / First-Chicago** — Conservative / Base / Ideal, probability-weighted to an expected return.
 5. **Cross-checks** — dollar-per-MW benchmark, venture-capital method, and ready-to-build-as-%-of-built (~10–12%).
 6. **Three-stage value-chain comparison** (`src/stage_analysis.py`) — Stage 1 develop-and-flip, Stage 2 build-and-sell (levered, with completion risk), Stage 3 own-and-operate (levered operating discounted-cash-flow with merchant scenarios), each as a risk-adjusted equity return → see §5.
 
-The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base investor IRR 17.5% in both); a `formulas`-library recalculation confirms the model's master check reads **OK** with zero error cells.
+The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base investor IRR 4.8% in both); a `formulas`-library recalculation confirms the model's master check reads **OK** with zero error cells.
 
 **Methods & theory (CFA curriculum + real-world practice).** Every result uses a recognised technique, not a bespoke one — in plain terms:
 
@@ -257,7 +259,7 @@ PE_Battery-Energy-Storage-System-BESS/
 
 **Who built what (integrity).** This repository is a **version-1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the manager's figures are claims to verify:
 
-- the three scenario success rates (versus the independent ~45%)
+- the three scenario development-approval gates (40% / 65% / 80%) and the connection/sale gates beyond them — i.e. true flip success (Base ≈ 36%; independent benchmark ≈ 45%)
 - ready-to-build dollar-per-MW by state (need independent comparables)
 - development cost per project; fees / carried interest / hurdle
 - discount rate; cash-flow profile

@@ -58,7 +58,7 @@ def test_gate_stats_prob_and_duration():
     header = rows[0]
     p_i, d_i = header.index("probability"), header.index("duration_years")
     gates = {r[0] for r in rows[1:]}
-    assert {"planning_approval", "grid_connection", "reach_sale"} <= gates
+    assert {"development_approval", "grid_connection", "reach_sale"} <= gates
     for r in rows[1:]:
         p = float(r[p_i])
         assert 0.0 <= p <= 1.0, f"gate probability out of [0,1]: {r}"
@@ -106,12 +106,17 @@ def test_first_chicago_within_scenario_range():
     assert fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9
 
 
-def test_independent_survival_below_base_scenario():
-    """The headline DD finding: independent ~45% sits below the manager's Base (65%)."""
-    from src.valuation_engine import load_inputs, survival_curve
+def test_flip_success_below_manager_headline():
+    """The headline DD finding: the manager's 65% is the DEVELOPMENT-APPROVAL gate only.
+
+    True develop-and-flip success = DA x grid connection x sale, which is far below
+    the 65% headline (the gates beyond approval are not free)."""
+    from src.valuation_engine import load_inputs
 
     inp = load_inputs()
-    assert survival_curve(inp)["cumulative"] < float(inp.scenarios[2]["cum_success"])
+    base_da = float(inp.scenarios[2]["da_rate"])     # the manager's headline (65%)
+    assert inp.flip_base < base_da, "true flip success must be below the DA-gate headline"
+    assert abs(inp.flip_base - base_da * inp.p_connection * inp.p_sale) < 1e-9
 
 
 def test_stage_analysis_risk_ladder():

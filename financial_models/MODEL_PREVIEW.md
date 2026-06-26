@@ -10,30 +10,32 @@
 
 | Metric | Value |
 |---|---|
-| Expected investor IRR (after fees) | **13.7%** |
-| Expected MOIC (net) | **1.31x** |
-| Scenario IRR range | -3.3% … 29.7% |
+| Expected investor IRR (after fees) | **0.8%** |
+| Expected MOIC (net) | **1.03x** |
+| Scenario IRR range | -17.6% … 18.3% |
 | For comparison — manager's claimed IRRs | 10.7% / 19.4% / 23.8% |
 
 ## Investor return by scenario (after fees)
 
-| Scenario | Success rate | Projects started | Total dev cost | Invested capital | Gross proceeds | MOIC (net) | IRR (net) |
+| Scenario | Flip success | Projects started | Total dev cost | Invested capital | Gross proceeds | MOIC (net) | IRR (net) |
 |---|---|---|---|---|---|---|---|
-| Conservative | 40.0% | 88 | $26.6m | $28.6m | $26.8m | **0.93x** | **-3.3%** |
-| Base | 65.0% | 54 | $20.3m | $22.3m | $31.5m | **1.38x** | **17.5%** |
-| Ideal | 80.0% | 44 | $18.2m | $20.2m | $36.2m | **1.68x** | **29.7%** |
+| Conservative | 22.4% | 156 | $37.5m | $39.5m | $26.8m | **0.68x** | **-17.6%** |
+| Base | 36.4% | 96 | $26.7m | $28.7m | $31.5m | **1.10x** | **4.8%** |
+| Ideal | 44.8% | 78 | $23.2m | $25.2m | $36.2m | **1.40x** | **18.3%** |
 
-> The Conservative case returns **less than invested capital** (MOIC below 1.0x). The independent rebuild is deliberately more conservative than the manager's deck.
+> *Flip success = development approval × grid connection × sale* (not the development-approval rate alone). The Conservative case returns **less than invested capital** (MOIC below 1.0x), and even the Base case is only marginally positive once the full gate chain is applied.
 
-## PD-style survival curve (independent, public data)
+## Survival gates — separate; flip success = their product
 
-| Gate | Probability | Cumulative survival |
+> The manager's **40 / 65 / 80%** are the **development-approval gate ONLY**. True develop-and-flip success = development approval × grid connection × sale — a multi-period survival / probability-of-default curve.
+
+| Gate | Probability (public benchmark) | Cumulative survival |
 |---|---|---|
-| Planning approval | 80.0% | 80.0% |
+| Development approval | 80.0% | 80.0% |
 | Grid connection | 70.0% | 56.0% |
-| Reach sale | 80.0% | 44.8% |
+| Reach sale (flip exit) | 80.0% | 44.8% |
 
-**Independent cumulative success ≈ 44.8%** vs the manager's Base claim of 65.0% → **optimism gap +20.2%** (the manager's base sits above the independent estimate — a key diligence flag).
+**At the manager's Base development-approval rate (65.0%), true flip success ≈ 65.0% × 70.0% × 80.0% = 36.4%** — far below the 65% headline. The 65% is the approval gate alone; the gates beyond approval are not free. This is the central diligence flag.
 
 ## Fund funnel (Base scenario)
 
@@ -41,13 +43,13 @@
 |---|---|
 | Committed capital | $25.0m |
 | Projects target (delivered & sold) | 35 |
-| Projects started (funnel = target ÷ success) | 54 |
-| Total development cost | $20.3m |
+| Projects started (funnel = target ÷ success) | 96 |
+| Total development cost | $26.7m |
 | Management + entry fees | $2.0m |
-| Invested capital (LP) | $22.3m |
+| Invested capital (LP) | $28.7m |
 | Gross proceeds | $31.5m |
-| Carry to GP | $0.7m |
-| Distributions to LP | $30.8m |
+| Carry to GP | $0.0m |
+| Distributions to LP | $31.5m |
 
 *Fees: 2% entry + 2% p.a. management + 20% carry over an 8% hurdle. RTB prices (manager claim): NSW $1.0m · VIC $0.9m · SA $0.6m per 5 MW project.*
 
@@ -55,29 +57,30 @@
 
 | Method | Value |
 |---|---|
-| rNPV pipeline (Base) | $1.03m |
-| $/MW benchmark (dev value) | $1.03m |
-| VC method (today value) | $0.80m |
-| **Range** | **$0.80m – $1.03m** (midpoint $0.95m) |
+| rNPV pipeline (Base) | $0.58m |
+| $/MW benchmark (dev value) | $0.58m |
+| VC method (today value) | $0.45m |
+| **Range** | **$0.45m – $0.58m** (midpoint $0.53m) |
 
 ## Integrity checks
 
-All **14** model checks pass → master check reads `OK`.
+All **15** model checks pass → master check reads `OK`.
 
 | Check | Result |
 |---|---|
-| probabilities in [0,1] | ✅ OK |
-| independent cumulative <= each gate | ✅ OK |
+| gate probabilities in [0,1] | ✅ OK |
+| flip cumulative <= each gate | ✅ OK |
+| flip success = DA x conn x sale | ✅ OK |
 | MW positive | ✅ OK |
 | RTB sale values positive | ✅ OK |
-| dev costs positive | ✅ OK |
+| dev cost positive | ✅ OK |
 | switch in 1..3 | ✅ OK |
-| scenario success monotonic | ✅ OK |
-| investor IRR monotonic (Cons<=Base<=Ideal) | ✅ OK |
-| scenario weights sum to 100% | ✅ OK |
-| capital-call profile sums to 100% | ✅ OK |
+| DA scenario monotonic | ✅ OK |
+| investor IRR monotonic | ✅ OK |
+| weights sum to 100% | ✅ OK |
+| call profile sums to 100% | ✅ OK |
 | distribution profile sums to 100% | ✅ OK |
-| First-Chicago IRR within scenario range | ✅ OK |
+| First-Chicago IRR within range | ✅ OK |
 | invested capital positive | ✅ OK |
 | every input has a source | ✅ OK |
 

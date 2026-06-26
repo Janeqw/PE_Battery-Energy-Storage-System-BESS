@@ -1,24 +1,20 @@
-"""Valuation engine — the Python reference implementation of the Excel model.
+"""Valuation engine — Python reference of the Excel model (Stage 1: develop & flip).
 
-DEAL: an ILLUSTRATIVE distribution-network BESS *develop-and-flip* fund (framed
-on the an illustrative develop-and-flip battery storage fund — manager claims independently rebuilt). The
-fund develops ~5 MW distribution batteries to shovel-ready (RTB / development
-rights) and SELLS them before construction. It never operates the asset, so
-merchant-price risk passes to the buyer; the fund's risk is the SURVIVAL CURVE
-(approve -> connect -> sell) and the RTB EXIT PRICE.
+DEAL: an ILLUSTRATIVE distribution-network battery *develop-and-flip* fund. The
+fund develops ~5 MW distribution batteries to shovel-ready (ready-to-build, RTB)
+and SELLS them before construction. Merchant-price risk passes to the buyer.
 
-This module encodes the SAME maths the Excel workbook computes with formulas:
-  * the PD-style survival curve (independent cumulative P from public gate data)
-  * per-project risk-adjusted NAV (rNPV): RTB sale - dev cost, x cum P, discounted
-  * the FUND FUNNEL: projects_started = target / success; dev cost (with
-    attrition); fees (entry / management / carry over hurdle); investor IRR & MOIC
-  * scenarios (Conservative / Base / Ideal) driven by the success rate, with a
-    First-Chicago probability-weighted expected return
-  * cross-checks ($/MW benchmark, VC method, RTB-as-%-of-built)
+CORRECTED GATE LOGIC (this rebuild):
+  Each lifecycle gate is modelled SEPARATELY. The scenarios move ONLY the
+  development-approval (DA) gate (manager claim: 40 / 65 / 80%). The Stage-1 flip
+  must clear THREE gates, so its true success is the product:
+      flip success = DA  x  grid connection (~70%)  x  sale (~80%)
+  e.g. Base = 0.65 x 0.70 x 0.80 = 0.364 — NOT 65%. The manager's 65% is the DA
+  gate alone; treating it as whole-funnel success overstates the real chance.
 
-It reads the SAME inputs as the model (config/assumptions.yaml + the processed
-CSVs), so its numbers should match the workbook. All figures are ILLUSTRATIVE.
-the manager figures are the manager's claims to verify. Not investment advice.
+Valuation follows the VC method (work back from exit value, discount at a target
+return) with First-Chicago scenario weighting. No cap table (single-asset/fund
+play). Reproduces the Excel workbook. All figures illustrative; not investment advice.
 """
 from __future__ import annotations
 
@@ -32,29 +28,25 @@ PROJECT_ROOT = io.PROJECT_ROOT
 PROCESSED = io.DATA_PROCESSED
 
 
-# ---------------------------------------------------------------------------
-# Input loading (mirrors the model's Inputs tab)
-# ---------------------------------------------------------------------------
 @dataclass
 class Inputs:
     risk_free: float
     risk_premium: float
     vc_target_return: float
     horizon: int
-    # development cost
     dev_cost_per_project: float
     abandonment_fraction: float
     built_cost_per_mw: float
-    # survival gates (independent public-data decomposition)
-    p_planning: float
+    # gates
+    da_independent: float          # public-data development-approval benchmark
     p_connection: float
     p_sale: float
-    dur_planning: float
+    dur_da: float
     dur_connection: float
     dur_sale: float
-    # RTB exit price $/MW by state
+    # RTB price $/MW by state
     rtb_comps: dict
-    # fund structure
+    # fund
     committed_capital: float
     projects_target: float
     term_years: float
@@ -64,7 +56,7 @@ class Inputs:
     hurdle_pct: float
     call_profile: list
     dist_profile: list
-    # scenarios
+    # scenarios (cases carry da_rate, sale_price_multiplier, dev_cost_multiplier)
     scenarios: dict
     weights: dict
     switch_default: int
@@ -75,10 +67,17 @@ class Inputs:
     def discount_base(self) -> float:
         return self.risk_free + self.risk_premium
 
+    def flip_success(self, da: float) -> float:
+        """Stage-1 flip success = development approval x grid connection x sale."""
+        return da * self.p_connection * self.p_sale
+
     @property
-    def cum_p_independent(self) -> float:
-        """Independent bottom-up cumulative success from public gate data (~0.45)."""
-        return self.p_planning * self.p_connection * self.p_sale
+    def flip_independent(self) -> float:
+        return self.flip_success(self.da_independent)
+
+    @property
+    def flip_base(self) -> float:
+        return self.flip_success(float(self.scenarios[2]["da_rate"]))
 
 
 def _read_csv_rows(path: Path) -> list[dict]:
@@ -92,15 +91,12 @@ def load_inputs() -> Inputs:
     a = io.load_assumptions()
     sources = {}
 
-    # Risk-free: prefer live rates.csv, else config
     risk_free = float(a["discount_rate"]["risk_free"]["value"])
     rates_csv = PROCESSED / "rates.csv"
     if rates_csv.exists():
         r = _read_csv_rows(rates_csv)[0]
-        risk_free = float(r["value"])
-        sources["risk_free"] = (r["source"], r["as_at"], r["status"])
+        risk_free = float(r["value"]); sources["risk_free"] = (r["source"], r["as_at"], r["status"])
 
-    # Costs: prefer costs.csv (dev cost per project + built-cost context)
     dev_cost = float(a["dev_cost"]["per_project_m"]["value"])
     built = float(a["built_cost_context"]["per_mw_m"]["value"])
     costs_csv = PROCESSED / "costs.csv"
@@ -111,28 +107,25 @@ def load_inputs() -> Inputs:
             elif r["item"] == "built_cost_context_per_mw_m":
                 built = float(r["value"]); sources["build"] = (r["source"], r["as_at"], r["status"])
 
-    # Gates: prefer gate_stats.csv
     g = a["gates"]
-    pp, pc, ps = (g["planning_approval"]["probability"], g["grid_connection"]["probability"],
-                  g["reach_sale"]["probability"])
-    dp, dc, ds = (g["planning_approval"]["duration_years"], g["grid_connection"]["duration_years"],
-                  g["reach_sale"]["duration_years"])
+    da_ind = float(g["development_approval"]["independent"])
+    pc, ps = float(g["grid_connection"]["probability"]), float(g["reach_sale"]["probability"])
+    dda = float(g["development_approval"]["duration_years"])
+    dc, ds = float(g["grid_connection"]["duration_years"]), float(g["reach_sale"]["duration_years"])
     gate_csv = PROCESSED / "gate_stats.csv"
     if gate_csv.exists():
         m = {r["gate"]: r for r in _read_csv_rows(gate_csv)}
-        if "planning_approval" in m:
-            pp = float(m["planning_approval"]["probability"]); dp = float(m["planning_approval"]["duration_years"])
-            sources["p_planning"] = (m["planning_approval"]["source"], m["planning_approval"]["as_at"], m["planning_approval"]["status"])
+        if "development_approval" in m:
+            da_ind = float(m["development_approval"]["probability"]); dda = float(m["development_approval"]["duration_years"])
+            sources["da"] = (m["development_approval"]["source"], m["development_approval"]["as_at"], m["development_approval"]["status"])
         if "grid_connection" in m:
             pc = float(m["grid_connection"]["probability"]); dc = float(m["grid_connection"]["duration_years"])
-            sources["p_connection"] = (m["grid_connection"]["source"], m["grid_connection"]["as_at"], m["grid_connection"]["status"])
+            sources["connection"] = (m["grid_connection"]["source"], m["grid_connection"]["as_at"], m["grid_connection"]["status"])
         if "reach_sale" in m:
             ps = float(m["reach_sale"]["probability"]); ds = float(m["reach_sale"]["duration_years"])
-            sources["p_sale"] = (m["reach_sale"]["source"], m["reach_sale"]["as_at"], m["reach_sale"]["status"])
+            sources["sale"] = (m["reach_sale"]["source"], m["reach_sale"]["as_at"], m["reach_sale"]["status"])
 
-    # RTB comps $/MW by state: prefer rtb_comps.csv
-    rtb = {k: float(v) for k, v in a["rtb_comps_per_mw_m"].items()
-           if k in ("NSW", "VIC", "SA")}
+    rtb = {k: float(v) for k, v in a["rtb_comps_per_mw_m"].items() if k in ("NSW", "VIC", "SA")}
     rtb_csv = PROCESSED / "rtb_comps.csv"
     if rtb_csv.exists():
         for r in _read_csv_rows(rtb_csv):
@@ -140,25 +133,21 @@ def load_inputs() -> Inputs:
                 rtb[r["state"]] = float(r["price_per_mw_m"])
             except (KeyError, ValueError):
                 pass
-        sources["rtb"] = ("RTB $/MW by state (the manager claim — independent comps needed)",
+        sources["rtb"] = ("RTB $/MW by state (manager claim — independent comps needed)",
                           a["rtb_comps_per_mw_m"]["as_at"], "BENCHMARK")
 
-    # Pipeline: prefer pipeline.csv
     projects = []
     pipe_csv = PROCESSED / "pipeline.csv"
     if pipe_csv.exists():
         for r in _read_csv_rows(pipe_csv):
-            projects.append({
-                "name": r["project"], "state": r["state"], "location": r["location"],
-                "mw": float(r["mw"]), "duration_h": float(r["duration_h"]),
-                "mwh": float(r["mwh"]), "years_to_sale": float(r["years_to_sale"]),
-            })
+            projects.append({"name": r["project"], "state": r["state"], "location": r["location"],
+                             "mw": float(r["mw"]), "duration_h": float(r["duration_h"]),
+                             "mwh": float(r["mwh"]), "years_to_sale": float(r["years_to_sale"])})
     else:
         for p in a["pipeline"]["projects"]:
             projects.append({**p, "mwh": p["mw"] * p["duration_h"], "years_to_sale": p["years_to_sale"]})
 
-    fund = a["fund"]
-    fees = fund["fees"]
+    fund, fees = a["fund"], a["fund"]["fees"]
     return Inputs(
         risk_free=risk_free,
         risk_premium=float(a["discount_rate"]["risk_premium"]["value"]),
@@ -167,16 +156,14 @@ def load_inputs() -> Inputs:
         dev_cost_per_project=dev_cost,
         abandonment_fraction=float(a["dev_cost"]["abandonment_fraction"]["value"]),
         built_cost_per_mw=built,
-        p_planning=pp, p_connection=pc, p_sale=ps,
-        dur_planning=dp, dur_connection=dc, dur_sale=ds,
+        da_independent=da_ind, p_connection=pc, p_sale=ps,
+        dur_da=dda, dur_connection=dc, dur_sale=ds,
         rtb_comps=rtb,
         committed_capital=float(fund["committed_capital_m"]["value"]),
         projects_target=float(fund["projects_target"]["value"]),
         term_years=float(fund["term_years"]["value"]),
-        entry_fee_pct=float(fees["entry_fee_pct"]),
-        mgmt_fee_pct_pa=float(fees["mgmt_fee_pct_pa"]),
-        carry_pct=float(fees["carry_pct"]),
-        hurdle_pct=float(fees["hurdle_pct"]),
+        entry_fee_pct=float(fees["entry_fee_pct"]), mgmt_fee_pct_pa=float(fees["mgmt_fee_pct_pa"]),
+        carry_pct=float(fees["carry_pct"]), hurdle_pct=float(fees["hurdle_pct"]),
         call_profile=list(fund["capital_call_profile"]["value"]),
         dist_profile=list(fund["distribution_profile"]["value"]),
         scenarios=a["scenarios"]["cases"], weights=a["scenarios"]["weights"],
@@ -189,50 +176,35 @@ def load_inputs() -> Inputs:
 # Helpers
 # ---------------------------------------------------------------------------
 def effective_hold(inp: Inputs) -> float:
-    """Cash-weighted hold = mean distribution period - mean call period.
-
-    For profiles calls [0.5,0.5] / dists [0,0,0.5,0.5] this is 2.5 - 0.5 = 2.0,
-    so closed-form IRR = MOIC^(1/2)-1 ~= the true multi-period IRR.
-    """
     avg_call = sum(t * f for t, f in enumerate(inp.call_profile))
     avg_dist = sum(t * f for t, f in enumerate(inp.dist_profile))
     return avg_dist - avg_call
 
 
-def survival_curve(inp: Inputs) -> dict:
-    """PD-style survival: independent per-gate probs and cumulative survival.
+def _case(inp: Inputs, case: dict | None) -> dict:
+    return case if case is not None else inp.scenarios[2]
 
-    This is the model's INDEPENDENT bottom-up estimate from public data; the
-    scenarios (Conservative/Base/Ideal) set the success rate used in valuation.
-    """
-    g1, g2, g3 = inp.p_planning, inp.p_connection, inp.p_sale
-    return {
-        "planning": g1, "connection": g2, "sale": g3,
-        "survival_after_planning": g1,
-        "survival_after_connection": g1 * g2,
-        "cumulative": g1 * g2 * g3,
-    }
+
+def survival_curve(inp: Inputs, da: float | None = None) -> dict:
+    """The Stage-1 flip survival chain (development approval -> connection -> sale)."""
+    da = inp.da_independent if da is None else da
+    s1 = da
+    s2 = s1 * inp.p_connection
+    s3 = s2 * inp.p_sale
+    return {"development_approval": da, "grid_connection": inp.p_connection, "reach_sale": inp.p_sale,
+            "after_approval": s1, "after_connection": s2, "flip_cumulative": s3}
 
 
 def discount_rate_for(inp: Inputs, case: dict) -> float:
-    ov = case.get("discount_rate_override")
-    return float(ov) if ov else inp.discount_base
-
-
-def _case(inp: Inputs, case: dict | None) -> dict:
-    return case if case is not None else inp.scenarios[2]  # 2 = Base
+    # the asset-cross-check discount; scenarios no longer override it
+    return inp.discount_base
 
 
 # ---------------------------------------------------------------------------
 # Per-project risk-adjusted NAV (rNPV) — RTB, development cost only
 # ---------------------------------------------------------------------------
 def project_rows(inp: Inputs, case: dict) -> list[dict]:
-    """Per-project rNPV rows for a scenario (mirrors Calc_Project_rNPV).
-
-    Cost is DEVELOPMENT cost only — the fund sells RTB and never builds; the
-    buyer funds construction.
-    """
-    cumP = float(case["cum_success"])
+    cumP = inp.flip_success(float(case["da_rate"]))
     smult = float(case["sale_price_multiplier"])
     dmult = float(case["dev_cost_multiplier"])
     disc = discount_rate_for(inp, case)
@@ -241,50 +213,39 @@ def project_rows(inp: Inputs, case: dict) -> list[dict]:
         rtb_per_mw = inp.rtb_comps.get(p["state"], 0.0) * smult
         sale = p["mw"] * rtb_per_mw
         cost = inp.dev_cost_per_project * dmult
-        gross_margin = sale - cost
-        risk_adj = gross_margin * cumP
+        gm = sale - cost
+        risk_adj = gm * cumP
         df = 1.0 / (1.0 + disc) ** p["years_to_sale"]
-        out.append({
-            "name": p["name"], "state": p["state"], "mw": p["mw"],
-            "years_to_sale": p["years_to_sale"], "rtb_per_mw": rtb_per_mw,
-            "sale_value": sale, "cost": cost, "gross_margin": gross_margin,
-            "cumP": cumP, "risk_adj_margin": risk_adj, "df": df, "pv": risk_adj * df,
-        })
+        out.append({"name": p["name"], "state": p["state"], "mw": p["mw"],
+                    "years_to_sale": p["years_to_sale"], "rtb_per_mw": rtb_per_mw,
+                    "sale_value": sale, "cost": cost, "gross_margin": gm, "cumP": cumP,
+                    "risk_adj_margin": risk_adj, "df": df, "pv": risk_adj * df})
     return out
 
 
 def pipeline_rnpv(inp: Inputs, case: dict | None = None) -> float:
-    """Risk-adjusted PV of the representative pipeline (sum of per-project PV)."""
-    rows = project_rows(inp, _case(inp, case))
-    return sum(r["pv"] for r in rows)
+    return sum(r["pv"] for r in project_rows(inp, _case(inp, case)))
 
 
-def rnpv_per_project(inp: Inputs, case: dict | None = None) -> float:
-    rows = project_rows(inp, _case(inp, case))
-    return sum(r["pv"] for r in rows) / len(rows) if rows else float("nan")
-
-
-# ---------------------------------------------------------------------------
-# Fund funnel, fees & investor return  (Calc_Fund + Returns)
-# ---------------------------------------------------------------------------
 def blended_sale_value(inp: Inputs, case: dict) -> float:
-    """Average RTB sale value per delivered project across the pipeline mix."""
     smult = float(case["sale_price_multiplier"])
     vals = [p["mw"] * inp.rtb_comps.get(p["state"], 0.0) * smult for p in inp.projects]
     return sum(vals) / len(vals) if vals else 0.0
 
 
+# ---------------------------------------------------------------------------
+# Fund funnel, fees & investor return  (Stage 1)
+# ---------------------------------------------------------------------------
 def fund_metrics(inp: Inputs, case: dict | None = None) -> dict:
-    """The funnel -> fees -> investor IRR & MOIC for a scenario."""
     case = _case(inp, case)
-    cumP = float(case["cum_success"])
+    da = float(case["da_rate"])
+    flip_success = inp.flip_success(da)
     dmult = float(case["dev_cost_multiplier"])
 
     target = inp.projects_target
-    started = target / cumP if cumP > 0 else float("inf")
+    started = target / flip_success if flip_success > 0 else float("inf")
     failed = started - target
     C = inp.dev_cost_per_project * dmult
-    # stage-weighted attrition: full cost on delivered + partial on the dropouts
     total_dev_cost = target * C + failed * inp.abandonment_fraction * C
 
     sale_per_project = blended_sale_value(inp, case)
@@ -300,162 +261,134 @@ def fund_metrics(inp: Inputs, case: dict | None = None) -> dict:
     distributions = gross_proceeds - carry
 
     moic = distributions / invested_capital if invested_capital > 0 else float("nan")
-    # Investor IRR = closed-form over the effective hold, so the Excel model
-    # reproduces it cell-for-cell without relying on Excel's IRR(): the effective
-    # hold is the cash-weighted gap between distributions and calls.
-    eff_hold = effective_hold(inp)
-    fund_irr = moic ** (1.0 / eff_hold) - 1.0 if (moic > 0 and eff_hold > 0) else float("nan")
-
-    return {
-        "cum_success": cumP, "projects_target": target, "projects_started": started,
-        "projects_failed": failed, "total_dev_cost": total_dev_cost,
-        "sale_per_project": sale_per_project, "gross_proceeds": gross_proceeds,
-        "entry_fee": entry_fee, "mgmt_fee": mgmt_fee, "invested_capital": invested_capital,
-        "profit_pre_carry": profit_pre_carry, "hurdle_amount": hurdle_amount,
-        "carry": carry, "distributions": distributions, "net_profit": distributions - invested_capital,
-        "moic": moic, "irr": fund_irr, "eff_hold": eff_hold,
-    }
+    eff = effective_hold(inp)
+    irr = moic ** (1.0 / eff) - 1.0 if (moic > 0 and eff > 0) else float("nan")
+    return {"da_rate": da, "flip_success": flip_success, "projects_target": target,
+            "projects_started": started, "total_dev_cost": total_dev_cost,
+            "sale_per_project": sale_per_project, "gross_proceeds": gross_proceeds,
+            "entry_fee": entry_fee, "mgmt_fee": mgmt_fee, "invested_capital": invested_capital,
+            "carry": carry, "distributions": distributions,
+            "net_profit": distributions - invested_capital, "moic": moic, "irr": irr, "eff_hold": eff}
 
 
 def returns_by_scenario(inp: Inputs) -> dict:
-    """Investor IRR & MOIC for each scenario."""
     return {c["name"]: fund_metrics(inp, c) for c in inp.scenarios.values()}
 
 
 def first_chicago(inp: Inputs) -> dict:
-    """Probability-weighted (First-Chicago) expected investor IRR & MOIC."""
     rbs = returns_by_scenario(inp)
-    exp_irr = sum(rbs[name]["irr"] * w for name, w in inp.weights.items())
-    exp_moic = sum(rbs[name]["moic"] * w for name, w in inp.weights.items())
-    irrs = [rbs[name]["irr"] for name in inp.weights]
+    exp_irr = sum(rbs[n]["irr"] * w for n, w in inp.weights.items())
+    exp_moic = sum(rbs[n]["moic"] * w for n, w in inp.weights.items())
+    irrs = [rbs[n]["irr"] for n in inp.weights]
     return {"expected_irr": exp_irr, "expected_moic": exp_moic,
             "min_irr": min(irrs), "max_irr": max(irrs), "by_scenario": rbs}
 
 
 # ---------------------------------------------------------------------------
-# Cross-checks ($/MW benchmark, VC method, RTB-as-%-of-built)
+# Cross-checks (VC method, $/MW)
 # ---------------------------------------------------------------------------
-def dollar_per_mw_benchmark(inp: Inputs, case: dict | None = None) -> dict:
-    """Method: total MW x RTB $/MW, less dev cost, risk-adjusted, discounted."""
-    case = _case(inp, case)
-    cumP = float(case["cum_success"])
-    smult = float(case["sale_price_multiplier"])
-    dmult = float(case["dev_cost_multiplier"])
-    disc = discount_rate_for(inp, case)
-    total_mw = sum(p["mw"] for p in inp.projects)
-    gross_asset_value = sum(p["mw"] * inp.rtb_comps.get(p["state"], 0.0) for p in inp.projects) * smult
-    total_cost = inp.dev_cost_per_project * dmult * len(inp.projects)
-    avg_years = sum(p["years_to_sale"] for p in inp.projects) / len(inp.projects)
-    dev_value = (gross_asset_value - total_cost) * cumP / (1.0 + disc) ** avg_years
-    return {
-        "total_mw": total_mw, "gross_asset_value": gross_asset_value,
-        "total_cost": total_cost, "implied_dev_value": dev_value, "avg_years": avg_years,
-    }
-
-
 def vc_method(inp: Inputs, case: dict | None = None) -> dict:
-    """Work back from the risk-adjusted exit value at the VC target return."""
+    """VC method: work back from the risk-adjusted exit value at the target return."""
     case = _case(inp, case)
-    cumP = float(case["cum_success"])
-    smult = float(case["sale_price_multiplier"])
-    dmult = float(case["dev_cost_multiplier"])
+    cumP = inp.flip_success(float(case["da_rate"]))
+    smult = float(case["sale_price_multiplier"]); dmult = float(case["dev_cost_multiplier"])
     total_sale = sum(p["mw"] * inp.rtb_comps.get(p["state"], 0.0) for p in inp.projects) * smult
     total_cost = inp.dev_cost_per_project * dmult * len(inp.projects)
     exit_equity_value = cumP * (total_sale - total_cost)
     today_value = exit_equity_value / (1.0 + inp.vc_target_return) ** inp.horizon
-    return {
-        "exit_equity_value": exit_equity_value, "hurdle": inp.vc_target_return,
-        "horizon": inp.horizon, "today_value": today_value,
-    }
+    return {"exit_equity_value": exit_equity_value, "target_return": inp.vc_target_return,
+            "horizon": inp.horizon, "today_value": today_value}
+
+
+def dollar_per_mw_benchmark(inp: Inputs, case: dict | None = None) -> dict:
+    case = _case(inp, case)
+    cumP = inp.flip_success(float(case["da_rate"]))
+    smult = float(case["sale_price_multiplier"]); dmult = float(case["dev_cost_multiplier"])
+    disc = discount_rate_for(inp, case)
+    total_mw = sum(p["mw"] for p in inp.projects)
+    gross = sum(p["mw"] * inp.rtb_comps.get(p["state"], 0.0) for p in inp.projects) * smult
+    total_cost = inp.dev_cost_per_project * dmult * len(inp.projects)
+    avg_years = sum(p["years_to_sale"] for p in inp.projects) / len(inp.projects)
+    dev_value = (gross - total_cost) * cumP / (1.0 + disc) ** avg_years
+    return {"total_mw": total_mw, "gross_asset_value": gross, "total_cost": total_cost,
+            "implied_dev_value": dev_value, "avg_years": avg_years}
 
 
 def rtb_vs_built(inp: Inputs) -> dict:
-    """Sense-check: RTB price as a % of built-asset value (should be ~10-12%)."""
-    out = {}
-    for state, rtb in inp.rtb_comps.items():
-        built = inp.built_cost_per_mw
-        out[state] = {"rtb_per_mw": rtb, "built_per_mw": built,
-                      "pct_of_built": rtb / built if built else float("nan")}
-    return out
+    return {st: {"rtb_per_mw": rtb, "built_per_mw": inp.built_cost_per_mw,
+                 "pct_of_built": rtb / inp.built_cost_per_mw if inp.built_cost_per_mw else float("nan")}
+            for st, rtb in inp.rtb_comps.items()}
 
 
 def valuation_range(inp: Inputs) -> dict:
-    """Per-pipeline value across three asset-value methods (Base case)."""
-    methods = {
-        "rNPV pipeline (Base)": pipeline_rnpv(inp),
-        "$/MW benchmark (dev value)": dollar_per_mw_benchmark(inp)["implied_dev_value"],
-        "VC method (today value)": vc_method(inp)["today_value"],
-    }
+    methods = {"rNPV pipeline (Base)": pipeline_rnpv(inp),
+               "$/MW benchmark (dev value)": dollar_per_mw_benchmark(inp)["implied_dev_value"],
+               "VC method (today value)": vc_method(inp)["today_value"]}
     vals = list(methods.values())
-    return {"methods": methods, "low": min(vals), "high": max(vals),
-            "midpoint": sum(vals) / len(vals)}
+    return {"methods": methods, "low": min(vals), "high": max(vals), "midpoint": sum(vals) / len(vals)}
 
 
 # ---------------------------------------------------------------------------
-# Sensitivity & tornado (success rate x RTB price)
+# Sensitivity & checks
 # ---------------------------------------------------------------------------
-def sensitivity_two_way(inp: Inputs,
-                        successes=(0.35, 0.45, 0.55, 0.65, 0.80),
+def sensitivity_two_way(inp: Inputs, da_rates=(0.40, 0.55, 0.65, 0.80, 0.95),
                         price_mults=(0.70, 0.85, 1.00, 1.15, 1.30)) -> dict:
-    """Investor IRR across cumulative success rate x RTB price multiplier."""
+    """Investor IRR across development-approval rate x RTB price multiplier."""
     grid = []
-    for s in successes:
-        row = []
-        for pm in price_mults:
-            case = {"cum_success": s, "sale_price_multiplier": pm,
-                    "dev_cost_multiplier": 1.0, "discount_rate_override": None}
-            row.append(fund_metrics(inp, case)["irr"])
+    for da in da_rates:
+        row = [fund_metrics(inp, {"da_rate": da, "sale_price_multiplier": pm,
+                                  "dev_cost_multiplier": 1.0})["irr"] for pm in price_mults]
         grid.append(row)
-    return {"successes": list(successes), "price_mults": list(price_mults), "grid": grid}
+    return {"da_rates": list(da_rates), "price_mults": list(price_mults), "grid": grid}
 
 
 def tornado(inp: Inputs) -> list[dict]:
-    """Investor-IRR swing from a move in each key driver (around Base)."""
-    base = inp.scenarios[2]
-    base_irr = fund_metrics(inp, base)["irr"]
+    """Investor-IRR sensitivity to each key driver, swung low<->high around Base.
 
-    def irr_with(**over) -> float:
-        case = {**base, **over}
+    Base = the Base scenario. Each driver is moved to its Conservative and Ideal
+    setting (one at a time, all else at Base) to show which driver moves the
+    return most. The development-approval gate dominates."""
+    base_case = inp.scenarios[2]
+    base_irr = fund_metrics(inp, base_case)["irr"]
+
+    def irr(da=None, sale=None, dev=None):
+        case = {"da_rate": base_case["da_rate"] if da is None else da,
+                "sale_price_multiplier": base_case["sale_price_multiplier"] if sale is None else sale,
+                "dev_cost_multiplier": base_case["dev_cost_multiplier"] if dev is None else dev}
         return fund_metrics(inp, case)["irr"]
 
-    specs = [
-        ("Success rate", {"cum_success": 0.45}, {"cum_success": 0.80}),
-        ("RTB price", {"sale_price_multiplier": 0.80}, {"sale_price_multiplier": 1.20}),
-        ("Dev cost", {"dev_cost_multiplier": 1.20}, {"dev_cost_multiplier": 0.80}),
+    lo, hi = inp.scenarios[1], inp.scenarios[3]   # Conservative / Ideal settings
+    drivers = [
+        ("Development-approval rate", irr(da=lo["da_rate"]), irr(da=hi["da_rate"])),
+        ("RTB exit price", irr(sale=lo["sale_price_multiplier"]), irr(sale=hi["sale_price_multiplier"])),
+        ("Development cost", irr(dev=hi["dev_cost_multiplier"]), irr(dev=lo["dev_cost_multiplier"])),
     ]
-    out = []
-    for label, lo, hi in specs:
-        out.append({"driver": label, "low": irr_with(**lo), "high": irr_with(**hi),
-                    "swing": abs(irr_with(**hi) - irr_with(**lo)), "base": base_irr})
-    out.sort(key=lambda d: d["swing"], reverse=True)
-    return out
+    rows = [{"driver": d, "base": base_irr, "low": low, "high": high} for d, low, high in drivers]
+    rows.sort(key=lambda r: abs(r["high"] - r["low"]), reverse=True)
+    return rows
 
 
-# ---------------------------------------------------------------------------
-# Checks (mirror the model's Checks tab)
-# ---------------------------------------------------------------------------
 def run_checks(inp: Inputs) -> dict:
     sc = survival_curve(inp)
     rbs = returns_by_scenario(inp)
     fc = first_chicago(inp)
-    probs = [inp.p_planning, inp.p_connection, inp.p_sale]
+    gates = [inp.da_independent, inp.p_connection, inp.p_sale]
+    das = [float(inp.scenarios[i]["da_rate"]) for i in (1, 2, 3)]
     rows = project_rows(inp, inp.scenarios[2])
-    irr_c, irr_b, irr_i = rbs["Conservative"]["irr"], rbs["Base"]["irr"], rbs["Ideal"]["irr"]
     return {
-        "probabilities in [0,1]": all(0 <= p <= 1 for p in probs),
-        "independent cumulative <= each gate": (sc["cumulative"] <= min(probs) + 1e-9),
+        "gate probabilities in [0,1]": all(0 <= p <= 1 for p in gates + das),
+        "flip cumulative <= each gate": sc["flip_cumulative"] <= min(gates) + 1e-9,
+        "flip success = DA x conn x sale": abs(sc["flip_cumulative"] - inp.flip_independent) < 1e-9,
         "MW positive": all(p["mw"] > 0 for p in inp.projects),
         "RTB sale values positive": all(r["sale_value"] > 0 for r in rows),
-        "dev costs positive": all(r["cost"] > 0 for r in rows),
+        "dev cost positive": inp.dev_cost_per_project > 0,
         "switch in 1..3": inp.switch_default in (1, 2, 3),
-        "scenario success monotonic": (inp.scenarios[1]["cum_success"] <=
-                                       inp.scenarios[2]["cum_success"] <=
-                                       inp.scenarios[3]["cum_success"]),
-        "investor IRR monotonic (Cons<=Base<=Ideal)": (irr_c <= irr_b <= irr_i),
-        "scenario weights sum to 100%": abs(sum(inp.weights.values()) - 1.0) < 1e-6,
-        "capital-call profile sums to 100%": abs(sum(inp.call_profile) - 1.0) < 1e-6,
+        "DA scenario monotonic": das[0] <= das[1] <= das[2],
+        "investor IRR monotonic": rbs["Conservative"]["irr"] <= rbs["Base"]["irr"] <= rbs["Ideal"]["irr"],
+        "weights sum to 100%": abs(sum(inp.weights.values()) - 1.0) < 1e-6,
+        "call profile sums to 100%": abs(sum(inp.call_profile) - 1.0) < 1e-6,
         "distribution profile sums to 100%": abs(sum(inp.dist_profile) - 1.0) < 1e-6,
-        "First-Chicago IRR within scenario range": fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9,
+        "First-Chicago IRR within range": fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9,
         "invested capital positive": all(rbs[n]["invested_capital"] > 0 for n in rbs),
         "every input has a source": len(inp.sources) >= 4,
     }
@@ -466,54 +399,40 @@ def summary(inp: Inputs | None = None) -> dict:
     rbs = returns_by_scenario(inp)
     fc = first_chicago(inp)
     sc = survival_curve(inp)
-    return {
-        "inputs": inp,
-        "discount_base": inp.discount_base,
-        "survival": sc,
-        "cum_p_independent": inp.cum_p_independent,
-        "base_scenario_success": float(inp.scenarios[2]["cum_success"]),
-        "optimism_gap": float(inp.scenarios[2]["cum_success"]) - inp.cum_p_independent,
-        "returns_by_scenario": rbs,
-        "first_chicago": fc,
-        "fund_base": fund_metrics(inp, inp.scenarios[2]),
-        "pipeline_rnpv_base": pipeline_rnpv(inp),
-        "rnpv_per_project": rnpv_per_project(inp),
-        "dollar_per_mw": dollar_per_mw_benchmark(inp),
-        "vc": vc_method(inp),
-        "rtb_vs_built": rtb_vs_built(inp),
-        "valuation_range": valuation_range(inp),
-        "checks": run_checks(inp),
-    }
+    da_base = float(inp.scenarios[2]["da_rate"])
+    return {"inputs": inp, "discount_base": inp.discount_base, "survival": sc,
+            "da_independent": inp.da_independent, "da_base_manager": da_base,
+            "flip_independent": inp.flip_independent, "flip_base_manager": inp.flip_base,
+            "returns_by_scenario": rbs, "first_chicago": fc,
+            "fund_base": fund_metrics(inp, inp.scenarios[2]), "pipeline_rnpv_base": pipeline_rnpv(inp),
+            "vc": vc_method(inp), "dollar_per_mw": dollar_per_mw_benchmark(inp),
+            "rtb_vs_built": rtb_vs_built(inp), "valuation_range": valuation_range(inp),
+            "checks": run_checks(inp)}
 
 
 if __name__ == "__main__":
     s = summary()
     inp = s["inputs"]
-    print("=" * 72)
+    print("=" * 74)
     print("ILLUSTRATIVE DISTRIBUTION-BESS DEVELOP-AND-FLIP FUND — VALUATION ENGINE")
-    print("(independent rebuild; the manager figures are claims to verify — not advice)")
-    print("=" * 72)
-    print(f"Risk-free (RBA): {inp.risk_free:.3%}  + premium {inp.risk_premium:.1%}"
-          f"  => base discount {s['discount_base']:.2%}")
-    print(f"Pipeline (representative): {len(inp.projects)} x ~5 MW across NSW/VIC/SA")
-    sc = s["survival"]
-    print(f"\nSurvival curve (INDEPENDENT, public data): planning {sc['planning']:.0%} "
-          f"-> connection {sc['connection']:.0%} -> sale {sc['sale']:.0%}"
-          f"  => cumulative {sc['cumulative']:.1%}")
-    print(f"   Base scenario success (the manager claim): {s['base_scenario_success']:.0%}"
-          f"   => optimism gap {s['optimism_gap']:+.1%}  (Base sits ABOVE independent)")
-    print("\nInvestor returns by scenario (after fees):")
-    for name in ("Conservative", "Base", "Ideal"):
-        m = s["returns_by_scenario"][name]
-        print(f"   {name:<13} success {m['cum_success']:.0%}  started {m['projects_started']:.0f}"
-              f"  MOIC {m['moic']:.2f}x  IRR {m['irr']:.1%}")
+    print("(VC method + First Chicago; manager figures are claims — not advice)")
+    print("=" * 74)
+    print(f"Risk-free {inp.risk_free:.2%} + premium {inp.risk_premium:.1%} => base discount {s['discount_base']:.2%}; "
+          f"VC target return {inp.vc_target_return:.0%}")
+    print("\nSURVIVAL GATES (the corrected logic — the manager's 40/65/80% are the DA gate ONLY):")
+    print(f"  Development approval (DA): scenarios 40/65/80%  | public benchmark {inp.da_independent:.0%}")
+    print(f"  Grid connection: {inp.p_connection:.0%}   Sale (flip): {inp.p_sale:.0%}")
+    print(f"  -> TRUE flip success = DA x conn x sale:")
+    print(f"       at manager Base DA 65%: {inp.flip_base:.1%}   (NOT 65% — the headline overstates)")
+    print(f"       at public DA 80%:       {inp.flip_independent:.1%}")
+    print("\nInvestor returns by scenario (DA gate drives the scenario):")
+    for n in ("Conservative", "Base", "Ideal"):
+        m = s["returns_by_scenario"][n]
+        print(f"  {n:<13} DA {m['da_rate']:.0%} -> flip success {m['flip_success']:.1%}  "
+              f"started {m['projects_started']:.0f}  MOIC {m['moic']:.2f}x  IRR {m['irr']:.1%}")
     fc = s["first_chicago"]
-    print(f"\nFirst-Chicago expected investor IRR: {fc['expected_irr']:.1%}"
-          f"  (MOIC {fc['expected_moic']:.2f}x)   range {fc['min_irr']:.1%} .. {fc['max_irr']:.1%}")
-    vr = s["valuation_range"]
-    print(f"\nPipeline value cross-check range: ${vr['low']:.1f}m – ${vr['high']:.1f}m "
-          f"(midpoint ${vr['midpoint']:.1f}m)")
+    print(f"\nFirst-Chicago expected investor IRR {fc['expected_irr']:.1%}  (MOIC {fc['expected_moic']:.2f}x)")
     print("\nChecks:")
     for k, v in s["checks"].items():
-        print(f"   [{'OK ' if v else 'XX '}] {k}")
-    print("\n(All figures illustrative — the manager figures are claims to verify. Not investment advice.)")
+        print(f"  [{'OK ' if v else 'XX '}] {k}")
+    print("\n(All illustrative — manager figures are claims to verify. Not investment advice.)")

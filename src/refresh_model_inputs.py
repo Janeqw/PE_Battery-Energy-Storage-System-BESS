@@ -32,12 +32,12 @@ SCALAR_MAP = {
     "Development cost per project": "dev_cost_per_project",
     "Abandonment fraction": "abandonment_fraction",
     "Built-asset cost": "built_cost_per_mw",
-    "Gate 1": "p_planning",
-    "Gate 2": "p_connection",
-    "Gate 3": "p_sale",
+    "Development approval": "da_independent",
+    "Grid connection": "p_connection",
+    "Reach sale": "p_sale",
     "VC target return": "vc_target_return",
 }
-DURATION_MAP = {"Gate 1": "dur_planning", "Gate 2": "dur_connection", "Gate 3": "dur_sale"}
+DURATION_MAP = {"Development approval": "dur_da", "Grid connection": "dur_connection", "Reach sale": "dur_sale"}
 STATES = ("NSW", "VIC", "SA")  # exact match on col A -> rtb_comps[state]
 
 

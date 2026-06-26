@@ -183,10 +183,10 @@ def build():
     b.put(INP, 19, 1, "Build cost CONTEXT (buyer-funded — NOT in margin)", "sect", fill="sect")
     srow(20, "Built-asset cost (context)", inp.built_cost_per_mw, "built_cost", FMW, "$m/MW", "build")
 
-    b.put(INP, 21, 1, "Survival gates (independent — public data)", "sect", fill="sect")
-    srow(22, "Gate 1 — Planning approval", inp.p_planning, "p_plan", FPCT, "prob", "p_planning", dur=inp.dur_planning)
-    srow(23, "Gate 2 — Grid connection", inp.p_connection, "p_conn", FPCT, "prob", "p_connection", dur=inp.dur_connection)
-    srow(24, "Gate 3 — Reach sale", inp.p_sale, "p_sale", FPCT, "prob", "p_sale", dur=inp.dur_sale)
+    b.put(INP, 21, 1, "Survival gates — SEPARATE; scenarios move ONLY development approval", "sect", fill="sect")
+    srow(22, "Development approval — public benchmark", inp.da_independent, "da_ind", FPCT, "prob", "da", dur=inp.dur_da)
+    srow(23, "Grid connection (separate gate)", inp.p_connection, "p_conn", FPCT, "prob", "connection", dur=inp.dur_connection)
+    srow(24, "Reach sale — flip exit (separate gate)", inp.p_sale, "p_sale", FPCT, "prob", "sale", dur=inp.dur_sale)
 
     b.put(INP, 25, 1, "RTB exit price — $/MW by state (the manager claim — verify)", "sect", fill="sect")
     for i, st in enumerate(["NSW", "VIC", "SA"]):
@@ -239,10 +239,9 @@ def build():
 
     b.header(SCN, 4, ["Driver", "Conservative", "Base", "Ideal", "Live (active)"])
     cases = inp.scenarios  # keyed 1..3
-    drivers = [("Cumulative success rate", "cum_success", FPCT, "live_success"),
+    drivers = [("Development-approval rate (DA gate — the 40/65/80%)", "da_rate", FPCT, "live_da"),
                ("RTB price multiplier", "sale_price_multiplier", FMULT, "live_sale_mult"),
-               ("Dev cost multiplier", "dev_cost_multiplier", FMULT, "live_dev_mult"),
-               ("Discount rate override (0=use base)", "discount_rate_override", FPCT, "live_override")]
+               ("Dev cost multiplier", "dev_cost_multiplier", FMULT, "live_dev_mult")]
     for di, (label, field, fmt, key) in enumerate(drivers):
         r = 5 + di
         b.put(SCN, r, 1, label, "label")
@@ -252,13 +251,16 @@ def build():
             b.put(SCN, r, 2 + ci, val, "input", fmt=fmt, border=True, align="center")
         b.put(SCN, r, 5, f"=CHOOSE({R['switch']},B{r},C{r},D{r})", "formula", fmt=fmt, bold=True, border=True)
         R[key] = b.ref(SCN, 5, r)
-    b.put(SCN, 9, 1, "Live discount rate", "label", bold=True)
-    b.put(SCN, 9, 5, f"=IF({R['live_override']}=0,{R['discount_base']},{R['live_override']})", "formula", fmt=FPCT, bold=True, border=True)
+    # discount rate is fixed (scenarios move ONLY the DA gate, not the discount rate)
+    b.put(SCN, 9, 1, "Live discount rate (= base; scenarios don't move it)", "label", bold=True)
+    b.put(SCN, 9, 5, f"={R['discount_base']}", "link", fmt=FPCT, bold=True, border=True)
     R["live_discount"] = b.ref(SCN, 5, 9)
-    # scenario-column refs
-    R["scn_success"] = {1: b.ref(SCN, 2, 5), 2: b.ref(SCN, 3, 5), 3: b.ref(SCN, 4, 5)}
+    # scenario-column refs (DA gate by scenario; multipliers)
+    R["scn_da"] = {1: b.ref(SCN, 2, 5), 2: b.ref(SCN, 3, 5), 3: b.ref(SCN, 4, 5)}
     R["scn_salemult"] = {1: b.ref(SCN, 2, 6), 2: b.ref(SCN, 3, 6), 3: b.ref(SCN, 4, 6)}
     R["scn_devmult"] = {1: b.ref(SCN, 2, 7), 2: b.ref(SCN, 3, 7), 3: b.ref(SCN, 4, 7)}
+    # per-scenario flip success = DA x grid connection x sale  (the corrected logic)
+    R["scn_flip"] = {c: f"{R['scn_da'][c]}*{R['p_conn']}*{R['p_sale']}" for c in (1, 2, 3)}
 
     b.put(SCN, 11, 1, "First-Chicago weights", "sect", fill="sect")
     b.header(SCN, 12, ["", "Conservative", "Base", "Ideal", "Sum"])
@@ -268,8 +270,9 @@ def build():
     b.put(SCN, 13, 5, "=SUM(B13:D13)", "formula", fmt=FPCT, bold=True, border=True)
     R["weights"] = b.rng(SCN, 2, 13, 4, 13)
     R["weights_sum"] = b.ref(SCN, 5, 13)
-    b.put(SCN, 15, 1, "Success rates mirror the manager's deck (40/65/80%) for comparability. The INDEPENDENT survival curve (~45%) "
-                      "sits below Base (65%) — see Calc_Survival. Scenarios are the analyst's to OWN.", "note", wrap=True)
+    b.put(SCN, 15, 1, "The 40/65/80% are the DEVELOPMENT-APPROVAL gate ONLY (the manager's deck). True flip success = development "
+                      "approval x grid connection x sale — far below 65% (see Calc_Survival). The switch moves ONLY the DA gate; "
+                      "connection and sale are fixed public benchmarks. Scenarios are the analyst's to OWN.", "note", wrap=True)
 
     # =====================================================================
     # TIMELINE
@@ -295,16 +298,17 @@ def build():
     R["tl_periods"] = b.rng(TL, 2, 3, 2 + nper, 3)
 
     # =====================================================================
-    # CALC_SURVIVAL (PD-style survival curve — independent benchmark)
+    # CALC_SURVIVAL (separate gates; flip success = their product)
     # =====================================================================
-    b.width(SURV, {"A": 38, "B": 16, "C": 18})
-    b.put(SURV, 1, 1, "CALC — PD-STYLE SURVIVAL CURVE (independent, public data)", "title")
-    b.put(SURV, 2, 1, "Cumulative P(success) = product of gate probabilities — structurally a multi-period PD / survival curve "
-                      "(the credit-risk bridge). This is the model's INDEPENDENT estimate; the SCENARIOS set the success rate used in valuation.", "note", wrap=True)
+    b.width(SURV, {"A": 46, "B": 16, "C": 18})
+    b.put(SURV, 1, 1, "CALC — SURVIVAL GATES (each separate; flip success = their product)", "title")
+    b.put(SURV, 2, 1, "The manager's 40/65/80% are the DEVELOPMENT-APPROVAL gate ONLY. True develop-and-flip success = development "
+                      "approval x grid connection x sale — a multi-period survival / probability-of-default curve. The DA gate is LIVE "
+                      "from the scenario switch; grid connection and sale are fixed public benchmarks.", "note", wrap=True)
     b.header(SURV, 3, ["Gate", "Probability", "Cumulative survival"])
-    gate_rows = [("Gate 1 — Planning approval", R["p_plan"]),
-                 ("Gate 2 — Grid connection", R["p_conn"]),
-                 ("Gate 3 — Reach sale", R["p_sale"])]
+    gate_rows = [("Development approval (live scenario DA gate)", R["live_da"]),
+                 ("Grid connection", R["p_conn"]),
+                 ("Reach sale (flip exit)", R["p_sale"])]
     for i, (label, pref) in enumerate(gate_rows):
         r = 4 + i
         b.put(SURV, r, 1, label, "label")
@@ -313,17 +317,23 @@ def build():
             b.put(SURV, r, 3, f"=B{r}", "formula", fmt=FPCT, border=True)
         else:
             b.put(SURV, r, 3, f"=C{r-1}*B{r}", "formula", fmt=FPCT, border=True)
-    b.put(SURV, 7, 1, "Independent cumulative P(success)", "label", bold=True)
+    b.put(SURV, 7, 1, "LIVE flip success (DA x connection x sale)", "label", bold=True)
     b.put(SURV, 7, 3, "=C6", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
-    R["cum_independent"] = b.ref(SURV, 3, 7)
-    b.put(SURV, 9, 1, "Base scenario success (the manager claim)", "label")
-    b.put(SURV, 9, 3, f"={R['scn_success'][2]}", "link", fmt=FPCT, border=True)
-    b.put(SURV, 10, 1, "Optimism gap (Base − independent)", "label", bold=True)
-    b.put(SURV, 10, 3, f"=C9-{R['cum_independent']}", "formula", fmt=FPCT, bold=True, border=True)
-    R["optimism_gap"] = b.ref(SURV, 3, 10)
-    b.put(SURV, 11, 3, '=IF(C10>0.05,"FLAG: Base optimistic","ok")', "formula", align="center", border=True)
-    b.put(SURV, 12, 1, "Independent ~45% sits BELOW the manager's Base (65%): treat Base as optimistic; ask for sub-5MW, per-state evidence. "
-                       "The sub-5MW AEMO registration exemption MAY lift small-distribution success above the large-project benchmark — verify.", "note", wrap=True)
+    R["live_success"] = b.ref(SURV, 3, 7)
+    b.put(SURV, 9, 1, "Public-benchmark development approval", "label")
+    b.put(SURV, 9, 3, f"={R['da_ind']}", "link", fmt=FPCT, border=True)
+    b.put(SURV, 10, 1, "Independent flip success (benchmark DA x conn x sale)", "label", bold=True)
+    b.put(SURV, 10, 3, f"=C9*{R['p_conn']}*{R['p_sale']}", "formula", fmt=FPCT, bold=True, border=True)
+    R["flip_independent"] = b.ref(SURV, 3, 10)
+    b.put(SURV, 12, 1, "Manager's headline DA rate (Base — the '65%')", "label")
+    b.put(SURV, 12, 3, f"={R['scn_da'][2]}", "link", fmt=FPCT, border=True)
+    b.put(SURV, 13, 1, "True flip success at that DA (DA x conn x sale)", "label", bold=True)
+    b.put(SURV, 13, 3, f"={R['scn_flip'][2]}", "formula", fmt=FPCT, bold=True, border=True)
+    R["flip_at_base_da"] = b.ref(SURV, 3, 13)
+    b.put(SURV, 14, 3, '=IF(C13<C12,"FLAG: 65% is the DA gate only","ok")', "formula", align="center", border=True)
+    b.put(SURV, 15, 1, "The 65% headline is the approval gate alone; after grid connection (~70%) and sale (~80%) the true flip success is "
+                       "~36%. The DA gate is the master return driver — the scenarios move it 40/65/80%. The sub-5MW AEMO registration "
+                       "exemption MAY lift small-distribution success — verify per state.", "note", wrap=True)
 
     # =====================================================================
     # CALC_PROJECT_rNPV (per-project risk-adjusted NAV — dev cost only)
@@ -443,7 +453,7 @@ def build():
     b.header(RET, 4, ["Metric", "Conservative", "Base", "Ideal"])
     scol = {1: "B", 2: "C", 3: "D"}
     metric_rows = [
-        (5, "Cumulative success", lambda c: f"={R['scn_success'][c]}", FPCT, "link"),
+        (5, "Flip success (DA x conn x sale)", lambda c: f"={R['scn_flip'][c]}", FPCT, "formula"),
         (6, "RTB price multiplier", lambda c: f"={R['scn_salemult'][c]}", FMULT, "link"),
         (7, "Dev cost multiplier", lambda c: f"={R['scn_devmult'][c]}", FMULT, "link"),
         (8, "Dev cost per project", lambda c: f"={R['dev_cost']}*{scol[c]}7", FM2, "formula"),
@@ -504,14 +514,14 @@ def build():
     b.put(CC, 2, 1, "Asset-value cross-checks on the representative pipeline, Base scenario. All figures AUD $m unless stated.", "note", wrap=True)
     base_sale_mult = R["scn_salemult"][2]
     base_dev_mult = R["scn_devmult"][2]
-    base_success = R["scn_success"][2]
+    base_success = R["scn_flip"][2]
     b.put(CC, 3, 1, "$/MW benchmark (Base)", "sect", fill="sect")
     cc = [
         (4, "Total pipeline MW", f"=SUM({R['rnpv_mw']})", FNUM, "formula"),
         (5, "Gross RTB asset value $m", f"=SUMPRODUCT({R['rnpv_mw']},{R['rnpv_rtb']})*{base_sale_mult}", FM, "formula"),
         (6, "Total dev cost $m", f"={R['dev_cost']}*{base_dev_mult}*{n}", FM, "formula"),
         (7, "Average years to sale", f"=AVERAGE({R['rnpv_years']})", FNUM1, "formula"),
-        (8, "Cumulative success (Base)", f"={base_success}", FPCT, "link"),
+        (8, "Flip success (Base, DA x conn x sale)", f"={base_success}", FPCT, "formula"),
         (9, "$/MW implied dev value $m", f"=IFERROR((C5-C6)*C8/(1+{R['discount_base']})^C7,0)", FM2, "formula"),
     ]
     for r, label, val, fmt, kind in cc:
@@ -523,7 +533,7 @@ def build():
     vc = [
         (12, "Total RTB sale value $m", f"=SUMPRODUCT({R['rnpv_mw']},{R['rnpv_rtb']})*{base_sale_mult}", FM, "formula"),
         (13, "Total dev cost $m", "=C6", FM, "formula"),
-        (14, "Cumulative success (Base)", "=C8", FPCT, "link"),
+        (14, "Flip success (Base)", "=C8", FPCT, "link"),
         (15, "Exit equity value (expected) $m", "=C14*(C12-C13)", FM2, "formula"),
         (16, "VC target return", f"={R['vc_target']}", FPCT, "link"),
         (17, "Hold horizon (yrs)", f"={R['term']}", FNUM, "link"),
@@ -557,14 +567,15 @@ def build():
     b.put(RET, 33, 3, "=MAX(C28:C30)", "formula", fmt=FM2, bold=True, border=True)
 
     # =====================================================================
-    # SENSITIVITY (investor MOIC: cumulative success x RTB price)
+    # SENSITIVITY (investor MOIC: development-approval rate x RTB price)
     # =====================================================================
     b.width(SENS, {"A": 24, "B": 11, "C": 9, "D": 9, "E": 9, "F": 9, "G": 9,
                    "H": 11, "I": 11, "J": 11, "K": 11})
-    b.put(SENS, 1, 1, "SENSITIVITY — investor MOIC (net): success × RTB price", "title")
-    b.put(SENS, 2, 1, "Investor MOIC vs cumulative success (down) × RTB price multiplier (across); all else at Base. "
-                      "IRR ≈ MOIC^(1/eff-hold). Live formula grid (recalculates everywhere). All figures AUD $m / x.", "note", wrap=True)
-    successes = [0.35, 0.45, 0.55, 0.65, 0.80]
+    b.put(SENS, 1, 1, "SENSITIVITY — investor MOIC (net): development approval × RTB price", "title")
+    b.put(SENS, 2, 1, "Investor MOIC vs DEVELOPMENT-APPROVAL rate (down) × RTB price multiplier (across); all else at Base. "
+                      "Flip success = DA × grid connection × sale, so the funnel widens with the FULL gate chain (not the DA rate alone). "
+                      "IRR ≈ MOIC^(1/eff-hold). Live formula grid. All figures AUD $m / x.", "note", wrap=True)
+    da_rates = [0.40, 0.55, 0.65, 0.80, 0.95]
     price_mults = [0.70, 0.85, 1.00, 1.15, 1.30]
     GC0 = 3  # grid columns C..G
     # constants
@@ -572,7 +583,10 @@ def build():
     b.put(SENS, 5, 1, "Hurdle factor", "label"); b.put(SENS, 5, 2, f"={R['hfac']}", "link", fmt=FPCT, border=True)
     b.put(SENS, 6, 1, "Fixed fees (mgmt+entry) $m", "label")
     b.put(SENS, 6, 2, f"={R['mgmt_fee']}+{R['entry_fee']}", "formula", fmt=FM, border=True)
+    b.put(SENS, 7, 1, "Conn × sale (flip adj)", "label")
+    b.put(SENS, 7, 2, f"={R['p_conn']}*{R['p_sale']}", "formula", fmt=FPCT, border=True)
     R["s_carry"], R["s_hfac"], R["s_fees"] = b.ref(SENS, 2, 4), b.ref(SENS, 2, 5), b.ref(SENS, 2, 6)
+    R["s_flipadj"] = b.ref(SENS, 2, 7)
     # price header (row 8) and gross-per-project helper row (row 9)
     b.put(SENS, 8, 2, "Price mult →", "label", bold=True, align="right")
     b.put(SENS, 9, 2, "Gross $m →", "label", bold=True, align="right")
@@ -581,23 +595,24 @@ def build():
         b.put(SENS, 8, GC0 + j, pm, "input", fmt=FMULT, fill="yel", align="center", border=True)
         b.put(SENS, 9, GC0 + j, f"={R['target']}*{R['base_blended']}*{cl}8", "formula", fmt=FM, align="center", border=True)
     # header row 10 + helper col labels
-    b.put(SENS, 10, 2, "Success ↓", "head", fill="head", align="center", border=True)
+    b.put(SENS, 10, 2, "DA gate ↓", "head", fill="head", align="center", border=True)
     for j in range(len(price_mults)):
         b.put(SENS, 10, GC0 + j, "MOIC", "head", fill="head", align="center", border=True)
-    for k, lab in enumerate(["Started", "Total dev", "Invested"]):
+    for k, lab in enumerate(["Flip succ", "Started", "Total dev", "Invested"]):
         b.put(SENS, 10, 8 + k, lab, "head", fill="head", align="center", wrap=True, border=True)
-    for i, s in enumerate(successes):
+    for i, da in enumerate(da_rates):
         r = 11 + i
-        b.put(SENS, r, 2, s, "input", fmt=FPCT, fill="yel", align="center", border=True)
-        b.put(SENS, r, 8, f"=IFERROR({R['target']}/$B{r},0)", "formula", fmt=FNUM1, border=True)
-        b.put(SENS, r, 9, f"={R['target']}*{R['dev_cost']}+(H{r}-{R['target']})*{R['abandon']}*{R['dev_cost']}", "formula", fmt=FM, border=True)
-        b.put(SENS, r, 10, f"=I{r}+{R['s_fees']}", "formula", fmt=FM, border=True)
+        b.put(SENS, r, 2, da, "input", fmt=FPCT, fill="yel", align="center", border=True)
+        b.put(SENS, r, 8, f"=$B{r}*{R['s_flipadj']}", "formula", fmt=FPCT, border=True)
+        b.put(SENS, r, 9, f"=IFERROR({R['target']}/H{r},0)", "formula", fmt=FNUM1, border=True)
+        b.put(SENS, r, 10, f"={R['target']}*{R['dev_cost']}+(I{r}-{R['target']})*{R['abandon']}*{R['dev_cost']}", "formula", fmt=FM, border=True)
+        b.put(SENS, r, 11, f"=J{r}+{R['s_fees']}", "formula", fmt=FM, border=True)
         for j in range(len(price_mults)):
             cl = get_column_letter(GC0 + j)
             # MOIC = (gross - carry) / invested ; carry = carry%*MAX(0,(gross-invested)-invested*hfac)
-            f = (f"=IFERROR(({cl}$9-{R['s_carry']}*MAX(0,({cl}$9-$J{r})-$J{r}*{R['s_hfac']}))/$J{r},0)")
+            f = (f"=IFERROR(({cl}$9-{R['s_carry']}*MAX(0,({cl}$9-$K{r})-$K{r}*{R['s_hfac']}))/$K{r},0)")
             b.put(SENS, r, GC0 + j, f, "formula", fmt=FX, border=True)
-    R["sens_grid"] = b.rng(SENS, GC0, 11, GC0 + len(price_mults) - 1, 11 + len(successes) - 1)
+    R["sens_grid"] = b.rng(SENS, GC0, 11, GC0 + len(price_mults) - 1, 11 + len(da_rates) - 1)
 
     # =====================================================================
     # CHECKS
@@ -611,14 +626,14 @@ def build():
     checks = [
         (f'=IF(AND(MIN({b.rng(INP,3,22,3,24)})>=0,MAX({b.rng(INP,3,22,3,24)})<=1),"OK","ERROR")',
          "Every gate probability ∈ [0,1]", "Gate probs bounded"),
-        (f'=IF({R["cum_independent"]}<=MIN({b.rng(SURV,2,4,2,6)})+0.000001,"OK","ERROR")',
-         "Independent cumulative ≤ each gate", "Survival monotonic"),
+        (f'=IF({R["live_success"]}<=MIN({b.rng(SURV,2,4,2,6)})+0.000001,"OK","ERROR")',
+         "Flip success ≤ each gate", "Survival monotonic"),
         (f'=IF(MIN({R["pipe_mw"]})>0,"OK","ERROR")', "All MW positive", "Sign check"),
         (f'=IF(MIN({b.rng(RNPV,7,4,7,4 + n - 1)})>0,"OK","ERROR")', "All RTB sale values positive", "Sign check"),
         (f'=IF({R["dev_cost"]}>0,"OK","ERROR")', "Dev cost positive", "Sign check"),
         (f'=IF(AND({R["switch"]}>=1,{R["switch"]}<=3),"OK","ERROR")', "Scenario switch ∈ {1,2,3}", "Switch valid"),
-        (f'=IF(AND({R["scn_success"][1]}<={R["scn_success"][2]},{R["scn_success"][2]}<={R["scn_success"][3]}),"OK","ERROR")',
-         "Scenario success monotonic", "Cons ≤ Base ≤ Ideal"),
+        (f'=IF(AND({R["scn_da"][1]}<={R["scn_da"][2]},{R["scn_da"][2]}<={R["scn_da"][3]}),"OK","ERROR")',
+         "Scenario DA-gate monotonic", "Cons ≤ Base ≤ Ideal"),
         (f'=IF(AND({R["irr_by"][1]}<={R["irr_by"][2]},{R["irr_by"][2]}<={R["irr_by"][3]}),"OK","ERROR")',
          "Investor IRR monotonic", "Cons ≤ Base ≤ Ideal"),
         (f'=IF(ABS({R["weights_sum"]}-1)<0.001,"OK","ERROR")', "Scenario weights sum to 100%", "First-Chicago weights"),
@@ -673,28 +688,29 @@ def build():
     b.put(DSH, 8, 4, "MOIC (live)", "label")
     b.put(DSH, 8, 5, f"={R['moic_live']}", "link", fmt=FX, border=True)
     b.put(DSH, 10, 1, "INVESTOR IRR BY SCENARIO", "sect", fill="sect")
-    b.header(DSH, 11, ["Scenario", "Success", "IRR", "MOIC"])
+    b.header(DSH, 11, ["Scenario", "Flip succ", "IRR", "MOIC"])
     for i, (name, cid) in enumerate([("Conservative", 1), ("Base", 2), ("Ideal", 3)]):
         r = 12 + i
         b.put(DSH, r, 1, name, "label")
-        b.put(DSH, r, 2, f"={R['scn_success'][cid]}", "link", fmt=FPCT, border=True)
+        b.put(DSH, r, 2, f"={R['scn_flip'][cid]}", "formula", fmt=FPCT, border=True)
         b.put(DSH, r, 3, f"={R['irr_by'][cid]}", "link", fmt=FPCT, border=True)
         b.put(DSH, r, 4, f"={R['moic_by'][cid]}", "link", fmt=FX, border=True)
     b.put(DSH, 10, 4, "KEY ASSUMPTIONS & FLAG", "sect", fill="sect")
     ka = [(11, "Committed capital $m", f"={R['committed']}", FM),
           (12, "Projects target", f"={R['target']}", FNUM),
-          (13, "Independent cum P(success)", f"={R['cum_independent']}", FPCT),
-          (14, "Base scenario success", f"={R['scn_success'][2]}", FPCT),
-          (15, "Optimism gap (Base − indep.)", f"={R['optimism_gap']}", FPCT)]
+          (13, "Manager headline DA gate (Base)", f"={R['scn_da'][2]}", FPCT),
+          (14, "True flip success (Base, DAxconnxsale)", f"={R['flip_at_base_da']}", FPCT),
+          (15, "Independent flip success (benchmark)", f"={R['flip_independent']}", FPCT)]
     for r, label, val, fmt in ka:
         b.put(DSH, r, 4, label, "label")
         b.put(DSH, r, 5, val, "link", fmt=fmt, border=True)
     b.put(DSH, 17, 1, "Conclusion (illustrative)", "sect", fill="sect")
     b.put(DSH, 18, 1,
-          "A real, policy-backed, capital-light niche with a viable RTB exit — but conditional. Merchant risk passes to the buyer; "
-          "the fund's risk is the survival curve + the RTB price. The independent success (~45%) sits BELOW the manager's Base (65%), and the "
-          "Conservative case can lose capital. The single biggest risk is EXIT/BUYER risk (non-binding buyers; RTB stage), then "
-          "development/approval risk. Pursue only on verified buyer depth, RTB comps, and a survivable downside.", "note", wrap=True)
+          "A real, policy-backed, capital-light niche with a viable RTB exit — but the develop-and-flip economics are THIN once the gates "
+          "are modelled correctly. The manager's 65% is the development-approval gate ALONE; true flip success = approval x grid connection "
+          "x sale is ~36% at Base, so the expected investor return is only marginally positive and the Conservative case loses capital. The "
+          "single biggest risk is EXIT/BUYER risk, then development/approval. On these numbers the flip is the WEAKEST entry — building or "
+          "holding the asset earns far more (see the stage analysis). Pursue only on verified buyer depth, RTB comps and a survivable downside.", "note", wrap=True)
     b.ws[DSH].merge_cells("A18:E23")
 
     # =====================================================================
@@ -760,13 +776,13 @@ def build():
     purposes = {
         COV: "Title, decision brief, master check, disclaimer", CON: "This page",
         CL: "Version history", INP: "All assumptions + imported data (blue)",
-        TL: "Master timeline (built once)", SCN: "Scenarios + switch + live case + weights",
-        SURV: "PD-style survival curve (independent) + optimism flag",
+        TL: "Master timeline (built once)", SCN: "Scenarios + switch (DA gate) + live case + weights",
+        SURV: "Separate gates; flip success = DA × connection × sale + flag",
         RNPV: "Per-project risk-adjusted NAV (RTB − dev cost)",
         FUND: "Funnel, fees, investor IRR/MOIC (live)",
         RET: "Investor IRR/MOIC by scenario, First-Chicago, valuation range",
         CC: "$/MW benchmark, VC method, RTB vs built",
-        SENS: "Investor MOIC grid (success × price)",
+        SENS: "Investor MOIC grid (development approval × price)",
         CHK: "Integrity checks + master check", DSH: "One-page IC summary", SG: "Sources + glossary",
     }
     for i, name in enumerate(ORDER):
@@ -799,9 +815,9 @@ def build():
         ("Risk-free rate (RBA 10yr CGS)", "risk_free"),
         ("Built-cost context (CSIRO GenCost)", "build"),
         ("Dev cost per project", "dev"),
-        ("Planning approval prob (planning portals)", "p_planning"),
-        ("Grid connection prob (AEMO)", "p_connection"),
-        ("Reach-sale prob (buyer pool / AEMO attrition)", "p_sale"),
+        ("Development-approval prob — public benchmark", "da"),
+        ("Grid connection prob (AEMO)", "connection"),
+        ("Reach-sale prob (buyer pool / AEMO attrition)", "sale"),
         ("RTB $/MW by state (the manager claim)", "rtb"),
     ]
     rr = 5

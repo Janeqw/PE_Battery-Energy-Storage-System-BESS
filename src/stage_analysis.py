@@ -168,7 +168,8 @@ def _integrated_basis(st: Stages) -> tuple[float, float, float]:
     construction completion. Development cost is grossed for the funnel of failed
     attempts; the operating asset is financed at the operating gearing.
     """
-    p_dev = st.inp.p_planning * st.inp.p_connection           # no sale gate
+    da = float(st.inp.scenarios[2]["da_rate"])                # Base development-approval rate
+    p_dev = da * st.inp.p_connection                          # approval x connection (no sale gate — kept)
     reach_op = max(1e-6, p_dev * float(st.con["completion_prob"]))
     abandon = st.inp.abandonment_fraction
     dev_cost = st.inp.dev_cost_per_project

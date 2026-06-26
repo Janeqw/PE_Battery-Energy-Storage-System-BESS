@@ -1,5 +1,5 @@
 "# RTB / development-rights $/MW by state. the manager's assumed prices are CLAIMS; independent comps needed. Paid DBs (BNEF, Enerdatics, Mergermarket) out of scope. Values illustrative."
 state,price_per_mw_m,source,as_at,status
-NSW,0.2,the manager's projections assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-24,BENCHMARK
-VIC,0.18,the manager's projections assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-24,BENCHMARK
-SA,0.12,the manager's projections assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-24,BENCHMARK
+NSW,0.2,Manager's assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-26,BENCHMARK
+VIC,0.18,Manager's assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-26,BENCHMARK
+SA,0.12,Manager's assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope.,2026-06-26,BENCHMARK

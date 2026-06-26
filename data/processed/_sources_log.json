@@ -13,7 +13,7 @@
     "output": "data/processed/costs.csv",
     "status": "BENCHMARK",
     "description": "Authoritative Australian battery capital cost ($/kWh, $/kW) by duration. Feeds build-cost inputs.",
-    "retrieved": "2026-06-24"
+    "retrieved": "2026-06-26"
   },
   "aemo_generation_info": {
     "name": "AEMO \u2014 NEM Generation Information",

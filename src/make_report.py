@@ -42,21 +42,23 @@ def _style(ax, title):
 
 def fig_survival(s):
     sc = s["survival"]
-    stages = ["Start", "Planning", "+Connection", "+Sale"]
-    surv = [1.0, sc["survival_after_planning"], sc["survival_after_connection"], sc["cumulative"]]
+    stages = ["Start", "Approval", "+Connection", "+Sale"]
+    surv = [1.0, sc["after_approval"], sc["after_connection"], sc["flip_cumulative"]]
     fig, ax = plt.subplots(figsize=(6, 3.6))
     ax.step(range(len(stages)), surv, where="post", color=NAVY, lw=2.5, marker="o")
     for i, v in enumerate(surv):
         ax.annotate(f"{v:.0%}", (i, v), textcoords="offset points", xytext=(0, 8),
                     ha="center", fontsize=9, color=NAVY)
-    base = s["base_scenario_success"]
-    ax.axhline(base, color=RED, ls="--", lw=1.3, label=f"manager base case claim {base:.0%}")
+    da = s["da_base_manager"]
+    ax.axhline(da, color=RED, ls="--", lw=1.3, label=f"manager headline {da:.0%} (approval gate ONLY)")
+    flip = s["flip_base_manager"]
+    ax.axhline(flip, color=GREEN, ls=":", lw=1.5, label=f"true flip success {flip:.0%} (all gates)")
     ax.set_xticks(range(len(stages)))
     ax.set_xticklabels(stages)
     ax.set_ylim(0, 1.08)
     ax.set_ylabel("P(project still alive)")
     ax.legend(fontsize=8)
-    _style(ax, "PD-style survival curve — independent cumulative P(success)")
+    _style(ax, "Survival gates — flip success = approval × connection × sale")
     fig.tight_layout()
     fig.savefig(FIG / "survival_curve.png", dpi=150)
     plt.close(fig)
@@ -113,14 +115,14 @@ def fig_sensitivity(inp):
     im = ax.imshow(grid, cmap="RdYlGn", aspect="auto")
     ax.set_xticks(range(len(sens["price_mults"])))
     ax.set_xticklabels([f"{m:.2f}x" for m in sens["price_mults"]])
-    ax.set_yticks(range(len(sens["successes"])))
-    ax.set_yticklabels([f"{p:.0%}" for p in sens["successes"]])
+    ax.set_yticks(range(len(sens["da_rates"])))
+    ax.set_yticklabels([f"{p:.0%}" for p in sens["da_rates"]])
     ax.set_xlabel("RTB price multiplier")
-    ax.set_ylabel("Cumulative success")
+    ax.set_ylabel("Development-approval rate (DA gate)")
     for i in range(grid.shape[0]):
         for j in range(grid.shape[1]):
             ax.text(j, i, f"{grid[i, j]:.0f}", ha="center", va="center", fontsize=8)
-    _style(ax, "Investor IRR (%): success × RTB price")
+    _style(ax, "Investor IRR (%): development approval × RTB price")
     ax.grid(False)
     fig.colorbar(im, ax=ax, shrink=0.8, label="IRR %")
     fig.tight_layout()
@@ -230,8 +232,8 @@ def dashboard_pdf(s):
         fig.text(0.06, 0.785, f"Scenario IRR range  {fc['min_irr']:.1%}  to  {fc['max_irr']:.1%}", fontsize=10, color=ACCENT)
 
         fig.text(0.40, 0.86, "SURVIVAL (the key flag)", fontsize=11, fontweight="bold", color=NAVY)
-        fig.text(0.40, 0.82, f"Independent {sc['cumulative']:.0%}  vs  Base {s['base_scenario_success']:.0%}", fontsize=13, fontweight="bold", color=RED)
-        fig.text(0.40, 0.785, f"Optimism gap {s['optimism_gap']:+.0%} — Base sits above independent", fontsize=9, color="black")
+        fig.text(0.40, 0.82, f"True flip {s['flip_base_manager']:.0%}  vs  manager headline DA {s['da_base_manager']:.0%}", fontsize=13, fontweight="bold", color=RED)
+        fig.text(0.40, 0.785, "The 65% is the approval gate ALONE — true flip = DA × connection × sale", fontsize=9, color="black")
 
         fig.text(0.70, 0.86, "KEY ASSUMPTIONS", fontsize=11, fontweight="bold", color=NAVY)
         ktxt = (f"Committed: ${inp.committed_capital:.0f}m  Target: {inp.projects_target:.0f} projects\n"

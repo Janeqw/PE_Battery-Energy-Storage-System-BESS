@@ -67,29 +67,34 @@ def build_markdown() -> str:
 
     L.append("## Investor return by scenario (after fees)")
     L.append("")
-    L.append("| Scenario | Success rate | Projects started | Total dev cost | Invested capital | Gross proceeds | MOIC (net) | IRR (net) |")
+    L.append("| Scenario | Flip success | Projects started | Total dev cost | Invested capital | Gross proceeds | MOIC (net) | IRR (net) |")
     L.append("|---|---|---|---|---|---|---|---|")
     for name in ("Conservative", "Base", "Ideal"):
         m = rbs[name]
-        L.append(f"| {name} | {_pct(m['cum_success'])} | {m['projects_started']:.0f} | "
+        L.append(f"| {name} | {_pct(m['flip_success'])} | {m['projects_started']:.0f} | "
                  f"{_m(m['total_dev_cost'])} | {_m(m['invested_capital'])} | {_m(m['gross_proceeds'])} | "
                  f"**{_x(m['moic'])}** | **{_pct(m['irr'])}** |")
     L.append("")
-    L.append("> The Conservative case returns **less than invested capital** (MOIC below 1.0x). The independent rebuild is "
-             "deliberately more conservative than the manager's deck.")
+    L.append("> *Flip success = development approval × grid connection × sale* (not the development-approval rate alone). "
+             "The Conservative case returns **less than invested capital** (MOIC below 1.0x), and even the Base case is only "
+             "marginally positive once the full gate chain is applied.")
     L.append("")
 
-    L.append("## PD-style survival curve (independent, public data)")
+    L.append("## Survival gates — separate; flip success = their product")
     L.append("")
-    L.append("| Gate | Probability | Cumulative survival |")
+    L.append("> The manager's **40 / 65 / 80%** are the **development-approval gate ONLY**. True develop-and-flip success = "
+             "development approval × grid connection × sale — a multi-period survival / probability-of-default curve.")
+    L.append("")
+    L.append("| Gate | Probability (public benchmark) | Cumulative survival |")
     L.append("|---|---|---|")
-    L.append(f"| Planning approval | {_pct(sc['planning'])} | {_pct(sc['survival_after_planning'])} |")
-    L.append(f"| Grid connection | {_pct(sc['connection'])} | {_pct(sc['survival_after_connection'])} |")
-    L.append(f"| Reach sale | {_pct(sc['sale'])} | {_pct(sc['cumulative'])} |")
+    L.append(f"| Development approval | {_pct(sc['development_approval'])} | {_pct(sc['after_approval'])} |")
+    L.append(f"| Grid connection | {_pct(sc['grid_connection'])} | {_pct(sc['after_connection'])} |")
+    L.append(f"| Reach sale (flip exit) | {_pct(sc['reach_sale'])} | {_pct(sc['flip_cumulative'])} |")
     L.append("")
-    L.append(f"**Independent cumulative success ≈ {_pct(sc['cumulative'])}** vs the manager's Base claim of "
-             f"{_pct(s['base_scenario_success'])} → **optimism gap {s['optimism_gap']:+.1%}** "
-             f"(the manager's base sits above the independent estimate — a key diligence flag).")
+    L.append(f"**At the manager's Base development-approval rate ({_pct(s['da_base_manager'])}), true flip success "
+             f"≈ {_pct(s['da_base_manager'])} × {_pct(inp.p_connection)} × {_pct(inp.p_sale)} = "
+             f"{_pct(s['flip_base_manager'])}** — far below the 65% headline. The 65% is the approval gate alone; the gates "
+             "beyond approval are not free. This is the central diligence flag.")
     L.append("")
 
     L.append("## Fund funnel (Base scenario)")
