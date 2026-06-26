@@ -1,15 +1,15 @@
-# Investment Committee Memo — Limited-Partner Commitment to a Distribution-Network Battery "Develop-and-Flip" Fund
+# Investment Committee Memo — Direct-Equity Stake in a Distribution-Network Battery "Develop-and-Flip" Startup
 
 | | |
 |---|---|
 | **Prepared by** | Investment analysis (credit-risk lens) |
 | **Date** | June 2026 |
 | **Stage** | Final Investment Committee |
-| **Subject** | Independent assessment of a proposed limited-partner (LP) commitment to an illustrative develop-and-flip battery energy storage system (BESS) fund |
-| **Deal type** | Fund commitment (limited partner) — infrastructure development |
-| **Recommendation** | **CONDITIONAL — proceed to confirmatory due diligence; do NOT commit on the manager's figures alone** |
+| **Subject** | Independent assessment of a proposed direct-equity investment (a minority share stake) in an illustrative develop-and-flip battery energy storage system (BESS) startup |
+| **Deal type** | Direct equity (minority share stake) — venture / growth, infrastructure development |
+| **Recommendation** | **CONDITIONAL — proceed to confirmatory due diligence; do NOT commit on the founders' figures alone** |
 
-> **Status & standing.** This is an **educational portfolio artefact** and an **independent rebuild** of an (unnamed) fund manager's projections — **not investment advice**. Every figure attributed to the manager is a forward-looking **claim to verify**; our independent public-data findings sit alongside. The fund and pipeline are treated as **illustrative**. Wholesale-investor context — read the Information Memorandum; **capital is at risk.** All figures must be independently re-verified before any decision. See [Appendix A — Methods & sources](#appendix-a--methods--sources). *Acronyms (short forms) are spelled out on first use.*
+> **Status & standing.** This is an **educational portfolio artefact** and an **independent rebuild** of an (unnamed) startup founder's projections — **not investment advice**. Every figure attributed to the founders is a forward-looking **claim to verify**; our independent public-data findings sit alongside. The company and pipeline are treated as **illustrative**. Wholesale-investor context — read the company's disclosure materials; **capital is at risk.** All figures must be independently re-verified before any decision. See [Appendix A — Methods & sources](#appendix-a--methods--sources). *Acronyms (short forms) are spelled out on first use.*
 
 > **▶ Open the interactive model online:** **[BESS Pipeline Valuation — live Excel workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)** — opens in Excel for the web and recalculates in your browser (no download). No-click alternatives: [model results preview](financial_models/MODEL_PREVIEW.md) · [one-page dashboard (PDF)](outputs/dashboard.pdf).
 
@@ -17,42 +17,46 @@
 
 ## 1. Recommendation (bottom line up front)
 
-**Conditional. The opportunity is genuine, but on our independent rebuild it is materially less attractive than the manager presents, and the downside can impair capital. Do not commit on the projections.** Proceed to confirmatory due diligence and commit **only if** the manager evidences (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects, (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) a survivable downside. Absent those, decline.
+**Conditional. The opportunity is genuine, but on our independent rebuild the expected return on our shares is modest and the downside is a total loss of our invested capital. Do not commit on the projections, and only on stronger downside terms than a diversified fund would require.** Proceed to confirmatory due diligence and commit **only if** the founders evidence (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects, (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) confirmed equity terms (pre-money valuation, share class, a 1× liquidation preference, option pool and governance). Absent those, decline.
 
-| Our independent view | The manager's claim |
+| Our independent view | The founders' claim |
 |---|---|
-| First-Chicago **expected investor internal rate of return (IRR) ≈ 0.8%** (multiple on invested capital, MOIC ~1.03×) | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
-| **Conservative case loses capital** (IRR −17.6%, MOIC 0.68×) | Conservative case still positive (10.7%) |
+| First-Chicago **expected return on our shares: internal rate of return (IRR) ≈ 7.6%** (multiple on invested capital, MOIC ~1.44×) | Headline scenario IRRs **10.7% / 19.4% / 23.8%** |
+| **Conservative case is a total loss** (IRR −100%, MOIC 0.00×) — the company's net programme profit turns negative, so the equity is worth ~$0 | Conservative case still positive (10.7%) |
 | The headline **65% is the development-approval gate ONLY**; true whole-funnel flip success ≈ **36%** (0.65 × 0.70 × 0.80) | Base case presented as **65%** success |
 
-*Basis — the full data-source-and-method table is in [Appendix A — Methods & sources](#appendix-a--methods--sources). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **IRRs** come from our model (risk-adjusted net present value + fund funnel + First-Chicago weighting); the manager's figures are stated claims to verify.*
+*Basis — the full data-source-and-method table is in [Appendix A — Methods & sources](#appendix-a--methods--sources). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **return on our shares** comes from our model (the company's exit equity = net programme profit × a platform exit multiple, First-Chicago weighted, then our diluted ownership through the cap table, protected by a 1× liquidation preference); the founders' figures are stated claims to verify.*
 
-**Recommendation in full: CONDITIONAL PROCEED (PASS-LEANING)** — proceed to confirmatory due diligence; commit **only if** every condition in [§10](#10-conditions--questions-for-the-founders) is met (else **Pass**). On the corrected gates the develop-and-flip is the **weakest risk-adjusted entry on the value chain** (~0.8% expected, with a −17.6% downside that impairs capital and zero carried interest earned at Base):
+**Recommendation in full: CONDITIONAL PROCEED (PASS-LEANING)** — proceed to confirmatory due diligence; commit **only if** every condition in [§10](#10-conditions--questions-for-the-founders) is met (else **Pass**). On the corrected gates the develop-and-flip is the **weakest risk-adjusted business model on the value chain** (~7.6% expected on our shares, with a Conservative case that is a total loss of our capital):
 
 - **Buyer pool** — a deep, contractually-progressing ready-to-build buyer pool is evidenced.
 - **Approval rate** — sub-5 MW, per-state development-approval evidence supports the 65% DA gate, and the grid-connection (70%) and sale (80%) gates are substantiated.
-- **Survivable downside** — the fee-adjusted downside (−17.6%) does not impair more than the allocated sleeve.
+- **Equity terms** — confirmed pre-money valuation, share class, a 1× liquidation preference, option-pool sizing and meaningful governance / minority-shareholder protections.
 
-**Stage choice:** the fund offers exposure mainly to *Stage 1 (develop-and-flip)* — which, on the corrected gates, is now the **weakest risk-adjusted entry** (≈0.8% expected IRR with a −17.6% downside that impairs capital). On a risk-adjusted basis, the *own-and-operate (contracted)* stage is a better fit for patient private capital — among the standalone entry points it is the only one that stays positive in its downside (the fully-integrated develop-build-operate path also does, but locks capital up ~18 years; see [§5](#5-business-model--value-chain-choice)).
+**Business-model choice:** the company is pursuing *develop-and-flip* — which, on the corrected gates, is the **weakest risk-adjusted business model** (≈7.6% expected return on our shares, with a Conservative case that wipes out our stake). On a risk-adjusted basis, an *own-and-operate (contracted)* model is a better fit for patient private capital — among the standalone models it is the only one positive in its downside (the fully-integrated develop-build-operate model also is, but holds the asset ~18 years; see [§5](#5-business-model--value-chain-choice)).
 
-**Single biggest risk:** *exit / buyer risk* (a flip with no buyer is a stranded asset), followed by *development / approval risk* and the fact that the **65% headline is the approval gate alone** — the gates beyond approval (connection, sale) are not free.
+**Top 3 risks**
 
-> **Returns attribution (the credibility line):** *Of the projected ~0.8% expected IRR (1.03× MOIC), essentially **all** of the thin gain is the development margin — selling ~35 ready-to-build projects for ~$31.5m gross against ~$26.7m of development spend (which also funds the ~61 projects that fail in the funnel) and ~$2.0m of fees; carried interest is **zero** because Base profit does not clear the 8% hurdle. **Zero** comes from merchant or operating upside, which passes to the buyer. The return depends on the development-approval rate, the grid-connection and sale gates, and the buyer pool — not on electricity prices.*
+- **Single-company concentration** — our money is tied to one early-stage startup with one strategy; there is no fund-level diversification, so a single company failure is a total loss.
+- **Founder & key-person risk** — a brand-new company with no operating history; execution depends almost entirely on the founder(s).
+- **Exit / buyer risk** — a flip with no buyer is a stranded asset; if the company cannot sell its ready-to-build projects, its net programme profit turns negative and our equity is worth ~$0.
+
+> **Returns attribution (the credibility line):** *Of the expected ~1.44× / ~7.6% on our shares, all of the value is the development margin the company captures — selling ~35 ready-to-build projects for ~$31.5m against ~$26.7m of development cost gives ~$4.8m net programme profit, valued at a ~4× platform multiple ([[TO CONFIRM]]) for ~$19.3m of company exit equity at Base; our diluted ~14.4% stake, protected by a 1× liquidation preference, is worth ~$2.78m. ZERO comes from merchant or operating upside (that passes to the buyers of the projects). The Conservative case is a total loss because the company's net programme profit turns negative.*
 
 ---
 
 ## 2. The deal & the thesis
 
-The fund **develops ~5 MW distribution-connected (about 22-kilovolt, or 22 kV) batteries to shovel-ready (ready-to-build) status and sells them before construction**, across New South Wales (NSW), Victoria (VIC) and South Australia (SA), over a two-plus-one-year term. An investor would participate as a **limited partner** (LP — a passive investor who supplies capital but does not run the fund), committing up to **~$25 million**.
+The company **develops ~5 MW distribution-connected (about 22-kilovolt, or 22 kV) batteries to shovel-ready (ready-to-build) status and sells them before construction**, across New South Wales (NSW), Victoria (VIC) and South Australia (SA). We would **buy shares directly in this one company** — a minority equity stake of **~$2 million `[[TO CONFIRM]]`** at a post-money valuation of $10 million, for **20.0% ownership at entry** (see [§3](#3-the-company--what-youre-buying)). This is a direct stake in a single startup, not a passive interest in a diversified fund.
 
-**The thesis in one line:** the fund captures the **development de-risking margin** — the uplift in value from a raw site to an approved, grid-connected project — in 2–3 years, with merchant-electricity-price risk passing to the buyer; it does **not** depend on long-run power prices. A small, capital-light fund can earn an attractive development margin by taking ~5 MW distribution batteries from greenfield (a bare site) to ready-to-build and selling them into a structurally short, policy-backed storage market. The model sidesteps the merchant-revenue risk that sinks battery operators (it sells before operation), and targets a niche — sub-5 MW distribution projects — that large developers overlook and that benefits from an Australian Energy Market Operator (AEMO) registration exemption. The thesis lives or dies on two things the manager cannot prove on paper:
+**The thesis in one line:** the company captures the **development de-risking margin** — the uplift in value from a raw site to an approved, grid-connected project — in 2–3 years per project, with merchant-electricity-price risk passing to the buyer; it does **not** depend on long-run power prices. A small, capital-light company can earn an attractive development margin by taking ~5 MW distribution batteries from greenfield (a bare site) to ready-to-build and selling them into a structurally short, policy-backed storage market. The model sidesteps the merchant-revenue risk that sinks battery operators (it sells before operation), and targets a niche — sub-5 MW distribution projects — that large developers overlook and that benefits from an Australian Energy Market Operator (AEMO) registration exemption. The thesis lives or dies on two things the founders cannot prove on paper:
 
 - **Gate clearance** — that projects clear all three development gates (development approval × grid connection × sale) on time.
 - **Buyer appetite** — that buyers will pay the assumed prices for early-stage ready-to-build projects.
 
-**The reframe that decides which risks matter:** because the fund **never operates the asset**, the merchant-price volatility that usually sinks battery storage on a private-equity (PE) screen **passes to the buyer**. Diligence must therefore ignore the long-run electricity-price debate and focus on the fund's *actual* risks — **can projects be approved and grid-connected on time (the survival curve), and will buyers pay the assumed ready-to-build prices, in volume, on schedule (the exit)?**
+**The reframe that decides which risks matter:** because the company **never operates the asset**, the merchant-price volatility that usually sinks battery storage on a private-equity (PE) screen **passes to the buyers of the projects**. Diligence must therefore ignore the long-run electricity-price debate and focus on the company's *actual* risks — **can projects be approved and grid-connected on time (the survival curve), and will buyers pay the assumed ready-to-build prices, in volume, on schedule (the exit)?** — plus the equity-specific risks of backing a single early-stage company (concentration, founder dependence, dilution and illiquidity).
 
-| | A normal battery-storage operator | **This fund (develop-and-flip, ready-to-build)** |
+| | A normal battery-storage operator | **This company (develop-and-flip, ready-to-build)** |
 |---|---|---|
 | What it does | Builds, then trades electricity ~20 years | **Develops to ready-to-build, sells before construction** |
 | Main risk | **Merchant-price volatility** | **Development/approval + exit/buyer risk** |
@@ -64,63 +68,97 @@ The fund **develops ~5 MW distribution-connected (about 22-kilovolt, or 22 kV) b
 |---|---|---|
 | 1 | **Market is real, growing and policy-backed.** Coal retirement plus the renewables build-out create a structural firming gap; the growth stage is a *tailwind* for a develop-and-flip (more buyers), not the buy-and-hold "yellow flag." | ✅ Supportive |
 | 2 | **The niche is plausibly defensible.** Large developers chase 100 MW-plus transmission projects, leaving ~5 MW distribution under-contested; sub-5 MW projects get an AEMO registration exemption → faster approval. | ⚠️ Verify the white space is durable |
-| 3 | **Execution (survival) — the headline rate is the approval gate alone, not whole-funnel success.** The manager's **40% / 65% / 80%** are the development-approval (DA) gate only; a flip must also clear grid connection (≈70%) and a sale (≈80%). So **true Base-case flip success ≈ 36%** (0.65 × 0.70 × 0.80), and the independent public benchmark (approval 80%) is **≈ 45%** (0.80 × 0.70 × 0.80). The 65% headline **overstates** whole-funnel success. | 🔴 Key flag |
+| 3 | **Execution (survival) — the headline rate is the approval gate alone, not whole-funnel success.** The founders' **40% / 65% / 80%** are the development-approval (DA) gate only; a flip must also clear grid connection (≈70%) and a sale (≈80%). So **true Base-case flip success ≈ 36%** (0.65 × 0.70 × 0.80), and the independent public benchmark (approval 80%) is **≈ 45%** (0.80 × 0.70 × 0.80). The 65% headline **overstates** whole-funnel success. | 🔴 Key flag |
 | 4 | **Exit market is deep but unproven for *this* product — and skewed to scale.** The deep-pocketed buyers (infrastructure funds, superannuation funds, the Clean Energy Finance Corporation/Energy Security Corporation, retailers) transact at **100 MW and above**; a single 5 MW asset is too small for them, so the natural buyers are a thinner pool (network companies, government programmes, aggregators). The "3 interested buyers" are **non-binding**. | 🔴 The decisive risk |
 | 5 | **Economics are capital-light; the margin is the de-risking uplift.** Ready-to-build value is ~10–12% of built-asset value — confirming this is the development premium, not the build. Development cost ~$0.5m/project; the funnel widens as success falls (`started = target ÷ success`). | ✅ Coherent |
-| 6 | **Independent returns are far below the manager's, with a real loss case.** Expected IRR ~0.8% versus the manager's ~17.7% claim; the conservative case impairs capital (IRR −17.6%, MOIC 0.68×). | 🔴 Decision-driving |
+| 6 | **Independent returns on our shares are far below the founders', with a total-loss case.** Expected IRR ~7.6% (MOIC ~1.44×) versus the founders' ~17.7% claim; the conservative case is a **total loss** (company net programme profit turns negative → equity ~$0 → our shares worth ~0, IRR −100%, MOIC 0.00×). | 🔴 Decision-driving |
 
 *Basis — each finding's data source, method and calculation are tabulated in [Appendix A — Methods & sources](#appendix-a--methods--sources). Headline methods: industry life-cycle model and Porter's Five Forces (Chartered Financial Analyst, or CFA, curriculum); probability-of-default / survival analysis (credit-risk practice) for the gate decomposition (approval × connection × sale); comparable-transactions evidence (energy trade press) for the buyer-size finding.*
 
 Supporting visuals (independent model):
 
-![Survival curve — independent vs the manager's base case](outputs/figures/survival_curve.png)
-![Investor internal rate of return by scenario](outputs/figures/irr_by_scenario.png)
+![Survival curve — independent vs the founders' base case](outputs/figures/survival_curve.png)
+![Return on our shares (internal rate of return) by scenario](outputs/figures/irr_by_scenario.png)
 
 ---
 
 ## 3. The company & what you're buying
 
-*(Equity-specific. For now this section carries the fund / strategy overview; a later step adds pre-money / post-money valuation and the cap table.)*
-
-A development fund has no operating history; what you are buying is a **strategy and a pipeline**, not an operating business. The fund "creates value" by de-risking projects, not by operating them.
+You are buying **shares directly in one early-stage company** — a minority equity stake. The company has no operating history; what you are buying is a **strategy, a pipeline, a founding team, and a defined slice of the cap table**, not an operating business with earnings. The company "creates value" by de-risking projects, not by operating them.
 
 | | |
 |---|---|
 | Strategy | Develop ~5 MW (about 22-kilovolt) distribution-connected batteries to ready-to-build, then sell the project companies before construction |
-| How it earns | The development margin (ready-to-build sale price − development cost), captured across a portfolio of ~35 projects over 2–3 years |
+| How it earns | The development margin (ready-to-build sale price − development cost), captured across a development programme of ~35 projects over 2–3 years per project |
 | Geography | New South Wales, Victoria, South Australia (eastern National Electricity Market) |
-| Fund size / term | ~$25 million committed; two-plus-one-year term; wholesale investors only |
-| Fees | 2% entry, 2% per year management, 20% carried interest over an 8% preferred return |
-| What is *out* of scope | Construction (project-financed by the buyer) and 15–20 years of operation — the fund is gone before the battery switches on |
+| What we buy | A **direct minority equity stake** — ~20.0% of the company at entry (see cap table below) |
+| What is *out* of scope | Construction (project-financed by the buyer) and 15–20 years of operation — the company sells before the battery switches on |
 
-### Fund economics & pipeline (the funnel)
+### The valuation & our ownership (pre-money → post-money → ownership %)
 
-A development fund's economics are the **funnel** — how many projects must be started to deliver the target, and the margin on each. Base-case figures (independent rebuild):
+We negotiate a **price for the whole company before our money goes in (the pre-money valuation)**; add our cheque, and the result is the **post-money valuation**. Our ownership is simply our investment divided by the post-money value. Worked plainly:
+
+> **$8m pre-money + $2m from us = $10m post-money → we own 2 ÷ 10 = 20.0%.**
+
+| Cap-table input | Value |
+|---|---|
+| Pre-money valuation | $8m `[[TO CONFIRM]]` |
+| Our investment | $2m `[[TO CONFIRM]]` |
+| **Post-money valuation** | **$10m** (= $8m pre + $2m) |
+| **Ownership at entry** (= investment ÷ post-money) | **20.0%** (= 2 ÷ 10) |
+| Price per share | `[[TO CONFIRM]]` |
+| Number of shares we receive | `[[TO CONFIRM]]` |
+| Share class | `[[TO CONFIRM]]` — we should require **preferred shares** carrying the 1× liquidation preference, not ordinary shares |
+
+### Cap table — before and after our investment
+
+The table below shows ownership today, immediately after our investment, and after the dilution we model to exit (a 10% employee option pool plus one 20% future financing round). **Share-count rows are `[[TO CONFIRM]]`** until the price per share and current share count are provided.
+
+| Holder | Before our investment | At entry (post-money) | At exit (after option pool + future round) |
+|---|---|---|---|
+| Founders & existing holders | 100% | 80.0% | ~64.6% |
+| **Us (new investor)** | — | **20.0%** | **14.4%** |
+| Employee option pool (10% `[[TO CONFIRM]]`) | — | — | ~8.0% |
+| New-round investors (20% future round `[[TO CONFIRM]]`) | — | — | ~13.0% |
+| Shares outstanding | `[[TO CONFIRM]]` | `[[TO CONFIRM]]` | `[[TO CONFIRM]]` |
+
+**Dilution to exit (our stake):** 20.0% × (1 − 10% option pool) × (1 − 20% future round) = **14.4%**. Our ownership falls from 20.0% at entry to **~14.4% diluted at exit** — this is the stake that our proceeds are calculated on (subject to the 1× liquidation preference; see [§7](#7-returns-to-your-shares)).
+
+### Governance & shareholder rights `[[TO CONFIRM]]`
+
+As a ~20% minority shareholder in a single startup, governance is a primary protection — all `[[TO CONFIRM]]`:
+
+- **Board seat** — do we get a board seat or observer rights? `[[TO CONFIRM]]`
+- **Information rights** — regular financials, pipeline and gate-progress reporting? `[[TO CONFIRM]]`
+- **Veto / protective provisions** — consent over major decisions (new debt, new share issues, asset sales, changes to the business plan)? `[[TO CONFIRM]]`
+- **Pre-emption / anti-dilution** — the right to participate in future rounds, and anti-dilution protection on a down round? `[[TO CONFIRM]]`
+
+### The company's development programme (the funnel)
+
+The company's economics are the **funnel** — how many projects it must start to deliver the target, and the margin on each. This drives the company's net programme profit, which in turn sets the company's exit equity value (see [§6](#6-valuation--your-stake)). Base-case figures (independent rebuild):
 
 | Funnel (Base case) | Value |
 |---|---|
-| Development-approval (DA) gate | 65% *(manager headline — the approval gate ONLY, not whole-funnel success)* |
+| Development-approval (DA) gate | 65% *(founders' headline — the approval gate ONLY, not whole-funnel success)* |
 | Grid-connection gate | 70% |
 | Sale gate | 80% |
 | **Whole-funnel flip success** (DA × grid × sale) | **36.4%** *(= 0.65 × 0.70 × 0.80; independent benchmark at DA 80% = 0.80 × 0.70 × 0.80 = 44.8%)* |
 | Projects delivered & sold (target) | 35 |
 | Projects started (= target ÷ flip success) | ~96 |
 | Total development cost (delivered + partial on the ~61 dropouts) | $26.7 million |
-| Management + entry fees | $2.0 million |
-| **Invested capital (limited-partner, called)** | **$28.7 million** |
 | Gross proceeds (35 sales) | $31.5 million |
-| Carried interest to manager | $0.00 million *(profit below the 8% hurdle — no carry earned)* |
-| **Distributions to limited partners** | **$31.5 million** |
+| **Net programme profit** | **$4.8 million** *(= $31.5m proceeds − $26.7m development cost)* |
+| **Company exit equity** (net programme profit × ~4.0 platform multiple `[[TO CONFIRM]]`) | **~$19.3 million** |
 
-*Earnings-quality note: there are no operating earnings to scrutinise — the "quality" question is whether the **ready-to-build sale prices and the gate success rates** are real. Both are manager claims requiring independent comparable-transaction and per-state approval evidence. Note the 65% headline is the **development-approval gate alone**; the whole-funnel flip success (after the grid-connection and sale gates) is ~36%.*
+*Earnings-quality note: there are no operating earnings to scrutinise — the "quality" question is whether the **ready-to-build sale prices and the gate success rates** are real. Both are founder claims requiring independent comparable-transaction and per-state approval evidence. Note the 65% headline is the **development-approval gate alone**; the whole-funnel flip success (after the grid-connection and sale gates) is ~36%. There are no fund fees or carried interest in this structure — we own shares directly. (Conservative case: net programme profit turns **negative**, so the company's exit equity is ~$0 and our shares are worth ~0.)*
 
 ---
 
 ## 4. Industry & market
 
-The fund does not build batteries and sell electricity. It buys small sites, takes them through planning approval and grid connection until they are "shovel-ready" — the industry term is **ready-to-build (RTB)** — and then sells the approved projects to someone else who builds them. Each project is a standalone battery of about **5 megawatts (MW)** connected to the local distribution network (the everyday poles-and-wires, not the high-voltage transmission grid), and the projects are spread across New South Wales, Victoria and South Australia. The whole cycle is meant to take two to three years.
+The company does not build batteries and sell electricity. It buys small sites, takes them through planning approval and grid connection until they are "shovel-ready" — the industry term is **ready-to-build (RTB)** — and then sells the approved projects to someone else who builds them. Each project is a standalone battery of about **5 megawatts (MW)** connected to the local distribution network (the everyday poles-and-wires, not the high-voltage transmission grid), and the projects are spread across New South Wales, Victoria and South Australia. The whole cycle is meant to take two to three years per project. This is the **market the company sells into**; we are buying shares in the company, not the projects.
 
-This is the most important thing to understand, because it changes which risks matter. A normal battery owner lives or dies on the volatile price of electricity over fifteen or twenty years. This fund is gone before the battery ever switches on, so **that price risk belongs to the buyer, not to the fund.** Its two real questions are therefore simpler and sharper: **can the fund get its projects approved and connected on time, and will there be buyers willing to pay the assumed prices when it comes time to sell?**
+This is the most important thing to understand, because it changes which risks matter. A normal battery owner lives or dies on the volatile price of electricity over fifteen or twenty years. This company is gone before the battery ever switches on, so **that price risk belongs to the buyer, not to the company.** Its two real questions are therefore simpler and sharper: **can the company get its projects approved and connected on time, and will there be buyers willing to pay the assumed prices when it comes time to sell?**
 
 ### What the stations are for, who uses them, and how big the market is
 
@@ -152,19 +190,19 @@ So demand is real and structural — **but the capital and the deals sit overwhe
 
 Yes, and for structural rather than fashionable reasons. Australia is closing its ageing coal power stations while adding large amounts of solar and wind. Because solar and wind are intermittent, the grid increasingly needs storage that can deliver power on demand, and batteries are the cheapest and fastest way to provide it for the short durations that matter most today. Governments have backed this with firm targets and subsidy schemes, which turns a physical need into real, financeable demand. Importantly, the amount of storage actually funded still lags well behind the targets, so there is genuine room for new projects.
 
-For a developer who simply wants to build approved projects and sell them, this fast growth is helpful — rising demand means more potential buyers. (The same instability would worry someone planning to own and operate for fifteen years, but that is not this fund.) The one caveat is that the demand rests on government policy, and a two-to-three-year fund is exposed if those policies soften part-way through.
+For a developer who simply wants to build approved projects and sell them, this fast growth is helpful — rising demand means more potential buyers. (The same instability would worry someone planning to own and operate for fifteen years, but that is not this company.) The one caveat is that the demand rests on government policy, and a company running a two-to-three-year development cycle is exposed if those policies soften part-way through.
 
 *Basis — Data source: Australian Energy Market Operator Integrated System Plan 2026; Clean Energy Finance Corporation and state-government renewable targets. Method: industry life-cycle model (Chartered Financial Analyst, or CFA, curriculum) — placing the industry on the embryonic → growth → mature → decline curve. Calculation: a qualitative classification ("growth") read from the storage-capacity growth trajectory.*
 
-### Is the fund's niche defensible?
+### Is the company's niche defensible?
 
-Plausibly, but it needs checking. The fund's edge is that it deliberately works on **small ~5 MW projects** that the big developers overlook in favour of large 100 MW-plus transmission projects, which leaves the small end of the market less crowded. There is also a regulatory advantage: projects under 5 MW are exempt from a layer of Australian Energy Market Operator registration, which should make approval faster and cheaper. If that exemption holds, and if the fund genuinely has the site access, grid know-how and network-operator relationships it claims, the niche could be defensible. None of that should be taken on trust — it is exactly what diligence must confirm.
+Plausibly, but it needs checking. The company's edge is that it deliberately works on **small ~5 MW projects** that the big developers overlook in favour of large 100 MW-plus transmission projects, which leaves the small end of the market less crowded. There is also a regulatory advantage: projects under 5 MW are exempt from a layer of Australian Energy Market Operator registration, which should make approval faster and cheaper. If that exemption holds, and if the company genuinely has the site access, grid know-how and network-operator relationships it claims, the niche could be defensible. None of that should be taken on trust — it is exactly what diligence must confirm.
 
 *Basis — Data source: Australian Energy Regulator / Australian Energy Market Operator market rules (the sub-5 MW registration exemption); trade-press commentary on the small-distribution segment. Method: Porter's Five Forces (CFA curriculum / Michael Porter), applied to the market for development rights — specifically the "threat of new entrants" and "rivalry" forces. Calculation: none — a qualitative competitive assessment.*
 
 ### The decisive risk: will there be buyers?
 
-This is the heart of the matter. Because the fund's entire return comes from selling, the strength of the buyer market decides everything. The good news is that the pool of buyers for Australian battery assets is real and well-funded:
+This is the heart of the matter. Because the company's entire return comes from selling, the strength of the buyer market decides everything. The good news is that the pool of buyers for Australian battery assets is real and well-funded:
 
 - **Independent power producers** — building out their own portfolios.
 - **Infrastructure funds** — for example Palisade/Intera, Copenhagen Infrastructure Partners, Quinbrook.
@@ -172,7 +210,7 @@ This is the heart of the matter. Because the fund's entire return comes from sel
 - **Government green-investment bodies** — the Clean Energy Finance Corporation (CEFC) and the Energy Security Corporation (ESC).
 - **Large electricity retailers** — for example Origin, AGL, EnergyAustralia.
 
-Two cautions dominate, though. First, the fund's "three interested buyers" are **not contractually committed** — interest is not a purchase. Second, and more important, the wider market increasingly pays up for projects that are *further along*, already contracted or construction-ready, whereas this fund sells at the *earlier* ready-to-build stage. So the fund must show either that demand for ready-to-build projects specifically is genuinely deep, or that its projects are de-risked enough to command the assumed prices.
+Two cautions dominate, though. First, the company's "three interested buyers" are **not contractually committed** — interest is not a purchase. Second, and more important, the wider market increasingly pays up for projects that are *further along*, already contracted or construction-ready, whereas this company sells at the *earlier* ready-to-build stage. So the company must show either that demand for ready-to-build projects specifically is genuinely deep, or that its projects are de-risked enough to command the assumed prices.
 
 **Do buyers actually want 5 MW assets — or do they prefer 100 MW and above?** This is the sharpest question, and the recent deal record answers it plainly: **the deep-pocketed buyers transact at scale, not at 5 MW.**
 
@@ -188,82 +226,127 @@ Two cautions dominate, though. First, the fund's "three interested buyers" are *
 
 Infrastructure and superannuation funds say it out loud — Aware Super and the Health Employees Superannuation Trust Australia described the 240 MW Summerfield deal as exactly the **"large scale"** infrastructure they want. A single 5 MW project is simply **too small** for them: the due-diligence and management effort is much the same as for a 200 MW asset, so they favour size. The natural buyers of *individual* 5 MW batteries are a **thinner, more specialised, often grant-dependent pool** — distribution network service providers, government programmes and aggregators.
 
-**The mitigation — and the catch.** The way a small-project developer reaches the big buyers is to **bundle many projects into a portfolio.** The fund's ~35 projects (~175 MW combined) could, aggregated, reach the scale an infrastructure fund wants, and the market increasingly supports aggregation. But that changes the exit: the fund would likely have to **sell the whole portfolio as a single platform** — one large, all-or-nothing transaction — rather than sell 5 MW projects one at a time. That **concentrates** the exit risk rather than removing it, and it only works if the portfolio is deliberately built and marketed as one block.
+**The mitigation — and the catch.** The way a small-project developer reaches the big buyers is to **bundle many projects into a portfolio.** The company's ~35 projects (~175 MW combined) could, aggregated, reach the scale an infrastructure fund wants, and the market increasingly supports aggregation. But that changes the exit: the company would likely have to **sell the whole portfolio as a single platform** — one large, all-or-nothing transaction — rather than sell 5 MW projects one at a time. That **concentrates** the exit risk rather than removing it, and it only works if the portfolio is deliberately built and marketed as one block. (This is also the basis of the ~4× platform exit multiple applied to the company's net programme profit in [§6](#6-valuation--your-stake).)
 
 *Basis — Data source: energy trade press (Energy-Storage.news, pv magazine Australia, power-technology, Quinbrook, Energy Security Corporation); stored in [`data/processed/deal_sizes.csv`](data/processed/deal_sizes.csv). Method: comparable-transactions analysis (CFA relative-valuation; mergers-and-acquisitions practice) — recent deals listed by size and buyer. Calculation: none — observed deal sizes; the chart simply plots reported megawatts per deal.*
 
 ### Can they execute? The success-rate question
 
-The other make-or-break is whether projects actually clear their hurdles on schedule. The crucial point is what the manager's headline **40% / 65% / 80%** figures actually measure: they are the **development-approval (DA) gate alone** — the chance a project wins planning approval — *not* the whole-funnel success rate. A develop-and-flip project must clear **three separate gates**: development approval, *then* grid connection, *then* a sale. The true flip success is the **product** of all three:
+The other make-or-break is whether projects actually clear their development gates on schedule. The crucial point is what the founders' headline **40% / 65% / 80%** figures actually measure: they are the **development-approval (DA) gate alone** — the chance a project wins planning approval — *not* the whole-funnel success rate. A develop-and-flip project must clear **three separate gates**: development approval, *then* grid connection, *then* a sale. The true flip success is the **product** of all three:
 
 | Step | Chance of passing |
 |---|---|
-| Development approval (DA gate — the manager's headline) | 40% / 65% / 80% |
+| Development approval (DA gate — the founders' headline) | 40% / 65% / 80% |
 | Grid connection | ~70% |
 | Reach a sale | ~80% |
 | **True flip success — Base case (multiplied)** | **0.65 × 0.70 × 0.80 = 0.364 (~36%)** |
 | **True flip success — independent benchmark (DA 80%)** | **0.80 × 0.70 × 0.80 = 0.448 (~45%)** |
 
-In other words, the manager's **65% base case is the approval gate only** — it **overstates** whole-funnel success. Once grid connection and the sale are layered on, the true Base-case flip success is about **36%** (0.65 × 0.70 × 0.80), and even the manager's *ideal* 80% approval gate maps to a ~45% whole-funnel flip. An independent public benchmark (80% approval) gives the same ~45% (0.80 × 0.70 × 0.80 = 0.448). The earlier "optimism gap" framing was wrong: the gap is not between a 65% claim and a 45% reality, but the simpler fact that the 65% headline measures **one gate, not the whole funnel**. There is a fair counter-argument — the sub-5 MW exemption and the simplicity of small projects might genuinely lift the approval gate above the benchmark — so the right response is not to dismiss the fund, but to **ask the manager for project-by-project, state-by-state evidence** of its approval and connection record. Timing is the other enemy: approvals routinely take many months, and if they slip by six to twelve months the returns fall sharply.
+In other words, the founders' **65% base case is the approval gate only** — it **overstates** whole-funnel success. Once grid connection and the sale are layered on, the true Base-case flip success is about **36%** (0.65 × 0.70 × 0.80), and even the founders' *ideal* 80% approval gate maps to a ~45% whole-funnel flip. An independent public benchmark (80% approval) gives the same ~45% (0.80 × 0.70 × 0.80 = 0.448). The earlier "optimism gap" framing was wrong: the gap is not between a 65% claim and a 45% reality, but the simpler fact that the 65% headline measures **one gate, not the whole funnel**. There is a fair counter-argument — the sub-5 MW exemption and the simplicity of small projects might genuinely lift the approval gate above the benchmark — so the right response is not to dismiss the company, but to **ask the founders for project-by-project, state-by-state evidence** of their approval and connection record. Timing is the other enemy: approvals routinely take many months, and if they slip by six to twelve months the returns fall sharply.
 
-*Basis — Data source: public planning-approval and grid-connection data (Australian Energy Market Operator connection statistics; New South Wales / Victoria / South Australia planning portals); stored in [`data/processed/gate_stats.csv`](data/processed/gate_stats.csv). Method: a probability-of-default (PD) / survival curve — the same multi-period idea credit teams use under the Basel framework and International Financial Reporting Standard 9 (IFRS 9). Calculation: the manager's headline (40/65/80%) is the development-approval gate only; true flip success = approval × connection × sale. Base case = 0.65 × 0.70 × 0.80 = 0.364 (~36%); independent benchmark = 0.80 × 0.70 × 0.80 = 0.448 (~45%).*
+*Basis — Data source: public planning-approval and grid-connection data (Australian Energy Market Operator connection statistics; New South Wales / Victoria / South Australia planning portals); stored in [`data/processed/gate_stats.csv`](data/processed/gate_stats.csv). Method: a probability-of-default (PD) / survival curve — the same multi-period idea credit teams use under the Basel framework and International Financial Reporting Standard 9 (IFRS 9). Calculation: the founders' headline (40/65/80%) is the development-approval gate only; true flip success = approval × connection × sale. Base case = 0.65 × 0.70 × 0.80 = 0.364 (~36%); independent benchmark = 0.80 × 0.70 × 0.80 = 0.448 (~45%).*
 
 ### What this means for the returns
 
-(The full figures are in [§6 Valuation & your stake](#6-valuation--your-stake) and [§7 Returns to your shares](#7-returns-to-your-shares); this is the bottom line.) When we rebuild the fund's returns independently — applying the **true three-gate flip success** (development approval × grid connection × sale) rather than the approval gate alone — the expected investor return after fees comes out at roughly **1%** (internal rate of return ≈ 0.8%, multiple on invested capital ≈ 1.03×), far below what the manager's headline approval rates suggest. The reason is the corrected gates: the develop-and-flip clears the whole funnel only ~36% of the time in the Base case, so far more projects must be started and far more capital is consumed on failures. More tellingly, the downside is severe: in the conservative case the fund returns **less than the money invested** (multiple on invested capital ≈ 0.68×; internal rate of return ≈ −17.6%) — a genuine impairment of capital. So on the corrected gates the develop-and-flip is no longer attractive; it is the **weakest risk-adjusted entry**, with real downside risk to capital.
+(The full figures are in [§6 Valuation & your stake](#6-valuation--your-stake) and [§7 Returns to your shares](#7-returns-to-your-shares); this is the bottom line.) When we rebuild the company's economics independently — applying the **true three-gate flip success** (development approval × grid connection × sale) rather than the approval gate alone — the expected return on our shares comes out at roughly **7.6%** (internal rate of return, IRR; multiple on invested capital, MOIC ≈ 1.44×), far below what the founders' headline approval rates suggest. The reason is the corrected gates: the develop-and-flip clears the whole funnel only ~36% of the time in the Base case, so far more projects must be started and far more capital is consumed on failures, leaving the company's net programme profit thin (~$4.8m, valued at ~$19.3m of company exit equity). More tellingly, the downside is severe: in the conservative case the company's net programme profit turns **negative**, so the company's equity is worth ~$0 and **our shares are a total loss** (MOIC ≈ 0.00×; IRR ≈ −100%) — even a 1× liquidation preference cannot pay out when there is nothing to pay it from. So on the corrected gates the develop-and-flip is no longer attractive; it is the **weakest risk-adjusted business model**, with a total-loss downside.
 
-*Basis — Data source: the model's inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). Method: risk-adjusted net present value (rNPV) per project; a fund "funnel" (projects started = target ÷ true flip success); fees and carried interest; then probability-weighting the scenarios with the First-Chicago method (CFA scenario analysis + private-equity/venture-capital practice). Calculation: each scenario's after-fee internal rate of return (IRR), weighted 30% / 50% / 20%, gives ≈ 0.8% (multiple on invested capital, or MOIC, ≈ 1.03×); the conservative case returns a multiple on invested capital of 0.68× — below 1.0× — i.e. a capital loss (IRR −17.6%).*
+*Basis — Data source: the model's inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). Method: risk-adjusted net present value (rNPV) per project; a development "funnel" (projects started = target ÷ true flip success); the company's net programme profit × a platform exit multiple = company exit equity; our diluted ownership through the cap table, protected by a 1× liquidation preference; then probability-weighting the scenarios with the First-Chicago method (CFA scenario analysis + private-equity/venture-capital practice). Calculation: First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 1.44×, IRR ≈ 7.6%; the conservative case's net programme profit is negative, so company equity ≈ $0 and our shares ≈ 0 (MOIC 0.00×, IRR −100%).*
 
 ---
 
 ## 5. Business model & value-chain choice
 
-A develop-and-flip fund "creates value" by de-risking projects, not by operating them. The committee should also weigh **where on the value chain to invest**, because the same projects can be entered at several points with very different risk-return. The first three are *standalone* entry points (you buy in at that stage's market price); the fourth is the **integrated** path, where you carry one project through all three. Each is a genuinely different investment on a risk ladder — **develop (highest risk) → build → operate (lowest, if contracted)** — compared here as risk-adjusted, levered equity returns on the same ~5 MW asset:
+The question for the committee is **which business model is this startup pursuing, and is it the right one to back?** The same ~5 MW projects can be played at several points on the value chain, with very different risk-return. The first three are *standalone* business models (a company that operates only at that stage and sells at its market price); the fourth is the **integrated** model, carrying one project through all three. Each is a genuinely different business on a risk ladder — **develop (highest risk) → build → operate (lowest, if contracted)** — compared here as the risk-adjusted business returns on the same ~5 MW asset:
 
-| Stage | Hold | Expected IRR | Expected MOIC | Downside IRR | Main risk / character |
+| Business model | Hold | Expected IRR | Expected MOIC | Downside IRR | Main risk / character |
 |---|---|---|---|---|---|
-| 1 — Develop & flip (sell ready-to-build) | ~3 years | **0.8%** | 1.03× | **−17.6%** | approvals on time + a buyer pays (can lose capital); weakest risk-adjusted entry |
-| 2 — Build & sell | ~1.5 years | **25.9%** | 1.41× | **−18.2%** | construction cost/delay + thin build margin; highest expected, most fragile |
-| 3 — Own & operate (contracted) | ~15 years | **8.1%** | 2.41× | **+4.4%** | merchant price (steady if contracted); only standalone stage positive in its downside |
-| 4 — Integrated (develop→build→operate, keep) | ~18 years | **12.2%** | 4.41× | **+8.3%** | all risks stacked (development + construction + merchant), but NO buyer/exit risk |
+| Develop & flip (sell ready-to-build) | ~3 years | **3.7%** | 1.12× | **−10.6%** | approvals on time + a buyer pays; weakest risk-adjusted model — this is what the company does |
+| Build & sell | ~1.5 years | **25.9%** | 1.41× | **−18.2%** | construction cost/delay + thin build margin; highest expected, most fragile |
+| Own & operate (contracted) | ~15 years | **8.1%** | 2.41× | **+4.4%** | merchant price (steady if contracted); only standalone model positive in its downside |
+| Integrated (develop→build→operate, keep) | ~18 years | **12.2%** | 4.41× | **+8.3%** | all risks stacked (development + construction + merchant), but NO buyer/exit risk |
 
-![Risk-return by stage](outputs/figures/stage_comparison.png)
+![Risk-return by business model](outputs/figures/stage_comparison.png)
 
-**Recommendation by stage (for patient private capital):**
+**Which model to back (for patient private capital):**
 
-- **Stage 3 — own & operate (contracted): the natural core.** The only *standalone* stage positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis* — judging whether the tolling/offtake buyer will actually pay is the same as judging whether a borrower can service a loan). Avoid merchant-only operating.
-- **Stage 1 — develop & flip: now the weakest entry, at most a small satellite.** On the corrected gates it earns only ~0.8% expected IRR with a −17.6% downside that impairs capital — the worst risk-adjusted return of the four. Only on the conditions in [§10](#10-conditions--questions-for-the-founders), and even then sized small.
-- **Stage 2 — build & sell: skip as a standalone** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
-- **Stage 4 — integrated (develop → build → operate): a different business model.** Captures the whole value chain and removes exit risk; because you build at cost, operating returns are strong with a positive downside *if it reaches operation*. But it is the longest lock-up (~18 years), stacks all the risks, and only ~50% of starts reach operation. For a patient owner-operator, not a passive limited partner.
-- **Alignment trap:** the manager keeps the best projects to operate and sells the rest — ask to co-invest in the ones they keep.
+- **Own & operate (contracted): the natural core.** The only *standalone* model positive in its downside; steady, long-dated yield; plays to the credit-risk edge (assessing the offtake counterparty is *serviceability analysis* — judging whether the tolling/offtake buyer will actually pay is the same as judging whether a borrower can service a loan). Avoid merchant-only operating.
+- **Develop & flip — what this company does: the weakest model, back only on strong terms.** On the corrected gates it earns only ~3.7% expected business IRR with a −10.6% downside — the worst risk-adjusted return of the four. Backing this company is justified only on the conditions in [§10](#10-conditions--questions-for-the-founders), with downside terms (1× liquidation preference, sensible option pool) doing real work.
+- **Build & sell — not this company's model** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
+- **Integrated (develop → build → operate): a stronger but slower model.** Captures the whole value chain and removes exit risk; because it builds at cost, operating returns are strong with a positive downside *if it reaches operation*. But it is the longest hold (~18 years), stacks all the risks, and only ~50% of starts reach operation. A different company than the one on offer.
+- **Alignment watch-point:** if the founders intend to keep the best projects to operate and sell the rest, ask how "best" is selected — so the flip pool the company's value rests on is not left the weaker assets.
 
-> **The headline 40% / 65% / 80% are the development-approval (DA) gate only — and only Stage 1 bears all three gates.** A develop-and-flip (Stage 1) project must clear **development approval × grid connection (70%) × sale (80%)**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ **36%** (Ideal, approval 80%, ≈ 45%) — the 65% is *not* whole-funnel success. Stage 2 and Stage 3 investors **buy past development** (a project that has already cleared it, at market price), so they bear construction-completion (~90%) and merchant-price risk instead. The integrated **Stage 4 also runs development, but has no sale gate** — it bears approval × connection × construction, i.e. ~56% development survival × ~90% construction, because it keeps the asset rather than selling it. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's approval gate drives only the Stage 1 number.
+> **The headline 40% / 65% / 80% are the development-approval (DA) gate only — and only the develop-and-flip model bears all three gates.** A develop-and-flip project must clear **development approval × grid connection (70%) × sale (80%)**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ **36%** (Ideal, approval 80%, ≈ 45%) — the 65% is *not* whole-funnel success. A build-and-sell or own-and-operate company **buys past development** (a project that has already cleared it, at market price), so it bears construction-completion (~90%) and merchant-price risk instead. The integrated **model also runs development, but has no sale gate** — it bears approval × connection × construction, i.e. ~56% development survival × ~90% construction, because it keeps the asset rather than selling it. Each model is priced at its own entry point, so the comparison stays like-for-like and the company's approval gate drives only the develop-and-flip number.
 
-*Basis — **Data source:** [`config/assumptions.yaml`](config/assumptions.yaml) (development cost, construction cost, operating revenue, debt terms) + the RBA risk-free rate. **Method:** levered equity IRR per stage — Stage 1 is the fund funnel; Stage 2 is a build-and-sell model risk-adjusted by completion probability; Stage 3 is a levered operating discounted-cash-flow (DCF) with low/base/high merchant-price scenarios. **Calculation:** full workings in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — the Stage 2 result is highly sensitive to the build margin.*
+*Basis — **Data source:** [`config/assumptions.yaml`](config/assumptions.yaml) (development cost, construction cost, operating revenue, debt terms) + the RBA risk-free rate. **Method:** risk-adjusted business return per model — develop-and-flip is the development funnel; build-and-sell is risk-adjusted by completion probability; own-and-operate is a levered operating discounted-cash-flow (DCF) with low/base/high merchant-price scenarios. **Calculation:** full workings in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — the build-and-sell result is highly sensitive to the build margin.*
 
 ---
 
 ## 6. Valuation & your stake
 
-- **What we pay:** limited partners fund the development spend and fees (~$28.7 million called against the ~$25 million committed — the corrected funnel requires ~96 starts to deliver 35 sales, so the called capital exceeds the headline commitment and is itself a gating concern). There is no entry "multiple" — the relevant price is what buyers pay for a ready-to-build project versus the cost to create it.
-- **The value ladder:** a ready-to-build project sells for roughly **$0.5–1.1 million per 5 MW** (manager claim — New South Wales $0.9–1.1m, Victoria $0.8–1.0m, South Australia $0.5–0.7m), which is only **~10–12% of the ~$8–10 million built-asset value**. That confirms this is the early-stage development premium, not the construction value — and it needs independent comparables.
-- **Structure & terms:** 2% entry / 2% per year management / 20% carried interest over an 8% preferred return; two-plus-one-year term, no early redemption. Sources & Uses: [Appendix C, Exhibit 1](#exhibit-1--sources--uses-base-case-limited-partner-capital).
-- **Discount rate (for asset cross-checks):** 18.8% = Reserve Bank of Australia 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium (build-up method).
+The valuation runs in two steps: **(1) value the whole company** (its exit equity = net programme profit × a platform exit multiple, probability-weighted across scenarios), then **(2) apply the cap table** to get the value of *our* shares.
 
-**Key assumptions** *(manager claims unless noted):*
+- **What we pay:** we buy **~$2 million `[[TO CONFIRM]]` of newly-issued shares** at a **$10 million post-money** valuation ($8 million pre-money `[[TO CONFIRM]]` + our $2 million), for **20.0% ownership at entry**. We pay the company's price for its equity; we do not fund the development spend directly (the company does, from its own capital base).
+- **The value ladder:** a ready-to-build project sells for roughly **$0.5–1.1 million per 5 MW** (founder claim — New South Wales $0.9–1.1m, Victoria $0.8–1.0m, South Australia $0.5–0.7m), which is only **~10–12% of the ~$8–10 million built-asset value**. That confirms this is the early-stage development premium, not the construction value — and it needs independent comparables.
+- **Structure & terms:** a direct minority equity stake; we should require **preferred shares carrying a 1× non-participating liquidation preference** `[[TO CONFIRM]]`, plus anti-dilution and governance protections (see [§3](#3-the-company--what-youre-buying) and [§8](#8-risks--protections)). Cap table before/after: [Appendix C, Exhibit 1](#exhibit-1--cap-table-before-and-after-our-investment).
+- **Discount rate (for the per-pipeline asset cross-check):** 18.8% = Reserve Bank of Australia 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium (build-up method).
+
+### Step 1 — the company's exit equity (Base case)
+
+| The company's programme → equity (Base) | Value |
+|---|---|
+| Programme capital (illustrative) | ~$25m |
+| Whole-funnel flip success (DA 65% × grid 70% × sale 80%) | 36.4% |
+| Projects delivered / sold (target) | 35 |
+| Projects started (= 35 ÷ 36.4%) | ~96 |
+| Total development cost | ~$26.7m |
+| Gross proceeds (35 sales) | ~$31.5m |
+| **Net programme profit** | **~$4.8m** *(= $31.5m − $26.7m)* |
+| Platform exit multiple `[[TO CONFIRM]]` | 4.0× |
+| **Company exit equity** | **~$19.3m** *(= $4.8m × 4.0)* |
+
+*(Conservative case: net programme profit is **negative**, so the company's exit equity is ~$0.)*
+
+### Step 2 — the cap table → our proceeds (Base case)
+
+| Bridge to our proceeds (Base) | Value |
+|---|---|
+| Company exit equity | ~$19.3m |
+| Our diluted ownership at exit | 14.4% *(20.0% × (1−10% pool) × (1−20% round))* |
+| Our share of exit equity | ~$2.78m *(= $19.3m × 14.4%)* |
+| 1× liquidation preference floor | $2.00m *(our $2m investment)* |
+| **Our proceeds** (greater of the two) | **~$2.78m** |
+| **MOIC / IRR on our shares** | **1.39× / +6.8%** *(exit year 5 `[[TO CONFIRM]]`)* |
+
+### Per-pipeline asset valuation cross-check (unchanged)
+
+A bottom-up cross-check on a single representative pipeline, to sanity-check the development premium independent of the company-equity build:
+
+| Method | Value per representative pipeline |
+|---|---|
+| Risk-adjusted net present value (rNPV) | $0.58m |
+| Dollar-per-MW development value | $0.58m |
+| Venture-capital (VC) method | $0.45m |
+| **Range / midpoint** | **$0.45m – $0.58m; midpoint $0.53m** |
+
+**Key assumptions** *(founder claims unless noted):*
 
 | Assumption | Value |
 |---|---|
-| Committed capital | ~$25m |
+| Pre-money valuation | $8m `[[TO CONFIRM]]` |
+| Our investment | $2m `[[TO CONFIRM]]` |
+| Post-money valuation | $10m |
+| Ownership at entry | 20.0% |
+| Option pool | 10% `[[TO CONFIRM]]` |
+| Future-round dilution | 20% `[[TO CONFIRM]]` |
+| Diluted ownership at exit | 14.4% |
+| Liquidation preference | 1× non-participating `[[TO CONFIRM]]` |
+| Platform exit multiple | 4.0× `[[TO CONFIRM]]` |
+| Exit year | 5 `[[TO CONFIRM]]` |
 | Projects delivered / sold | 35 |
 | Development cost | ~$0.5m per project (+ partial spend on dropouts) |
-| Fund term | 2 + 1 years |
-| Entry fee | 2% of committed capital |
-| Management fee | 2% per year |
-| Carried interest / hurdle | 20% carry over an 8% preferred return |
-| Discount rate *(asset cross-checks)* | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium |
+| Discount rate *(asset cross-check)* | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium |
 
-**Ready-to-build sale price by state** *(manager claim — needs independent comparables):*
+**Ready-to-build sale price by state** *(founder claim — needs independent comparables):*
 
 | State | Price per 5 MW project |
 |---|---|
@@ -271,45 +354,45 @@ A develop-and-flip fund "creates value" by de-risking projects, not by operating
 | Victoria | $0.8m – $1.0m |
 | South Australia | $0.5m – $0.7m |
 
-*Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. All other rows are the manager's projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence.*
+*Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. The company exit equity = net programme profit × platform multiple; our proceeds = greater of the 1× liquidation preference or diluted ownership × company exit equity. All founder rows are projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence; the cap-table inputs are placeholders to confirm.*
 
 ---
 
 ## 7. Returns to your shares
 
-Modelled bottom-up from public data (survival curve → fund funnel → fees and carried interest → investor IRR and MOIC), with scenarios driven by **flip success (= development approval × grid connection × sale) — the master driver, which the scenarios move via the development-approval (DA) gate** — and weighted via the **First-Chicago** method.
+Modelled bottom-up from public data (survival curve → company net programme profit → company exit equity → cap-table dilution & liquidation preference → return on our shares), with scenarios driven by **flip success (= development approval × grid connection × sale) — the master driver, which the scenarios move via the development-approval (DA) gate** — and weighted via the **First-Chicago** method. Our proceeds in each scenario are the **greater of the 1× liquidation preference or our diluted-ownership share of the company's exit equity**; dilution (to ~14.4%) and the preference are applied *before* our proceeds are struck.
 
-| Scenario | DA gate | Flip success* | Projects started† | Investor MOIC (net) | Investor IRR (net) |
+| Scenario | Flip success* | Company exit equity | Our proceeds | MOIC (our shares) | IRR (our shares) |
 |---|---|---|---|---|---|
-| Conservative | 40% | 22.4% | ~156 | **0.68×** | **−17.6%** |
-| Base | 65% | 36.4% | ~96 | **1.10×** | **+4.8%** |
-| Ideal | 80% | 44.8% | ~78 | **1.40×** | **+18.3%** |
-| **First-Chicago expected** (30/50/20 weighting) | — | — | — | **~1.03×** | **~0.8%** |
+| Conservative | 22.4% | $0.0m | $0.00m | **0.00×** | **−100% (total loss)** |
+| Base | 36.4% | $19.3m | $2.78m | **1.39×** | **+6.8%** |
+| Ideal | 44.8% | $51.9m | $7.47m | **3.74×** | **+30.2%** |
+| **First-Chicago expected** (30/50/20 weighting on proceeds) | — | — | — | **~1.44×** | **~7.6%** |
 
 \*Flip success = DA gate × grid connection (70%) × sale (80%): e.g. Base 0.65 × 0.70 × 0.80 = **36.4%**. The headline 40% / 65% / 80% are the **approval gate alone**, not whole-funnel success.
 
-†To deliver the ~35-project target, the starting pipeline must widen as flip success falls — which is why a lower success rate also raises total development cost.
+The same scenarios viewed by company net programme profit and our cap-table proceeds:
 
-The same scenarios viewed by invested capital and gross proceeds:
-
-| Metric (net to limited partner) | Conservative (DA 40% → flip 22.4%) | Base (DA 65% → flip 36.4%) | Ideal (DA 80% → flip 44.8%) |
+| Metric | Conservative (flip 22.4%) | Base (flip 36.4%) | Ideal (flip 44.8%) |
 |---|---|---|---|
-| Investor IRR | **−17.6%** | **4.8%** | **18.3%** |
-| Investor MOIC | 0.68× | 1.10× | 1.40× |
-| Invested capital ($m) | 39.5 | 28.7 | 25.2 |
-| Gross proceeds ($m) | 26.8 | 31.5 | 36.2 |
+| Net programme profit ($m) | negative | 4.8 | 13.0 |
+| Company exit equity ($m) | ~0.0 | 19.3 | 51.9 |
+| Our diluted share @14.4% ($m) | ~0.0 | 2.78 | 7.47 |
+| 1× liquidation preference floor ($m) | 2.00 | 2.00 | 2.00 |
+| **Our proceeds — greater of the two ($m)** | **0.00** | **2.78** | **7.47** |
+| MOIC / IRR on our shares | 0.00× / −100% | 1.39× / +6.8% | 3.74× / +30.2% |
 
-*The scenario labels are the manager's **development-approval (DA) headline**; the bracketed flip success is the corrected whole-funnel rate (DA × grid connection 70% × sale 80%).*
+*The Conservative case is a total loss: net programme profit is negative, so company exit equity is ~$0 and there is nothing for the liquidation preference to attach to — the preference cannot pay out from an empty estate.*
 
-**Probability-weighted (First-Chicago, 30/50/20): expected IRR ≈ 0.8%, MOIC ≈ 1.03×.** Scenario IRR range −17.6% … +18.3%. For comparison, the manager's own scenarios imply a far higher ~17.7% — the gap is the funnel correction: the manager's headline is the approval gate alone, while the corrected number applies all three gates.
+**Probability-weighted (First-Chicago, 30/50/20 on proceeds, then convert): expected MOIC ≈ 1.44×, IRR ≈ 7.6%.** Scenario IRR range −100% … +30%. For comparison, the founders' own scenarios imply a far higher ~17.7% — the gap is the funnel correction: the founders' headline is the approval gate alone, while the corrected number applies all three gates.
 
-*Attribution (ties to [Appendix C, Exhibit 3](#exhibit-3--return-bridge-base-case-m-net-to-limited-partners)):* the entire thin gain is the development margin — gross proceeds of $31.5 million less ~$26.7 million development cost and ~$2.0 million of fees, leaving ~$2.8 million of net profit to limited partners in the Base case; **carried interest is zero because Base profit does not clear the 8% hurdle**. None of the return relies on merchant or operating upside. The return is therefore most sensitive to the **development-approval rate** and the **ready-to-build price** ([Appendix C, Exhibit 2](#exhibit-2--returns-sensitivity-investor-irr-across-development-approval-da-gate--ready-to-build-price)): at the Base DA rate the deal is only marginally positive, and a 15–30% price fall pushes it firmly negative.
+*Attribution (ties to [Appendix C, Exhibit 3](#exhibit-3--cap-table--our-proceeds-bridge-base-case)):* the entire value is the development margin the company captures — gross proceeds of $31.5 million less ~$26.7 million development cost gives ~$4.8 million net programme profit, valued at a ~4× platform multiple `[[TO CONFIRM]]` for ~$19.3 million of company exit equity at Base; our diluted ~14.4% stake, protected by a 1× liquidation preference, is worth ~$2.78 million. None of the return relies on merchant or operating upside (that passes to the buyers of the projects). The return is therefore most sensitive to the **development-approval rate** and the **ready-to-build price** ([Appendix C, Exhibit 2](#exhibit-2--returns-sensitivity-our-equity-irr-across-development-approval-da-gate--ready-to-build-price)): at the Base DA rate our equity IRR is ≈ +6.8%, and a 15–30% price fall or a low approval rate turns it sharply negative.
 
-**Key assumptions** *(manager claims unless noted):* the full list is in [§6 Valuation & your stake](#6-valuation--your-stake).
+**Key assumptions** *(founder claims unless noted):* the full list is in [§6 Valuation & your stake](#6-valuation--your-stake).
 
-*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; a fund funnel; fees and carried interest; First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** each scenario's after-fee IRR weighted 30% / 50% / 20% → ≈ 0.8%; the conservative case's MOIC of 0.68× (below 1.0×) is a capital loss.*
+*Basis — **Data source:** model inputs in [`config/assumptions.yaml`](config/assumptions.yaml) plus the live risk-free rate from the Reserve Bank of Australia (RBA). **Method:** risk-adjusted net present value (rNPV) per project; the company's net programme profit × a platform exit multiple = company exit equity; our diluted ownership through the cap table, with proceeds = greater of the 1× liquidation preference or diluted-ownership × company exit equity; First-Chicago scenario weighting (CFA scenario analysis + PE/venture-capital practice). **Calculation:** First-Chicago weighting (30/50/20) of our proceeds → expected MOIC ≈ 1.44×, IRR ≈ 7.6%; the conservative case's net programme profit is negative, so our shares are worth ~0 (MOIC 0.00×, IRR −100%).*
 
-> **Read-through:** our rebuild is deliberately more conservative than the manager's (full development spend across the funnel; independent costs/prices; and — decisively — treating the 65% as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%, not 65%). The result — **expected return only marginally positive (≈0.8%), well below the manager's, and a downside that returns far less than capital** — is the credit-style scepticism this decision requires.
+> **Read-through:** our rebuild is deliberately more conservative than the founders' (full development spend across the funnel; independent costs/prices; and — decisively — treating the 65% as the **approval gate alone**, so true Base flip success is 0.65 × 0.70 × 0.80 ≈ 36%, not 65%). The result — **expected return modest (≈7.6% on our shares), well below the founders', and a downside that is a total loss of our capital** — is the credit-style scepticism this decision requires.
 
 ---
 
@@ -317,56 +400,71 @@ The same scenarios viewed by invested capital and gross proceeds:
 
 | Risk | Severity | Why it matters here / mitigant required |
 |---|---|---|
-| **Exit / buyer risk** | **High** | The decisive risk. Buyers are non-binding, transact at 100 MW+ (not 5 MW), and the market leans to *contracted* assets, not raw ready-to-build. A flip with no buyer is stranded capital. *Require ≥3–4 credible, contractually-progressing buyers and independent price comparables; require the fund to aggregate projects into a saleable portfolio.* |
-| **Development / approval risk** | **High** | Planning + grid connection on time across three states; the master driver of returns via flip success (approval × connection × sale). *Require sub-5 MW, per-state development-approval and grid-connection track record; stress a 6–12-month slip.* |
-| **65% is the approval gate alone (whole-funnel overstatement)** | **High** | The manager's 65% is the development-approval gate only, not whole-funnel success; true Base flip success ≈ 36% (0.65 × 0.70 × 0.80). *Re-underwrite on whole-funnel flip success (DA × grid 70% × sale 80%), not the approval-gate headline; require evidence for each of the three gates.* |
-| **Policy dependency** | **Medium–High** | Buyer appetite rests on net-zero / state schemes and the sub-5 MW exemption; a mid-window change hits all projects at once. *Diversify across three states; treat the sub-5 MW exemption as a verify-and-monitor item.* |
-| **Concentration** | **Medium** | ~35 projects, one strategy, three states — correlated to a single policy/rule change. *Size the commitment as a satellite, not a core holding.* |
-| **Fees & liquidity** | **Medium** | 2%/2%/20%-over-8% is a meaningful gross-to-net drag; two-plus-one-year lock-up with no early redemption. *Confirm net-of-all-fees IRR and the gross behind it; accept illiquidity only for the satellite sleeve.* |
-| **Alignment** | **Medium** | The manager plans to keep the "best" 5–10 projects to operate — confirm how "best" is selected so the flip pool isn't left the weaker assets. *Selection rule + co-invest rights.* |
+| **Single-company concentration** | **High** | We are tied to **one** early-stage company with one strategy — there is no diversification across companies or deals; a single company failure is a total loss of our stake. *Size the investment as a small, risk-tolerant allocation; do not treat it as a diversified holding.* |
+| **Founder & key-person risk** | **High** | A brand-new company with no operating history; execution, relationships and pipeline depend almost entirely on the founder(s). *Require key-person provisions, vesting on founder equity, and information rights to monitor execution.* |
+| **Exit / buyer risk** | **High** | The decisive operating risk. Buyers are non-binding, transact at 100 MW+ (not 5 MW), and the market leans to *contracted* assets, not raw ready-to-build. A flip with no buyer is stranded capital and turns net programme profit negative. *Require ≥3–4 credible, contractually-progressing buyers and independent price comparables; require the company to aggregate projects into a saleable portfolio.* |
+| **Development / approval risk** | **High** | Planning + grid connection on time across three states; the master driver of company value via flip success (approval × connection × sale). *Require sub-5 MW, per-state development-approval and grid-connection track record; stress a 6–12-month slip.* |
+| **65% is the approval gate alone (whole-funnel overstatement)** | **High** | The founders' 65% is the development-approval gate only, not whole-funnel success; true Base flip success ≈ 36% (0.65 × 0.70 × 0.80). *Re-underwrite on whole-funnel flip success (DA × grid 70% × sale 80%), not the approval-gate headline; require evidence for each of the three gates.* |
+| **Down-round / dilution risk** | **Medium–High** | A future financing round can issue new shares below our entry price, cutting our percentage and our value; we already model dilution to ~14.4%. *Require pre-emption rights and anti-dilution protection `[[TO CONFIRM]]`; size the option pool sensibly.* |
+| **Minority-shareholder rights** | **Medium–High** | As a ~20% holder we do not control the company; without protections the majority can act against our interest (new debt, dilutive issues, asset sales). *Require protective provisions / veto over major decisions, a board seat or observer, and information rights `[[TO CONFIRM]]`.* |
+| **Illiquidity** | **Medium–High** | There is no market for our shares; we cannot exit until a trade sale of the company or a negotiated secondary — potentially many years, or never. *Accept illiquidity only for a risk-tolerant allocation; seek tag-along / drag-along and registration/secondary rights `[[TO CONFIRM]]`.* |
+| **Governance** | **Medium** | A young company may lack board discipline, reporting and controls. *Require regular board reporting, audited or reviewed accounts, and the information rights above `[[TO CONFIRM]]`.* |
+| **Policy dependency** | **Medium–High** | Buyer appetite rests on net-zero / state schemes and the sub-5 MW exemption; a mid-cycle change hits all the company's projects at once. *Diversify the pipeline across three states; treat the sub-5 MW exemption as a verify-and-monitor item.* |
 
-> Note what is **not** the main risk: **merchant-price volatility**, which passes to the buyer (the reframe in [§2](#2-the-deal--the-thesis)).
+> Note what is **not** the main risk: **merchant-price volatility**, which passes to the buyers of the projects (the reframe in [§2](#2-the-deal--the-thesis)).
 
-*Stress case:* at the Base development-approval rate the flip is **only marginally positive** (4.8% / 1.10×), and at the conservative 40% approval rate (flip ~22%) the fund returns **far less than invested capital** (−17.6% / 0.68×). With ready-to-build prices 20–30% lower on top, the loss deepens further. Survivable only because the commitment is sized as a small, risk-tolerant allocation — not because the downside is mild.
+**Downside protections we should secure:**
+
+- **1× non-participating liquidation preference** — on a sale, we get our $2m back before ordinary holders share the rest; this floors our proceeds *whenever there is value to attach to* (it cannot pay out in the Conservative case, where company equity is ~$0). `[[TO CONFIRM]]`
+- **Anti-dilution** — protection against a future down round repricing our stake. `[[TO CONFIRM]]`
+- **Option-pool sizing** — agree the employee pool (modelled at 10%) up front so the dilution we bear is known, not open-ended. `[[TO CONFIRM]]`
+
+> **Single-company caveat.** Because this is a brand-new startup rather than a diversified fund, the committee should weight the **failure scenario more heavily** and demand **stronger downside terms** (preference, anti-dilution, governance) than it would for a fund commitment — there is no portfolio to absorb a single failure.
+
+*Stress case:* at the Base development-approval rate our equity return is **modest** (+6.8% / 1.39× on our shares), and at the conservative 40% approval rate (flip ~22%) the company's net programme profit turns negative, its equity is worth ~$0, and **our shares are a total loss** (−100% / 0.00×) — the 1× liquidation preference cannot pay out from an empty estate. With ready-to-build prices 20–30% lower on top, the Base case also slides negative. Survivable only because the investment is sized as a small, risk-tolerant allocation — not because the downside is mild.
 
 ---
 
 ## 9. Exit — how you get your money back
 
-Capital returns as the fund **sells ready-to-build projects** over the two-to-three-year window. The buyer pool spans:
+We hold **shares**, so our money comes back only when we can sell those shares — not through fund distributions. There are two realistic exit routes:
 
-- **Infrastructure funds** and **superannuation funds**.
-- **Independent power producers** building out their own portfolios.
-- **Government green-capital bodies** — the Clean Energy Finance Corporation and the Energy Security Corporation.
-- **Electricity retailers** seeking firming capacity.
+- **A trade sale of the company** — a buyer acquires the whole business (most likely after the company has aggregated its ~175 MW pipeline into a saleable platform), and we are paid out alongside the other shareholders. This is the primary route and the expected source of our proceeds (exit year 5 `[[TO CONFIRM]]`).
+- **A secondary sale of our shares** — we sell our minority stake to another investor before a company-wide sale. This depends on finding a willing buyer at an acceptable price and on transfer rights; it is uncertain and may be at a discount.
 
-**The exit is the binding constraint.** Because individual 5 MW assets are sub-scale for the large buyers, the realistic exit is **selling an aggregated ~175 MW portfolio as a single platform** — one large, all-or-nothing transaction — rather than 35 separate flips. That concentrates the exit and only works if the portfolio is deliberately built and marketed as one block. The committee should treat a demonstrated, contractually-progressing exit path as the gating condition.
+**The liquidation preference governs the split on a sale.** On a trade sale, our **1× non-participating liquidation preference** `[[TO CONFIRM]]` means we take the **greater of** our $2m back **or** our diluted ~14.4% share of the company's exit equity ($2.78m at Base) — but only if there is value to share; in the Conservative case the company's equity is ~$0 and there is nothing to pay out.
+
+**The exit is the binding constraint — and it sits one level removed from us.** The company's own exit depends on selling its ready-to-build projects (or an aggregated portfolio) to a deep buyer pool — infrastructure funds, superannuation funds, independent power producers, government green-capital bodies (the Clean Energy Finance Corporation, the Energy Security Corporation) and retailers — most of whom transact at scale, so the realistic path is **one large, all-or-nothing platform sale** rather than 35 separate flips. Our exit then depends on the company's exit. The committee should treat a demonstrated, contractually-progressing buyer path **and** clear share-transfer / drag-along / tag-along rights as gating conditions.
 
 ---
 
 ## 10. Conditions & questions for the founders
 
-**Recommendation: CONDITIONAL PROCEED (PASS-LEANING)** (to confirmatory due diligence; commit only as a small, risk-tolerant satellite allocation, and only if every condition below is met). On the corrected gates the develop-and-flip is the **weakest risk-adjusted entry on the value chain** — expected IRR ~0.8% (1.03× MOIC) barely clears zero, the conservative downside (−17.6% / 0.68×) impairs capital, and **carry is zero at Base because profit does not clear the 8% hurdle**. Absent strong evidence on the conditions, the default is **Pass**.
+**Recommendation: CONDITIONAL PROCEED (PASS-LEANING)** (to confirmatory due diligence; commit only as a small, risk-tolerant allocation, and only if every condition below is met). On the corrected gates the develop-and-flip is the **weakest risk-adjusted business model on the value chain** — expected return on our shares ~7.6% (1.44× MOIC) is modest, and the conservative downside (−100% / 0.00×) is a **total loss of our capital**. Absent strong evidence on the conditions and stronger downside terms than a diversified fund would require, the default is **Pass**.
 
 **Commit only if all of the following are evidenced (the bar is explicit — any one unmet ⇒ Pass):**
 
-1. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested"); a credible portfolio-aggregation exit (a **deep contracted buyer pool**).
-2. **Success rate / gate evidence** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
-3. **Survivable downside** — the fee-adjusted conservative case (−17.6% / 0.68×) stressed further (ready-to-build prices down 20–30%, flip success near ~22%) without impairing more than the allocated sleeve.
-4. **Alignment** — a transparent rule for selecting the "keep-best 5–10" projects, plus co-investment rights in retained projects.
+1. **Equity terms confirmed** — pre-money valuation, share class (preferred, not ordinary), price per share and share count, a **1× non-participating liquidation preference**, the option-pool size, and anti-dilution / pre-emption rights — all currently `[[TO CONFIRM]]`.
+2. **Governance & minority protections** — a board seat or observer, information rights, and veto / protective provisions over major decisions `[[TO CONFIRM]]`.
+3. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested"); a credible portfolio-aggregation exit (a **deep buyer pool**).
+4. **Success rate / gate evidence** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
+5. **Survivable downside** — the conservative case (total loss) and a stressed Base (ready-to-build prices down 20–30%, flip success near ~22%) impair no more than the allocated, risk-tolerant amount.
 
-**Approval sought:** authority to conduct confirmatory due diligence and, if every condition is met, to commit up to ~$25 million as a satellite allocation — noting building, owning and integrating score better per unit of downside risk.
+**Approval sought:** authority to conduct confirmatory due diligence and, if every condition is met, to invest up to ~$2 million `[[TO CONFIRM]]` for a ~20% stake as a small, risk-tolerant allocation — noting that owning and integrating score better per unit of downside risk than develop-and-flip.
 
-**Questions for the manager:**
+**Questions for the founders:**
 
+- The **pre-money valuation** and how it was derived; the **price per share** and the resulting **share count** and our ownership?
+- The **share class** on offer (ordinary vs preferred) and whether it carries a **1× non-participating liquidation preference**?
+- The **option-pool size** (modelled at 10%) and expected **future-round dilution** (modelled at 20%); is **anti-dilution / pre-emption** protection available?
+- **Board seat / observer, information rights, and veto / protective provisions** over major decisions?
+- **Founder vesting and key-person** arrangements?
 - Historical/expected **approval, connection and sale** success **by state**, specifically for **sub-5 MW** — with evidence that 65% is the approval gate and not whole-funnel success?
 - Of the "3 interested buyers," what is **contractual** (signed options/memoranda of understanding, price/terms)?
-- The **bottom-up ~$0.5m/project** development-cost build-up?
-- **Independent comparables** behind the ready-to-build prices ($0.5–1.1m/project)?
-- The **net-of-all-fees** IRR and the **gross** IRR behind it?
-- What happens to timeline and IRR if approvals slip **6–12 months**?
-- How are the projects the manager plans to **keep and operate (five to ten of the best)** chosen, since that affects what is left for investors?
-- The genuine downside — **can limited partners lose capital, and in which scenario?**
+- The **bottom-up ~$0.5m/project** development-cost build-up, and **independent comparables** behind the ready-to-build prices ($0.5–1.1m/project)?
+- What happens to the company's value and our return if approvals slip **6–12 months**?
+- The genuine downside — **in which scenario do we lose our entire stake** (Conservative: negative net programme profit → equity ~$0)?
+- The realistic **exit route and timing** for our shares (trade sale of the company vs secondary), and our **transfer / tag-along / drag-along** rights?
 
 ---
 
@@ -375,20 +473,21 @@ Capital returns as the fund **sells ready-to-build projects** over the two-to-th
 **Why this exists (portfolio note).** This repository demonstrates two interview-tested skills:
 
 1. **Data engineering** — a configuration-driven, reproducible Python pipeline over free public Australian data (Reserve Bank of Australia; the Commonwealth Scientific and Industrial Research Organisation's GenCost report; the Australian Energy Market Operator; New South Wales / Victoria / South Australia planning portals; energy trade press), with verify-then-fallback and full source logging.
-2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip pipeline and the **investor (limited-partner) return**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a fund funnel with fees and carried interest, and First-Chicago scenario weighting.
+2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip company and the **return on our direct-equity stake**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a development funnel, a company-equity build (net programme profit × platform multiple), a cap table with dilution and a 1× liquidation preference, and First-Chicago scenario weighting.
 
-The headline story: *applying credit-risk (probability-of-default / survival) discipline and institutional Excel standards to an infrastructure-development fund — independently rebuilding a manager's claims on fully public data.*
+The headline story: *applying credit-risk (probability-of-default / survival) discipline and institutional Excel standards to a direct-equity stake in an infrastructure-development startup — independently rebuilding a founder's claims on fully public data.*
 
 **Methodology (what the model computes).**
 
 1. **Probability-of-default-style survival curve** — `flip success = p(development approval) × p(connection) × p(sale)` from public data. The headline 40% / 65% / 80% are the **development-approval gate only**; the scenarios move that gate, and true flip success is the product (Base 0.65 × 0.70 × 0.80 ≈ 36%; independent benchmark, approval 80%, ≈ 45%), so the 65% headline overstates whole-funnel success.
 2. **Per-project risk-adjusted net present value** — `ready-to-build sale − development cost = margin`, `× flip success` (= approval × connection × sale), discounted (development cost only — the buyer funds construction).
-3. **Fund funnel → investor return** — `started = target ÷ success`; development cost (full on delivered + partial on dropouts); fees (entry + management + carried interest over the hurdle); **investor IRR & MOIC** (closed-form over the effective hold).
-4. **Scenario / First-Chicago** — Conservative / Base / Ideal, probability-weighted to an expected return.
-5. **Cross-checks** — dollar-per-MW benchmark, venture-capital method, and ready-to-build-as-%-of-built (~10–12%).
-6. **Three-stage value-chain comparison** (`src/stage_analysis.py`) — Stage 1 develop-and-flip, Stage 2 build-and-sell (levered, with completion risk), Stage 3 own-and-operate (levered operating discounted-cash-flow with merchant scenarios), each as a risk-adjusted equity return → see [§5](#5-business-model--value-chain-choice).
+3. **Development funnel → company exit equity** — `started = target ÷ success`; development cost (full on delivered + partial on dropouts); `net programme profit = gross proceeds − development cost`; `company exit equity = net programme profit × platform exit multiple`.
+4. **Cap table → return on our shares** — `ownership at entry = investment ÷ post-money`; dilution for the option pool and a future round to the diluted exit ownership; `our proceeds = greater of the 1× liquidation preference or diluted-ownership × company exit equity`; then **MOIC & IRR on our shares**.
+5. **Scenario / First-Chicago** — Conservative / Base / Ideal, probability-weighted (on proceeds) to an expected return.
+6. **Cross-checks** — dollar-per-MW benchmark, venture-capital method, and ready-to-build-as-%-of-built (~10–12%).
+7. **Value-chain (business-model) comparison** (`src/stage_analysis.py`) — develop-and-flip, build-and-sell (levered, with completion risk), own-and-operate (levered operating discounted-cash-flow with merchant scenarios) and integrated, each as a risk-adjusted business return → see [§5](#5-business-model--value-chain-choice).
 
-The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base investor IRR 4.8% in both); a `formulas`-library recalculation confirms the model's master check reads **OK** with zero error cells.
+The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell** (Base return on our shares +6.8% in both); a `formulas`-library recalculation confirms the model's master check reads **OK** with zero error cells.
 
 **Methods & theory (CFA curriculum + real-world practice).** Every result uses a recognised technique, not a bespoke one — in plain terms:
 
@@ -402,7 +501,9 @@ The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell**
 | Comparable transactions (dollar-per-MW) | Price the asset off what similar projects actually sold for | CFA — relative valuation; mergers-and-acquisitions practice |
 | Scenario analysis + First-Chicago method | Run Conservative/Base/Ideal and weight them by likelihood into one expected number | CFA (scenario analysis); PE/venture-capital practice |
 | Venture-capital method | Work back from the exit value at a target return to today's value | Real-world venture-capital practice |
-| IRR, MOIC, fee & carried-interest waterfall | Investor return after fees and 20%-carry-over-an-8%-hurdle | PE fund economics; CFA return measures |
+| Pre-/post-money, cap table, dilution | Our ownership = investment ÷ post-money; dilute for the option pool and future rounds to the exit stake | VC / growth-equity practice |
+| Liquidation preference | On a sale, take the greater of our money back (1×) or our ownership share of exit equity | VC / growth-equity term sheets |
+| IRR & MOIC on our shares | Return on our direct-equity stake = our proceeds ÷ our investment, annualised over the hold | CFA return measures; VC/growth practice |
 
 **Where every figure comes from (data, method, calculation).** Each conclusion traces back to one of these methods — the chain below lets the committee check **data → method → maths** for each key number:
 
@@ -412,19 +513,22 @@ The Python `valuation_engine.py` reproduces the Excel workbook **cell-for-cell**
 | Market size: small-scale 5 → 35 GW; grid-scale ~45 GW | Integrated System Plan 2026 via pv magazine / RenewEconomy / Energy-Storage.news (`market_demand.csv`) | Reported public market sizing | Read from the published Integrated System Plan |
 | What 5 MW batteries do / who uses them | Distribution network service provider & government programmes; ARENA; AER (`end_use.csv`) | Use-case mapping | Compiled from public programme descriptions |
 | Buyers transact at 100 MW+ | Energy trade press (`deal_sizes.csv`) | Comparable transactions (CFA relative valuation; mergers-and-acquisitions practice) | Observed recent deals by size & buyer |
-| Ready-to-build price (NSW $0.9–1.1m, etc.) | Manager's assumed prices — a claim; independent comparables still required (`rtb_comps.csv`) | Comparable transactions | $/MW × 5 MW per project |
-| True flip success: Base ≈ 36%, benchmark ≈ 45% (manager's 40/65/80% = approval gate only) | Public planning + grid-connection data (`gate_stats.csv`) | Probability-of-default / survival curve (Basel, IFRS 9) | Approval × connection × sale: Base 0.65 × 0.70 × 0.80 = 0.364; benchmark 0.80 × 0.70 × 0.80 = 0.448 |
+| Ready-to-build price (NSW $0.9–1.1m, etc.) | Founders' assumed prices — a claim; independent comparables still required (`rtb_comps.csv`) | Comparable transactions | $/MW × 5 MW per project |
+| True flip success: Base ≈ 36%, benchmark ≈ 45% (founders' 40/65/80% = approval gate only) | Public planning + grid-connection data (`gate_stats.csv`) | Probability-of-default / survival curve (Basel, IFRS 9) | Approval × connection × sale: Base 0.65 × 0.70 × 0.80 = 0.364; benchmark 0.80 × 0.70 × 0.80 = 0.448 |
 | Discount rate 18.8% | Reserve Bank of Australia 10-year Commonwealth Government Securities yield (live, `rates.csv`) + a development risk premium (judgement) | Build-up method: required return = risk-free rate + risk premium (CFA) | 4.8% + 14.0% = 18.8% |
-| Expected investor return ≈ 0.8% (MOIC ≈ 1.03×) | Model inputs (`config/assumptions.yaml`) | Risk-adjusted net present value + fund funnel + First-Chicago weighting | Per-scenario internal rate of return weighted 30/50/20 (−17.6% / +4.8% / +18.3%) → ≈ 0.8% |
-| Conservative case loses capital (−17.6%) | Same model, conservative scenario | Same | Multiple on invested capital 0.68× → negative internal rate of return |
+| Ownership at entry = 20.0% | Cap-table inputs (`config/assumptions.yaml`, `[[TO CONFIRM]]`) | Pre-/post-money | Investment $2m ÷ post-money $10m = 20.0% |
+| Diluted ownership at exit = 14.4% | Same | Dilution (option pool + future round) | 20.0% × (1−10%) × (1−20%) = 14.4% |
+| Company exit equity ≈ $19.3m (Base) | Model inputs (`config/assumptions.yaml`) | Net programme profit × platform multiple | $4.8m net programme profit × 4.0× = $19.3m |
+| Expected return on our shares ≈ 7.6% (MOIC ≈ 1.44×) | Model inputs (`config/assumptions.yaml`) | Cap table + 1× liquidation preference + First-Chicago weighting | Proceeds weighted 30/50/20 ($0.00m / $2.78m / $7.47m) → MOIC ≈ 1.44×, IRR ≈ 7.6% |
+| Conservative case is a total loss (−100%) | Same model, conservative scenario | Same | Net programme profit negative → company equity ≈ $0 → our shares ≈ 0 (MOIC 0.00×) |
 | Buyer deal sizes (100–260 MW) | Energy trade press (`deal_sizes.csv`) | Comparable transactions | Named, dated deals |
-| Stage returns 0.8% / 25.9% / 8.1% (integrated 12.2%) | Model (`config/assumptions.yaml`) | Levered equity internal rate of return; operating discounted-cash-flow; build-and-sell with completion risk | See [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md) |
+| Business-model returns 3.7% / 25.9% / 8.1% (integrated 12.2%) | Model (`config/assumptions.yaml`) | Risk-adjusted business return; operating discounted-cash-flow; build-and-sell with completion risk | See [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md) |
 
-- **Independent vs claim** — public-data figures are tagged to source and date in the source log below; manager figures are labelled as claims throughout and shown beside the independent estimate.
-- **Formulas & self-checking** — live in the formula-driven Excel model (`financial_models/BESS_Valuation.xlsx`, reproduced cell-for-cell by `src/valuation_engine.py`), which has a master check that reconciles, a Sources = Uses tie, and a return bridge that ties to the returns.
+- **Independent vs claim** — public-data figures are tagged to source and date in the source log below; founder figures are labelled as claims throughout and shown beside the independent estimate.
+- **Formulas & self-checking** — live in the formula-driven Excel model (`financial_models/BESS_Valuation.xlsx`, reproduced cell-for-cell by `src/valuation_engine.py`), which has a master check that reconciles, a cap-table tie, and a cap-table → our-proceeds bridge that ties to the returns.
 - **Reproducibility** — `make all` regenerates the data, model and figures from public sources; the value-chain comparison is in `src/stage_analysis.py` → `financial_models/STAGE_COMPARISON.md`.
 
-In every case the inputs come from **free public data**, and the manager's figures were **re-derived independently** rather than taken on trust. The full quantitative workings are in the valuation model ([`financial_models/`](financial_models/)).
+In every case the inputs come from **free public data**, and the founders' figures were **re-derived independently** rather than taken on trust. The full quantitative workings are in the valuation model ([`financial_models/`](financial_models/)).
 
 ### Data sources (source log)
 
@@ -464,25 +568,26 @@ In every case the inputs come from **free public data**, and the manager's figur
 - `INDEX-MATCH` not `VLOOKUP`; `IFERROR` on division; closed-form IRR (no volatile functions).
 - An automated pre-handover scan enforces no long formulas and no nested `IF`s on calculation sheets.
 
-**The 15 tabs:** Cover · Contents · Change Log · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary.
+**The 15 tabs:** Cover · Contents · Change Log · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Company · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary.
 
-**Who built what (integrity).** This repository is a **version-1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the manager's figures are claims to verify:
+**Who built what (integrity).** This repository is a **version-1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the founders' figures are claims to verify:
 
 - the three scenario development-approval gates (40% / 65% / 80%) and the connection/sale gates beyond them — i.e. true flip success (Base ≈ 36%; independent benchmark ≈ 45%).
 - ready-to-build dollar-per-MW by state (need independent comparables).
-- development cost per project; fees / carried interest / hurdle.
-- discount rate; cash-flow profile.
+- development cost per project; the platform exit multiple.
+- the cap-table terms (pre-money, option pool, future-round dilution, liquidation preference); discount rate; cash-flow profile.
 
 These live in `config/assumptions.yaml` and on the model's Inputs/Scenarios tabs.
 
 **Limitations.**
 
-- Illustrative fund — an independent rebuild of a manager's claims, not an endorsement.
+- Illustrative company — an independent rebuild of a founder's claims, not an endorsement.
 - Benchmark fallbacks where a source blocked automated access.
 - Ready-to-build comparables are publicly reported deals only.
 - Representative 6-project pipeline, scaled up by the funnel.
 - Blended (not per-state) survival curve.
-- Closed-form investor IRR over an effective hold; annual timing.
+- Cap-table terms (pre-money, share class, price/share, option pool, future-round dilution, liquidation preference) are placeholders to confirm.
+- Closed-form IRR on our shares over an effective hold; annual timing.
 
 All deliberately left for the analyst's review pass.
 
@@ -490,62 +595,99 @@ All deliberately left for the analyst's review pass.
 
 ## Appendix B — Glossary
 
-- **IRR (internal rate of return)** — the annualised return on the dated cash flows (here, closed-form over the effective hold).
-- **MOIC (multiple on invested capital)** — total distributions to investors ÷ capital called.
+- **Structure note** — this is a **direct-equity stake** (we buy shares in the company), not a fund commitment, so the old fund terms (carried interest, management fee, preferred return / hurdle, limited / general partner) no longer apply; they are replaced by the cap-table and liquidation-preference terms below.
+- **IRR (internal rate of return)** — the annualised return on the dated cash flows of our shares (here, closed-form over the effective hold).
+- **MOIC (multiple on invested capital)** — our total proceeds ÷ our investment (here, on our shares).
+- **Pre-money valuation** — what the company is agreed to be worth *before* our money goes in.
+- **Post-money valuation** — pre-money + our investment; the company's value immediately *after* we invest.
+- **Ownership %** — our share of the company = our investment ÷ post-money valuation (here, $2m ÷ $10m = 20.0%).
+- **Dilution** — the fall in our ownership % when the company issues new shares (an option pool or a later funding round); here 20.0% dilutes to ~14.4% by exit.
+- **Option pool** — shares set aside for employees; creating or topping it up dilutes existing holders (modelled at 10%).
+- **Liquidation preference** — a right that pays preferred shareholders first on a sale; **1× non-participating** means we take the *greater of* our money back (1×) or our ownership share of the exit equity.
+- **Cap table (capitalisation table)** — the list of who owns what % of the company, before and after an investment.
 - **Ready-to-build (RTB)** — a project taken through planning approval and grid connection to "shovel-ready", sold before construction.
-- **Development-approval (DA) gate** — the probability a project clears planning/development approval; the manager's headline 40 / 65 / 80% are this gate ONLY.
+- **Development-approval (DA) gate** — the probability a project clears planning/development approval; the founders' headline 40 / 65 / 80% are this gate ONLY.
 - **Whole-funnel flip success** — the probability a project clears all three gates and sells (development approval × grid connection × sale); the gates multiply, so Base = 0.65 × 0.70 × 0.80 = 36.4%, well below the 65% approval-gate headline.
 - **First-Chicago method** — probability-weighting the scenario outcomes (here 30% / 50% / 20%) into a single expected figure.
 - **Build-up discount rate** — required return built up as a risk-free rate plus a risk premium for the development risk.
-- **Carried interest ("carry")** — the manager's profit share (20%) above the investors' preferred return (the 8% hurdle).
 
 ---
 
 ## Appendix C — Exhibits
 
-### Exhibit 1 — Sources & Uses (Base case, limited-partner capital)
+### Exhibit 1 — Cap table before and after our investment
 
-| Sources | $m | Uses | $m |
+| Holder | Before our investment | At entry (post-money) | At exit (after option pool + future round) |
 |---|---|---|---|
-| Limited-partner capital called | 28.7 | Development cost (delivered + ~61 dropouts) | 26.7 |
-| *(against ~$25m committed; corrected funnel requires ~$3.7m over the headline commitment)* | | Management fees (2%/yr × term) | 1.5 |
-| | | Entry fee (2%) | 0.5 |
-| **Total sources** | **28.7** | **Total uses** | **28.7** |
+| Founders & existing holders | 100% | 80.0% | ~64.6% |
+| **Us (new investor)** | — | **20.0%** | **14.4%** |
+| Employee option pool (10% `[[TO CONFIRM]]`) | — | — | ~8.0% |
+| New-round investors (20% future round `[[TO CONFIRM]]`) | — | — | ~13.0% |
+| Shares outstanding | `[[TO CONFIRM]]` | `[[TO CONFIRM]]` | `[[TO CONFIRM]]` |
 
-*Construction capital (~$8–10m per 5 MW) is project-financed by the buyer at the point of sale and is out of scope for the fund.*
+*Pre-money $8m `[[TO CONFIRM]]` + our $2m `[[TO CONFIRM]]` = $10m post-money → ownership at entry = $2m ÷ $10m = **20.0%**. Dilution to exit = 20.0% × (1 − 10% pool) × (1 − 20% round) = **14.4%**. Construction capital (~$8–10m per 5 MW) is project-financed by the buyer at the point of sale and is out of scope for the company.*
 
-### Exhibit 2 — Returns Sensitivity: investor IRR across development-approval (DA) gate × ready-to-build price
+### Exhibit 2 — Returns Sensitivity: our equity IRR across development-approval (DA) gate × ready-to-build price
 
-Rows are the **development-approval (DA) gate** (with the resulting whole-funnel flip success — DA × grid 70% × sale 80% — in brackets); columns are the ready-to-build (RTB) price multiplier.
+Rows are the **development-approval (DA) gate** (with the resulting whole-funnel flip success — DA × grid 70% × sale 80% — in brackets); columns are the ready-to-build (RTB) price multiplier. Cells are the **IRR on our shares** (after dilution and the 1× liquidation preference). Where the company's net programme profit turns negative the equity is worth ~$0 and our shares are a **total loss (−100%)**.
 
 | DA gate ↓ / RTB price → | 0.70× | 0.85× | 1.00× | 1.15× | 1.30× |
 |---|---|---|---|---|---|
-| **DA 40%** *(flip 22%)* | −23.5% | −15.7% | −8.6% | −2.0% | +4.2% |
-| **DA 55%** *(flip 31%)* | −16.1% | −7.5% | +0.3% | +7.6% | +14.0% |
-| **DA 65%** *(flip 36%, manager base)* | −12.3% | −3.4% | **+4.8%** | +12.4% | +18.1% |
-| **DA 80%** *(flip 45%, independent benchmark)* | −7.9% | +1.5% | +10.1% | +17.0% | +23.0% |
-| **DA 95%** *(flip 53%)* | −4.4% | +5.4% | +13.9% | +20.6% | +26.9% |
+| **DA 40%** *(flip 22%)* | −100% | −100% | −100% | −12% | −4% |
+| **DA 55%** *(flip 31%)* | −100% | −9% | +1% | +9% | +16% |
+| **DA 65%** *(flip 36%, founders' base)* | −12% | −2% | **+6.8%** | +14% | +20% |
+| **DA 80%** *(flip 45%, independent benchmark)* | −6% | +4% | +30.2% | +35% | +40% |
+| **DA 95%** *(flip 53%)* | −2% | +8% | +38% | +44% | +50% |
 
-*Reading: the Base cell is DA 65% × price 1.00 = **+4.8%**. Even at a generous DA rate, a 15–30% RTB price fall turns the deal negative; at the Base DA the deal is only marginally positive.*
+*Reading: the Base cell is DA 65% × price 1.00 = **+6.8%**. A 15–30% RTB price fall, or a low approval rate, turns our equity IRR sharply negative — and in the worst cells the company's net programme profit goes negative, wiping out our stake entirely (−100%). Illustrative — the precise off-base cells depend on the cap-table terms still `[[TO CONFIRM]]`.*
 
-### Exhibit 3 — Return Bridge (Base case, $m, net to limited partners)
+### Exhibit 3 — Cap-table → our-proceeds bridge (Base case)
 
 | Step | $m |
 |---|---|
-| Limited-partner capital invested (development $26.7m + entry fee $0.5m + management fee $1.5m) | (28.7) |
-| Gross proceeds — 35 ready-to-build sales | +31.5 |
-| less Carried interest to manager *(zero — Base profit is below the 8% hurdle)* | (0.00) |
-| **Distributions to limited partners** | **31.5** |
-| **Net gain** | **+2.8** → MOIC 1.10×, IRR 4.8% |
+| Net programme profit (gross proceeds $31.5m − development cost $26.7m) | 4.8 |
+| × platform exit multiple (4.0× `[[TO CONFIRM]]`) | |
+| **Company exit equity** | **19.3** |
+| × our diluted ownership at exit (14.4%) | |
+| Our share of exit equity | 2.78 |
+| 1× liquidation preference floor (our $2m investment) | 2.00 |
+| **Our proceeds — greater of the two** | **2.78** |
+| Our investment | (2.00) |
+| **Net gain on our shares** | **+0.78** → MOIC 1.39×, IRR +6.8% |
 
-*The thin gain is entirely the development margin; nothing from merchant/operating upside. Carried interest is zero because Base profit does not clear the 8% preferred return.*
+*The value is entirely the development margin the company captures; nothing from merchant/operating upside. Our diluted ~14.4% share of the $19.3m company exit equity ($2.78m) exceeds the 1× liquidation preference floor ($2.0m), so we take the greater — $2.78m. In the Conservative case net programme profit is negative, company exit equity is ~$0, and there is nothing for the preference to attach to → our shares are a total loss.*
 
 ---
 
 ## Inputs to confirm
 
-*This section collects every input still to be confirmed — the `[[TO CONFIRM]]` placeholders. It is a deliberate holding area: a later step fills it with the open items (e.g. pre/post-money valuation, cap table, independent comparables, per-state gate evidence) drawn from the conditions and questions above. For now it stands as the single checklist of what must be evidenced before any commitment.*
+*This section collects every input still to be confirmed — the `[[TO CONFIRM]]` placeholders used throughout this memo. It is the single checklist of what must be evidenced before any commitment.*
+
+**Equity / cap-table terms**
+
+- [ ] **Pre-money valuation** ($8m assumed)
+- [ ] **Our investment amount** ($2m assumed)
+- [ ] **Share class** (preferred vs ordinary) and key terms
+- [ ] **Price per share** and **number of shares** we receive
+- [ ] **Option-pool size** (10% assumed)
+- [ ] **Future-round dilution** (20% assumed)
+- [ ] **Liquidation preference** (1× non-participating assumed)
+- [ ] **Anti-dilution / pre-emption** rights
+- [ ] **Governance** — board seat / observer, information rights, veto / protective provisions
+
+**Valuation / returns drivers**
+
+- [ ] **Platform exit multiple** (4.0× assumed)
+- [ ] **Exit year** (year 5 assumed)
+- [ ] Exit route and **share-transfer / tag-along / drag-along** rights
+
+**Underlying business evidence**
+
+- [ ] **Ready-to-build (RTB) price** per project — independent comparables (founders' $0.5–1.1m claim)
+- [ ] **Per-state development-approval evidence** that 65% is the approval gate, plus grid-connection (~70%) and sale (~80%) gate data
+- [ ] Bottom-up **development-cost** build-up (~$0.5m/project)
+- [ ] Depth of the **buyer pool** (≥3–4 contractually-progressing buyers)
 
 ---
 
-*Forward-looking statements are projections, not promises. This is an illustrative, educational document and **not investment advice** — it assesses an **illustrative** opportunity and is an **independent rebuild of an unnamed third-party manager's forward-looking claims**, which must be independently verified. The fund context is **wholesale-investor only — read the Information Memorandum; capital is at risk.** Any real decision rests with the relevant investment committee on independently verified figures. Data extraction respects each source's terms of use, `robots.txt`, and rate limits, and prefers official downloads/application programming interfaces over scraping. Licensed under the MIT licence (see `LICENSE`).*
+*Forward-looking statements are projections, not promises. This is an illustrative, educational document and **not investment advice** — it assesses an **illustrative** opportunity and is an **independent rebuild of an unnamed third-party founder's forward-looking claims**, which must be independently verified. The context is **wholesale-investor only — read the company's disclosure materials; capital is at risk.** Any real decision rests with the relevant investment committee on independently verified figures. Data extraction respects each source's terms of use, `robots.txt`, and rate limits, and prefers official downloads/application programming interfaces over scraping. Licensed under the MIT licence (see `LICENSE`).*
