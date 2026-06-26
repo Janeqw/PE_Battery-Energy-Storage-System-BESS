@@ -119,6 +119,17 @@ def test_flip_success_below_manager_headline():
     assert abs(inp.flip_base - base_da * inp.p_connection * inp.p_sale) < 1e-9
 
 
+def test_cap_table_ownership_identity():
+    """The classic VC identity: ownership % = our investment / post-money."""
+    from src.valuation_engine import load_inputs, cap_table
+
+    inp = load_inputs()
+    ct = cap_table(inp)
+    assert abs(ct["post_money"] - (inp.pre_money + inp.investment_amount)) < 1e-9
+    assert abs(ct["ownership_initial"] - inp.investment_amount / ct["post_money"]) < 1e-9
+    assert ct["ownership_diluted"] <= ct["ownership_initial"] + 1e-9, "dilution must not increase ownership"
+
+
 def test_stage_analysis_risk_ladder():
     """The three value-chain stages form a risk ladder: operating is the safest downside."""
     from src.stage_analysis import compare

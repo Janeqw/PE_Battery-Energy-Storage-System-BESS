@@ -1,33 +1,47 @@
-# Model preview — BESS Develop-and-Flip Fund (read-only snapshot)
+# Model preview — direct-equity stake in a battery-developer startup (read-only snapshot)
 
 > **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** This page mirrors the model's key outputs so you can review the results here, with no software. Numbers are produced by `valuation_engine.py`, the cell-for-cell Python reference of the workbook ([`financial_models/BESS_Valuation.xlsx`](BESS_Valuation.xlsx)).
 
-*Illustrative, independent rebuild of a manager's claims — not investment advice. See the [repository README](../README.md).*
+*We invest **directly as a shareholder** in one illustrative battery-developer startup (not as a fund LP). Independent rebuild of the founder's claims; several equity-deal terms are **placeholders to confirm**. Not investment advice. See the [repository README](../README.md).*
 
-**Master check:** `OK`  ·  **Base discount rate:** 18.8% (RBA 10yr CGS 4.8% + 14.0% dev premium)  ·  **Active case shown:** Base
+**Master check:** `OK`  ·  **Base discount rate (asset cross-checks):** 18.8% (RBA 10yr CGS 4.8% + 14.0% dev premium)  ·  **Active case shown:** Base
 
-## Headline — expected investor return (First-Chicago)
+## Headline — expected return on OUR shares (First-Chicago)
 
 | Metric | Value |
 |---|---|
-| Expected investor IRR (after fees) | **0.8%** |
-| Expected MOIC (net) | **1.03x** |
-| Scenario IRR range | -17.6% … 18.3% |
-| For comparison — manager's claimed IRRs | 10.7% / 19.4% / 23.8% |
+| Expected equity IRR on our shares | **7.6%** |
+| Expected MOIC (multiple of money) | **1.44x** |
+| Scenario IRR range | -100.0% … 30.2% |
 
-## Investor return by scenario (after fees)
+> The Conservative case is a **total loss** (the company's net programme profit is negative, so its equity is worth ~0). This is the venture-style shape: a real chance of zero, a modest base case, and meaningful upside if approvals run hot.
 
-| Scenario | Flip success | Projects started | Total dev cost | Invested capital | Gross proceeds | MOIC (net) | IRR (net) |
-|---|---|---|---|---|---|---|---|
-| Conservative | 22.4% | 156 | $37.5m | $39.5m | $26.8m | **0.68x** | **-17.6%** |
-| Base | 36.4% | 96 | $26.7m | $28.7m | $31.5m | **1.10x** | **4.8%** |
-| Ideal | 44.8% | 78 | $23.2m | $25.2m | $36.2m | **1.40x** | **18.3%** |
+## Our stake — the cap table (placeholders to confirm)
 
-> *Flip success = development approval × grid connection × sale* (not the development-approval rate alone). The Conservative case returns **less than invested capital** (MOIC below 1.0x), and even the Base case is only marginally positive once the full gate chain is applied.
+| Item | Value |
+|---|---|
+| Pre-money valuation `[[TO CONFIRM]]` | $8.0m |
+| Our investment `[[TO CONFIRM]]` | $2.0m |
+| Post-money (= pre + investment) | $10.0m |
+| Ownership at entry (= investment ÷ post-money) | **20.0%** |
+| Option pool `[[TO CONFIRM]]` | 10.0% |
+| Future-round dilution `[[TO CONFIRM]]` | 20.0% |
+| Ownership at exit (after dilution) | **14.4%** |
+| Liquidation preference | 1× non-participating |
+
+## Return on our shares, by scenario
+
+| Scenario | Flip success | Company exit equity | Our proceeds | MOIC | IRR |
+|---|---|---|---|---|---|
+| Conservative | 22.4% | $0.0m | $0.0m | **0.00x** | **-100.0%** |
+| Base | 36.4% | $19.3m | $2.8m | **1.39x** | **6.8%** |
+| Ideal | 44.8% | $51.9m | $7.5m | **3.74x** | **30.2%** |
+
+> *Our proceeds = the greater of our 1× liquidation preference or our diluted ownership × the company's exit equity value. Company exit equity value = the company's net programme profit × a platform exit multiple (4.0× `[[TO CONFIRM]]`), over a 5-year hold `[[TO CONFIRM]]`.*
 
 ## Survival gates — separate; flip success = their product
 
-> The manager's **40 / 65 / 80%** are the **development-approval gate ONLY**. True develop-and-flip success = development approval × grid connection × sale — a multi-period survival / probability-of-default curve.
+> The founder's **40 / 65 / 80%** are the **development-approval gate ONLY**. True develop-and-flip success = development approval × grid connection × sale — a multi-period survival / probability-of-default curve.
 
 | Gate | Probability (public benchmark) | Cumulative survival |
 |---|---|---|
@@ -35,25 +49,23 @@
 | Grid connection | 70.0% | 56.0% |
 | Reach sale (flip exit) | 80.0% | 44.8% |
 
-**At the manager's Base development-approval rate (65.0%), true flip success ≈ 65.0% × 70.0% × 80.0% = 36.4%** — far below the 65% headline. The 65% is the approval gate alone; the gates beyond approval are not free. This is the central diligence flag.
+**At the founder's Base development-approval rate (65.0%), true flip success ≈ 65.0% × 70.0% × 80.0% = 36.4%** — far below the 65% headline. The gates beyond approval are not free; this drives the company's net programme profit and therefore its value.
 
-## Fund funnel (Base scenario)
+## The company's development programme (Base scenario)
 
 | Item | Value |
 |---|---|
-| Committed capital | $25.0m |
+| Programme capital (illustrative) | $25.0m |
 | Projects target (delivered & sold) | 35 |
-| Projects started (funnel = target ÷ success) | 96 |
+| Projects started (funnel = target ÷ flip success) | 96 |
 | Total development cost | $26.7m |
-| Management + entry fees | $2.0m |
-| Invested capital (LP) | $28.7m |
-| Gross proceeds | $31.5m |
-| Carry to GP | $0.0m |
-| Distributions to LP | $31.5m |
+| Gross proceeds (RTB sales) | $31.5m |
+| Net programme profit (gross − dev cost) | $4.8m |
+| → Company exit equity value (× 4.0 platform multiple) | $19.3m |
 
-*Fees: 2% entry + 2% p.a. management + 20% carry over an 8% hurdle. RTB prices (manager claim): NSW $1.0m · VIC $0.9m · SA $0.6m per 5 MW project.*
+*RTB prices (founder claim): NSW $1.0m · VIC $0.9m · SA $0.6m per 5 MW project. No fund fees or carry — we own shares directly.*
 
-## Valuation cross-check (per representative pipeline)
+## Company-asset valuation cross-check (per representative pipeline)
 
 | Method | Value |
 |---|---|
@@ -76,18 +88,19 @@ All **15** model checks pass → master check reads `OK`.
 | dev cost positive | ✅ OK |
 | switch in 1..3 | ✅ OK |
 | DA scenario monotonic | ✅ OK |
-| investor IRR monotonic | ✅ OK |
+| ownership = investment / post-money | ✅ OK |
+| post-money = pre-money + investment | ✅ OK |
+| diluted ownership <= initial | ✅ OK |
+| investor MOIC monotonic | ✅ OK |
 | weights sum to 100% | ✅ OK |
-| call profile sums to 100% | ✅ OK |
-| distribution profile sums to 100% | ✅ OK |
 | First-Chicago IRR within range | ✅ OK |
-| invested capital positive | ✅ OK |
 | every input has a source | ✅ OK |
 
 ## See the full model
 
-- **Open the live workbook** (recalculates on open): [`BESS_Valuation.xlsx`](BESS_Valuation.xlsx) — 15 tabs (Cover · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Fund · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary).
+- **Open the live workbook** (recalculates on open): [`BESS_Valuation.xlsx`](BESS_Valuation.xlsx) — Cover · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Company · Cap table & Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary.
 - **One-page dashboard (PDF, renders in-browser):** [`../outputs/dashboard.pdf`](../outputs/dashboard.pdf)
+- **Data lineage:** [`SOURCES_LOG.md`](SOURCES_LOG.md)  ·  **Value-chain comparison:** [`STAGE_COMPARISON.md`](STAGE_COMPARISON.md)
 - **Notebooks (render in-browser with charts):** [`../notebooks/`](../notebooks/)
 
 *This file is auto-generated by `src/export_model_preview.py` (run via `make report`). Do not edit by hand.*

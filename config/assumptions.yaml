@@ -14,9 +14,11 @@
 #     Stage 3 (own & operate)    : none (merchant-price scenarios)
 #     Stage 4 (integrated)       : approval x grid connection x construction (kept, not sold)
 #
-# Valuation follows the VC method (work back from exit value, discount at a
-# target return) with First-Chicago scenario weighting — no cap table (this is a
-# single-asset / fund play, not a multi-round startup).
+# We invest DIRECTLY as a SHAREHOLDER in one battery-developer startup (not as a
+# fund limited partner). Valuation works back from the company's exit equity value
+# (First-Chicago scenario weighting) and runs it through a CAP TABLE: pre-/post-
+# money, our ownership %, dilution (option pool + future rounds) and a liquidation
+# preference, to give the return on OUR shares.
 #
 # Every value is ILLUSTRATIVE / a documented public benchmark as at the stated
 # date and MUST be re-verified. Live values (RBA yield) refresh via `make extract`.
@@ -60,22 +62,28 @@ returns:
     verify: true
 
 # -----------------------------------------------------------------------------
-# 2. Fund structure, fees & investor cash-flow profile  (Calc_Stage1, Returns)
+# 2. The COMPANY (the startup we buy shares in) — its development programme.
+#    We invest directly as a shareholder (see §2b), NOT as a fund LP.
 # -----------------------------------------------------------------------------
-fund:
-  committed_capital_m: {value: 25.0, source: "Manager claim — fund size ~$25m; verify in the IM", as_at: "2026-06-26", verify: true}
-  projects_target:     {value: 35,   source: "Manager claim — sell 30-35 of ~38 delivered; verify", as_at: "2026-06-26", verify: true}
-  term_years:          {value: 3,    source: "Manager claim — 2+1 year term; verify in the IM", as_at: "2026-06-26"}
-  fees:
-    entry_fee_pct:   0.02
-    mgmt_fee_pct_pa: 0.02
-    carry_pct:       0.20
-    hurdle_pct:      0.08
-    source: "Manager claim — 2% entry + 2%/yr mgmt + 20% carry over 8% hurdle; verify in the IM"
-    as_at: "2026-06-26"
-    verify: true
-  capital_call_profile:  {value: [0.50, 0.50, 0.0, 0.0], source: "Illustrative — calls in yrs 0-1", as_at: "2026-06-26"}
-  distribution_profile:  {value: [0.0, 0.0, 0.50, 0.50], source: "Illustrative — distributions in yrs 2-3", as_at: "2026-06-26"}
+company:
+  programme_capital_m: {value: 25.0, source: "Illustrative scale of the company's equity-funded development programme; verify", as_at: "2026-06-26", verify: true}
+  projects_target:     {value: 35,   source: "Company plan — deliver & sell ~35 ready-to-build projects; verify", as_at: "2026-06-26", verify: true}
+  term_years:          {value: 3,    source: "Company plan — ~2+1 year develop-and-flip programme cycle; verify", as_at: "2026-06-26"}
+  capital_call_profile:  {value: [0.50, 0.50, 0.0, 0.0], source: "Illustrative — development spend in yrs 0-1", as_at: "2026-06-26"}
+  distribution_profile:  {value: [0.0, 0.0, 0.50, 0.50], source: "Illustrative — programme proceeds in yrs 2-3", as_at: "2026-06-26"}
+
+# -----------------------------------------------------------------------------
+# 2b. DIRECT-EQUITY DEAL TERMS — we buy shares in the company.
+#     PLACEHOLDERS to confirm with the founders / term sheet ([[TO CONFIRM]]).
+# -----------------------------------------------------------------------------
+equity_deal:
+  pre_money_m:               {value: 8.0,  source: "[[TO CONFIRM]] PLACEHOLDER — the company's pre-money valuation (value before our money goes in)", as_at: "2026-06-26", verify: true}
+  investment_amount_m:       {value: 2.0,  source: "[[TO CONFIRM]] PLACEHOLDER — our equity cheque", as_at: "2026-06-26", verify: true}
+  option_pool_pct:           {value: 0.10, source: "[[TO CONFIRM]] PLACEHOLDER — staff option pool created at our round (dilutes us)", as_at: "2026-06-26", verify: true}
+  future_round_dilution_pct: {value: 0.20, source: "[[TO CONFIRM]] PLACEHOLDER — expected dilution from future capital raises before exit", as_at: "2026-06-26", verify: true}
+  liquidation_preference_x:  {value: 1.0,  source: "PLACEHOLDER — 1x non-participating preferred (the greater of our money back or our as-converted share); confirm in the term sheet", as_at: "2026-06-26", verify: true}
+  exit_equity_multiple:      {value: 4.0,  source: "[[TO CONFIRM]] PLACEHOLDER — multiple on the company's modelled net programme profit to value it as a repeatable develop-and-flip platform at exit", as_at: "2026-06-26", verify: true}
+  exit_year:                 {value: 5,    source: "[[TO CONFIRM]] PLACEHOLDER — years to our exit (we sell our shares)", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 3. Development cost & funnel attrition

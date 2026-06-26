@@ -4,7 +4,7 @@ Compares the three ways to put money into the SAME ~5 MW distribution battery,
 each as a risk-adjusted LEVERED EQUITY return (IRR / MOIC), so they are directly
 comparable as investment choices:
 
-  Stage 1  Develop & flip  — win approvals, sell RTB           (reuses valuation_engine: the fund)
+  Stage 1  Develop & flip  — win approvals, sell RTB           (company develop-and-flip business return)
   Stage 2  Build & sell    — buy RTB, construct, sell the asset (construction model + completion risk)
   Stage 3  Own & operate   — own the operating asset ~15 yrs   (levered operating DCF + merchant scenarios)
 
@@ -62,7 +62,7 @@ class Stages:
         self.integrated = s.get("integrated", {"dev_to_rtb_years": 1.75})
         self.mw = float(self.ref["mw"])
         self.state = self.ref["state"]
-        # engine inputs (RTB price by state, the fund returns for Stage 1)
+        # engine inputs (RTB price by state; the company's develop-and-flip return for Stage 1)
         self.inp = ve.load_inputs()
         self.rtb_per_mw = float(self.inp.rtb_comps.get(self.state, 0.0))
 
@@ -247,10 +247,11 @@ def stage2(st: Stages) -> dict:
 # Stage 1 — develop & flip (reuse the fund engine)
 # ---------------------------------------------------------------------------
 def stage1(st: Stages) -> dict:
-    fc = ve.first_chicago(st.inp)
-    rbs = ve.returns_by_scenario(st.inp)
-    return {"expected_irr": fc["expected_irr"], "expected_moic": fc["expected_moic"],
-            "downside_irr": rbs["Conservative"]["irr"], "downside_moic": rbs["Conservative"]["moic"],
+    # company-level develop-and-flip BUSINESS return (the business model), not our
+    # diluted shareholding — so it is comparable to the other stages.
+    b = ve.develop_flip_business(st.inp)
+    return {"expected_irr": b["expected_irr"], "expected_moic": b["expected_moic"],
+            "downside_irr": b["downside_irr"], "downside_moic": b["downside_moic"],
             "hold_years": st.inp.term_years}
 
 
@@ -262,7 +263,7 @@ def compare(st: Stages | None = None) -> dict:
     s1, s2, s3, s4 = stage1(st), stage2(st), stage3(st), stage4(st)
     rows = [
         {"stage": "Stage 1 — Develop & flip (RTB)",
-         "capital": "Low (~$0.5m dev/project; fund ~$25m)", "hold": f"~{s1['hold_years']:.0f} yrs",
+         "capital": "Low (~$0.5m dev/project; company programme ~$25m)", "hold": f"~{s1['hold_years']:.0f} yrs",
          "expected_irr": s1["expected_irr"], "expected_moic": s1["expected_moic"],
          "downside_irr": s1["downside_irr"],
          "key_risk": "Approvals on time + a buyer pays (can lose capital)"},
@@ -334,9 +335,10 @@ def write_markdown(path=STAGE_MD) -> None:
     L.append("")
     L.append("## What it means — which stage to choose")
     L.append("")
-    L.append("- **The development success rate (~45% independent / 65% manager) applies to Stage 1 only.** Stage 2 and Stage 3 "
-             "buy a project that has *already* cleared development, at its market price, so they bear construction-completion "
-             "(~90%) and merchant-price risk instead — not the development-success rate. Each stage is priced at its own entry point.")
+    L.append("- **The development gates apply to Stage 1 only.** The founder's 40/65/80% are the development-approval gate; "
+             "true flip success = approval × grid connection × sale ≈ 36% at Base. Stage 2 and Stage 3 buy a project that has "
+             "*already* cleared development, at its market price, so they bear construction-completion (~90%) and merchant-price "
+             "risk instead — not the development gates. Each stage is priced at its own entry point.")
     L.append("- **Stage 3 (own & operate, *contracted*) — the natural core holding.** It is the only stage that "
              "**stays positive in its downside**, giving steady, long-dated, capital-preserving yield. It also plays to a "
              "credit-risk edge: judging whether the toll/offtake counterparty will pay is *serviceability analysis*. "
@@ -356,8 +358,8 @@ def write_markdown(path=STAGE_MD) -> None:
              "(development is cheap, so the failures cost little); the downside shown is the low-merchant case *given the "
              "project reaches operation*. Because you build the asset at cost rather than buying it at market, the operating "
              "returns are strong and the downside stays positive — if you have the patience and the operating capability.")
-    L.append("- **Watch the alignment trap.** The manager keeps \"the best 5–10 projects to operate\" (Stage 3) and flips "
-             "the rest — so the flip fund may be left the weaker projects. If you like the operating economics, ask to "
+    L.append("- **Watch the alignment trap.** If the company keeps \"the best 5–10 projects to operate\" (Stage 3) and flips "
+             "the rest, the develop-and-flip business may be left the weaker projects. If you like the operating economics, ask to "
              "**co-invest in the assets they keep.**")
     L.append("")
     L.append("*Auto-generated by `src/stage_analysis.py` (run via `make report`). Returns are risk-adjusted levered "

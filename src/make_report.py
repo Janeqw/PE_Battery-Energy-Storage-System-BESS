@@ -77,9 +77,9 @@ def fig_irr_by_scenario(s):
         ax.annotate(f"{v:.1%}", (b.get_x() + b.get_width() / 2, v),
                     textcoords="offset points", xytext=(0, 6 if v >= 0 else -14),
                     ha="center", fontsize=9, fontweight="bold")
-    ax.set_ylabel("Investor IRR (after fees)")
+    ax.set_ylabel("Equity IRR on our shares")
     ax.legend(fontsize=8)
-    _style(ax, "Investor IRR by scenario (success rate driven)")
+    _style(ax, "Equity IRR on our shares, by scenario")
     fig.tight_layout()
     fig.savefig(FIG / "irr_by_scenario.png", dpi=150)
     plt.close(fig)
@@ -222,23 +222,25 @@ def dashboard_pdf(s):
     sc = s["survival"]
     with PdfPages(OUT / "dashboard.pdf") as pdf:
         fig = plt.figure(figsize=(11.69, 8.27))  # A4 landscape
-        fig.suptitle("Illustrative Distribution-BESS Develop-and-Flip Fund — Dashboard",
+        ct = s["cap_table"]
+        fig.suptitle("Illustrative Battery-Developer Startup — Direct-Equity Dashboard",
                      fontsize=16, fontweight="bold", color=NAVY, y=0.97)
-        fig.text(0.5, 0.93, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA) • ILLUSTRATIVE • "
-                 "the manager figures are manager claims to verify • Not investment advice", ha="center", fontsize=9, color=RED, style="italic")
+        fig.text(0.5, 0.93, "We buy shares in one ~5 MW distribution-BESS develop-and-flip startup (NSW/VIC/SA) • ILLUSTRATIVE • "
+                 "founder figures are claims; equity-deal terms are placeholders • Not investment advice", ha="center", fontsize=9, color=RED, style="italic")
 
-        fig.text(0.06, 0.86, "EXPECTED INVESTOR RETURN (First-Chicago)", fontsize=11, fontweight="bold", color=NAVY)
+        fig.text(0.06, 0.86, "EXPECTED RETURN ON OUR SHARES (First-Chicago)", fontsize=11, fontweight="bold", color=NAVY)
         fig.text(0.06, 0.82, f"IRR {fc['expected_irr']:.1%}   MOIC {fc['expected_moic']:.2f}x", fontsize=18, fontweight="bold", color=NAVY)
-        fig.text(0.06, 0.785, f"Scenario IRR range  {fc['min_irr']:.1%}  to  {fc['max_irr']:.1%}", fontsize=10, color=ACCENT)
+        fig.text(0.06, 0.785, f"Scenario IRR range  {fc['min_irr']:.0%}  to  {fc['max_irr']:.0%}", fontsize=10, color=ACCENT)
 
         fig.text(0.40, 0.86, "SURVIVAL (the key flag)", fontsize=11, fontweight="bold", color=NAVY)
-        fig.text(0.40, 0.82, f"True flip {s['flip_base_manager']:.0%}  vs  manager headline DA {s['da_base_manager']:.0%}", fontsize=13, fontweight="bold", color=RED)
+        fig.text(0.40, 0.82, f"True flip {s['flip_base_manager']:.0%}  vs  founder headline DA {s['da_base_manager']:.0%}", fontsize=13, fontweight="bold", color=RED)
         fig.text(0.40, 0.785, "The 65% is the approval gate ALONE — true flip = DA × connection × sale", fontsize=9, color="black")
 
-        fig.text(0.70, 0.86, "KEY ASSUMPTIONS", fontsize=11, fontweight="bold", color=NAVY)
-        ktxt = (f"Committed: ${inp.committed_capital:.0f}m  Target: {inp.projects_target:.0f} projects\n"
-                f"Dev cost: ${inp.dev_cost_per_project:.2f}m/project  Fees: 2/2/20 over 8%\n"
-                f"Conservative IRR {rbs['Conservative']['irr']:.1%} (capital can be lost)")
+        fig.text(0.70, 0.86, "OUR STAKE & KEY TERMS (placeholders)", fontsize=11, fontweight="bold", color=NAVY)
+        ktxt = (f"${ct['investment']:.0f}m into ${ct['pre_money']:.0f}m pre-money -> {ct['ownership_initial']:.0%} "
+                f"({ct['ownership_diluted']:.0%} diluted)\n"
+                f"1x liq. preference; exit yr {inp.exit_year:.0f}; platform exit multiple {inp.exit_equity_multiple:.1f}x\n"
+                f"Conservative IRR {rbs['Conservative']['irr']:.0%} (total loss possible)")
         fig.text(0.70, 0.75, ktxt, fontsize=9, color="black", va="top")
 
         for name, pos in [("survival_curve.png", [0.06, 0.40, 0.40, 0.30]),

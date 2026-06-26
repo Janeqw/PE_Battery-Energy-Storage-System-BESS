@@ -32,7 +32,7 @@ from src.valuation_engine import load_inputs
 # Sheet names (15 tabs)
 # ---------------------------------------------------------------------------
 COV, CON, CL, INP, TL, SCN = "Cover", "Contents", "Change Log", "Inputs", "Timeline", "Scenarios"
-SURV, RNPV, FUND, RET = "Calc_Survival", "Calc_Project_rNPV", "Calc_Fund", "Returns"
+SURV, RNPV, FUND, RET = "Calc_Survival", "Calc_Project_rNPV", "Calc_Company", "Returns"
 CC, SENS, CHK, DSH, SG = "Calc_CrossChecks", "Sensitivity", "Checks", "Dashboard", "Sources & Glossary"
 ORDER = [COV, CON, CL, INP, TL, SCN, SURV, RNPV, FUND, RET, CC, SENS, CHK, DSH, SG]
 TABCOLOR = {COV: "000000", CON: "808080", CL: "808080", INP: "0070C0", TL: "00B0F0",
@@ -143,7 +143,7 @@ def build():
     # =====================================================================
     b.width(INP, {"A": 36, "B": 10, "C": 14, "D": 13, "E": 50, "F": 12, "G": 12, "H": 12})
     b.put(INP, 1, 1, "INPUTS — all model assumptions (blue = input cell)", "title")
-    b.put(INP, 2, 1, "ILLUSTRATIVE develop-and-flip RTB fund. the manager figures are the manager's CLAIMS — verify. Every input traces to a source.", "note", wrap=True)
+    b.put(INP, 2, 1, "We buy SHARES directly in an ILLUSTRATIVE battery-developer startup (not a fund LP). Founder/manager figures are CLAIMS — verify; the equity-deal terms are placeholders to confirm. Every input traces to a source.", "note", wrap=True)
     b.header(INP, 3, ["Assumption", "", "Value", "Unit", "Source", "As at", "Status", "Duration (yrs)"])
 
     def srow(r, label, value, key, fmt, unit, src_key=None, status="BENCHMARK", dur=None):
@@ -167,49 +167,54 @@ def build():
     b.put(INP, 7, 4, "decimal", "label")
     R["discount_base"] = b.ref(INP, 3, 7)
 
-    b.put(INP, 8, 1, "Fund structure & fees (the manager claim — verify in IM)", "sect", fill="sect")
-    srow(9, "Committed capital", inp.committed_capital, "committed", FM, "$m")
+    b.put(INP, 8, 1, "The company's development programme (the startup we buy shares in)", "sect", fill="sect")
+    srow(9, "Programme capital (company's dev programme)", inp.programme_capital, "programme", FM, "$m")
     srow(10, "Projects target (delivered & sold)", inp.projects_target, "target", FNUM, "count")
     srow(11, "Term", inp.term_years, "term", FNUM, "years")
-    srow(12, "Entry fee (% of committed)", inp.entry_fee_pct, "entry_pct", FPCT, "decimal")
-    srow(13, "Management fee (% p.a.)", inp.mgmt_fee_pct_pa, "mgmt_pct", FPCT, "decimal")
-    srow(14, "Carried interest (%)", inp.carry_pct, "carry_pct", FPCT, "decimal")
-    srow(15, "Hurdle / preferred return (%)", inp.hurdle_pct, "hurdle_pct", FPCT, "decimal")
 
-    b.put(INP, 16, 1, "Development cost & funnel attrition", "sect", fill="sect")
-    srow(17, "Development cost per project", inp.dev_cost_per_project, "dev_cost", FM2, "$m/project", "dev")
-    srow(18, "Abandonment fraction (failed projects)", inp.abandonment_fraction, "abandon", FPCT, "decimal")
+    b.put(INP, 12, 1, "Direct-equity deal terms (cap table) — placeholders to confirm", "sect", fill="sect")
+    srow(13, "Pre-money valuation", inp.pre_money, "pre_money", FM, "$m", status="TO CONFIRM")
+    srow(14, "Our investment", inp.investment_amount, "investment", FM, "$m", status="TO CONFIRM")
+    srow(15, "Option pool % (created at our round)", inp.option_pool_pct, "option_pool", FPCT, "decimal", status="TO CONFIRM")
+    srow(16, "Future-round dilution %", inp.future_round_dilution_pct, "future_dilution", FPCT, "decimal", status="TO CONFIRM")
+    srow(17, "Liquidation preference (x)", inp.liquidation_pref_x, "liq_pref", FX, "multiple", status="TO CONFIRM")
+    srow(18, "Platform exit multiple (on net programme profit)", inp.exit_equity_multiple, "exit_mult", FMULT, "multiple", status="TO CONFIRM")
+    srow(19, "Exit year (we sell our shares)", inp.exit_year, "exit_year", FNUM, "years", status="TO CONFIRM")
 
-    b.put(INP, 19, 1, "Build cost CONTEXT (buyer-funded — NOT in margin)", "sect", fill="sect")
-    srow(20, "Built-asset cost (context)", inp.built_cost_per_mw, "built_cost", FMW, "$m/MW", "build")
+    b.put(INP, 20, 1, "Development cost & funnel attrition", "sect", fill="sect")
+    srow(21, "Development cost per project", inp.dev_cost_per_project, "dev_cost", FM2, "$m/project", "dev")
+    srow(22, "Abandonment fraction (failed projects)", inp.abandonment_fraction, "abandon", FPCT, "decimal")
 
-    b.put(INP, 21, 1, "Survival gates — SEPARATE; scenarios move ONLY development approval", "sect", fill="sect")
-    srow(22, "Development approval — public benchmark", inp.da_independent, "da_ind", FPCT, "prob", "da", dur=inp.dur_da)
-    srow(23, "Grid connection (separate gate)", inp.p_connection, "p_conn", FPCT, "prob", "connection", dur=inp.dur_connection)
-    srow(24, "Reach sale — flip exit (separate gate)", inp.p_sale, "p_sale", FPCT, "prob", "sale", dur=inp.dur_sale)
+    b.put(INP, 23, 1, "Build cost CONTEXT (buyer-funded — NOT in margin)", "sect", fill="sect")
+    srow(24, "Built-asset cost (context)", inp.built_cost_per_mw, "built_cost", FMW, "$m/MW", "build")
 
-    b.put(INP, 25, 1, "RTB exit price — $/MW by state (the manager claim — verify)", "sect", fill="sect")
+    b.put(INP, 25, 1, "Survival gates — SEPARATE; scenarios move ONLY development approval", "sect", fill="sect")
+    srow(26, "Development approval — public benchmark", inp.da_independent, "da_ind", FPCT, "prob", "da", dur=inp.dur_da)
+    srow(27, "Grid connection (separate gate)", inp.p_connection, "p_conn", FPCT, "prob", "connection", dur=inp.dur_connection)
+    srow(28, "Reach sale — flip exit (separate gate)", inp.p_sale, "p_sale", FPCT, "prob", "sale", dur=inp.dur_sale)
+
+    b.put(INP, 29, 1, "RTB exit price — $/MW by state (the manager claim — verify)", "sect", fill="sect")
     for i, st in enumerate(["NSW", "VIC", "SA"]):
-        srow(26 + i, st, float(inp.rtb_comps.get(st, 0.0)), f"rtb_{st}", FMW, "$m/MW", "rtb")
-    R["rtb_states"] = b.rng(INP, 1, 26, 1, 28)
-    R["rtb_prices"] = b.rng(INP, 3, 26, 3, 28)
+        srow(30 + i, st, float(inp.rtb_comps.get(st, 0.0)), f"rtb_{st}", FMW, "$m/MW", "rtb")
+    R["rtb_states"] = b.rng(INP, 1, 30, 1, 32)
+    R["rtb_prices"] = b.rng(INP, 3, 30, 3, 32)
 
-    b.put(INP, 29, 1, "VC method", "sect", fill="sect")
-    srow(30, "VC target return (cross-check)", inp.vc_target_return, "vc_target", FPCT, "decimal")
+    b.put(INP, 33, 1, "VC method", "sect", fill="sect")
+    srow(34, "VC target return (cross-check)", inp.vc_target_return, "vc_target", FPCT, "decimal")
 
-    b.put(INP, 31, 1, "Investor cash-flow profile (period 0..3; each sums to 100%)", "sect", fill="sect")
-    b.put(INP, 32, 1, "Capital call profile", "label")
-    b.put(INP, 33, 1, "Distribution profile", "label")
+    b.put(INP, 35, 1, "Investor cash-flow profile (period 0..3; each sums to 100%)", "sect", fill="sect")
+    b.put(INP, 36, 1, "Capital call profile", "label")
+    b.put(INP, 37, 1, "Distribution profile", "label")
     for j in range(4):
-        b.put(INP, 32, 3 + j, float(inp.call_profile[j]) if j < len(inp.call_profile) else 0.0,
+        b.put(INP, 36, 3 + j, float(inp.call_profile[j]) if j < len(inp.call_profile) else 0.0,
               "input", fmt=FPCT, border=True, align="center")
-        b.put(INP, 33, 3 + j, float(inp.dist_profile[j]) if j < len(inp.dist_profile) else 0.0,
+        b.put(INP, 37, 3 + j, float(inp.dist_profile[j]) if j < len(inp.dist_profile) else 0.0,
               "input", fmt=FPCT, border=True, align="center")
-    R["call_profile"] = b.rng(INP, 3, 32, 6, 32)
-    R["dist_profile"] = b.rng(INP, 3, 33, 6, 33)
+    R["call_profile"] = b.rng(INP, 3, 36, 6, 36)
+    R["dist_profile"] = b.rng(INP, 3, 37, 6, 37)
 
-    pr0 = 35
-    b.put(INP, 34, 1, "Illustrative pipeline (representative ~5 MW distribution projects)", "sect", fill="sect")
+    pr0 = 39
+    b.put(INP, 38, 1, "Illustrative pipeline (representative ~5 MW distribution projects)", "sect", fill="sect")
     b.header(INP, pr0, ["Project", "State", "Location", "MW", "Duration (h)", "MWh", "Years to sale"])
     for i, p in enumerate(inp.projects):
         r = pr0 + 1 + i
@@ -379,15 +384,16 @@ def build():
     R["base_blended"] = b.ref(RNPV, 13, rbl)
 
     # =====================================================================
-    # CALC_FUND (the funnel -> fees -> investor IRR/MOIC, live scenario)
+    # CALC_COMPANY (the company's development programme -> exit equity value)
     # =====================================================================
     b.width(FUND, {"A": 44, "B": 4, "C": 14, "D": 10, "E": 10, "F": 10})
-    b.put(FUND, 1, 1, "CALC — FUND FUNNEL, FEES & INVESTOR RETURN (live scenario)", "title")
-    b.put(FUND, 2, 1, "The funnel: projects_started = target ÷ success (widens as success falls). Full dev cost on delivered + "
-                      "partial on dropouts. Fees: entry + management + carry over the hurdle. Investor IRR is closed-form over the "
-                      "effective hold (so it reproduces in any Excel). All figures AUD $m.", "note", wrap=True)
-    b.put(FUND, 4, 1, "Funnel (live scenario)", "sect", fill="sect")
-    b.put(FUND, 5, 1, "Live cumulative success", "label")
+    b.put(FUND, 1, 1, "CALC — THE COMPANY'S DEVELOPMENT PROGRAMME & EXIT EQUITY VALUE (live scenario)", "title")
+    b.put(FUND, 2, 1, "The company's own business plan (no fund fees, no carry): the funnel widens as success falls "
+                      "(projects_started = target ÷ flip success). Net programme profit = gross proceeds − total development "
+                      "cost. We value the company at exit as a repeatable platform = net profit × the platform exit multiple. "
+                      "All figures AUD $m.", "note", wrap=True)
+    b.put(FUND, 4, 1, "Development funnel (live scenario)", "sect", fill="sect")
+    b.put(FUND, 5, 1, "Live flip success (DA × conn × sale)", "label")
     b.put(FUND, 5, 3, f"={R['live_success']}", "link", fmt=FPCT, border=True)
     b.put(FUND, 6, 1, "Projects target (delivered & sold)", "label")
     b.put(FUND, 6, 3, f"={R['target']}", "link", fmt=FNUM, border=True)
@@ -399,112 +405,109 @@ def build():
     b.put(FUND, 9, 3, f"={R['dev_cost']}*{R['live_dev_mult']}", "formula", fmt=FM2, border=True)
     b.put(FUND, 10, 1, "Total development cost", "label", bold=True)
     b.put(FUND, 10, 3, f"=C6*C9+C8*{R['abandon']}*C9", "formula", fmt=FM, border=True)
-    R["fund_devcost"] = b.ref(FUND, 3, 10)
+    R["co_devcost"] = b.ref(FUND, 3, 10)
 
-    b.put(FUND, 11, 1, "Proceeds & fees", "sect", fill="sect")
+    b.put(FUND, 11, 1, "Proceeds & net programme profit", "sect", fill="sect")
     b.put(FUND, 12, 1, "Blended RTB sale per project (live)", "label")
     b.put(FUND, 12, 3, f"={R['base_blended']}*{R['live_sale_mult']}", "formula", fmt=FM2, border=True)
     b.put(FUND, 13, 1, "Gross proceeds", "label", bold=True)
     b.put(FUND, 13, 3, "=C6*C12", "formula", fmt=FM, border=True)
-    b.put(FUND, 14, 1, "Entry fee", "label")
-    b.put(FUND, 14, 3, f"={R['entry_pct']}*{R['committed']}", "formula", fmt=FM, border=True)
-    R["entry_fee"] = b.ref(FUND, 3, 14)
-    b.put(FUND, 15, 1, "Management fee (total)", "label")
-    b.put(FUND, 15, 3, f"={R['mgmt_pct']}*{R['committed']}*{R['term']}", "formula", fmt=FM, border=True)
-    R["mgmt_fee"] = b.ref(FUND, 3, 15)
-    b.put(FUND, 16, 1, "Invested capital (LP, called)", "label", bold=True)
-    b.put(FUND, 16, 3, "=C10+C14+C15", "formula", fmt=FM, border=True, fill="sect")
-    R["fund_invested"] = b.ref(FUND, 3, 16)
+    R["co_gross"] = b.ref(FUND, 3, 13)
+    b.put(FUND, 14, 1, "Net programme profit (gross − total dev cost)", "label", bold=True)
+    b.put(FUND, 14, 3, "=C13-C10", "formula", fmt=FM, border=True)
+    R["co_net"] = b.ref(FUND, 3, 14)
 
-    b.put(FUND, 17, 1, "Carry, distributions & return (live)", "sect", fill="sect")
-    b.put(FUND, 18, 1, "Profit before carry", "label")
-    b.put(FUND, 18, 3, "=C13-C16", "formula", fmt=FM, border=True)
-    b.put(FUND, 19, 1, "Hurdle factor = (1+hurdle)^term − 1", "label")
-    b.put(FUND, 19, 3, f"=(1+{R['hurdle_pct']})^{R['term']}-1", "formula", fmt=FPCT, border=True)
-    R["hfac"] = b.ref(FUND, 3, 19)
-    b.put(FUND, 20, 1, "Hurdle amount", "label")
-    b.put(FUND, 20, 3, "=C16*C19", "formula", fmt=FM, border=True)
-    b.put(FUND, 21, 1, "Carry to GP", "label")
-    b.put(FUND, 21, 3, f"={R['carry_pct']}*MAX(0,C18-C20)", "formula", fmt=FM, border=True)
-    b.put(FUND, 22, 1, "Distributions to LP", "label", bold=True)
-    b.put(FUND, 22, 3, "=C13-C21", "formula", fmt=FM, border=True)
-    b.put(FUND, 23, 1, "MOIC (net)", "label", bold=True)
-    b.put(FUND, 23, 3, "=IFERROR(C22/C16,0)", "formula", fmt=FX, bold=True, border=True)
-    R["moic_live"] = b.ref(FUND, 3, 23)
-    b.put(FUND, 24, 1, "Mean distribution period (yrs)", "label")
-    b.put(FUND, 24, 3, f"=SUMPRODUCT({R['tl_periods']},{R['dist_profile']})", "formula", fmt=FNUM1, border=True)
-    b.put(FUND, 25, 1, "Mean capital-call period (yrs)", "label")
-    b.put(FUND, 25, 3, f"=SUMPRODUCT({R['tl_periods']},{R['call_profile']})", "formula", fmt=FNUM1, border=True)
-    b.put(FUND, 26, 1, "Effective hold (yrs)", "label")
-    b.put(FUND, 26, 3, "=C24-C25", "formula", fmt=FNUM1, border=True)
-    R["eff_hold"] = b.ref(FUND, 3, 26)
-    b.put(FUND, 27, 1, "Investor IRR (live, closed-form)", "label", bold=True)
-    b.put(FUND, 27, 3, "=IFERROR(C23^(1/C26)-1,0)", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
-    R["irr_live"] = b.ref(FUND, 3, 27)
+    b.put(FUND, 15, 1, "Company exit equity value (live)", "sect", fill="sect")
+    b.put(FUND, 16, 1, "Platform exit multiple", "label")
+    b.put(FUND, 16, 3, f"={R['exit_mult']}", "link", fmt=FMULT, border=True)
+    b.put(FUND, 17, 1, "Company exit equity = MAX(0, net) × multiple", "label", bold=True)
+    b.put(FUND, 17, 3, "=MAX(0,C14)*C16", "formula", fmt=FM, bold=True, border=True, fill="sect")
+    R["co_exit_equity"] = b.ref(FUND, 3, 17)
 
     # =====================================================================
-    # RETURNS (per-scenario investor IRR/MOIC, First Chicago, valuation range)
+    # RETURNS (cap table -> return on OUR shares by scenario, First Chicago)
     # =====================================================================
-    b.width(RET, {"A": 38, "B": 13, "C": 13, "D": 13, "E": 13})
-    b.put(RET, 1, 1, "RETURNS — investor IRR & MOIC by scenario, First-Chicago, valuation range", "title")
-    b.put(RET, 2, 1, "Each scenario's funnel is computed independently of the switch. Investor IRR is closed-form over the effective hold. "
-                     "All figures AUD $m unless stated.", "note", wrap=True)
-    b.put(RET, 3, 1, "Investor return by scenario (after fees)", "sect", fill="sect")
-    b.header(RET, 4, ["Metric", "Conservative", "Base", "Ideal"])
+    b.width(RET, {"A": 40, "B": 13, "C": 13, "D": 13, "E": 13})
+    b.put(RET, 1, 1, "RETURNS — cap table & return on OUR shares by scenario, First-Chicago, valuation range", "title")
+    b.put(RET, 2, 1, "We buy SHARES directly. Ownership = our investment ÷ post-money, reduced by dilution. Each scenario's company "
+                     "exit equity value (net programme profit × the platform exit multiple) flows through the cap table; our proceeds = "
+                     "the GREATER of our 1× liquidation preference or our as-converted (diluted) share. All figures AUD $m unless stated.", "note", wrap=True)
+
+    # --- Cap table block ---
+    b.put(RET, 3, 1, "Cap table (our stake)", "sect", fill="sect")
+    b.put(RET, 4, 1, "Pre-money valuation", "label")
+    b.put(RET, 4, 2, f"={R['pre_money']}", "link", fmt=FM, border=True)
+    b.put(RET, 5, 1, "Our investment", "label")
+    b.put(RET, 5, 2, f"={R['investment']}", "link", fmt=FM, border=True)
+    b.put(RET, 6, 1, "Post-money = pre-money + investment", "label", bold=True)
+    b.put(RET, 6, 2, "=B4+B5", "formula", fmt=FM, bold=True, border=True)
+    R["post_money"] = b.ref(RET, 2, 6)
+    b.put(RET, 7, 1, "Ownership at entry = investment ÷ post-money", "label", bold=True)
+    b.put(RET, 7, 2, "=IFERROR(B5/B6,0)", "formula", fmt=FPCT, bold=True, border=True)
+    R["own_entry"] = b.ref(RET, 2, 7)
+    b.put(RET, 8, 1, "Ownership at exit (diluted)", "label", bold=True)
+    b.put(RET, 8, 2, f"=B7*(1-{R['option_pool']})*(1-{R['future_dilution']})", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
+    R["own_diluted"] = b.ref(RET, 2, 8)
+
+    # --- Per-scenario block (each column independent of the switch) ---
+    b.put(RET, 10, 1, "Return on OUR shares by scenario", "sect", fill="sect")
+    b.header(RET, 11, ["Metric", "Conservative", "Base", "Ideal"])
     scol = {1: "B", 2: "C", 3: "D"}
     metric_rows = [
-        (5, "Flip success (DA x conn x sale)", lambda c: f"={R['scn_flip'][c]}", FPCT, "formula"),
-        (6, "RTB price multiplier", lambda c: f"={R['scn_salemult'][c]}", FMULT, "link"),
-        (7, "Dev cost multiplier", lambda c: f"={R['scn_devmult'][c]}", FMULT, "link"),
-        (8, "Dev cost per project", lambda c: f"={R['dev_cost']}*{scol[c]}7", FM2, "formula"),
-        (9, "Projects started", lambda c: f"=IFERROR({R['target']}/{scol[c]}5,0)", FNUM1, "formula"),
-        (10, "Projects failed", lambda c: f"={scol[c]}9-{R['target']}", FNUM1, "formula"),
-        (11, "Total dev cost", lambda c: f"={R['target']}*{scol[c]}8+{scol[c]}10*{R['abandon']}*{scol[c]}8", FM, "formula"),
-        (12, "Gross proceeds", lambda c: f"={R['target']}*{R['base_blended']}*{scol[c]}6", FM, "formula"),
-        (13, "Invested capital", lambda c: f"={scol[c]}11+{R['mgmt_fee']}+{R['entry_fee']}", FM, "formula"),
-        (14, "Profit before carry", lambda c: f"={scol[c]}12-{scol[c]}13", FM, "formula"),
-        (15, "Hurdle amount", lambda c: f"={scol[c]}13*{R['hfac']}", FM, "formula"),
-        (16, "Carry to GP", lambda c: f"={R['carry_pct']}*MAX(0,{scol[c]}14-{scol[c]}15)", FM, "formula"),
-        (17, "Distributions to LP", lambda c: f"={scol[c]}12-{scol[c]}16", FM, "formula"),
-        (18, "MOIC (net)", lambda c: f"=IFERROR({scol[c]}17/{scol[c]}13,0)", FX, "formula"),
-        (19, "Investor IRR", lambda c: f"=IFERROR({scol[c]}18^(1/{R['eff_hold']})-1,0)", FPCT, "formula"),
+        (12, "Flip success (DA × conn × sale)", lambda c: f"={R['scn_flip'][c]}", FPCT, "formula"),
+        (13, "RTB price multiplier", lambda c: f"={R['scn_salemult'][c]}", FMULT, "link"),
+        (14, "Dev cost multiplier", lambda c: f"={R['scn_devmult'][c]}", FMULT, "link"),
+        (15, "Dev cost per project", lambda c: f"={R['dev_cost']}*{scol[c]}14", FM2, "formula"),
+        (16, "Projects started", lambda c: f"=IFERROR({R['target']}/{scol[c]}12,0)", FNUM1, "formula"),
+        (17, "Projects failed", lambda c: f"={scol[c]}16-{R['target']}", FNUM1, "formula"),
+        (18, "Total dev cost", lambda c: f"={R['target']}*{scol[c]}15+{scol[c]}17*{R['abandon']}*{scol[c]}15", FM, "formula"),
+        (19, "Gross proceeds", lambda c: f"={R['target']}*{R['base_blended']}*{scol[c]}13", FM, "formula"),
+        (20, "Net programme profit", lambda c: f"={scol[c]}19-{scol[c]}18", FM, "formula"),
+        (21, "Company exit equity = MAX(0,net)×mult", lambda c: f"=MAX(0,{scol[c]}20)*{R['exit_mult']}", FM, "formula"),
+        (22, "As-converted (diluted × exit equity)", lambda c: f"={R['own_diluted']}*{scol[c]}21", FM2, "formula"),
+        (23, "Preference claim = MIN(liq×inv, exit eq)", lambda c: f"=MIN({R['liq_pref']}*{R['investment']},{scol[c]}21)", FM2, "formula"),
+        (24, "Our proceeds = MAX(pref, as-converted)", lambda c: f"=MAX({scol[c]}23,{scol[c]}22)", FM2, "formula"),
+        (25, "MOIC = our proceeds ÷ our investment", lambda c: f"=IFERROR({scol[c]}24/{R['investment']},0)", FX, "formula"),
+        (26, "Equity IRR = MOIC^(1/exit yr) − 1", lambda c: f"=IFERROR({scol[c]}25^(1/{R['exit_year']})-1,-1)", FPCT, "formula"),
     ]
     for r, label, fn, fmt, kind in metric_rows:
-        b.put(RET, r, 1, label, "label", bold=(r in (18, 19)))
+        b.put(RET, r, 1, label, "label", bold=(r in (24, 25, 26)))
         for c in (1, 2, 3):
-            b.put(RET, r, 1 + c, fn(c), kind, fmt=fmt, border=True, bold=(r in (18, 19)))
-    R["irr_by"] = {1: b.ref(RET, 2, 19), 2: b.ref(RET, 3, 19), 3: b.ref(RET, 4, 19)}
-    R["moic_by"] = {1: b.ref(RET, 2, 18), 2: b.ref(RET, 3, 18), 3: b.ref(RET, 4, 18)}
-    R["ret_irr_rng"] = b.rng(RET, 2, 19, 4, 19)
-    R["ret_invested_rng"] = b.rng(RET, 2, 13, 4, 13)
+            b.put(RET, r, 1 + c, fn(c), kind, fmt=fmt, border=True, bold=(r in (24, 25, 26)))
+    R["proceeds_by"] = {1: b.ref(RET, 2, 24), 2: b.ref(RET, 3, 24), 3: b.ref(RET, 4, 24)}
+    R["irr_by"] = {1: b.ref(RET, 2, 26), 2: b.ref(RET, 3, 26), 3: b.ref(RET, 4, 26)}
+    R["moic_by"] = {1: b.ref(RET, 2, 25), 2: b.ref(RET, 3, 25), 3: b.ref(RET, 4, 25)}
+    R["exit_eq_by"] = {1: b.ref(RET, 2, 21), 2: b.ref(RET, 3, 21), 3: b.ref(RET, 4, 21)}
+    R["ret_irr_rng"] = b.rng(RET, 2, 26, 4, 26)
+    R["ret_moic_rng"] = b.rng(RET, 2, 25, 4, 25)
+    R["ret_proceeds_rng"] = b.rng(RET, 2, 24, 4, 24)
 
-    b.put(RET, 21, 1, "First-Chicago probability-weighted expected return", "sect", fill="sect")
-    b.header(RET, 22, ["", "Conservative", "Base", "Ideal", "Expected"])
-    b.put(RET, 23, 1, "Weight", "label")
+    # --- First-Chicago block (weight PROCEEDS, then derive MOIC/IRR) ---
+    b.put(RET, 28, 1, "First-Chicago probability-weighted expected return", "sect", fill="sect")
+    b.header(RET, 29, ["", "Conservative", "Base", "Ideal", "Expected"])
+    b.put(RET, 30, 1, "Weight", "label")
     for ci, name in enumerate(["Conservative", "Base", "Ideal"]):
-        b.put(RET, 23, 2 + ci, f"={b.ref(SCN, 2 + ci, 13)}", "link", fmt=FPCT, border=True, align="center")
-    b.put(RET, 24, 1, "Investor IRR", "label", bold=True)
+        b.put(RET, 30, 2 + ci, f"={b.ref(SCN, 2 + ci, 13)}", "link", fmt=FPCT, border=True, align="center")
+    b.put(RET, 31, 1, "Our proceeds", "label")
     for c in (1, 2, 3):
-        b.put(RET, 24, 1 + c, f"={R['irr_by'][c]}", "link", fmt=FPCT, border=True)
-    b.put(RET, 24, 5, f"=SUMPRODUCT({R['weights']},B24:D24)", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
-    R["expected_irr"] = b.ref(RET, 5, 24)
-    b.put(RET, 25, 1, "MOIC (net)", "label")
-    for c in (1, 2, 3):
-        b.put(RET, 25, 1 + c, f"={R['moic_by'][c]}", "link", fmt=FX, border=True)
-    b.put(RET, 25, 5, f"=SUMPRODUCT({R['weights']},B25:D25)", "formula", fmt=FX, bold=True, border=True)
-    R["expected_moic"] = b.ref(RET, 5, 25)
+        b.put(RET, 31, 1 + c, f"={R['proceeds_by'][c]}", "link", fmt=FM2, border=True)
+    b.put(RET, 31, 5, f"=SUMPRODUCT({R['weights']},B31:D31)", "formula", fmt=FM2, bold=True, border=True)
+    R["expected_proceeds"] = b.ref(RET, 5, 31)
+    b.put(RET, 32, 1, "Expected MOIC = exp proceeds ÷ investment", "label", bold=True)
+    b.put(RET, 32, 5, f"=IFERROR(E31/{R['investment']},0)", "formula", fmt=FX, bold=True, border=True)
+    R["expected_moic"] = b.ref(RET, 5, 32)
+    b.put(RET, 33, 1, "Expected equity IRR = exp MOIC^(1/exit yr) − 1", "label", bold=True)
+    b.put(RET, 33, 5, f"=IFERROR(E32^(1/{R['exit_year']})-1,-1)", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
+    R["expected_irr"] = b.ref(RET, 5, 33)
 
-    b.put(RET, 27, 1, "Valuation range (per-pipeline asset value — cross-check)", "sect", fill="sect")
-    b.put(RET, 27, 3, "Representative 6-project pipeline, NOT the whole fund.", "note")
-    vrows = [(28, "rNPV pipeline (Base)", f"={R['pipeline_rnpv']}"),
-             (29, "$/MW benchmark (dev value)", None),   # filled after CC built
-             (30, "VC method (today value)", None)]
-    b.put(RET, 28, 1, vrows[0][1], "label")
-    b.put(RET, 28, 3, vrows[0][2], "link", fmt=FM2, border=True)
-    # placeholders; CC refs added below once CC cells exist
-    R["ret_val_low"] = b.ref(RET, 3, 31)
-    R["ret_val_mid"] = b.ref(RET, 3, 32)
-    R["ret_val_high"] = b.ref(RET, 3, 33)
+    b.put(RET, 35, 1, "Valuation range (per-pipeline asset value — cross-check)", "sect", fill="sect")
+    b.put(RET, 35, 3, "Representative 6-project pipeline (asset-level), NOT the company's whole exit equity value.", "note")
+    b.put(RET, 36, 1, "rNPV pipeline (Base)", "label")
+    b.put(RET, 36, 3, f"={R['pipeline_rnpv']}", "link", fmt=FM2, border=True)
+    # rows 37-38 ($/MW, VC method) + 39-41 (low/mid/high) backfilled after CC built
+    R["ret_val_low"] = b.ref(RET, 3, 39)
+    R["ret_val_mid"] = b.ref(RET, 3, 40)
+    R["ret_val_high"] = b.ref(RET, 3, 41)
 
     # =====================================================================
     # CALC_CROSSCHECKS ($/MW benchmark, VC method, RTB-as-%-of-built)
@@ -555,64 +558,78 @@ def build():
     b.put(CC, 25, 1, "Expect ~10–12% — confirms RTB is the early-stage development slice, not the built asset.", "note", wrap=True)
 
     # backfill Returns valuation range now that CC refs exist
-    b.put(RET, 29, 1, "$/MW benchmark (dev value)", "label")
-    b.put(RET, 29, 3, f"={R['dpmw_dev']}", "link", fmt=FM2, border=True)
-    b.put(RET, 30, 1, "VC method (today value)", "label")
-    b.put(RET, 30, 3, f"={R['vc_today']}", "link", fmt=FM2, border=True)
-    b.put(RET, 31, 1, "Low", "label", bold=True)
-    b.put(RET, 31, 3, "=MIN(C28:C30)", "formula", fmt=FM2, bold=True, border=True)
-    b.put(RET, 32, 1, "Midpoint", "label", bold=True)
-    b.put(RET, 32, 3, "=AVERAGE(C28:C30)", "formula", fmt=FM2, bold=True, border=True, fill="sect")
-    b.put(RET, 33, 1, "High", "label", bold=True)
-    b.put(RET, 33, 3, "=MAX(C28:C30)", "formula", fmt=FM2, bold=True, border=True)
+    b.put(RET, 37, 1, "$/MW benchmark (dev value)", "label")
+    b.put(RET, 37, 3, f"={R['dpmw_dev']}", "link", fmt=FM2, border=True)
+    b.put(RET, 38, 1, "VC method (today value)", "label")
+    b.put(RET, 38, 3, f"={R['vc_today']}", "link", fmt=FM2, border=True)
+    b.put(RET, 39, 1, "Low", "label", bold=True)
+    b.put(RET, 39, 3, "=MIN(C36:C38)", "formula", fmt=FM2, bold=True, border=True)
+    b.put(RET, 40, 1, "Midpoint", "label", bold=True)
+    b.put(RET, 40, 3, "=AVERAGE(C36:C38)", "formula", fmt=FM2, bold=True, border=True, fill="sect")
+    b.put(RET, 41, 1, "High", "label", bold=True)
+    b.put(RET, 41, 3, "=MAX(C36:C38)", "formula", fmt=FM2, bold=True, border=True)
 
     # =====================================================================
-    # SENSITIVITY (investor MOIC: development-approval rate x RTB price)
+    # SENSITIVITY (OUR equity IRR: development-approval rate x RTB price)
     # =====================================================================
     b.width(SENS, {"A": 24, "B": 11, "C": 9, "D": 9, "E": 9, "F": 9, "G": 9,
-                   "H": 11, "I": 11, "J": 11, "K": 11})
-    b.put(SENS, 1, 1, "SENSITIVITY — investor MOIC (net): development approval × RTB price", "title")
-    b.put(SENS, 2, 1, "Investor MOIC vs DEVELOPMENT-APPROVAL rate (down) × RTB price multiplier (across); all else at Base. "
-                      "Flip success = DA × grid connection × sale, so the funnel widens with the FULL gate chain (not the DA rate alone). "
-                      "IRR ≈ MOIC^(1/eff-hold). Live formula grid. All figures AUD $m / x.", "note", wrap=True)
+                   "H": 10, "I": 10, "J": 10, "K": 3,
+                   "L": 9, "M": 10, "N": 10, "O": 10, "P": 10, "Q": 10})
+    b.put(SENS, 1, 1, "SENSITIVITY — OUR equity IRR: development approval × RTB price", "title")
+    b.put(SENS, 2, 1, "Return on OUR shares (equity IRR = MOIC^(1/exit year) − 1) vs DEVELOPMENT-APPROVAL rate (down) × RTB price "
+                      "multiplier (across); all else at Base. Flip success = DA × grid connection × sale, so the funnel widens with the "
+                      "FULL gate chain. Each scenario flows through the company exit equity value, dilution and the 1× liquidation "
+                      "preference. Helper columns H–J (per DA) and the proceeds grid M–Q keep every formula short. AUD $m / %.", "note", wrap=True)
     da_rates = [0.40, 0.55, 0.65, 0.80, 0.95]
     price_mults = [0.70, 0.85, 1.00, 1.15, 1.30]
-    GC0 = 3  # grid columns C..G
-    # constants
-    b.put(SENS, 4, 1, "Carry %", "label"); b.put(SENS, 4, 2, f"={R['carry_pct']}", "link", fmt=FPCT, border=True)
-    b.put(SENS, 5, 1, "Hurdle factor", "label"); b.put(SENS, 5, 2, f"={R['hfac']}", "link", fmt=FPCT, border=True)
-    b.put(SENS, 6, 1, "Fixed fees (mgmt+entry) $m", "label")
-    b.put(SENS, 6, 2, f"={R['mgmt_fee']}+{R['entry_fee']}", "formula", fmt=FM, border=True)
-    b.put(SENS, 7, 1, "Conn × sale (flip adj)", "label")
-    b.put(SENS, 7, 2, f"={R['p_conn']}*{R['p_sale']}", "formula", fmt=FPCT, border=True)
-    R["s_carry"], R["s_hfac"], R["s_fees"] = b.ref(SENS, 2, 4), b.ref(SENS, 2, 5), b.ref(SENS, 2, 6)
-    R["s_flipadj"] = b.ref(SENS, 2, 7)
-    # price header (row 8) and gross-per-project helper row (row 9)
-    b.put(SENS, 8, 2, "Price mult →", "label", bold=True, align="right")
-    b.put(SENS, 9, 2, "Gross $m →", "label", bold=True, align="right")
+    GC0 = 3   # IRR grid columns C..G
+    PG0 = 13  # proceeds helper grid columns M..Q
+    # constants (SENS-local, short refs)
+    b.put(SENS, 4, 1, "Conn × sale (flip adj)", "label")
+    b.put(SENS, 4, 2, f"={R['p_conn']}*{R['p_sale']}", "formula", fmt=FPCT, border=True)
+    b.put(SENS, 5, 1, "Diluted ownership", "label")
+    b.put(SENS, 5, 2, f"={R['own_diluted']}", "link", fmt=FPCT, border=True)
+    b.put(SENS, 6, 1, "Platform exit multiple", "label")
+    b.put(SENS, 6, 2, f"={R['exit_mult']}", "link", fmt=FMULT, border=True)
+    b.put(SENS, 7, 1, "Preference cap (liq × investment) $m", "label")
+    b.put(SENS, 7, 2, f"={R['liq_pref']}*{R['investment']}", "formula", fmt=FM2, border=True)
+    b.put(SENS, 8, 1, "Our investment $m", "label")
+    b.put(SENS, 8, 2, f"={R['investment']}", "link", fmt=FM2, border=True)
+    b.put(SENS, 9, 1, "Exit year", "label")
+    b.put(SENS, 9, 2, f"={R['exit_year']}", "link", fmt=FNUM, border=True)
+    R["s_flipadj"] = b.ref(SENS, 2, 4)
+    # price header (row 10) and gross-per-scenario helper row (row 11)
+    b.put(SENS, 10, 2, "Price mult →", "label", bold=True, align="right")
+    b.put(SENS, 11, 2, "Gross $m →", "label", bold=True, align="right")
     for j, pm in enumerate(price_mults):
-        cl = get_column_letter(GC0 + j)
-        b.put(SENS, 8, GC0 + j, pm, "input", fmt=FMULT, fill="yel", align="center", border=True)
-        b.put(SENS, 9, GC0 + j, f"={R['target']}*{R['base_blended']}*{cl}8", "formula", fmt=FM, align="center", border=True)
-    # header row 10 + helper col labels
-    b.put(SENS, 10, 2, "DA gate ↓", "head", fill="head", align="center", border=True)
+        # price drives both the IRR-grid column header and the proceeds-grid column
+        for base in (GC0, PG0):
+            cl = get_column_letter(base + j)
+            b.put(SENS, 10, base + j, pm, "input", fmt=FMULT, fill="yel", align="center", border=True)
+            b.put(SENS, 11, base + j, f"={R['target']}*{R['base_blended']}*{cl}10", "formula", fmt=FM, align="center", border=True)
+    # header row 12 + helper col labels
+    b.put(SENS, 12, 2, "DA gate ↓", "head", fill="head", align="center", border=True)
     for j in range(len(price_mults)):
-        b.put(SENS, 10, GC0 + j, "MOIC", "head", fill="head", align="center", border=True)
-    for k, lab in enumerate(["Flip succ", "Started", "Total dev", "Invested"]):
-        b.put(SENS, 10, 8 + k, lab, "head", fill="head", align="center", wrap=True, border=True)
+        b.put(SENS, 12, GC0 + j, "IRR", "head", fill="head", align="center", border=True)
+        b.put(SENS, 12, PG0 + j, "Proceeds", "head", fill="head", align="center", wrap=True, border=True)
+    for k, lab in enumerate(["Flip succ", "Started", "Total dev"]):
+        b.put(SENS, 12, 8 + k, lab, "head", fill="head", align="center", wrap=True, border=True)
     for i, da in enumerate(da_rates):
-        r = 11 + i
+        r = 13 + i
         b.put(SENS, r, 2, da, "input", fmt=FPCT, fill="yel", align="center", border=True)
-        b.put(SENS, r, 8, f"=$B{r}*{R['s_flipadj']}", "formula", fmt=FPCT, border=True)
+        b.put(SENS, r, 8, f"=$B{r}*$B$4", "formula", fmt=FPCT, border=True)
         b.put(SENS, r, 9, f"=IFERROR({R['target']}/H{r},0)", "formula", fmt=FNUM1, border=True)
         b.put(SENS, r, 10, f"={R['target']}*{R['dev_cost']}+(I{r}-{R['target']})*{R['abandon']}*{R['dev_cost']}", "formula", fmt=FM, border=True)
-        b.put(SENS, r, 11, f"=J{r}+{R['s_fees']}", "formula", fmt=FM, border=True)
         for j in range(len(price_mults)):
-            cl = get_column_letter(GC0 + j)
-            # MOIC = (gross - carry) / invested ; carry = carry%*MAX(0,(gross-invested)-invested*hfac)
-            f = (f"=IFERROR(({cl}$9-{R['s_carry']}*MAX(0,({cl}$9-$K{r})-$K{r}*{R['s_hfac']}))/$K{r},0)")
-            b.put(SENS, r, GC0 + j, f, "formula", fmt=FX, border=True)
-    R["sens_grid"] = b.rng(SENS, GC0, 11, GC0 + len(price_mults) - 1, 11 + len(da_rates) - 1)
+            gcl = get_column_letter(PG0 + j)   # gross-per-column helper
+            # exit equity = MAX(0, gross - total dev) * mult ; proceeds = MAX(pref claim, as-converted)
+            pf = f"=MAX(MIN($B$7,MAX(0,{gcl}$11-$J{r})*$B$6),$B$5*MAX(0,{gcl}$11-$J{r})*$B$6)"
+            b.put(SENS, r, PG0 + j, pf, "formula", fmt=FM2, border=True)
+            icl = get_column_letter(PG0 + j)
+            # IRR = (proceeds / investment) ^ (1/exit year) - 1 ; total loss -> -100%
+            irrf = f"=IFERROR(({icl}{r}/$B$8)^(1/$B$9)-1,-1)"
+            b.put(SENS, r, GC0 + j, irrf, "formula", fmt=FPCT, border=True)
+    R["sens_grid"] = b.rng(SENS, GC0, 13, GC0 + len(price_mults) - 1, 13 + len(da_rates) - 1)
 
     # =====================================================================
     # CHECKS
@@ -621,10 +638,10 @@ def build():
     b.put(CHK, 1, 1, "CHECKS — integrity framework (master check feeds the Cover)", "title")
     b.header(CHK, 3, ["Check", "Result", "Note"])
     cr0 = 4
-    err_row = cr0 + 13
-    fc_row = cr0 + 11   # First-Chicago range check uses E/F/G helpers on its own row
+    err_row = cr0 + 14
+    fc_row = cr0 + 12   # First-Chicago range check uses E/F/G helpers on its own row
     checks = [
-        (f'=IF(AND(MIN({b.rng(INP,3,22,3,24)})>=0,MAX({b.rng(INP,3,22,3,24)})<=1),"OK","ERROR")',
+        (f'=IF(AND(MIN({b.rng(INP,3,26,3,28)})>=0,MAX({b.rng(INP,3,26,3,28)})<=1),"OK","ERROR")',
          "Every gate probability ∈ [0,1]", "Gate probs bounded"),
         (f'=IF({R["live_success"]}<=MIN({b.rng(SURV,2,4,2,6)})+0.000001,"OK","ERROR")',
          "Flip success ≤ each gate", "Survival monotonic"),
@@ -634,14 +651,18 @@ def build():
         (f'=IF(AND({R["switch"]}>=1,{R["switch"]}<=3),"OK","ERROR")', "Scenario switch ∈ {1,2,3}", "Switch valid"),
         (f'=IF(AND({R["scn_da"][1]}<={R["scn_da"][2]},{R["scn_da"][2]}<={R["scn_da"][3]}),"OK","ERROR")',
          "Scenario DA-gate monotonic", "Cons ≤ Base ≤ Ideal"),
-        (f'=IF(AND({R["irr_by"][1]}<={R["irr_by"][2]},{R["irr_by"][2]}<={R["irr_by"][3]}),"OK","ERROR")',
-         "Investor IRR monotonic", "Cons ≤ Base ≤ Ideal"),
+        (f'=IF(ABS({R["post_money"]}-({R["pre_money"]}+{R["investment"]}))<0.0001,"OK","ERROR")',
+         "Post-money = pre-money + investment", "Cap-table identity"),
+        (f'=IF(ABS({R["own_entry"]}-{R["investment"]}/{R["post_money"]})<0.0001,"OK","ERROR")',
+         "Ownership = investment ÷ post-money", "Cap-table identity"),
+        (f'=IF({R["own_diluted"]}<={R["own_entry"]}+0.0001,"OK","ERROR")',
+         "Diluted ownership ≤ entry ownership", "Dilution sign"),
+        (f'=IF(AND({R["moic_by"][1]}<={R["moic_by"][2]},{R["moic_by"][2]}<={R["moic_by"][3]}),"OK","ERROR")',
+         "Investor MOIC monotonic", "Cons ≤ Base ≤ Ideal"),
         (f'=IF(ABS({R["weights_sum"]}-1)<0.001,"OK","ERROR")', "Scenario weights sum to 100%", "First-Chicago weights"),
-        (f'=IF(ABS(SUM({R["call_profile"]})-1)<0.001,"OK","ERROR")', "Capital-call profile sums to 100%", "Cash-flow profile"),
-        (f'=IF(ABS(SUM({R["dist_profile"]})-1)<0.001,"OK","ERROR")', "Distribution profile sums to 100%", "Cash-flow profile"),
         (f'=IF(AND(G{fc_row}>=E{fc_row}-0.0001,G{fc_row}<=F{fc_row}+0.0001),"OK","ERROR")',
          "First-Chicago IRR within scenario range", "Weighting sanity (helpers E:G)"),
-        (f'=IF(MIN({R["ret_invested_rng"]})>0,"OK","ERROR")', "Invested capital positive (all scenarios)", "Sign check"),
+        (f'=IF(MIN({R["ret_proceeds_rng"]})>=0,"OK","ERROR")', "Our proceeds non-negative (all scenarios)", "Sign check"),
         (f'=IF(SUM(E{err_row}:G{err_row})=0,"OK","ERROR")', "No error cells in key outputs", "#REF!/#DIV0! scan"),
     ]
     for i, (formula, label, note) in enumerate(checks):
@@ -669,59 +690,64 @@ def build():
     # =====================================================================
     # DASHBOARD
     # =====================================================================
-    b.width(DSH, {"A": 38, "B": 16, "C": 6, "D": 32, "E": 16})
-    b.put(DSH, 1, 1, "ILLUSTRATIVE DISTRIBUTION-BESS DEVELOP-AND-FLIP FUND — DASHBOARD", "title")
-    b.put(DSH, 2, 1, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA). ILLUSTRATIVE — the manager figures are "
-                     "manager claims to verify. Not investment advice.", "disc", wrap=True)
+    b.width(DSH, {"A": 38, "B": 16, "C": 6, "D": 34, "E": 16})
+    b.put(DSH, 1, 1, "ILLUSTRATIVE BATTERY-DEVELOPER STARTUP — DIRECT-EQUITY DASHBOARD", "title")
+    b.put(DSH, 2, 1, "We buy SHARES directly in an illustrative ~5 MW distribution-BESS develop-and-flip startup (NSW/VIC/SA). ILLUSTRATIVE — "
+                     "founder/manager figures are claims and the equity-deal terms are placeholders to confirm. Not investment advice.", "disc", wrap=True)
     b.put(DSH, 4, 1, "Active scenario", "label", bold=True)
     b.put(DSH, 4, 2, f"={R['scenario_name']}", "link", bold=True)
     b.put(DSH, 4, 4, "Master check", "label", bold=True)
     b.put(DSH, 4, 5, f"={R['master_check']}", "link", bold=True, align="center")
-    b.put(DSH, 6, 1, "EXPECTED INVESTOR RETURN (First-Chicago)", "sect", fill="sect")
-    b.put(DSH, 6, 4, "LIVE SCENARIO", "sect", fill="sect")
-    b.put(DSH, 7, 1, "Expected IRR (after fees)", "label", bold=True)
+    b.put(DSH, 6, 1, "EXPECTED RETURN ON OUR SHARES (First-Chicago)", "sect", fill="sect")
+    b.put(DSH, 6, 4, "OUR STAKE", "sect", fill="sect")
+    b.put(DSH, 7, 1, "Expected equity IRR", "label", bold=True)
     b.put(DSH, 7, 2, f"={R['expected_irr']}", "link", fmt=FPCT, bold=True, border=True)
     b.put(DSH, 8, 1, "Expected MOIC", "label")
     b.put(DSH, 8, 2, f"={R['expected_moic']}", "link", fmt=FX, border=True)
-    b.put(DSH, 7, 4, "Investor IRR (live)", "label", bold=True)
-    b.put(DSH, 7, 5, f"={R['irr_live']}", "link", fmt=FPCT, bold=True, border=True)
-    b.put(DSH, 8, 4, "MOIC (live)", "label")
-    b.put(DSH, 8, 5, f"={R['moic_live']}", "link", fmt=FX, border=True)
-    b.put(DSH, 10, 1, "INVESTOR IRR BY SCENARIO", "sect", fill="sect")
-    b.header(DSH, 11, ["Scenario", "Flip succ", "IRR", "MOIC"])
+    stake = [(7, "Post-money valuation $m", f"={R['post_money']}", FM),
+             (8, "Ownership at entry", f"={R['own_entry']}", FPCT),
+             (9, "Ownership at exit (diluted)", f"={R['own_diluted']}", FPCT),
+             (10, "Liquidation preference (x)", f"={R['liq_pref']}", FX),
+             (11, "Exit year", f"={R['exit_year']}", FNUM)]
+    for r, label, val, fmt in stake:
+        b.put(DSH, r, 4, label, "label")
+        b.put(DSH, r, 5, val, "link", fmt=fmt, border=True)
+    b.put(DSH, 13, 1, "RETURN ON OUR SHARES BY SCENARIO", "sect", fill="sect")
+    b.header(DSH, 14, ["Scenario", "Flip succ", "Equity IRR", "MOIC"])
     for i, (name, cid) in enumerate([("Conservative", 1), ("Base", 2), ("Ideal", 3)]):
-        r = 12 + i
+        r = 15 + i
         b.put(DSH, r, 1, name, "label")
         b.put(DSH, r, 2, f"={R['scn_flip'][cid]}", "formula", fmt=FPCT, border=True)
         b.put(DSH, r, 3, f"={R['irr_by'][cid]}", "link", fmt=FPCT, border=True)
         b.put(DSH, r, 4, f"={R['moic_by'][cid]}", "link", fmt=FX, border=True)
-    b.put(DSH, 10, 4, "KEY ASSUMPTIONS & FLAG", "sect", fill="sect")
-    ka = [(11, "Committed capital $m", f"={R['committed']}", FM),
-          (12, "Projects target", f"={R['target']}", FNUM),
-          (13, "Manager headline DA gate (Base)", f"={R['scn_da'][2]}", FPCT),
-          (14, "True flip success (Base, DAxconnxsale)", f"={R['flip_at_base_da']}", FPCT),
-          (15, "Independent flip success (benchmark)", f"={R['flip_independent']}", FPCT)]
+    b.put(DSH, 13, 4, "KEY ASSUMPTIONS & FLAG", "sect", fill="sect")
+    ka = [(14, "Programme capital $m", f"={R['programme']}", FM),
+          (15, "Projects target", f"={R['target']}", FNUM),
+          (16, "Manager headline DA gate (Base)", f"={R['scn_da'][2]}", FPCT),
+          (17, "True flip success (Base, DAxconnxsale)", f"={R['flip_at_base_da']}", FPCT),
+          (18, "Independent flip success (benchmark)", f"={R['flip_independent']}", FPCT)]
     for r, label, val, fmt in ka:
         b.put(DSH, r, 4, label, "label")
         b.put(DSH, r, 5, val, "link", fmt=fmt, border=True)
-    b.put(DSH, 17, 1, "Conclusion (illustrative)", "sect", fill="sect")
-    b.put(DSH, 18, 1,
-          "A real, policy-backed, capital-light niche with a viable RTB exit — but the develop-and-flip economics are THIN once the gates "
-          "are modelled correctly. The manager's 65% is the development-approval gate ALONE; true flip success = approval x grid connection "
-          "x sale is ~36% at Base, so the expected investor return is only marginally positive and the Conservative case loses capital. The "
-          "single biggest risk is EXIT/BUYER risk, then development/approval. On these numbers the flip is the WEAKEST entry — building or "
-          "holding the asset earns far more (see the stage analysis). Pursue only on verified buyer depth, RTB comps and a survivable downside.", "note", wrap=True)
-    b.ws[DSH].merge_cells("A18:E23")
+    b.put(DSH, 20, 1, "Conclusion (illustrative)", "sect", fill="sect")
+    b.put(DSH, 21, 1,
+          "A real, policy-backed, capital-light niche with a viable RTB exit — but the return on OUR shares is THIN once the gates are "
+          "modelled and the cap table applied. The 65% headline is the development-approval gate ALONE; true flip success = approval x "
+          "grid connection x sale is ~36% at Base, so the company's exit equity value is modest and — after dilution and our 1x "
+          "liquidation preference — the expected return on our shares is only marginally positive while the Conservative case is a total "
+          "loss. Biggest risks: EXIT/BUYER risk, then development/approval, then the equity-deal terms (all placeholders). Pursue only on "
+          "verified buyer depth, RTB comps, a survivable downside, and confirmed cap-table terms.", "note", wrap=True)
+    b.ws[DSH].merge_cells("A21:E26")
 
     # =====================================================================
     # COVER
     # =====================================================================
     b.width(COV, {"A": 26, "B": 64})
-    b.put(COV, 1, 1, "BESS Pipeline Valuation — Develop-and-Flip (RTB)", "title")
+    b.put(COV, 1, 1, "Battery-Developer Startup Valuation — Direct-Equity Stake", "title")
     cover = [
-        (2, "Subtitle", "Investor (LP) IRR/MOIC of an illustrative distribution-BESS develop-and-flip fund (NSW/VIC/SA)"),
-        (3, "Version", "v1.0"),
-        (4, "Author", "Portfolio project (independent rebuild of the manager's projections claims)"),
+        (2, "Subtitle", "Return on OUR shares (equity IRR/MOIC) in an illustrative distribution-BESS develop-and-flip startup (NSW/VIC/SA)"),
+        (3, "Version", "v2.0"),
+        (4, "Author", "Portfolio project (independent rebuild; founder/manager claims verified)"),
         (5, "Date", a["meta"]["as_at"]),
         (6, "Currency / Units", "AUD, $ millions ($m)"),
     ]
@@ -736,36 +762,39 @@ def build():
     b.ws[COV].conditional_formatting.add("B8", CellIsRule(operator="equal", formula=['"ERROR"'], fill=FILL_RED, font=Font(color="9C0006")))
     b.put(COV, 10, 1, "Decision brief", "sect", fill="sect")
     brief = [
-        ("Decision", "Whether the investor should commit as an LP to an (illustrative) develop-and-flip RTB BESS fund, and at what expected return."),
-        ("Reframe", "The fund sells RTB before construction — MERCHANT RISK PASSES TO THE BUYER. The fund's risk is the survival curve (approve→connect→sell) + the RTB price."),
-        ("Outputs", "Investor IRR & MOIC by scenario, First-Chicago expected return, per-pipeline valuation range, sensitivities."),
-        ("Detail / horizon", "Annual, ~2+1-year term, AUD, $m."),
-        ("Out of scope", "Post-sale operating/merchant cash flows, construction (buyer-funded), tax structuring, FX, debt."),
+        ("Decision", "Whether to buy SHARES DIRECTLY (a minority equity stake) in an (illustrative) develop-and-flip RTB battery startup, and at what expected return on our shares."),
+        ("Structure", "We invest as a SHAREHOLDER, NOT as a fund limited partner. A cap table (pre-/post-money, ownership, dilution, 1x liquidation preference) turns the company's exit equity value into OUR return. The equity-deal terms are PLACEHOLDERS to confirm."),
+        ("Reframe", "The company sells RTB before construction — MERCHANT RISK PASSES TO THE BUYER. Its risk is the survival curve (approve→connect→sell) + the RTB price; ours is also dilution and the cap-table terms."),
+        ("Outputs", "Cap table, return on our shares (equity IRR & MOIC) by scenario, First-Chicago expected return, per-pipeline valuation cross-check, sensitivities."),
+        ("Detail / horizon", "Company programme ~2+1-year cycle; our exit year is a placeholder. AUD, $m."),
+        ("Out of scope", "Post-sale operating/merchant cash flows, construction (buyer-funded), full multi-round waterfall, tax structuring, FX, debt."),
     ]
     for i, (k, v) in enumerate(brief):
         r = 11 + i
         b.put(COV, r, 1, k, "label", bold=True)
         b.put(COV, r, 2, v, "label", wrap=True)
-    b.put(COV, 17, 1, "Standards followed", "sect", fill="sect")
-    b.put(COV, 18, 2, "FAST / ICAEW / Macabacus / Operis: Inputs→Calcs→Outputs zones; one Timeline; one-row-one-calc; no hardcodes in "
+    b.put(COV, 18, 1, "Standards followed", "sect", fill="sect")
+    b.put(COV, 19, 2, "FAST / ICAEW / Macabacus / Operis: Inputs→Calcs→Outputs zones; one Timeline; one-row-one-calc; no hardcodes in "
                       "formulas; CHOOSE scenario switch + live-case row; checks built alongside; colour code (blue input / black formula / "
                       "green link); INDEX-MATCH not VLOOKUP; IFERROR on division; closed-form IRR (no volatile functions).", "label", wrap=True)
-    b.ws[COV].merge_cells("B18:B21")
-    b.put(COV, 23, 1, "Judgement inputs to OWN (review pass)", "sect", fill="sect")
-    b.put(COV, 24, 2, "Discount rate & premium • the THREE scenario success rates (vs the independent ~45%) • RTB $/MW by state (need "
-                      "independent comps) • dev cost per project & abandonment • fees/carry/hurdle • cash-flow profile. the manager's figures are "
-                      "CLAIMS to verify — defend your own.", "label", wrap=True)
-    b.ws[COV].merge_cells("B24:B27")
-    b.put(COV, 29, 1, "TO COMPLETE (analyst review pass)", "sect", fill="sect")
-    b.put(COV, 30, 2, "1. Trace every formula + colour audit; confirm master check = OK; stress the switch in all 3 positions.  "
-                      "2. Replace 🟡 BENCHMARK / manager-claim inputs with verified independent values (RTB comps, per-state success, dev cost).  "
-                      "3. Stress a downside where RTB prices are 20–30% lower and success ≈ the independent ~45%; confirm capital can be lost.", "label", wrap=True)
-    b.ws[COV].merge_cells("B30:B33")
-    b.put(COV, 35, 1, "DISCLAIMER", "label", bold=True)
-    b.put(COV, 35, 2, "ILLUSTRATIVE fund built from public benchmark data; an INDEPENDENT rebuild of the the manager's projections (not an "
-                      "endorsement). NOT investment advice. Wholesale-investor context; read the IM. All figures illustrative and must be "
-                      "independently verified. Capital is at risk.", "disc", wrap=True)
-    b.ws[COV].merge_cells("B35:B38")
+    b.ws[COV].merge_cells("B19:B22")
+    b.put(COV, 24, 1, "Judgement inputs to OWN (review pass)", "sect", fill="sect")
+    b.put(COV, 25, 2, "Discount rate & premium • the THREE scenario success rates (vs the independent benchmark) • RTB $/MW by state (need "
+                      "independent comps) • dev cost per project & abandonment • the equity-deal terms (pre-money, our cheque, option pool, "
+                      "future dilution, liquidation preference, platform exit multiple, exit year — ALL placeholders). Founder/manager figures "
+                      "are CLAIMS to verify — defend your own.", "label", wrap=True)
+    b.ws[COV].merge_cells("B25:B28")
+    b.put(COV, 30, 1, "TO COMPLETE (analyst review pass)", "sect", fill="sect")
+    b.put(COV, 31, 2, "1. Trace every formula + colour audit; confirm master check = OK; stress the switch in all 3 positions.  "
+                      "2. Replace BENCHMARK / claim inputs with verified independent values (RTB comps, per-state success, dev cost) and "
+                      "CONFIRM the cap-table terms against a term sheet.  3. Stress a downside where RTB prices are 20–30% lower and success "
+                      "≈ the independent benchmark; confirm our shares can be wiped out (Conservative = total loss).", "label", wrap=True)
+    b.ws[COV].merge_cells("B31:B34")
+    b.put(COV, 36, 1, "DISCLAIMER", "label", bold=True)
+    b.put(COV, 36, 2, "ILLUSTRATIVE startup built from public benchmark data; an INDEPENDENT rebuild (not an endorsement). NOT investment "
+                      "advice. Wholesale-investor context; read the term sheet / IM. The equity-deal terms are placeholders to confirm. All "
+                      "figures illustrative and must be independently verified. Capital is at risk.", "disc", wrap=True)
+    b.ws[COV].merge_cells("B36:B39")
 
     # =====================================================================
     # CONTENTS
@@ -775,14 +804,14 @@ def build():
     b.header(CON, 3, ["#", "Sheet", "Purpose"])
     purposes = {
         COV: "Title, decision brief, master check, disclaimer", CON: "This page",
-        CL: "Version history", INP: "All assumptions + imported data (blue)",
+        CL: "Version history", INP: "All assumptions + cap-table deal terms + imported data (blue)",
         TL: "Master timeline (built once)", SCN: "Scenarios + switch (DA gate) + live case + weights",
         SURV: "Separate gates; flip success = DA × connection × sale + flag",
         RNPV: "Per-project risk-adjusted NAV (RTB − dev cost)",
-        FUND: "Funnel, fees, investor IRR/MOIC (live)",
-        RET: "Investor IRR/MOIC by scenario, First-Chicago, valuation range",
+        FUND: "Company programme: funnel → net profit → company exit equity value (live)",
+        RET: "Cap table; return on OUR shares (equity IRR/MOIC) by scenario, First-Chicago, valuation range",
         CC: "$/MW benchmark, VC method, RTB vs built",
-        SENS: "Investor MOIC grid (development approval × price)",
+        SENS: "Our equity IRR grid (development approval × RTB price)",
         CHK: "Integrity checks + master check", DSH: "One-page IC summary", SG: "Sources + glossary",
     }
     for i, name in enumerate(ORDER):
@@ -800,9 +829,13 @@ def build():
     b.header(CL, 3, ["Date", "Version", "Change", "Author"])
     b.put(CL, 4, 1, a["meta"]["as_at"], "input", align="center")
     b.put(CL, 4, 2, "v1.0", "input", align="center")
-    b.put(CL, 4, 3, "Initial build: survival curve, per-project rNPV, fund funnel + fees, investor IRR/MOIC, First-Chicago, cross-checks, sensitivity, checks, dashboard.", "label", wrap=True)
+    b.put(CL, 4, 3, "Initial build: survival curve, per-project rNPV, programme funnel, returns, First-Chicago, cross-checks, sensitivity, checks, dashboard.", "label", wrap=True)
     b.put(CL, 4, 4, "Claude Code (v1 draft)", "input")
-    b.put(CL, 5, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
+    b.put(CL, 5, 1, a["meta"]["as_at"], "input", align="center")
+    b.put(CL, 5, 2, "v2.0", "input", align="center")
+    b.put(CL, 5, 3, "Reframed from a fund LP investment to a DIRECT-EQUITY stake: removed fees/carry/hurdle; renamed Calc_Fund→Calc_Company (programme → net profit → company exit equity value); added a cap table (pre-/post-money, ownership, dilution, 1x liquidation preference) on Returns; outputs are now the return on OUR shares (equity IRR/MOIC), First-Chicago weights proceeds; sensitivity outputs our equity IRR.", "label", wrap=True)
+    b.put(CL, 5, 4, "Claude Code (v2 reframe)", "input")
+    b.put(CL, 6, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
 
     # =====================================================================
     # SOURCES & GLOSSARY
@@ -835,10 +868,15 @@ def build():
         ("RTB", "Ready-to-build / development rights — a shovel-ready project sold before construction."),
         ("rNPV", "Risk-adjusted NPV — each cash flow × probability of occurring, then discounted."),
         ("Survival curve / PD", "Cumulative probability a project clears all gates; structurally a multi-period probability-of-default curve."),
-        ("Funnel", "projects_started = target ÷ success; you fund dev cost on every started project (full on delivered, partial on dropouts)."),
-        ("Carry / hurdle", "GP carried interest (20%) earned only on profit above the LP preferred return (8%)."),
-        ("MOIC / IRR", "Multiple on invested capital; annualised return (closed-form over the effective hold)."),
-        ("First Chicago", "Probability-weight the scenario returns into a single expected return."),
+        ("Development funnel", "projects_started = target ÷ flip success; the company funds dev cost on every started project (full on delivered, partial on dropouts)."),
+        ("Net programme profit", "The company's gross RTB proceeds minus its total development cost across the programme."),
+        ("Pre-money / post-money", "Pre-money = the company's agreed value before our money goes in; post-money = pre-money + our investment."),
+        ("Ownership %", "Our share of the company = our investment ÷ post-money valuation."),
+        ("Dilution", "The fall in our ownership % when new shares are issued — here a staff option pool and future funding rounds."),
+        ("Cap table", "The schedule of who owns what % of the company; we run our stake through it to get our exit proceeds."),
+        ("Liquidation preference", "A preferred right to get our money back (1x) before ordinary holders at exit; 1x non-participating means we take the GREATER of that or our as-converted share."),
+        ("MOIC / equity IRR", "Multiple on OUR investment; annualised return on our shares (MOIC^(1/exit year) − 1; a total loss is −100%)."),
+        ("First Chicago", "Probability-weight the scenarios' proceeds into a single expected return on our shares."),
         ("Develop-and-flip", "Develop, de-risk, then sell RTB — the margin is the value uplift; merchant risk passes to the buyer."),
     ]
     for i, (term, defn) in enumerate(glossary):
