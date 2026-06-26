@@ -67,13 +67,13 @@ def run() -> None:
     if not candidates:
         io.manual_download_msg(src["name"], src["feeds"][0]["url"] if src.get("feeds") else None, out)
     print(f"  -> wrote {len(candidates)} candidate(s) to {out} [{status}]")
-    print("     NOTE: comps prices require human curation -> data/processed/comps.csv")
+    print("     NOTE: RTB prices require human curation -> data/processed/rtb_comps_curated.csv")
 
     sources_log.record(
         "trade_press_comps",
         name=src["name"],
         url=src["feeds"][0]["url"] if src.get("feeds") else None,
-        output="data/raw/trade_press_candidates_<date>.csv -> data/processed/comps.csv",
+        output="data/raw/trade_press_candidates_<date>.csv -> data/processed/rtb_comps.csv",
         status=status,
         description=src["description"],
     )

@@ -42,7 +42,7 @@
   "trade_press_comps": {
     "name": "Energy trade press \u2014 battery M&A / deal comps",
     "url": "https://www.energy-storage.news/tag/australia/",
-    "output": "data/raw/trade_press_candidates_<date>.csv -> data/processed/comps.csv",
+    "output": "data/raw/trade_press_candidates_<date>.csv -> data/processed/rtb_comps.csv",
     "status": "LIVE",
     "description": "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation).",
     "retrieved": "2026-06-24"

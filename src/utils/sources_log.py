@@ -38,7 +38,7 @@ def record(
     description: str,
     retrieved: str | None = None,
 ) -> None:
-    """Record one source. `status` in {LIVE, BENCHMARK, MANUAL_REQUIRED}."""
+    """Record one source. `status` in {LIVE, BENCHMARK, REPORTED, MANUAL_REQUIRED}."""
     ledger = _load()
     ledger[key] = {
         "name": name,
@@ -55,6 +55,7 @@ def record(
 _STATUS_BADGE = {
     "LIVE": "🟢 live download",
     "BENCHMARK": "🟡 documented benchmark (verify)",
+    "REPORTED": "📄 reported (public sources — verify)",
     "MANUAL_REQUIRED": "🔴 manual download required",
 }
 
@@ -87,8 +88,12 @@ def write_markdown() -> None:
     lines.append("- 🟢 **live download** — file fetched from the source this run.")
     lines.append(
         "- 🟡 **documented benchmark (verify)** — source unreachable at run time; the "
-        "model used a documented public benchmark from `config/assumptions.yaml`. "
-        "Re-run `make extract` with network access to refresh."
+        "model used a documented public benchmark (from `config/assumptions.yaml` or the "
+        "extractor). Re-run `make extract` with network access to refresh."
+    )
+    lines.append(
+        "- 📄 **reported (public sources — verify)** — figures compiled from named public "
+        "reports / trade press (e.g. AEMO ISP, deal announcements); re-verify against the cited source."
     )
     lines.append(
         "- 🔴 **manual download required** — the source needs a manual step "
