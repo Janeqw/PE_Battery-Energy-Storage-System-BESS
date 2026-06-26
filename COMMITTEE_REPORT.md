@@ -11,8 +11,17 @@
 - **The deal:** commit up to **~$25 million** as a limited partner to an illustrative fund that **develops ~5 megawatt (MW) distribution-connected batteries to shovel-ready ("ready-to-build", RTB) status and sells them before construction**, across New South Wales, Victoria and South Australia, over a two-plus-one-year term.
 - **Headline returns (our independent rebuild):** probability-weighted expected **investor internal rate of return (IRR) ≈ 13.7%**, multiple on invested capital (MOIC) **≈ 1.31×**, net of fees — versus the manager's implied ~17.7%. Base case 17.5% / 1.38×; **conservative case −3.3% / 0.93× (a capital loss)**.
 - **Why it works (thesis in one line):** the fund captures the **development de-risking margin** — the uplift from a raw site to an approved, grid-connected project — in 2–3 years, with merchant-electricity-price risk passing to the buyer; it does **not** depend on long-run power prices.
-- **Top 3 risks:** (1) **exit / buyer** — a finished project with no buyer is stranded capital, and the deep-pocketed buyers transact at 100 MW+, not 5 MW; (2) **development / approval** — the success rate is the master return driver; (3) **success-rate optimism** — our independent estimate (~45%) sits below the manager's base case (65%). Each is addressed in §9.
-- **Recommendation:** **CONDITIONAL PROCEED** — proceed to confirmatory due diligence and commit **only if** (a) a deep, contractually-progressing RTB buyer pool is evidenced, (b) sub-5 MW, per-state success rates reconcile the 65% base case with our ~45% estimate, and (c) the fee-adjusted downside is survivable. Absent these, **Pass**.
+**Top 3 risks** (each mitigated in §9):
+
+- **Exit / buyer** — a finished project with no buyer is stranded capital, and the deep-pocketed buyers transact at 100 MW+, not 5 MW
+- **Development / approval** — the success rate is the master return driver; a 6–12-month slip hits returns hard
+- **Success-rate optimism** — our independent estimate (~45%) sits below the manager's base case (65%)
+
+**Recommendation: CONDITIONAL PROCEED** — proceed to confirmatory due diligence; commit **only if** all of the following are met (else **Pass**):
+
+- **Buyer pool** — a deep, contractually-progressing ready-to-build buyer pool is evidenced
+- **Success rate** — sub-5 MW, per-state success rates reconcile the 65% base case with our ~45% estimate
+- **Survivable downside** — the fee-adjusted downside does not impair more than the allocated sleeve
 
 > **Returns attribution (the credibility line):** *Of the projected ~13.7% expected IRR (1.31× MOIC), essentially **all** comes from the development margin — selling ~35 ready-to-build projects for ~$31.5m gross against ~$20.3m of development spend (which also funds the projects that fail in the funnel) and ~$2.7m of fees and carried interest. **Zero** comes from merchant or operating upside, which passes to the buyer. So the return depends on the success rate and the buyer pool — not on electricity prices.*
 
@@ -122,7 +131,14 @@ A develop-and-flip fund "creates value" by de-risking projects, not by operating
 
 ## 10. Exit — How Capital Returns
 
-Capital returns as the fund **sells ready-to-build projects** to infrastructure funds, superannuation funds, independent power producers, government green-capital bodies (the Clean Energy Finance Corporation, the Energy Security Corporation) or retailers, over the two-to-three-year window. **The exit is the binding constraint:** because individual 5 MW assets are sub-scale for the large buyers, the realistic exit is **selling an aggregated ~175 MW portfolio as a single platform** — one large, all-or-nothing transaction — rather than 35 separate flips. That concentrates the exit and only works if the portfolio is deliberately built and marketed as one block. The committee should treat a demonstrated, contractually-progressing exit path as the gating condition.
+Capital returns as the fund **sells ready-to-build projects** over the two-to-three-year window. The buyer pool spans:
+
+- **Infrastructure funds** and **superannuation funds**
+- **Independent power producers** building out their own portfolios
+- **Government green-capital bodies** — the Clean Energy Finance Corporation and the Energy Security Corporation
+- **Electricity retailers** seeking firming capacity
+
+**The exit is the binding constraint.** Because individual 5 MW assets are sub-scale for the large buyers, the realistic exit is **selling an aggregated ~175 MW portfolio as a single platform** — one large, all-or-nothing transaction — rather than 35 separate flips. That concentrates the exit and only works if the portfolio is deliberately built and marketed as one block. The committee should treat a demonstrated, contractually-progressing exit path as the gating condition.
 
 ---
 
@@ -175,9 +191,33 @@ Capital returns as the fund **sells ready-to-build projects** to infrastructure 
 
 *The gain is entirely the development margin; nothing from merchant/operating upside.*
 
-### Exhibit 4 — Model & data references
+### Exhibit 4 — Methodology, data sources & verification
 
-Numbers tie to the formula-driven Excel model (`financial_models/BESS_Valuation.xlsx`, reproduced by `src/valuation_engine.py`) and the value-chain comparison (`src/stage_analysis.py` → `financial_models/STAGE_COMPARISON.md`). Public-data sources and status are logged in `SOURCES.md`; the full industry analysis is in `INDUSTRY_REPORT.md`; the model's results render in `financial_models/MODEL_PREVIEW.md`.
+Every figure is **traceable, not transcribed** — asserted in the body, built up in the exhibits above, with the formulas held in the model. The chain below lets the committee check **data → method → maths** for each key number.
+
+| Figure | Data source (named, dated) | Method / theory | How to verify |
+|---|---|---|---|
+| Cumulative success ~45% (independent) | Public planning-approval & grid-connection data — Australian Energy Market Operator connections; NSW/VIC/SA planning portals (`data/processed/gate_stats.csv`, mid-2026) | Probability-of-default / survival chain (Basel, International Financial Reporting Standard 9) | 0.80 × 0.70 × 0.80 = 0.448 |
+| Success 40 / 65 / 80% | Manager's projections — *claim, to verify* | Scenario analysis | Re-underwrite against the independent ~45% |
+| Discount rate 18.8% | Reserve Bank of Australia 10-year Commonwealth Government Securities yield (live, `data/processed/rates.csv`) + 14.0% premium (judgement) | Build-up method (required return = risk-free + risk premium) | 4.8% + 14.0% |
+| Ready-to-build price by state | Manager's assumed prices — *claim* (`data/processed/rtb_comps.csv`) | Comparable transactions | Independent deal comparables still required |
+| Market size (5→35 GW; ~45 GW queue) | Integrated System Plan 2026 via trade press (`data/processed/market_demand.csv`) | Reported public figures | Re-check against the Integrated System Plan |
+| Buyer deal sizes (100–260 MW) | Energy trade press (`data/processed/deal_sizes.csv`) | Comparable transactions | Named, dated deals |
+| Investor IRR / MOIC | The model, on the inputs above | Risk-adjusted net present value + fund funnel + First-Chicago weighting + closed-form IRR | Reproduce via the model |
+
+- **Independent vs claim** — public-data figures are tagged to source and date in `SOURCES.md`; manager figures are labelled as claims throughout and shown beside the independent estimate.
+- **Formulas & self-checking** — live in the formula-driven Excel model (`financial_models/BESS_Valuation.xlsx`, reproduced cell-for-cell by `src/valuation_engine.py`), which has a master check that reconciles, a Sources = Uses tie, and a return bridge that ties to the returns.
+- **Reproducibility** — `make all` regenerates the data, model and figures from public sources; the value-chain comparison is in `src/stage_analysis.py` → `financial_models/STAGE_COMPARISON.md`; the full industry analysis is in `INDUSTRY_REPORT.md`.
+
+### Exhibit 5 — Glossary (one-line metric definitions)
+
+- **IRR (internal rate of return)** — the annualised return on the dated cash flows (here, closed-form over the effective hold).
+- **MOIC (multiple on invested capital)** — total distributions to investors ÷ capital called.
+- **Ready-to-build (RTB)** — a project taken through planning approval and grid connection to "shovel-ready", sold before construction.
+- **Cumulative success rate** — the probability a project clears all development gates (planning × grid connection × sale).
+- **First-Chicago method** — probability-weighting the scenario outcomes (here 30% / 50% / 20%) into a single expected figure.
+- **Build-up discount rate** — required return built up as a risk-free rate plus a risk premium for the development risk.
+- **Carried interest ("carry")** — the manager's profit share (20%) above the investors' preferred return (the 8% hurdle).
 
 ---
 
