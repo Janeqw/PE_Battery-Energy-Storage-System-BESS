@@ -272,6 +272,9 @@ def write_markdown(path=STAGE_MD) -> None:
     L.append("")
     L.append("## What it means — which stage to choose")
     L.append("")
+    L.append("- **The development success rate (~45% independent / 65% manager) applies to Stage 1 only.** Stage 2 and Stage 3 "
+             "buy a project that has *already* cleared development, at its market price, so they bear construction-completion "
+             "(~90%) and merchant-price risk instead — not the development-success rate. Each stage is priced at its own entry point.")
     L.append("- **Stage 3 (own & operate, *contracted*) — the natural core holding.** It is the only stage that "
              "**stays positive in its downside**, giving steady, long-dated, capital-preserving yield. It also plays to a "
              "credit-risk edge: judging whether the toll/offtake counterparty will pay is *serviceability analysis*. "

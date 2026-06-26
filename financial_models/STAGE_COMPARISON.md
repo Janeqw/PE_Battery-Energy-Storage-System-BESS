@@ -24,6 +24,7 @@
 
 ## What it means — which stage to choose
 
+- **The development success rate (~45% independent / 65% manager) applies to Stage 1 only.** Stage 2 and Stage 3 buy a project that has *already* cleared development, at its market price, so they bear construction-completion (~90%) and merchant-price risk instead — not the development-success rate. Each stage is priced at its own entry point.
 - **Stage 3 (own & operate, *contracted*) — the natural core holding.** It is the only stage that **stays positive in its downside**, giving steady, long-dated, capital-preserving yield. It also plays to a credit-risk edge: judging whether the toll/offtake counterparty will pay is *serviceability analysis*. Avoid uncontracted / merchant-only operating assets.
 - **Stage 1 (develop & flip) — a smaller satellite only.** Higher expected return, capital-light and short, but it can lose capital and rests on optimistic manager assumptions. Suitable for the risk-tolerant slice, on strict conditions.
 - **Stage 2 (build & sell) — skip as a standalone.** It shows the highest *expected* return, but it is the **most fragile**: it depends entirely on the built asset being worth more than it costs to build (a thin, merchant-dependent margin), its downside is a heavy loss, and it needs construction expertise. Fine only inside a managed vehicle.

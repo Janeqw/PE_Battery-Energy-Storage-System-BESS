@@ -126,6 +126,8 @@ The same projects can be entered at three points on the chain — the classic in
 - **Stage 2 — build & sell: skip as a standalone** — the highest *expected* return but the most fragile (a thin, merchant-dependent build margin; a heavy downside) and it needs construction expertise.
 - **Alignment trap:** the manager keeps the best projects to operate and sells the rest — ask to co-invest in the ones they keep.
 
+> **The success rate only affects Stage 1.** The ~45% (independent) / 65% (manager) figure is the chance a project clears planning, connection and a sale — a **development** risk. Stage 2 and Stage 3 investors buy a project that has *already* cleared development (at its market price), so they bear construction-completion (~90%) and merchant-price risk instead — not the development-success rate. Each stage is priced at its own entry point, so the comparison stays like-for-like and the manager's 65% drives only the Stage 1 number.
+
 *Basis — **Data source:** [`config/assumptions.yaml`](config/assumptions.yaml) (development cost, construction cost, operating revenue, debt terms) + the RBA risk-free rate. **Method:** levered equity IRR per stage — Stage 1 is the fund funnel; Stage 2 is a build-and-sell model risk-adjusted by completion probability; Stage 3 is a levered operating discounted-cash-flow (DCF) with low/base/high merchant-price scenarios. **Calculation:** full workings in [`financial_models/STAGE_COMPARISON.md`](financial_models/STAGE_COMPARISON.md). Figures are illustrative — the Stage 2 result is highly sensitive to the build margin.*
 
 ---
