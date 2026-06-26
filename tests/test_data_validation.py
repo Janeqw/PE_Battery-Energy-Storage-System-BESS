@@ -107,7 +107,7 @@ def test_first_chicago_within_scenario_range():
 
 
 def test_independent_survival_below_base_scenario():
-    """The headline DD finding: independent ~45% sits below Boman's Base (65%)."""
+    """The headline DD finding: independent ~45% sits below the manager's Base (65%)."""
     from src.valuation_engine import load_inputs, survival_curve
 
     inp = load_inputs()

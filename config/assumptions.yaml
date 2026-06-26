@@ -2,10 +2,10 @@
 # assumptions.yaml  —  every model assumption, with a source + date.
 # -----------------------------------------------------------------------------
 # DEAL: an ILLUSTRATIVE distribution-network BESS *develop-and-flip* fund, framed
-# on the Boman BESS Development Fund (a real opportunity the family trust may
-# back as an LP). Every Boman figure is the MANAGER'S forward-looking CLAIM; the
+# on the an illustrative develop-and-flip battery storage fund (a real opportunity the investor may
+# back as an LP). Every the manager figure is the MANAGER'S forward-looking CLAIM; the
 # model is an INDEPENDENT rebuild — these inputs are the analyst's own, sourced
-# to public data or labelled illustrative, and clearly separated from Boman's.
+# to public data or labelled illustrative, and clearly separated from the manager's.
 #
 # The business (carry this reframe everywhere):
 #   The fund develops ~5 MW distribution-connected (≈22 kV) batteries to
@@ -21,7 +21,7 @@
 
 meta:
   fund_name: "Illustrative Distribution-BESS Develop-and-Flip Fund (ILLUSTRATIVE — NOT A REAL FUND)"
-  framed_on: "Boman BESS Development Fund (manager claims independently rebuilt — not endorsed)"
+  framed_on: "an illustrative develop-and-flip battery storage fund (manager claims independently rebuilt — not endorsed)"
   currency: "AUD"
   units: "$m unless stated"
   as_at: "2026-06-24"
@@ -32,7 +32,7 @@ meta:
   notes: >
     Develop-and-flip RTB model: develop ~5 MW distribution BESS to shovel-ready,
     sell the project companies before construction. Merchant risk passes to the
-    buyer; the fund's risk is the survival curve + the RTB exit price. Boman's
+    buyer; the fund's risk is the survival curve + the RTB exit price. the manager's
     figures are claims to verify; independent public-data findings sit alongside.
 
 # -----------------------------------------------------------------------------
@@ -63,29 +63,29 @@ returns:
 
 # -----------------------------------------------------------------------------
 # 3. Fund structure, fees & investor cash-flow profile  (Calc_Fund, Returns)
-#    The LP economics. Boman terms are CLAIMS — read the IM for the real terms.
+#    The LP economics. the manager terms are CLAIMS — read the IM for the real terms.
 # -----------------------------------------------------------------------------
 fund:
   committed_capital_m:
-    value: 25.0            # LP committed capital (Boman fund ~$25m) — CLAIM/illustrative
-    source: "Boman deck (claim) — fund size ~$25m; verify in the Information Memorandum"
+    value: 25.0            # LP committed capital (the manager fund ~$25m) — CLAIM/illustrative
+    source: "the manager's projections (claim) — fund size ~$25m; verify in the Information Memorandum"
     as_at: "2026-06-24"
     verify: true
   projects_target:
-    value: 35              # projects DELIVERED & SOLD (Boman: deliver ~38, sell 30-35)
-    source: "Boman deck (claim) — sell 30-35 of ~38 delivered; verify"
+    value: 35              # projects DELIVERED & SOLD (the manager: deliver ~38, sell 30-35)
+    source: "the manager's projections (claim) — sell 30-35 of ~38 delivered; verify"
     as_at: "2026-06-24"
     verify: true
   term_years:
     value: 3               # 2+1 year term / lock-up
-    source: "Boman deck (claim) — 2+1 year term; verify in the IM"
+    source: "the manager's projections (claim) — 2+1 year term; verify in the IM"
     as_at: "2026-06-24"
   fees:
     entry_fee_pct:    0.02   # one-off entry fee on committed capital
     mgmt_fee_pct_pa:  0.02   # annual management fee on committed capital
     carry_pct:        0.20   # carried interest over the hurdle
     hurdle_pct:       0.08   # 8% preferred return (hurdle for carry)
-    source: "Boman deck (claim) — 2% entry + 2%/yr mgmt + 20% carry over 8% hurdle; verify in the IM"
+    source: "the manager's projections (claim) — 2% entry + 2%/yr mgmt + 20% carry over 8% hurdle; verify in the IM"
     as_at: "2026-06-24"
     verify: true
   # Investor cash-flow timing across periods 0..3 (must each sum to 1.0):
@@ -107,7 +107,7 @@ fund:
 dev_cost:
   per_project_m:
     value: 0.50            # $m full development cost per delivered project (~$500k)
-    source: "Boman deck (claim ~$500k/project) — verify bottom-up: site+EIA+grid+community+overhead"
+    source: "the manager's projections (claim ~$500k/project) — verify bottom-up: site+EIA+grid+community+overhead"
     as_at: "2026-06-24"
     verify: true
   abandonment_fraction:
@@ -119,7 +119,7 @@ dev_cost:
 # -----------------------------------------------------------------------------
 # 5. Survival curve / gate probabilities  (Calc_Survival)
 #    Cumulative P(success) = p_planning * p_connection * p_sale  (INDEPENDENT
-#    public-data decomposition). Note this ~0.45 sits BELOW Boman's Base (0.65)
+#    public-data decomposition). Note this ~0.45 sits BELOW the manager's Base (0.65)
 #    — surfaced as a flag on Calc_Survival. Scenarios (below) set the success
 #    rate used in valuation; this curve is the independent benchmark.
 #    Computed by src/transform/gate_statistics.py; values below are the
@@ -148,7 +148,7 @@ gates:
 
 # -----------------------------------------------------------------------------
 # 6. RTB exit price ($/MW by state)  (Inputs; Calc_Project_rNPV & Calc_Fund)
-#    Full development-rights (RTB) sale value per MW the buyer pays. Boman's
+#    Full development-rights (RTB) sale value per MW the buyer pays. the manager's
 #    assumed prices (CLAIMS) — find INDEPENDENT comps before relying on them.
 #    Per 5 MW project: NSW ~$1.0m, VIC ~$0.9m, SA ~$0.6m.
 # -----------------------------------------------------------------------------
@@ -156,7 +156,7 @@ rtb_comps_per_mw_m:            # $m per MW (RTB / development rights)
   NSW: 0.200                   # $0.18-0.22/MW  -> ~$0.9-1.1m per 5 MW
   VIC: 0.180                   # $0.16-0.20/MW  -> ~$0.8-1.0m per 5 MW
   SA:  0.120                   # $0.10-0.14/MW  -> ~$0.5-0.7m per 5 MW
-  source: "Boman deck assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope."
+  source: "the manager's projections assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope."
   as_at: "2026-06-24"
   verify: true
 
@@ -192,9 +192,9 @@ pipeline:
 # 9. Scenarios  (Scenarios tab; single CHOOSE switch drives the live-case row)
 #    Each scenario is defined PRIMARILY by the CUMULATIVE SUCCESS RATE (the
 #    master driver), plus an RTB price multiplier, a dev-cost multiplier and a
-#    discount override. Success rates mirror Boman's deck (40/65/80%) so the
+#    discount override. Success rates mirror the manager's deck (40/65/80%) so the
 #    rebuild is directly comparable — but note the INDEPENDENT survival curve
-#    (~45%) sits below Boman's Base (65%): see the flag on Calc_Survival.
+#    (~45%) sits below the manager's Base (65%): see the flag on Calc_Survival.
 #    1=Conservative 2=Base 3=Ideal
 # -----------------------------------------------------------------------------
 scenarios:
@@ -202,19 +202,19 @@ scenarios:
   cases:
     1:
       name: "Conservative"
-      cum_success: 0.40           # Boman Conservative (claim)
+      cum_success: 0.40           # manager conservative case (claim)
       sale_price_multiplier: 0.85 # RTB prices compress; buyers cautious
       dev_cost_multiplier: 1.05
       discount_rate_override: 0.220
     2:
       name: "Base"
-      cum_success: 0.65           # Boman Base (claim) — ABOVE the independent ~45%
+      cum_success: 0.65           # manager base case (claim) — ABOVE the independent ~45%
       sale_price_multiplier: 1.00
       dev_cost_multiplier: 1.00
       discount_rate_override: null  # null -> use risk_free + risk_premium (~0.182)
     3:
       name: "Ideal"
-      cum_success: 0.80           # Boman Ideal (claim)
+      cum_success: 0.80           # manager ideal case (claim)
       sale_price_multiplier: 1.15
       dev_cost_multiplier: 0.97
       discount_rate_override: 0.160

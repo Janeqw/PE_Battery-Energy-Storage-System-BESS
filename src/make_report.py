@@ -9,7 +9,7 @@ Outputs (committed portfolio artefacts):
     outputs/dashboard.pdf   (one-page IC summary)
 
 DEAL: an ILLUSTRATIVE distribution-BESS develop-and-flip (RTB) fund, independently
-rebuilt from the Boman deck's claims. All figures are ILLUSTRATIVE — Boman figures
+rebuilt from the the manager's projections. All figures are ILLUSTRATIVE — the manager figures
 are the manager's claims to verify. Not investment advice.
 """
 from __future__ import annotations
@@ -50,7 +50,7 @@ def fig_survival(s):
         ax.annotate(f"{v:.0%}", (i, v), textcoords="offset points", xytext=(0, 8),
                     ha="center", fontsize=9, color=NAVY)
     base = s["base_scenario_success"]
-    ax.axhline(base, color=RED, ls="--", lw=1.3, label=f"Boman Base claim {base:.0%}")
+    ax.axhline(base, color=RED, ls="--", lw=1.3, label=f"manager base case claim {base:.0%}")
     ax.set_xticks(range(len(stages)))
     ax.set_xticklabels(stages)
     ax.set_ylim(0, 1.08)
@@ -217,7 +217,7 @@ def dashboard_pdf(s):
         fig.suptitle("Illustrative Distribution-BESS Develop-and-Flip Fund — Dashboard",
                      fontsize=16, fontweight="bold", color=NAVY, y=0.97)
         fig.text(0.5, 0.93, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA) • ILLUSTRATIVE • "
-                 "Boman figures are manager claims to verify • Not investment advice", ha="center", fontsize=9, color=RED, style="italic")
+                 "the manager figures are manager claims to verify • Not investment advice", ha="center", fontsize=9, color=RED, style="italic")
 
         fig.text(0.06, 0.86, "EXPECTED INVESTOR RETURN (First-Chicago)", fontsize=11, fontweight="bold", color=NAVY)
         fig.text(0.06, 0.82, f"IRR {fc['expected_irr']:.1%}   MOIC {fc['expected_moic']:.2f}x", fontsize=18, fontweight="bold", color=NAVY)

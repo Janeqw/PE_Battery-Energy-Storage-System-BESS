@@ -1,3 +1,3 @@
 item,value,unit,source,as_at,status
-dev_cost_per_project_m,0.5,$m per project,Boman deck (claim ~$500k/project) — verify bottom-up: site+EIA+grid+community+overhead,2026-06-24,BENCHMARK
+dev_cost_per_project_m,0.5,$m per project,the manager's projections (claim ~$500k/project) — verify bottom-up: site+EIA+grid+community+overhead,2026-06-24,BENCHMARK
 built_cost_context_per_mw_m,1.8,$m per MW (context),CSIRO GenCost-anchored build cost; context only — the buyer (not the fund) funds construction,2026-06-24,BENCHMARK

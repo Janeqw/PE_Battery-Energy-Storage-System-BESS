@@ -1,6 +1,6 @@
 """Extractor: market demand, end-use, and buyer-by-size data for ~5 MW BESS.
 
-Answers the questions the committee raised:
+Answers the questions raised in diligence:
   * What are ~5 MW distribution batteries FOR, and who uses them?   -> end_use.csv
   * Is the market big? (distributed/small vs grid-scale)            -> market_demand.csv
   * Do buyers want small (~5 MW) or large (100 MW+) assets?         -> deal_sizes.csv
@@ -90,7 +90,7 @@ def _try_live(key):
 
 
 def run() -> None:
-    print("[extract] market demand / end-use / buyer-by-size (committee questions)")
+    print("[extract] market demand / end-use / buyer-by-size (diligence questions)")
     for k in ("aemo_isp", "community_batteries", "bess_deals"):
         _try_live(k)
 

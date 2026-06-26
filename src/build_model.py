@@ -7,7 +7,7 @@ one-row-one-calculation, colour coding (blue input / black formula / green
 cross-sheet link), and a Checks framework with a master check on the Cover.
 
 DEAL: an ILLUSTRATIVE distribution-network BESS *develop-and-flip* fund (framed
-on the Boman BESS Development Fund — manager claims independently rebuilt). The
+on the an illustrative develop-and-flip battery storage fund — manager claims independently rebuilt). The
 fund develops ~5 MW distribution batteries to shovel-ready (RTB / development
 rights) and SELLS them before construction: merchant risk passes to the buyer;
 the fund's risk is the SURVIVAL CURVE and the RTB EXIT PRICE.
@@ -143,7 +143,7 @@ def build():
     # =====================================================================
     b.width(INP, {"A": 36, "B": 10, "C": 14, "D": 13, "E": 50, "F": 12, "G": 12, "H": 12})
     b.put(INP, 1, 1, "INPUTS — all model assumptions (blue = input cell)", "title")
-    b.put(INP, 2, 1, "ILLUSTRATIVE develop-and-flip RTB fund. Boman figures are the manager's CLAIMS — verify. Every input traces to a source.", "note", wrap=True)
+    b.put(INP, 2, 1, "ILLUSTRATIVE develop-and-flip RTB fund. the manager figures are the manager's CLAIMS — verify. Every input traces to a source.", "note", wrap=True)
     b.header(INP, 3, ["Assumption", "", "Value", "Unit", "Source", "As at", "Status", "Duration (yrs)"])
 
     def srow(r, label, value, key, fmt, unit, src_key=None, status="BENCHMARK", dur=None):
@@ -151,7 +151,7 @@ def build():
         b.put(INP, r, 3, value, "input", fmt=fmt, border=True)
         b.put(INP, r, 4, unit, "label")
         src = inp.sources.get(src_key) if src_key else None
-        b.put(INP, r, 5, src[0] if src else "Illustrative / Boman claim (see config)", "note", wrap=True)
+        b.put(INP, r, 5, src[0] if src else "Illustrative / the manager claim (see config)", "note", wrap=True)
         b.put(INP, r, 6, src[1] if src else a["meta"]["as_at"], "note", align="center")
         b.put(INP, r, 7, src[2] if src else status, "note", align="center")
         if dur is not None:
@@ -167,7 +167,7 @@ def build():
     b.put(INP, 7, 4, "decimal", "label")
     R["discount_base"] = b.ref(INP, 3, 7)
 
-    b.put(INP, 8, 1, "Fund structure & fees (Boman claim — verify in IM)", "sect", fill="sect")
+    b.put(INP, 8, 1, "Fund structure & fees (the manager claim — verify in IM)", "sect", fill="sect")
     srow(9, "Committed capital", inp.committed_capital, "committed", FM, "$m")
     srow(10, "Projects target (delivered & sold)", inp.projects_target, "target", FNUM, "count")
     srow(11, "Term", inp.term_years, "term", FNUM, "years")
@@ -188,7 +188,7 @@ def build():
     srow(23, "Gate 2 — Grid connection", inp.p_connection, "p_conn", FPCT, "prob", "p_connection", dur=inp.dur_connection)
     srow(24, "Gate 3 — Reach sale", inp.p_sale, "p_sale", FPCT, "prob", "p_sale", dur=inp.dur_sale)
 
-    b.put(INP, 25, 1, "RTB exit price — $/MW by state (Boman claim — verify)", "sect", fill="sect")
+    b.put(INP, 25, 1, "RTB exit price — $/MW by state (the manager claim — verify)", "sect", fill="sect")
     for i, st in enumerate(["NSW", "VIC", "SA"]):
         srow(26 + i, st, float(inp.rtb_comps.get(st, 0.0)), f"rtb_{st}", FMW, "$m/MW", "rtb")
     R["rtb_states"] = b.rng(INP, 1, 26, 1, 28)
@@ -268,7 +268,7 @@ def build():
     b.put(SCN, 13, 5, "=SUM(B13:D13)", "formula", fmt=FPCT, bold=True, border=True)
     R["weights"] = b.rng(SCN, 2, 13, 4, 13)
     R["weights_sum"] = b.ref(SCN, 5, 13)
-    b.put(SCN, 15, 1, "Success rates mirror Boman's deck (40/65/80%) for comparability. The INDEPENDENT survival curve (~45%) "
+    b.put(SCN, 15, 1, "Success rates mirror the manager's deck (40/65/80%) for comparability. The INDEPENDENT survival curve (~45%) "
                       "sits below Base (65%) — see Calc_Survival. Scenarios are the analyst's to OWN.", "note", wrap=True)
 
     # =====================================================================
@@ -316,13 +316,13 @@ def build():
     b.put(SURV, 7, 1, "Independent cumulative P(success)", "label", bold=True)
     b.put(SURV, 7, 3, "=C6", "formula", fmt=FPCT, bold=True, border=True, fill="sect")
     R["cum_independent"] = b.ref(SURV, 3, 7)
-    b.put(SURV, 9, 1, "Base scenario success (Boman claim)", "label")
+    b.put(SURV, 9, 1, "Base scenario success (the manager claim)", "label")
     b.put(SURV, 9, 3, f"={R['scn_success'][2]}", "link", fmt=FPCT, border=True)
     b.put(SURV, 10, 1, "Optimism gap (Base − independent)", "label", bold=True)
     b.put(SURV, 10, 3, f"=C9-{R['cum_independent']}", "formula", fmt=FPCT, bold=True, border=True)
     R["optimism_gap"] = b.ref(SURV, 3, 10)
     b.put(SURV, 11, 3, '=IF(C10>0.05,"FLAG: Base optimistic","ok")', "formula", align="center", border=True)
-    b.put(SURV, 12, 1, "Independent ~45% sits BELOW Boman's Base (65%): treat Base as optimistic; ask for sub-5MW, per-state evidence. "
+    b.put(SURV, 12, 1, "Independent ~45% sits BELOW the manager's Base (65%): treat Base as optimistic; ask for sub-5MW, per-state evidence. "
                        "The sub-5MW AEMO registration exemption MAY lift small-distribution success above the large-project benchmark — verify.", "note", wrap=True)
 
     # =====================================================================
@@ -656,7 +656,7 @@ def build():
     # =====================================================================
     b.width(DSH, {"A": 38, "B": 16, "C": 6, "D": 32, "E": 16})
     b.put(DSH, 1, 1, "ILLUSTRATIVE DISTRIBUTION-BESS DEVELOP-AND-FLIP FUND — DASHBOARD", "title")
-    b.put(DSH, 2, 1, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA). ILLUSTRATIVE — Boman figures are "
+    b.put(DSH, 2, 1, "Develop ~5 MW distribution BESS to RTB, sell before construction (NSW/VIC/SA). ILLUSTRATIVE — the manager figures are "
                      "manager claims to verify. Not investment advice.", "disc", wrap=True)
     b.put(DSH, 4, 1, "Active scenario", "label", bold=True)
     b.put(DSH, 4, 2, f"={R['scenario_name']}", "link", bold=True)
@@ -692,7 +692,7 @@ def build():
     b.put(DSH, 17, 1, "Conclusion (illustrative)", "sect", fill="sect")
     b.put(DSH, 18, 1,
           "A real, policy-backed, capital-light niche with a viable RTB exit — but conditional. Merchant risk passes to the buyer; "
-          "the fund's risk is the survival curve + the RTB price. The independent success (~45%) sits BELOW Boman's Base (65%), and the "
+          "the fund's risk is the survival curve + the RTB price. The independent success (~45%) sits BELOW the manager's Base (65%), and the "
           "Conservative case can lose capital. The single biggest risk is EXIT/BUYER risk (non-binding buyers; RTB stage), then "
           "development/approval risk. Pursue only on verified buyer depth, RTB comps, and a survivable downside.", "note", wrap=True)
     b.ws[DSH].merge_cells("A18:E23")
@@ -705,7 +705,7 @@ def build():
     cover = [
         (2, "Subtitle", "Investor (LP) IRR/MOIC of an illustrative distribution-BESS develop-and-flip fund (NSW/VIC/SA)"),
         (3, "Version", "v1.0"),
-        (4, "Author", "Portfolio project (independent rebuild of Boman deck claims)"),
+        (4, "Author", "Portfolio project (independent rebuild of the manager's projections claims)"),
         (5, "Date", a["meta"]["as_at"]),
         (6, "Currency / Units", "AUD, $ millions ($m)"),
     ]
@@ -720,7 +720,7 @@ def build():
     b.ws[COV].conditional_formatting.add("B8", CellIsRule(operator="equal", formula=['"ERROR"'], fill=FILL_RED, font=Font(color="9C0006")))
     b.put(COV, 10, 1, "Decision brief", "sect", fill="sect")
     brief = [
-        ("Decision", "Whether the family trust should commit as an LP to an (illustrative) develop-and-flip RTB BESS fund, and at what expected return."),
+        ("Decision", "Whether the investor should commit as an LP to an (illustrative) develop-and-flip RTB BESS fund, and at what expected return."),
         ("Reframe", "The fund sells RTB before construction — MERCHANT RISK PASSES TO THE BUYER. The fund's risk is the survival curve (approve→connect→sell) + the RTB price."),
         ("Outputs", "Investor IRR & MOIC by scenario, First-Chicago expected return, per-pipeline valuation range, sensitivities."),
         ("Detail / horizon", "Annual, ~2+1-year term, AUD, $m."),
@@ -737,16 +737,16 @@ def build():
     b.ws[COV].merge_cells("B18:B21")
     b.put(COV, 23, 1, "Judgement inputs to OWN (review pass)", "sect", fill="sect")
     b.put(COV, 24, 2, "Discount rate & premium • the THREE scenario success rates (vs the independent ~45%) • RTB $/MW by state (need "
-                      "independent comps) • dev cost per project & abandonment • fees/carry/hurdle • cash-flow profile. Boman's figures are "
+                      "independent comps) • dev cost per project & abandonment • fees/carry/hurdle • cash-flow profile. the manager's figures are "
                       "CLAIMS to verify — defend your own.", "label", wrap=True)
     b.ws[COV].merge_cells("B24:B27")
     b.put(COV, 29, 1, "TO COMPLETE (analyst review pass)", "sect", fill="sect")
     b.put(COV, 30, 2, "1. Trace every formula + colour audit; confirm master check = OK; stress the switch in all 3 positions.  "
-                      "2. Replace 🟡 BENCHMARK / Boman-claim inputs with verified independent values (RTB comps, per-state success, dev cost).  "
+                      "2. Replace 🟡 BENCHMARK / manager-claim inputs with verified independent values (RTB comps, per-state success, dev cost).  "
                       "3. Stress a downside where RTB prices are 20–30% lower and success ≈ the independent ~45%; confirm capital can be lost.", "label", wrap=True)
     b.ws[COV].merge_cells("B30:B33")
     b.put(COV, 35, 1, "DISCLAIMER", "label", bold=True)
-    b.put(COV, 35, 2, "ILLUSTRATIVE fund built from public benchmark data; an INDEPENDENT rebuild of the Boman deck's CLAIMS (not an "
+    b.put(COV, 35, 2, "ILLUSTRATIVE fund built from public benchmark data; an INDEPENDENT rebuild of the the manager's projections (not an "
                       "endorsement). NOT investment advice. Wholesale-investor context; read the IM. All figures illustrative and must be "
                       "independently verified. Capital is at risk.", "disc", wrap=True)
     b.ws[COV].merge_cells("B35:B38")
@@ -793,7 +793,7 @@ def build():
     # =====================================================================
     b.width(SG, {"A": 40, "B": 14, "C": 14, "D": 50})
     b.put(SG, 1, 1, "Sources & Glossary", "title")
-    b.put(SG, 3, 1, "Sources (LIVE = fetched; BENCHMARK = documented public benchmark / Boman claim, verify)", "sect", fill="sect")
+    b.put(SG, 3, 1, "Sources (LIVE = fetched; BENCHMARK = documented public benchmark / the manager claim, verify)", "sect", fill="sect")
     b.header(SG, 4, ["Input", "Status", "As at", "Source"])
     src_rows = [
         ("Risk-free rate (RBA 10yr CGS)", "risk_free"),
@@ -802,7 +802,7 @@ def build():
         ("Planning approval prob (planning portals)", "p_planning"),
         ("Grid connection prob (AEMO)", "p_connection"),
         ("Reach-sale prob (buyer pool / AEMO attrition)", "p_sale"),
-        ("RTB $/MW by state (Boman claim)", "rtb"),
+        ("RTB $/MW by state (the manager claim)", "rtb"),
     ]
     rr = 5
     for label, key in src_rows:
@@ -810,9 +810,9 @@ def build():
         b.put(SG, rr, 1, label, "label")
         b.put(SG, rr, 2, s[2] if s else "BENCHMARK", "label", align="center")
         b.put(SG, rr, 3, s[1] if s else "", "label", align="center")
-        b.put(SG, rr, 4, s[0] if s else "Illustrative / Boman claim (see config/assumptions.yaml)", "note", wrap=True)
+        b.put(SG, rr, 4, s[0] if s else "Illustrative / the manager claim (see config/assumptions.yaml)", "note", wrap=True)
         rr += 1
-    b.put(SG, rr + 1, 1, "RTB comps: publicly reported deals only; paid DBs (BNEF, Enerdatics, Mergermarket) out of scope. Boman's prices are claims to verify.", "note", wrap=True)
+    b.put(SG, rr + 1, 1, "RTB comps: publicly reported deals only; paid DBs (BNEF, Enerdatics, Mergermarket) out of scope. the manager's prices are claims to verify.", "note", wrap=True)
     gloss_r = rr + 3
     b.put(SG, gloss_r, 1, "Glossary", "sect", fill="sect")
     glossary = [

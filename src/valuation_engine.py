@@ -1,7 +1,7 @@
 """Valuation engine — the Python reference implementation of the Excel model.
 
 DEAL: an ILLUSTRATIVE distribution-network BESS *develop-and-flip* fund (framed
-on the Boman BESS Development Fund — manager claims independently rebuilt). The
+on the an illustrative develop-and-flip battery storage fund — manager claims independently rebuilt). The
 fund develops ~5 MW distribution batteries to shovel-ready (RTB / development
 rights) and SELLS them before construction. It never operates the asset, so
 merchant-price risk passes to the buyer; the fund's risk is the SURVIVAL CURVE
@@ -18,7 +18,7 @@ This module encodes the SAME maths the Excel workbook computes with formulas:
 
 It reads the SAME inputs as the model (config/assumptions.yaml + the processed
 CSVs), so its numbers should match the workbook. All figures are ILLUSTRATIVE.
-Boman figures are the manager's claims to verify. Not investment advice.
+the manager figures are the manager's claims to verify. Not investment advice.
 """
 from __future__ import annotations
 
@@ -140,7 +140,7 @@ def load_inputs() -> Inputs:
                 rtb[r["state"]] = float(r["price_per_mw_m"])
             except (KeyError, ValueError):
                 pass
-        sources["rtb"] = ("RTB $/MW by state (Boman claim — independent comps needed)",
+        sources["rtb"] = ("RTB $/MW by state (the manager claim — independent comps needed)",
                           a["rtb_comps_per_mw_m"]["as_at"], "BENCHMARK")
 
     # Pipeline: prefer pipeline.csv
@@ -491,7 +491,7 @@ if __name__ == "__main__":
     inp = s["inputs"]
     print("=" * 72)
     print("ILLUSTRATIVE DISTRIBUTION-BESS DEVELOP-AND-FLIP FUND — VALUATION ENGINE")
-    print("(independent rebuild; Boman figures are claims to verify — not advice)")
+    print("(independent rebuild; the manager figures are claims to verify — not advice)")
     print("=" * 72)
     print(f"Risk-free (RBA): {inp.risk_free:.3%}  + premium {inp.risk_premium:.1%}"
           f"  => base discount {s['discount_base']:.2%}")
@@ -500,7 +500,7 @@ if __name__ == "__main__":
     print(f"\nSurvival curve (INDEPENDENT, public data): planning {sc['planning']:.0%} "
           f"-> connection {sc['connection']:.0%} -> sale {sc['sale']:.0%}"
           f"  => cumulative {sc['cumulative']:.1%}")
-    print(f"   Base scenario success (Boman claim): {s['base_scenario_success']:.0%}"
+    print(f"   Base scenario success (the manager claim): {s['base_scenario_success']:.0%}"
           f"   => optimism gap {s['optimism_gap']:+.1%}  (Base sits ABOVE independent)")
     print("\nInvestor returns by scenario (after fees):")
     for name in ("Conservative", "Base", "Ideal"):
@@ -516,4 +516,4 @@ if __name__ == "__main__":
     print("\nChecks:")
     for k, v in s["checks"].items():
         print(f"   [{'OK ' if v else 'XX '}] {k}")
-    print("\n(All figures illustrative — Boman figures are claims to verify. Not investment advice.)")
+    print("\n(All figures illustrative — the manager figures are claims to verify. Not investment advice.)")

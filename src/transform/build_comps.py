@@ -2,7 +2,7 @@
 
 The fund sells shovel-ready (RTB) development rights, so the comp that matters is
 the RTB sale price per MW by state. These seed from documented benchmarks that
-mirror the MANAGER'S (Boman's) assumed prices — they are CLAIMS to verify with
+mirror the MANAGER'S (the manager's) assumed prices — they are CLAIMS to verify with
 independent comps. We do NOT scrape prices automatically (RTB pricing needs
 judgement); the trade_press extractor only surfaces candidate links for curation.
 Any human-curated real deals in data/processed/rtb_comps_curated.csv are appended.
@@ -40,7 +40,7 @@ def run() -> None:
     out = io.DATA_PROCESSED / "rtb_comps.csv"
     with open(out, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["# RTB / development-rights $/MW by state. Boman's assumed prices "
+        w.writerow(["# RTB / development-rights $/MW by state. the manager's assumed prices "
                     "are CLAIMS; independent comps needed. Paid DBs (BNEF, Enerdatics, "
                     "Mergermarket) out of scope. Values illustrative."])
         w.writerow(["state", "price_per_mw_m", "source", "as_at", "status"])
