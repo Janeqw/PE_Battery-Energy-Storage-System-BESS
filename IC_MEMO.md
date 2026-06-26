@@ -325,7 +325,21 @@ The valuation runs in two steps: **(1) value the whole company** — its exit eq
 
 *The company's ~$7.2m Base exit equity is **below** the ~$10m post-money we pay, so our diluted ~14.4% as-converted stake (~$1.04m) is worth less than our $2m cheque. The **1× liquidation preference** floors our terminal proceeds at ~$2.0m (we get our money back, no more) — i.e. at Base we make essentially nothing.*
 
-### Per-pipeline asset valuation cross-check (unchanged)
+### Cross-check 1 — earnings multiple on forward run-rate profit (sanity check, not the headline)
+
+We keep the earnings multiple, but only as a sanity check on the pipeline result above — and with two fixes so it is defensible: (1) it is applied to **forward run-rate annual development profit** (the yearly stream an acquirer inherits ≈ realised profit ÷ programme term), **not** cumulative profit; and (2) the multiple is a **sourced low / base / high range**, each a `[[TO CONFIRM: cite comp or sector benchmark]]`, not one lone number.
+
+| Earnings-multiple cross-check (Base) | Value |
+|---|---|
+| Forward run-rate annual development profit (= $4.8m realised ÷ 3-year term) | ~$1.6m / yr |
+| × multiple — low / base / high (3× / 5× / 7× `[[TO CONFIRM: cite comp]]`) | |
+| + retained cash − debt (as in the primary basis) | |
+| **Cross-check company exit equity — low / base / high** | **~$9.7m / ~$12.9m / ~$16.1m** |
+| *Memo for comparison — **primary (forward-pipeline) basis*** | ***~$7.2m*** |
+
+*On an earnings-multiple basis the company is worth roughly **$12.9m** at the base multiple — **above** the ~$7.2m forward-pipeline value. The two diverge because a 5× multiple on run-rate profit capitalises a perpetual-style earnings stream, whereas the forward pipeline values only the ~25 specific projects in flight on a risk-adjusted basis. We **anchor on the more conservative pipeline basis** (consistent with the credit-risk lens); the multiple range brackets the upside if the platform's forward earnings prove durable. Basis — engine `earnings_multiple_crosscheck()`; config `exit_value_crosscheck.earnings_multiple`.*
+
+### Cross-check 2 — per-pipeline asset valuation (unchanged)
 
 A bottom-up cross-check on a single representative pipeline, to sanity-check the development premium independent of the company-equity build:
 
