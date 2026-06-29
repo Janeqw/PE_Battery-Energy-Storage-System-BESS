@@ -66,7 +66,7 @@ returns:
 #    We invest directly as a shareholder (see §2b), NOT as a fund LP.
 # -----------------------------------------------------------------------------
 company:
-  programme_capital_m: {value: 25.0, source: "Illustrative scale of the company's equity-funded development programme; verify", as_at: "2026-06-26", verify: true}
+  programme_capital_m: {value: 25.0, provenance: "Placeholder", source_ref: "Illustrative scale; verify against the company plan", source: "Illustrative scale of the company's equity-funded development programme; verify", as_at: "2026-06-26", verify: true}
   projects_target:     {value: 35,   source: "Company plan — deliver & sell ~35 ready-to-build projects; verify", as_at: "2026-06-26", verify: true}
   term_years:          {value: 3,    source: "Company plan — ~2+1 year develop-and-flip programme cycle; verify", as_at: "2026-06-26"}
   capital_call_profile:  {value: [0.50, 0.50, 0.0, 0.0], source: "Illustrative — development spend in yrs 0-1", as_at: "2026-06-26"}
@@ -77,8 +77,8 @@ company:
 #     PLACEHOLDERS to confirm with the founders / term sheet ([[TO CONFIRM]]).
 # -----------------------------------------------------------------------------
 equity_deal:
-  pre_money_m:               {value: 8.0,  source: "[[TO CONFIRM]] PLACEHOLDER — the company's pre-money valuation (value before our money goes in)", as_at: "2026-06-26", verify: true}
-  investment_amount_m:       {value: 2.0,  source: "[[TO CONFIRM]] PLACEHOLDER — our equity cheque", as_at: "2026-06-26", verify: true}
+  pre_money_m:               {value: 8.0,  provenance: "Placeholder", source_ref: "Reframe placeholder we introduced (the original deal is an LP fund commitment with no pre-money / per-share price). Illustrative, not a manager figure.", source: "[[TO CONFIRM]] PLACEHOLDER — the company's pre-money valuation (value before our money goes in)", as_at: "2026-06-26", verify: true}
+  investment_amount_m:       {value: 2.0,  provenance: "Placeholder", source_ref: "Illustrative cheque size (reframe placeholder); not a figure from any real proposal.", source: "[[TO CONFIRM]] PLACEHOLDER — our equity cheque", as_at: "2026-06-26", verify: true}
   option_pool_pct:           {value: 0.10, source: "[[TO CONFIRM]] PLACEHOLDER — staff option pool created at our round (dilutes us)", as_at: "2026-06-26", verify: true}
   future_round_dilution_pct: {value: 0.20, source: "[[TO CONFIRM]] PLACEHOLDER — expected dilution from future capital raises before exit", as_at: "2026-06-26", verify: true}
   liquidation_preference_x:  {value: 1.0,  source: "PLACEHOLDER — 1x non-participating preferred (the greater of our money back or our as-converted share); confirm in the term sheet", as_at: "2026-06-26", verify: true}
@@ -103,9 +103,9 @@ equity_deal:
 # -----------------------------------------------------------------------------
 exit_value:
   exit_basis: "pipeline_rnpv"   # PRIMARY switch: pipeline_rnpv (default) | earnings_multiple | comps (cross-checks)
-  pipeline_depth_at_exit:        {value: 25,  source: "[[TO CONFIRM]] PLACEHOLDER — number of projects still IN FLIGHT (not yet sold) when we exit; the MAIN sensitivity of the pipeline basis (see Exhibit D). The company targets ~35 delivered over its programme.", as_at: "2026-06-26", verify: true}
-  interim_distribution_fraction: {value: 0.0, source: "[[TO CONFIRM]] PLACEHOLDER — fraction of realised net programme profit DISTRIBUTED to shareholders during the hold (convention (b), IC_MEMO §7). 0% (conservative) retains all realised profit and counts it ONCE, at face value, in the exit value — never at a multiple. Raise once the distribution policy is confirmed.", as_at: "2026-06-26", verify: true}
-  debt_at_exit_m:                {value: 0.0, source: "[[TO CONFIRM]] PLACEHOLDER — company debt outstanding at exit; the company is equity-funded, so 0 by default.", as_at: "2026-06-26", verify: true}
+  pipeline_depth_at_exit:        {value: 25,  provenance: "Placeholder", source_ref: "Illustrative — projects in flight at exit; verify against the company's pipeline plan", source: "[[TO CONFIRM]] PLACEHOLDER — number of projects still IN FLIGHT (not yet sold) when we exit; the MAIN sensitivity of the pipeline basis (see Exhibit D). The company targets ~35 delivered over its programme.", as_at: "2026-06-26", verify: true}
+  interim_distribution_fraction: {value: 0.0, provenance: "Placeholder", source_ref: "Illustrative (conservative 0%); confirm the distribution policy", source: "[[TO CONFIRM]] PLACEHOLDER — fraction of realised net programme profit DISTRIBUTED to shareholders during the hold (convention (b), IC_MEMO §7). 0% (conservative) retains all realised profit and counts it ONCE, at face value, in the exit value — never at a multiple. Raise once the distribution policy is confirmed.", as_at: "2026-06-26", verify: true}
+  debt_at_exit_m:                {value: 0.0, provenance: "Placeholder", source_ref: "Illustrative ($0; equity-funded); confirm against the balance sheet", source: "[[TO CONFIRM]] PLACEHOLDER — company debt outstanding at exit; the company is equity-funded, so 0 by default.", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 2d. EXIT VALUE CROSS-CHECK — earnings multiple (NOT the primary basis).
@@ -116,17 +116,27 @@ exit_value:
 # -----------------------------------------------------------------------------
 exit_value_crosscheck:
   earnings_multiple:
-    low:  {value: 3.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — low EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
-    base: {value: 5.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — base EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
-    high: {value: 7.0, source: "[[TO CONFIRM: cite comp or sector benchmark]] — high EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    low:  {value: 3.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "low EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    base: {value: 5.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "base EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    high: {value: 7.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "high EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
   comps_available: false   # set true and add Appendix-A comps if credible comparable developer-platform M&A deals exist
 
+# -----------------------------------------------------------------------------
+# PROVENANCE SCHEME (change5) — every price/value input carries a `provenance:` tag:
+#   "Proposed (manager)"     — the manager's stated figure: a CLAIM, UNVERIFIED.
+#   "Independent (verified)"  — our own figure, checked against a primary source.
+#   "Placeholder"             — neither yet ([[TO CONFIRM]] we still owe).
+# The INDEPENDENT valuation (pipeline rNPV) may consume ONLY "Independent (verified)"
+# inputs — the engine's contamination guard rejects the other two (see
+# src/valuation_engine.py: assert_independent_inputs_verified). `source_ref:` gives
+# the document/page or the primary source. A "Proposed (manager)" price must be
+# verified against a primary source and re-tagged before it may enter the rNPV.
 # -----------------------------------------------------------------------------
 # 3. Development cost & funnel attrition
 # -----------------------------------------------------------------------------
 dev_cost:
-  per_project_m:        {value: 0.50, source: "Manager claim ~$500k/project — verify bottom-up", as_at: "2026-06-26", verify: true}
-  abandonment_fraction: {value: 0.30, source: "Illustrative (conservative) — partial spend before a failed project is abandoned", as_at: "2026-06-26", verify: true}
+  per_project_m:        {value: 0.50, provenance: "Proposed (manager)", source_ref: "Manager deck/IM — not in repo; ~$500k/project is a claim to verify bottom-up", source: "Manager claim ~$500k/project — verify bottom-up", as_at: "2026-06-26", verify: true}
+  abandonment_fraction: {value: 0.30, provenance: "Placeholder", source_ref: "Illustrative (conservative) — set bottom-up", source: "Illustrative (conservative) — partial spend before a failed project is abandoned", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 4. SURVIVAL GATES — each modelled SEPARATELY (the corrected logic)
@@ -161,6 +171,8 @@ rtb_comps_per_mw_m:
   NSW: 0.200
   VIC: 0.180
   SA:  0.120
+  provenance: "Proposed (manager)"
+  source_ref: "Manager's assumed RTB $/MW (deck/IM — not in repo). Independent comps needed (comparable RTB sales); paid deal DBs (BNEF/Enerdatics/Mergermarket) out of scope. VERIFY before this may enter the independent rNPV."
   source: "Manager's assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope."
   as_at: "2026-06-26"
   verify: true
@@ -169,7 +181,7 @@ rtb_comps_per_mw_m:
 # 6. Build-cost CONTEXT (buyer-funded; not in the fund's margin)
 # -----------------------------------------------------------------------------
 built_cost_context:
-  per_mw_m: {value: 1.80, source: "CSIRO GenCost-anchored build cost; context only — the buyer funds construction", as_at: "2026-06-26", verify: true}
+  per_mw_m: {value: 1.80, provenance: "Independent (verified)", source_ref: "CSIRO GenCost (annual, with AEMO) — battery capex; context only (buyer funds construction; not in the rNPV margin)", source: "CSIRO GenCost-anchored build cost; context only — the buyer funds construction", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 7. Illustrative project pipeline (representative ~5 MW distribution projects)

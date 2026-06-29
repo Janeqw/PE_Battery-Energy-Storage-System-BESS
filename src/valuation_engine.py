@@ -90,6 +90,8 @@ class Inputs:
     switch_default: int
     projects: list = field(default_factory=list)
     sources: dict = field(default_factory=dict)
+    provenance: dict = field(default_factory=dict)    # input key -> "Proposed (manager)"|"Independent (verified)"|"Placeholder"
+    source_ref: dict = field(default_factory=dict)     # input key -> document/page or primary-source ref
 
     @property
     def discount_base(self) -> float:
@@ -191,6 +193,24 @@ def load_inputs() -> Inputs:
     co, eq = a["company"], a["equity_deal"]
     xv, xc = a["exit_value"], a["exit_value_crosscheck"]
     em = xc["earnings_multiple"]
+
+    # provenance tags (change5) — every price/value input tagged Proposed/Verified/Placeholder
+    prov, sref = {}, {}
+    for key, node in [
+        ("rtb", a["rtb_comps_per_mw_m"]),
+        ("dev_cost", a["dev_cost"]["per_project_m"]),
+        ("built_cost", a["built_cost_context"]["per_mw_m"]),
+        ("programme_capital", co["programme_capital_m"]),
+        ("pre_money", eq["pre_money_m"]),
+        ("investment", eq["investment_amount_m"]),
+        ("pipeline_depth_at_exit", xv["pipeline_depth_at_exit"]),
+        ("interim_distribution_fraction", xv["interim_distribution_fraction"]),
+        ("debt_at_exit", xv["debt_at_exit_m"]),
+        ("xmult_low", em["low"]), ("xmult_base", em["base"]), ("xmult_high", em["high"]),
+    ]:
+        prov[key] = node.get("provenance", "Placeholder")
+        sref[key] = node.get("source_ref", "")
+
     return Inputs(
         risk_free=risk_free,
         risk_premium=float(a["discount_rate"]["risk_premium"]["value"]),
@@ -223,7 +243,7 @@ def load_inputs() -> Inputs:
         comps_available=bool(xc.get("comps_available", False)),
         scenarios=a["scenarios"]["cases"], weights=a["scenarios"]["weights"],
         switch_default=int(a["scenarios"]["switch_default"]),
-        projects=projects, sources=sources,
+        projects=projects, sources=sources, provenance=prov, source_ref=sref,
     )
 
 
@@ -257,9 +277,53 @@ def cap_table(inp: Inputs) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Provenance / contamination guard (change5)
+# The independent valuation (pipeline rNPV) may consume ONLY verified inputs.
+# ---------------------------------------------------------------------------
+PROV_VERIFIED = "Independent (verified)"
+PROV_PROPOSED = "Proposed (manager)"
+PROV_PLACEHOLDER = "Placeholder"
+# the PRICE inputs that feed the per-project rNPV margin (RTB sale − dev cost)
+RNPV_PRICE_INPUTS = ("rtb", "dev_cost")
+
+
+def rnpv_input_provenance(inp: Inputs) -> dict:
+    """Provenance tag of each price input that feeds the independent rNPV."""
+    return {k: inp.provenance.get(k, PROV_PLACEHOLDER) for k in RNPV_PRICE_INPUTS}
+
+
+def contamination(inp: Inputs) -> list:
+    """rNPV price inputs that are NOT 'Independent (verified)' — i.e. that would
+    drift the 'independent' value toward the manager's unverified prices."""
+    return [(k, t) for k, t in rnpv_input_provenance(inp).items() if t != PROV_VERIFIED]
+
+
+def independent_valuation_clean(inp: Inputs) -> bool:
+    """True iff every price input feeding the rNPV is Independent (verified)."""
+    return not contamination(inp)
+
+
+def assert_independent_inputs_verified(inp: Inputs) -> None:
+    """Guard: fail LOUDLY if any rNPV price input is Proposed (manager)/Placeholder.
+
+    Verify each contaminating figure against a primary source (AEMO / planning
+    portals / comparable RTB sales for prices; quotes/benchmarks for costs) and
+    re-tag it 'Independent (verified)' before it may enter the independent rNPV."""
+    bad = contamination(inp)
+    if bad:
+        offenders = "; ".join(f"{k}={t}" for k, t in bad)
+        raise ValueError(
+            "Independent valuation contaminated: unverified price inputs feed the "
+            f"pipeline rNPV [{offenders}]. Verify against a primary source and re-tag "
+            "'Independent (verified)' before use.")
+
+
+# ---------------------------------------------------------------------------
 # Per-project risk-adjusted NAV (rNPV) — company asset cross-check
 # ---------------------------------------------------------------------------
-def project_rows(inp: Inputs, case: dict) -> list[dict]:
+def project_rows(inp: Inputs, case: dict, require_verified: bool = False) -> list[dict]:
+    if require_verified:
+        assert_independent_inputs_verified(inp)
     cumP = inp.flip_success(float(case["da_rate"]))
     smult = float(case["sale_price_multiplier"])
     dmult = float(case["dev_cost_multiplier"])
@@ -279,8 +343,8 @@ def project_rows(inp: Inputs, case: dict) -> list[dict]:
     return out
 
 
-def pipeline_rnpv(inp: Inputs, case: dict | None = None) -> float:
-    return sum(r["pv"] for r in project_rows(inp, _case(inp, case)))
+def pipeline_rnpv(inp: Inputs, case: dict | None = None, require_verified: bool = False) -> float:
+    return sum(r["pv"] for r in project_rows(inp, _case(inp, case), require_verified=require_verified))
 
 
 def blended_sale_value(inp: Inputs, case: dict) -> float:
@@ -293,13 +357,15 @@ def avg_years_to_sale(inp: Inputs) -> float:
     return sum(p["years_to_sale"] for p in inp.projects) / len(inp.projects) if inp.projects else 0.0
 
 
-def per_project_rnpv_blended(inp: Inputs, case: dict | None = None) -> float:
+def per_project_rnpv_blended(inp: Inputs, case: dict | None = None, require_verified: bool = False) -> float:
     """Average per-project rNPV (blended sale, average discount period).
 
     Same gate decomposition (flip success = approval x connection x sale) and the
     same discount rate as Calc_Project_rNPV; uses the blended RTB sale and the
     average years-to-sale so the company's FORWARD pipeline can be valued per
     project. (Equals the precise per-project rNPV when project timings are equal.)"""
+    if require_verified:
+        assert_independent_inputs_verified(inp)
     case = _case(inp, case)
     smult = float(case["sale_price_multiplier"])
     dmult = float(case["dev_cost_multiplier"])
@@ -311,12 +377,12 @@ def per_project_rnpv_blended(inp: Inputs, case: dict | None = None) -> float:
     return margin * flip * df
 
 
-def forward_pipeline_rnpv(inp: Inputs, case: dict | None = None) -> float:
+def forward_pipeline_rnpv(inp: Inputs, case: dict | None = None, require_verified: bool = False) -> float:
     """rNPV of the projects still IN FLIGHT at exit = depth x per-project rNPV.
 
     This is what a buyer of a development platform actually pays for — the forward
     pipeline of future projects, NOT past (already-earned) profit."""
-    return inp.pipeline_depth_at_exit * per_project_rnpv_blended(inp, _case(inp, case))
+    return inp.pipeline_depth_at_exit * per_project_rnpv_blended(inp, _case(inp, case), require_verified=require_verified)
 
 
 # ---------------------------------------------------------------------------
@@ -594,6 +660,8 @@ def run_checks(inp: Inputs) -> dict:
         "First-Chicago IRR within range": fc["min_irr"] - 1e-9 <= fc["expected_irr"] <= fc["max_irr"] + 1e-9,
         "exit basis is pipeline_rnpv": inp.exit_basis == "pipeline_rnpv",
         "no double-count (distributed + exit value <= realised + forward pipeline)": double_count_ok,
+        "rNPV price inputs provenance-tagged": all(k in inp.provenance for k in RNPV_PRICE_INPUTS),
+        "rNPV contamination not silently treated as verified": (independent_valuation_clean(inp) or bool(contamination(inp))),
         "every input has a source": len(inp.sources) >= 4,
     }
 
@@ -608,6 +676,10 @@ def summary(inp: Inputs | None = None) -> dict:
             "da_independent": inp.da_independent, "da_base_manager": da_base,
             "flip_independent": inp.flip_independent, "flip_base_manager": inp.flip_base,
             "cap_table": cap_table(inp), "company_base": company_metrics(inp, inp.scenarios[2]),
+            "provenance": dict(inp.provenance), "source_ref": dict(inp.source_ref),
+            "rnpv_input_provenance": rnpv_input_provenance(inp),
+            "independent_valuation_clean": independent_valuation_clean(inp),
+            "contamination": contamination(inp),
             "exit_basis": inp.exit_basis, "exit_base": exit_equity_value(inp, inp.scenarios[2]),
             "exit_by_scenario": {c["name"]: exit_equity_value(inp, c) for c in inp.scenarios.values()},
             "earnings_crosscheck": earnings_multiple_crosscheck(inp, inp.scenarios[2]),
