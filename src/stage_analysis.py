@@ -289,6 +289,92 @@ def compare(st: Stages | None = None) -> dict:
     return {"stages": st, "s1": s1, "s2": s2, "s3": s3, "s4": s4, "rows": rows}
 
 
+# ---------------------------------------------------------------------------
+# Value ladder (change8) — staged exit: sell after approval / construction / operating
+# ---------------------------------------------------------------------------
+def value_ladder(st: Stages | None = None) -> dict:
+    """When should we sell our shares? Company equity and OUR share value if the
+    company sells at each rung — R1 after approval (RTB), R2 after construction,
+    R3 after operating — under Option A (ownership % held constant) and Option B
+    (new equity to build/operate dilutes us). First-Chicago weighted across
+    scenarios. Reuses the stage engine; R1 is anchored to the forward-pipeline
+    company equity (so it ties to IC_MEMO §6); R2/R3 are illustrative uplifts."""
+    st = st or Stages()
+    inp = st.inp
+    a = io.load_assumptions()
+    vl = a["value_ladder"]
+    yr1 = float(vl["years_to_r1"]["value"])
+    build_years = float(st.con["build_years"])
+    ramp = float(vl["operating_ramp_years"]["value"])
+    prem = float(vl["stabilised_premium"]["value"])
+    dil_r2 = float(vl["equity_dilution_r2"]["value"])
+    dil_r3 = float(vl["equity_dilution_r3"]["value"])
+    yrs = {"R1": yr1, "R2": yr1 + build_years, "R3": yr1 + build_years + ramp}
+
+    disc = inp.discount_base
+    inv = inp.investment_amount
+    diluted = inp.ownership_diluted
+    pref = inp.liquidation_pref_x * inv
+    conn, sale, constr = inp.p_connection, inp.p_sale, float(st.con["completion_prob"])
+    dev = inp.dev_cost_per_project
+    build = st.build_cost
+    merch = {"Conservative": float(st.scen["low"]), "Base": float(st.scen["base"]), "Ideal": float(st.scen["high"])}
+    rungs = ("R1", "R2", "R3")
+
+    def df(years):
+        return 1.0 / (1.0 + disc) ** years
+
+    # ownership %: A holds it constant; B dilutes for equity raised to build/operate
+    dilB = {"R1": diluted, "R2": diluted * (1 - dil_r2), "R3": diluted * (1 - dil_r2) * (1 - dil_r3)}
+
+    per_scn = {}
+    for case in inp.scenarios.values():
+        name = case["name"]
+        da, smult, dmult = float(case["da_rate"]), float(case["sale_price_multiplier"]), float(case["dev_cost_multiplier"])
+        rtb = st.mw * st.rtb_per_mw * smult
+        devc = dev * dmult
+        opev = operating_ev(st, merch[name])
+        net_r1_ref = max(1e-9, rtb - devc)
+        net_r2 = max(0.0, opev - build - devc)
+        net_r3 = max(0.0, opev * (1.0 + prem) - build - devc)
+        reach_rtb = da * conn
+        p_r1, p_r23 = reach_rtb * sale, reach_rtb * constr
+        den = net_r1_ref * p_r1 * df(yrs["R1"])
+        # R1 anchored to the forward-pipeline company equity (ties to the memo)
+        eq_r1 = ve.exit_equity_value(inp, case)["company_exit_equity"]
+        uplift_r2 = (net_r2 * p_r23 * df(yrs["R2"])) / den if den > 0 else 0.0
+        uplift_r3 = (net_r3 * p_r23 * df(yrs["R3"])) / den if den > 0 else 0.0
+        eqA = {"R1": eq_r1, "R2": eq_r1 * uplift_r2, "R3": eq_r1 * uplift_r3}
+        # pref floors our downside but is capped by the equity available (greater-of, as in the main engine)
+        ourA = {r: max(min(pref, eqA[r]), diluted * eqA[r]) for r in rungs}
+        ourB = {"R1": ourA["R1"],                                       # no new funding at R1
+                "R2": dilB["R2"] * eqA["R2"], "R3": dilB["R3"] * eqA["R3"]}  # pref subordinated by new senior money
+        per_scn[name] = {"eqA": eqA, "ourA": ourA, "ourB": ourB}
+
+    w = inp.weights
+
+    def fc(key):
+        return {r: sum(per_scn[n][key][r] * float(w[n]) for n in per_scn) for r in rungs}
+    eqA_fc, ourA_fc, ourB_fc = fc("eqA"), fc("ourA"), fc("ourB")
+
+    def moic(x):
+        return x / inv if inv > 0 else float("nan")
+
+    def irr(m, years):
+        return m ** (1.0 / years) - 1.0 if (m > 0 and years > 0) else -1.0
+
+    out = {"years": yrs, "diluted_A": diluted, "diluted_B": dilB, "by_scenario": per_scn, "rungs": {}}
+    for r in rungs:
+        mA, mB = moic(ourA_fc[r]), moic(ourB_fc[r])
+        out["rungs"][r] = {"company_equity": eqA_fc[r],
+                           "our_share_A": ourA_fc[r], "moic_A": mA, "irr_A": irr(mA, yrs[r]),
+                           "our_share_B": ourB_fc[r], "moic_B": mB, "irr_B": irr(mB, yrs[r]),
+                           "years": yrs[r]}
+    out["best_A"] = max(rungs, key=lambda r: out["rungs"][r]["irr_A"])
+    out["best_B"] = max(rungs, key=lambda r: out["rungs"][r]["irr_B"])
+    return out
+
+
 def _pct(x):
     return "n/a" if x != x else f"{x:.1%}"   # x!=x catches nan
 

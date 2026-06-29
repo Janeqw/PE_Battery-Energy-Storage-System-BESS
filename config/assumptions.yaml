@@ -241,6 +241,26 @@ stages:
       construction + merchant risk over the longest horizon.
 
 # -----------------------------------------------------------------------------
+# 8b. VALUE LADDER (change8) — staged-exit valuation. We own the company as its
+#     projects climb the lifecycle and choose WHEN to sell our shares:
+#       R1 sell after approval (ready-to-build)   <- reuses Stage-1 / develop-flip
+#       R2 sell after construction (built asset)  <- reuses Stage-2 build & sell
+#       R3 sell after operating (stabilised)      <- reuses Stage-3/4 operating
+#     Option A = clean milestone exits (our ownership % held constant; ignores the
+#     capital needed to climb). Option B = full hold WITH funding (new equity to
+#     build/operate dilutes us; debt sits ahead of equity). Both are computed; the
+#     gap between them is the "funding drag". Years to R2 = years_to_r1 +
+#     construction.build_years; years to R3 = that + operating_ramp_years.
+# -----------------------------------------------------------------------------
+value_ladder:
+  headline_mode: "A"   # which option leads the memo; both are always computed
+  years_to_r1:        {value: 2.5,  provenance: "Placeholder", source_ref: "years to a ready-to-build sale", source: "[[TO CONFIRM]] years to RTB sale", as_at: "2026-06-29", verify: true}
+  operating_ramp_years: {value: 3.0, provenance: "Placeholder", source_ref: "operating hold before selling a stabilised asset (R3)", source: "[[TO CONFIRM]] operating ramp before R3 sale", as_at: "2026-06-29", verify: true}
+  stabilised_premium: {value: 0.10, provenance: "Placeholder", source_ref: "value uplift of a stabilised, track-record asset vs a just-built one (R3 vs R2)", source: "[[TO CONFIRM]] stabilised-asset premium", as_at: "2026-06-29", verify: true}
+  equity_dilution_r2: {value: 0.70, provenance: "Placeholder", source_ref: "our dilution from the equity the company raises to fund CONSTRUCTION (Option B)", source: "[[TO CONFIRM]] equity raised to build dilutes us", as_at: "2026-06-29", verify: true}
+  equity_dilution_r3: {value: 0.50, provenance: "Placeholder", source_ref: "further dilution from equity raised to OPERATE (Option B), on top of R2", source: "[[TO CONFIRM]] equity raised to operate dilutes us further", as_at: "2026-06-29", verify: true}
+
+# -----------------------------------------------------------------------------
 # 9. Scenarios — the switch moves ONLY the development-approval (DA) gate.
 #    Overall flip success = DA x grid connection x sale (see §4).
 #    DA rates 40/65/80% are the manager's claims (Conservative/Base/Ideal).
