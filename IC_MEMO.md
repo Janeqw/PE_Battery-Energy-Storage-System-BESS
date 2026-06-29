@@ -106,15 +106,17 @@ We negotiate a **price for the whole company before our money goes in (the pre-m
 
 > **$8m pre-money + $2m from us = $10m post-money → we own 2 ÷ 10 = 20.0%.**
 
-| Cap-table input | Value |
-|---|---|
-| Pre-money valuation | $8m `[[TO CONFIRM]]` |
-| Our investment | $2m `[[TO CONFIRM]]` |
-| **Post-money valuation** | **$10m** (= $8m pre + $2m) |
-| **Ownership at entry** (= investment ÷ post-money) | **20.0%** (= 2 ÷ 10) |
-| Price per share | `[[TO CONFIRM]]` |
-| Number of shares we receive | `[[TO CONFIRM]]` |
-| Share class | `[[TO CONFIRM]]` — we should require **preferred shares** carrying the 1× liquidation preference, not ordinary shares |
+> **These cap-table figures are a reframe placeholder, not a proposed price.** The original opportunity is a **limited-partner (LP) fund commitment**, not a share purchase, so there is **no manager-stated pre-money or per-share price** to anchor to. The $8m pre-money / $2m cheque are **illustrative placeholders we introduced** to reframe the deal as a direct equity stake; they are not figures from any real proposal and stay `[[TO CONFIRM]]` until there is a real number to negotiate against. (Source column below: *Placeholder* = our reframe assumption.)
+
+| Cap-table input | Value | Source |
+|---|---|---|
+| Pre-money valuation | $8m `[[TO CONFIRM]]` | Placeholder (reframe assumption) |
+| Our investment | $2m `[[TO CONFIRM]]` | Placeholder (illustrative cheque) |
+| **Post-money valuation** | **$10m** (= $8m pre + $2m) | Derived |
+| **Ownership at entry** (= investment ÷ post-money) | **20.0%** (= 2 ÷ 10) | Derived |
+| Price per share | `[[TO CONFIRM]]` | Placeholder |
+| Number of shares we receive | `[[TO CONFIRM]]` | Placeholder |
+| Share class | `[[TO CONFIRM]]` — we should require **preferred shares** carrying the 1× liquidation preference, not ordinary shares | Placeholder |
 
 ### Cap table — before and after our investment
 
