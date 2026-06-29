@@ -11,6 +11,7 @@
 | **Expected return on our shares** | First-Chicago IRR ≈ **−2.6%** (MOIC ~0.88×) on our independent rebuild — Base **0.0%** (we get our money back via the 1× liquidation preference), Ideal +4.2%, Conservative **−15%** (a deep loss) |
 | **Why so low** | The company is valued on its **forward pipeline** (~$7.2m Base exit equity), *below* the ~$10m post-money we pay — so our stake is under water and the preference merely returns our cost. The earlier ~4× profit multiple ($19.3m) overstated it. |
 | **Biggest swing factor** | The **exit assumption** — pipeline depth at exit × discount rate (see the IC memo, Exhibit D) — now bigger than the gate rates |
+| **When to sell (value ladder)** | **Sell at ready-to-build (R1).** Holding to build/operate grows the company (~$7m → ~$28m equity) but the capital raised dilutes our minority stake away (~14% → ~2%), turning a 21% return into a loss — see the [value ladder](IC_MEMO.md#6-valuation--deal-structure) |
 | **Single biggest risk** | **Exit / buyer risk** — a flip with no buyer is stranded capital; buyers transact at 100 MW+, not 5 MW, and the "interested buyers" are non-binding |
 | **Status** | Conditional / pass-leaning — commit only if the conditions in the IC memo are evidenced |
 

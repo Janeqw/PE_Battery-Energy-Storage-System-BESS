@@ -30,6 +30,8 @@
 
 **Why our number is lower.** We value the company on its **forward pipeline** — what a buyer of a development platform actually pays — not on the founders' profit-multiple. That puts the company's exit value below the price we would pay (detail in [§6](#6-valuation--deal-structure)).
 
+**Best exit timing.** We could hold and sell later, as projects are built and operated. On a realistic, funded basis, **selling at ready-to-build (the first rung) is best for us**. Building or operating grows the company but needs new capital that dilutes our minority stake away (the value ladder, [§6](#6-valuation--deal-structure)).
+
 **Top 3 risks**
 
 - **Entry price** — at the proposed ~$10m post-money we overpay versus the company's ~$7.2m independent value; the 1× liquidation preference, not upside, is what protects our capital.
@@ -168,7 +170,7 @@ So the 65% headline overstates whole-funnel success. The right response is not t
 
 ## 5. Business model & value-chain choice
 
-The same ~5 MW asset can be played at different points on the value chain, with very different risk-return. This frames whether develop-and-flip is the right model to back.
+The same ~5 MW asset can be played at different points on the value chain — which are the **rungs of the value ladder** ([§6](#6-valuation--deal-structure)): develop-and-flip is selling at R1, build-and-sell at R2, own-and-operate at R3. The table below shows the risk-adjusted **business** return at each, which frames where on the ladder it makes sense to exit.
 
 | Business model | Hold | Expected IRR | Expected MOIC | Downside IRR | Character |
 |---|---|---|---|---|---|
@@ -189,9 +191,31 @@ The same ~5 MW asset can be played at different points on the value chain, with 
 
 The valuation runs in two steps. First, value the whole company on the primary **forward-pipeline** basis. Then apply the cap table to get the value of our shares.
 
-**Why the forward pipeline, not a profit multiple.** A develop-and-flip company is a development platform. A buyer pays for its **forward pipeline** of future projects — the risk-adjusted net present value (rNPV) of the projects still in flight — plus retained cash, less debt. It does not pay a multiple of profit already earned. An earlier draft valued the company on a multiple of past profit; that overstated value and rested on one unsourced number. Switching to the forward-pipeline basis is what turns a modestly positive headline negative — the biggest single driver in this memo.
+**Why the forward pipeline, not a profit multiple.** A develop-and-flip company is a development platform. A buyer pays for its **forward pipeline** of future projects — the risk-adjusted net present value (rNPV) of the projects still in flight — plus retained cash, less debt. It does not pay a multiple of profit already earned. An earlier draft valued the company on a multiple of past profit; that overstated value and rested on one unsourced number. The forward-pipeline basis is what values the company if we sell at the first rung of the ladder below.
 
-### Step 1 — the company's exit equity (Base case)
+### The value ladder — when do we sell our shares?
+
+We own the company as its projects climb the lifecycle, and we can sell at any rung. Each later rung removes more risk but costs more time and capital. Two views: **Option A** holds our ownership % constant (it ignores the capital needed to climb); **Option B** funds the climb, so new equity dilutes us and debt (borrowing that ranks ahead of equity) sits in front of us.
+
+| Rung — we sell after… | Valuation method | Company equity | Our share (A) | MOIC (A) | IRR (A) | Years |
+|---|---|---|---|---|---|---|
+| **R1 — approval** (ready-to-build) | forward-pipeline rNPV | ~$7m | ~$1.8m | 0.88× | −5% | ~2.5 |
+| **R2 — construction** (built asset) | built-asset value − all-in cost | ~$28m | ~$4.3m | 2.13× | +21% | ~4 |
+| **R3 — operating** (stabilised) | income basis (cash flows / yield) | ~$23m | ~$3.7m | 1.84× | +9% | ~7 |
+
+*First-Chicago weighted. R1 reuses the forward-pipeline build (detail below) and ties to the [§7](#7-returns-analysis) headline (0.88× MOIC). R2/R3 reuse the stage engine ([STAGE_COMPARISON.md](financial_models/STAGE_COMPARISON.md)) and are illustrative uplifts. Best rung under Option A: **R2 (build & sell)**.*
+
+**Option B — the funding drag.** Building and operating need large new capital. The company raises equity (diluting our ~14.4% stake) and debt (ahead of us), so our slice shrinks even as the pie grows:
+
+| Rung | Our % (A) | Our % (B) | MOIC (A) | MOIC (B) | Funding drag |
+|---|---|---|---|---|---|
+| R1 (RTB) | 14.4% | 14.4% | 0.88× | 0.88× | none |
+| R2 (built) | 14.4% | ~4.3% | 2.13× | 0.60× | −1.53× |
+| R3 (operating) | 14.4% | ~2.2% | 1.84× | 0.25× | −1.59× |
+
+Holding longer grows the **pie** (company equity ~$7m → ~$28m) but shrinks **our slice** (dilution to ~2%). After funding, the best rung flips to **R1 — sell at ready-to-build**: the only rung where a minority holder is not diluted away. The Option-B dilution and the stabilised-asset premium are `[[TO CONFIRM]]`.
+
+### R1 in detail — the forward-pipeline exit equity (Base case)
 
 | Build-up | Value |
 |---|---|
@@ -241,7 +265,7 @@ Two price inputs to the rNPV — the RTB sale price and the development cost —
 
 ## 7. Returns analysis
 
-Returns are modelled bottom-up: survival curve → company exit equity (forward-pipeline basis) → cap table with dilution and the 1× liquidation preference → return on our shares. Scenarios are probability-weighted by the First-Chicago method.
+Returns are modelled bottom-up: survival curve → company exit equity (forward-pipeline basis) → cap table with dilution and the 1× liquidation preference → return on our shares. Scenarios are probability-weighted by the First-Chicago method. The figures below are the **R1 (sell at ready-to-build)** return; returns for selling later (R2 built, R3 operating), under both funding options, are in the value ladder ([§6](#6-valuation--deal-structure)).
 
 | Scenario | Flip success | Company exit equity | Our proceeds | MOIC | IRR |
 |---|---|---|---|---|---|
@@ -287,9 +311,15 @@ Returns are modelled bottom-up: survival curve → company exit equity (forward-
 
 ## 9. Exit — how the money comes back
 
-We hold shares, so our money returns only when we can sell them.
+We hold shares, so our money returns only when the company sells — and *when* it sells (which ladder rung) sets who the buyer is and what we get ([§6](#6-valuation--deal-structure)):
 
-- **Trade sale of the company** — the primary route, most likely after the ~175 MW pipeline is aggregated into a saleable platform; we are paid alongside other shareholders at exit (year 5 `[[TO CONFIRM]]`).
+| Exit rung | What is sold | Likely buyer |
+|---|---|---|
+| R1 — ready-to-build | Approved development rights | Developers / funds buying RTB pipelines |
+| R2 — built | A finished, barely-operated battery | Infrastructure funds, operators |
+| R3 — operating | A cash-flowing, stabilised asset | Infrastructure / superannuation funds buying yield |
+
+- **Trade sale of the company** — the primary route, most likely after the ~175 MW pipeline is aggregated into a saleable platform; we are paid alongside other shareholders.
 - **Secondary sale of our shares** — selling our minority stake earlier; uncertain, and likely at a discount.
 
 The **liquidation preference governs the split**: on a sale we take the greater of our $2m back or our diluted share of exit equity, capped by what is available. At Base the preference returns ~$2.0m; in the Conservative case it recovers only ~$0.9m. Our exit depends on the company's own exit, which depends on the buyer pool ([§4](#4-industry--market)). Treat a demonstrated buyer path and clear transfer / drag-along / tag-along rights as gating conditions.
@@ -365,6 +395,7 @@ The **liquidation preference governs the split**: on a sale we take the greater 
 - **Dilution** — the fall in our ownership when new shares are issued (option pool, future round); 20.0% → 14.4%.
 - **Liquidation preference (1× non-participating)** — on a sale we take the greater of our money back or our as-converted share.
 - **First-Chicago method** — probability-weighting scenario outcomes (30 / 50 / 20) into one expected figure.
+- **Value ladder / R1 · R2 · R3** — the staged exit choice: sell after approval (R1, ready-to-build), after construction (R2, built), or after operating (R3, stabilised). Option A holds our % constant; Option B funds the climb (new equity dilutes us, debt ranks ahead).
 
 ---
 
