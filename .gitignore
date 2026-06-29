@@ -33,3 +33,6 @@ Thumbs.db
 # Ignore stray exports:
 outputs/*.log
 .claude/
+
+# ---- Local-only source/reference materials (not published) ----
+reference/
