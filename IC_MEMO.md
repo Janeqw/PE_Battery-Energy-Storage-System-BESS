@@ -333,13 +333,15 @@ The valuation runs in two steps: **(1) value the whole company** — its exit eq
 
 ### Are we overpaying? The entry-price check (Base case)
 
-The central-case result is underwater mainly because of **day-one price**: we would pay more for the company than it is worth on the forward-pipeline basis.
+The central-case result is underwater mainly because of **day-one price**: we would pay more for the company than it is worth on the forward-pipeline basis. The comparison only means something if the two numbers come from **different sources** — the **proposed price** is what we'd be asked to pay; the **independent value** is our own estimate — so each row shows its **Source** (provenance tag):
 
-| | Amount | Basis |
+| | Amount | Source |
 |---|---|---|
-| What we'd value the company at (post-money) | ~$10.0m | $8m pre-money `[[TO CONFIRM]]` + our $2m |
-| What the company is worth — base case (forward-pipeline rNPV) | ~$7.2m | engine, forward-pipeline basis |
-| **Entry-price gap (overpayment)** | **~$2.8m** | post-money − base-case value |
+| Proposed price (post-money) | ~$10.0m | **Placeholder (reframe)** — no manager pre-money exists (the original deal is an LP fund commitment); the $8m pre-money + our $2m is our illustrative reframe |
+| Independent value — base case (forward-pipeline rNPV) | ~$7.2m | **Independent method, price inputs `Proposed (manager)` — UNVERIFIED** (the rNPV uses the manager's RTB & dev-cost claims; verify before relying) |
+| **Entry-price gap (overpayment)** | **~$2.8m** | proposed − independent |
+
+The proposed price is what we'd be asked to pay; the independent value is our own (forward-pipeline) estimate; the gap is what we'd overpay on current terms. **Two honesty notes:** (1) there is **no manager-stated price** — the proposed $10m post-money is our reframe placeholder, so the gap is illustrative until a real price exists to negotiate against; (2) even our "independent" ~$7.2m currently leans on the **manager's unverified RTB and dev-cost prices** (tagged `Proposed (manager)`; the contamination guard flags this). Verifying those prices independently is **more likely to lower the value than raise it**, so the overpayment gap is, if anything, **understated**.
 
 For a startup equity bet we want the company worth **more** at exit than the post-money we paid; here it is worth **less** in the central case, so the **1× liquidation preference is the only thing keeping us at break-even**. **This is an entry-price problem, not just an exit problem — the main lever is the pre-money we negotiate, not pipeline depth.** Solving for the price at which we stop overpaying: base-case company value (~$7.2m) equals post-money when **pre-money ≈ $5.2m** (versus the $8m assumed); and because dilution then shrinks our stake, our diluted shares are only worth more than our $2m cheque at a **pre-money below ~$3.2m**.
 
@@ -376,31 +378,35 @@ A bottom-up cross-check on a single representative pipeline, to sanity-check the
 
 **Key assumptions** *(founder claims unless noted):*
 
-| Assumption | Value |
-|---|---|
-| Pre-money valuation | $8m `[[TO CONFIRM]]` |
-| Our investment | $2m `[[TO CONFIRM]]` |
-| Post-money valuation | $10m |
-| Ownership at entry | 20.0% |
-| Option pool | 10% `[[TO CONFIRM]]` |
-| Future-round dilution | 20% `[[TO CONFIRM]]` |
-| Diluted ownership at exit | 14.4% |
-| Liquidation preference | 1× non-participating `[[TO CONFIRM]]` |
-| Pipeline depth at exit *(primary exit driver)* | 25 projects `[[TO CONFIRM]]` |
-| Interim distribution fraction | 0% `[[TO CONFIRM]]` |
-| Debt at exit | $0m `[[TO CONFIRM]]` |
-| Exit year | 5 `[[TO CONFIRM]]` |
-| Projects delivered / sold | 35 |
-| Development cost | ~$0.5m per project (+ partial spend on dropouts) |
-| Discount rate | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium |
+| Assumption | Value | Source (provenance) |
+|---|---|---|
+| Pre-money valuation | $8m `[[TO CONFIRM]]` | Placeholder (reframe) |
+| Our investment | $2m `[[TO CONFIRM]]` | Placeholder (illustrative) |
+| Post-money valuation | $10m | Derived |
+| Ownership at entry | 20.0% | Derived |
+| Option pool | 10% `[[TO CONFIRM]]` | Placeholder |
+| Future-round dilution | 20% `[[TO CONFIRM]]` | Placeholder |
+| Diluted ownership at exit | 14.4% | Derived |
+| Liquidation preference | 1× non-participating `[[TO CONFIRM]]` | Placeholder |
+| Pipeline depth at exit *(primary exit driver)* | 25 projects `[[TO CONFIRM]]` | Placeholder |
+| Interim distribution fraction | 0% `[[TO CONFIRM]]` | Placeholder |
+| Debt at exit | $0m `[[TO CONFIRM]]` | Placeholder |
+| Exit year | 5 `[[TO CONFIRM]]` | Placeholder |
+| Projects delivered / sold | 35 | Placeholder |
+| Development cost | ~$0.5m per project (+ partial spend on dropouts) | **Proposed (manager) — unverified** |
+| RTB sale price (feeds the rNPV) | see table below | **Proposed (manager) — unverified** |
+| Built-asset cost (context only) | ~$1.8m / MW | Independent (verified) — CSIRO GenCost |
+| Discount rate | 18.8% = RBA 10-year Commonwealth Government Securities (CGS) yield 4.8% + 14.0% development risk premium | RBA verified + judgement premium |
 
-**Ready-to-build sale price by state** *(founder claim — needs independent comparables):*
+*Provenance tags (Source column): **Proposed (manager)** = the manager's stated figure, a claim, UNVERIFIED; **Independent (verified)** = checked against a primary source; **Placeholder** = a `[[TO CONFIRM]]` reframe assumption. The independent rNPV currently consumes two `Proposed (manager)` price inputs (RTB $/MW and dev cost) — see the contamination note in [§7](#7-returns-to-your-shares) / the model's Checks tab advisory.*
 
-| State | Price per 5 MW project |
-|---|---|
-| New South Wales | $0.9m – $1.1m |
-| Victoria | $0.8m – $1.0m |
-| South Australia | $0.5m – $0.7m |
+**Ready-to-build sale price by state** *(founder claim — `Proposed (manager)`, UNVERIFIED; needs independent comparables before it may enter the valuation):*
+
+| State | Price per 5 MW project | Source (provenance) |
+|---|---|---|
+| New South Wales | $0.9m – $1.1m | Proposed (manager) — unverified |
+| Victoria | $0.8m – $1.0m | Proposed (manager) — unverified |
+| South Australia | $0.5m – $0.7m | Proposed (manager) — unverified |
 
 *Basis — the discount rate uses the **build-up method** (required return = risk-free rate + risk premium): the risk-free leg is the live RBA 10-year Commonwealth Government Securities yield (`data/processed/rates.csv`); the 14.0% premium is analyst judgement. The company exit equity is the **primary forward-pipeline basis** (forward-pipeline rNPV + retained cash − debt); our terminal proceeds = greater of the 1× liquidation preference or diluted ownership × company exit equity, plus any interim distributions. All founder rows are projections (claims to verify); the ready-to-build prices need independent comparable-transaction evidence; the cap-table and exit-value inputs are placeholders to confirm.*
 
@@ -454,6 +460,8 @@ A develop-and-flip company throws off cash every cycle, so our return could come
 - **The interim distribution fraction is a `[[TO CONFIRM]]` placeholder set to 0%** (conservative): no interim cash is modelled, so the −2.6% headline is effectively the **terminal-only** result, with all realised profit sitting as retained cash inside the terminal exit value. (At the company level, distributed-to-all + terminal exit equity is invariant to the fraction — see the bullet above.)
 
 **Distribution-policy risk (which way it cuts).** Because our terminal proceeds are floored by the **1× liquidation preference**, pro-rata interim distributions would be **additive on top of that floor** — so, counter-intuitively, *more* pro-rata distribution would *help* our return (expected ≈ break-even at a 50% payout, ≈ +3.6% at a 100% payout). The 0% assumption is therefore the **conservative** read, not the optimistic one. The genuine risk runs the other way: a minority shareholder in a **founder-controlled** startup may receive **little or no pro-rata interim cash** (founders reinvest, or distributions skew to management), and retained profit can be spent before exit — in which case we capture **none** of the ~$4.8m realised programme profit and depend almost entirely on the 1× preference. So *"confirm we share pro-rata in interim distributions, and that retained profit is not siphoned to founders/management before exit"* is a key `[[TO CONFIRM]]` and a question for the founders ([§10](#10-conditions--questions-for-the-founders)).
+
+**Provenance caveat (the "independent" value is not yet fully independent).** The forward-pipeline rNPV behind these returns currently consumes two **`Proposed (manager)`** price inputs — the **RTB sale price** and the **development cost** — which the manager's own materials describe as projections. Until each is verified against a primary source (comparable ready-to-build sales; bottom-up costs) and re-tagged **`Independent (verified)`**, the ~$7.2m base-case value is **illustrative, not fully independent**. The model's **contamination guard** (engine + Checks-tab advisory) flags this and refuses to treat the value as verified. Because the manager's prices are optimistic, verifying them is **more likely to lower the value than raise it** — so the entry-price overpayment in [§6](#6-valuation--your-stake) is, if anything, understated.
 
 ---
 
@@ -769,10 +777,12 @@ The exit assumption is now the single biggest swing factor in the memo, so we sh
 
 **Underlying business evidence**
 
-- [ ] **Ready-to-build (RTB) price** per project — independent comparables (founders' $0.5–1.1m claim)
+- [ ] **Ready-to-build (RTB) price** per project — `Proposed (manager)`, UNVERIFIED; **verify against a primary source (comparable RTB sales) before it may enter the independent valuation** (founders' $0.5–1.1m claim)
+- [ ] **Development cost** per project — `Proposed (manager)`, UNVERIFIED; **verify bottom-up before it may enter the independent valuation** (~$0.5m/project claim)
 - [ ] **Per-state development-approval evidence** that 65% is the approval gate, plus grid-connection (~70%) and sale (~80%) gate data
-- [ ] Bottom-up **development-cost** build-up (~$0.5m/project)
 - [ ] Depth of the **buyer pool** (≥3–4 contractually-progressing buyers)
+
+> **Provenance reminder:** the independent forward-pipeline valuation may consume **only** `Independent (verified)` inputs. The two items above are currently `Proposed (manager)` — until verified and re-tagged, the ~$7.2m base-case value is illustrative, and the model's contamination guard flags it.
 
 ---
 
