@@ -17,7 +17,7 @@
 
 ## 1. Recommendation (bottom line up front)
 
-**Conditional, pass-leaning. The opportunity is genuine, but on our independent rebuild — valuing the company as a development platform on its forward pipeline — the expected return on our shares is now slightly NEGATIVE (value-destructive at the central estimate), with a deep loss in the downside. Do not commit on the projections; commit only on stronger downside terms than a diversified fund would require, and only if the conditions below lift the deal above water.** Proceed to confirmatory due diligence and commit **only if** the founders evidence (1) a deep, contractually-progressing pool of buyers for ready-to-build (RTB) projects — and a credible **forward pipeline at exit**, which is now the single biggest value driver — (2) sub-5-megawatt (MW), per-state evidence that the headline **40% / 65% / 80%** are the development-approval (DA) gate only — and that the gates beyond approval (grid connection, sale) deliver the assumed true flip success, and (3) confirmed equity terms (pre-money valuation, share class, a 1× liquidation preference, option pool and governance). Absent those, decline.
+**Conditional, pass-leaning. The opportunity is genuine, but on our independent rebuild — valuing the company as a development platform on its forward pipeline — the expected return on our shares is now slightly NEGATIVE (value-destructive at the central estimate), with a deep loss in the downside. Do not commit on the projections; commit only on stronger downside terms than a diversified fund would require, and only if the conditions below lift the deal above water.** Proceed to confirmatory due diligence and commit **only if** the founders evidence the conditions set out below — chiefly a deep, contractually-progressing ready-to-build (RTB) buyer pool **and** a credible **forward pipeline at exit** (now the single biggest value driver), sub-5-megawatt (MW) per-state evidence for the gate rates, and confirmed equity terms. Absent those, decline.
 
 | Our independent view | The founders' claim |
 |---|---|
@@ -341,7 +341,10 @@ The central-case result is underwater mainly because of **day-one price**: we wo
 | Independent value — base case (forward-pipeline rNPV) | ~$7.2m | **Independent method, price inputs `Proposed (manager)` — UNVERIFIED** (the rNPV uses the manager's RTB & dev-cost claims; verify before relying) |
 | **Entry-price gap (overpayment)** | **~$2.8m** | proposed − independent |
 
-The proposed price is what we'd be asked to pay; the independent value is our own (forward-pipeline) estimate; the gap is what we'd overpay on current terms. **Two honesty notes:** (1) there is **no manager-stated price** — the proposed $10m post-money is our reframe placeholder, so the gap is illustrative until a real price exists to negotiate against; (2) even our "independent" ~$7.2m currently leans on the **manager's unverified RTB and dev-cost prices** (tagged `Proposed (manager)`; the contamination guard flags this). Verifying those prices independently is **more likely to lower the value than raise it**, so the overpayment gap is, if anything, **understated**.
+The proposed price is what we'd be asked to pay; the independent value is our own (forward-pipeline) estimate; the gap is what we'd overpay on current terms. **Two honesty notes:**
+
+- **No manager-stated price exists** — the proposed $10m post-money is our reframe placeholder, so the gap is illustrative until a real price exists to negotiate against.
+- **Even our "independent" ~$7.2m leans on the manager's unverified prices** — the RTB and dev-cost inputs are tagged `Proposed (manager)` (the contamination guard flags this). Verifying them independently is **more likely to lower the value than raise it**, so the overpayment gap is, if anything, **understated**.
 
 For a startup equity bet we want the company worth **more** at exit than the post-money we paid; here it is worth **less** in the central case, so the **1× liquidation preference is the only thing keeping us at break-even**. **This is an entry-price problem, not just an exit problem — the main lever is the pre-money we negotiate, not pipeline depth.** Solving for the price at which we stop overpaying: base-case company value (~$7.2m) equals post-money when **pre-money ≈ $5.2m** (versus the $8m assumed); and because dilution then shrinks our stake, our diluted shares are only worth more than our $2m cheque at a **pre-money below ~$3.2m**.
 
@@ -349,7 +352,10 @@ For a startup equity bet we want the company worth **more** at exit than the pos
 
 ### Cross-check 1 — earnings multiple on forward run-rate profit (sanity check, not the headline)
 
-We keep the earnings multiple, but only as a sanity check on the pipeline result above — and with two fixes so it is defensible: (1) it is applied to **forward run-rate annual development profit** (the yearly stream an acquirer inherits ≈ realised profit ÷ programme term), **not** cumulative profit; and (2) the multiple is a **sourced low / base / high range**, each a `[[TO CONFIRM: cite comp or sector benchmark]]`, not one lone number.
+We keep the earnings multiple, but only as a sanity check on the pipeline result above — and with two fixes so it is defensible:
+
+- **The base is fixed** — it is applied to **forward run-rate annual development profit** (the yearly stream an acquirer inherits ≈ realised profit ÷ programme term), **not** cumulative profit.
+- **The multiple is a sourced range** — a **low / base / high** range, each a `[[TO CONFIRM: cite comp or sector benchmark]]`, not one lone number.
 
 | Earnings-multiple cross-check (Base) | Value |
 |---|---|
