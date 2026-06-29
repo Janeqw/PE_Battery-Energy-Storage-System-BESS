@@ -30,7 +30,7 @@
 
 **Why our number is lower.** We value the company on its **forward pipeline** — what a buyer of a development platform actually pays — not on the founders' profit-multiple. That puts the company's exit value below the price we would pay (detail in [§6](#6-valuation--deal-structure)).
 
-**Best exit timing.** We could hold and sell later, as projects are built and operated. On a realistic, funded basis, **selling at ready-to-build (the first rung) is best for us**. Building or operating grows the company but needs new capital that dilutes our minority stake away (the value ladder, [§6](#6-valuation--deal-structure)).
+**Best exit timing — conditional on our follow-on terms.** On the current dilution assumption (we keep ~2% by the operating rung), holding to build or operate is value-destructive, so **selling at ready-to-build (R1) is best**. This is a conclusion about *our minority position*, not the company's quality. It is not robust: if we secure follow-on / pre-emption rights so dilution stays light (we keep ~10%), **build-and-sell (R2) turns positive and beats R1** (dilution stress, [Exhibit E](#exhibit-e--dilution-sensitivity-our-later-rung-return)). The dilution, stabilised premium and years-to-rung are `[[TO CONFIRM]]`.
 
 **Top 3 risks**
 
@@ -213,7 +213,9 @@ We own the company as its projects climb the lifecycle, and we can sell at any r
 | R2 (built) | 14.4% | ~4.3% | 2.13× | 0.60× | −1.53× |
 | R3 (operating) | 14.4% | ~2.2% | 1.84× | 0.25× | −1.59× |
 
-Holding longer grows the **pie** (company equity ~$7m → ~$28m) but shrinks **our slice** (dilution to ~2%). After funding, the best rung flips to **R1 — sell at ready-to-build**: the only rung where a minority holder is not diluted away. The Option-B dilution and the stabilised-asset premium are `[[TO CONFIRM]]`.
+Holding longer grows the **pie** (company equity ~$7m → ~$28m) but shrinks **our slice** (dilution to ~2%). After funding, the best rung flips to **R1 — sell at ready-to-build** on these inputs. The Option-B dilution, stabilised premium and years-to-rung are `[[TO CONFIRM]]` and drive this result.
+
+**This is conditional on our follow-on terms, not a flat verdict.** R1 wins only because dilution is heavy. Stress the dilution and R2 flips positive under a light setting — so the finding is *"sell at R1 unless we secure follow-on / pre-emption rights"*, not *"always sell at R1"* ([Exhibit E](#exhibit-e--dilution-sensitivity-our-later-rung-return)).
 
 ### R1 in detail — the forward-pipeline exit equity (Base case)
 
@@ -453,6 +455,24 @@ The exit assumption is the biggest swing factor, so it is shown as a range. Rows
 | 40 projects | +0.8% | +0.4% | −0.1% | −0.5% | −1.0% |
 
 Across the plausible 10–40 range the expected return stays between roughly −5.5% and +0.8% — break-even at best. Price, not depth, is the lever.
+
+### Exhibit E — dilution sensitivity: our later-rung return
+
+How our R2 and R3 return moves as the Option-B dilution varies, everything else at base. "Retained to R3" is the ownership % we keep by the operating rung.
+
+| Dilution (retained to R3) | R2 — our IRR (%) | R2 — our MOIC (×) | R3 — our IRR (%) | R3 — our MOIC (×) |
+|---|---|---|---|---|
+| Light (~10%) | +12.6% | 1.61× | +1.5% | 1.11× |
+| **Base (~2.2%)** | **−11.9%** | **0.60×** | **−18.2%** | **0.25×** |
+| Heavy (~1%) | −25.9% | 0.30× | −27.0% | 0.11× |
+
+> **R1's dominance is conditional, not robust.** Under light dilution, R2 (build & sell) flips positive and beats R1; only at base/heavy dilution does selling at R1 win. The finding is *"sell at R1 unless we secure follow-on / pre-emption rights"*.
+
+**How these numbers are derived**
+
+- *Source:* the `value_ladder` Option-B dilution inputs (`equity_dilution_r2` / `equity_dilution_r3`), varied light → heavy; all else held at base.
+- *Formula:* our share = retained diluted % × company equity at the rung (R1 floored by the 1× preference).
+- *Calc (Base R2):* 4.3% × ~$28m ≈ $1.2m; MOIC = $1.2m ÷ $2m = **0.60×**; IRR = 0.60 ^ (1 ÷ 4 yrs) − 1 = **−11.9%**.
 
 ### Key assumptions
 

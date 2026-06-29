@@ -292,7 +292,7 @@ def compare(st: Stages | None = None) -> dict:
 # ---------------------------------------------------------------------------
 # Value ladder (change8) — staged exit: sell after approval / construction / operating
 # ---------------------------------------------------------------------------
-def value_ladder(st: Stages | None = None) -> dict:
+def value_ladder(st: Stages | None = None, dil_r2: float | None = None, dil_r3: float | None = None) -> dict:
     """When should we sell our shares? Company equity and OUR share value if the
     company sells at each rung — R1 after approval (RTB), R2 after construction,
     R3 after operating — under Option A (ownership % held constant) and Option B
@@ -307,8 +307,8 @@ def value_ladder(st: Stages | None = None) -> dict:
     build_years = float(st.con["build_years"])
     ramp = float(vl["operating_ramp_years"]["value"])
     prem = float(vl["stabilised_premium"]["value"])
-    dil_r2 = float(vl["equity_dilution_r2"]["value"])
-    dil_r3 = float(vl["equity_dilution_r3"]["value"])
+    dil_r2 = float(vl["equity_dilution_r2"]["value"]) if dil_r2 is None else float(dil_r2)
+    dil_r3 = float(vl["equity_dilution_r3"]["value"]) if dil_r3 is None else float(dil_r3)
     yrs = {"R1": yr1, "R2": yr1 + build_years, "R3": yr1 + build_years + ramp}
 
     disc = inp.discount_base
@@ -373,6 +373,23 @@ def value_ladder(st: Stages | None = None) -> dict:
     out["best_A"] = max(rungs, key=lambda r: out["rungs"][r]["irr_A"])
     out["best_B"] = max(rungs, key=lambda r: out["rungs"][r]["irr_B"])
     return out
+
+
+def value_ladder_dilution_sensitivity(st: Stages | None = None, levels=None) -> list[dict]:
+    """Stress the Option-B dilution: vary it light → heavy and report OUR R2/R3
+    IRR and MOIC at each level. Everything else is held at base. Each level is a
+    (label, dil_r2, dil_r3) tuple; None means use the base config value."""
+    st = st or Stages()
+    if levels is None:
+        levels = [("Light", 0.20, 0.15), ("Base", None, None), ("Heavy", 0.85, 0.55)]
+    rows = []
+    for label, d2, d3 in levels:
+        L = value_ladder(st, dil_r2=d2, dil_r3=d3)
+        rows.append({"label": label,
+                     "retained_r2": L["diluted_B"]["R2"], "retained_r3": L["diluted_B"]["R3"],
+                     "r2_irr": L["rungs"]["R2"]["irr_B"], "r2_moic": L["rungs"]["R2"]["moic_B"],
+                     "r3_irr": L["rungs"]["R3"]["irr_B"], "r3_moic": L["rungs"]["R3"]["moic_B"]})
+    return rows
 
 
 def _pct(x):

@@ -221,6 +221,24 @@ def test_value_ladder():
     assert abs(L["rungs"]["R1"]["moic_A"] - first_chicago(inp)["expected_moic"]) < 0.02
 
 
+def test_value_ladder_dilution_sensitivity():
+    """change9: the dilution stress must (a) tie its Base row to the base ladder, and
+    (b) show R1's dominance is conditional — R2 is value-destructive at base dilution
+    but flips positive under light dilution (so it depends on follow-on terms)."""
+    from src import stage_analysis as sa
+
+    rows = {r["label"]: r for r in sa.value_ladder_dilution_sensitivity()}
+    base_ladder = sa.value_ladder()
+    # (a) Base row ties to the base value_ladder R2/R3 Option-B MOIC
+    assert abs(rows["Base"]["r2_moic"] - base_ladder["rungs"]["R2"]["moic_B"]) < 1e-6
+    assert abs(rows["Base"]["r3_moic"] - base_ladder["rungs"]["R3"]["moic_B"]) < 1e-6
+    # (b) the conditional finding: R2 negative at base, positive under light dilution
+    assert rows["Base"]["r2_moic"] < 1.0
+    assert rows["Light"]["r2_moic"] > 1.0
+    # heavier dilution only ever hurts
+    assert rows["Heavy"]["r2_moic"] <= rows["Base"]["r2_moic"] + 1e-9
+
+
 def test_stage_analysis_risk_ladder():
     """The three value-chain stages form a risk ladder: operating is the safest downside."""
     from src.stage_analysis import compare
