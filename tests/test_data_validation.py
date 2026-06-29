@@ -165,6 +165,36 @@ def test_no_double_count_of_cash():
         assert r["interim_distributions"] + r["terminal_proceeds"] <= lifetime + 1e-6
 
 
+def test_contamination_guard_rejects_unverified_inputs():
+    """change5 guard: the independent rNPV must consume ONLY 'Independent (verified)'
+    inputs. The RTB price and dev cost are the manager's unverified claims
+    ('Proposed (manager)'), so the guard must FAIL LOUDLY when verification is
+    required — while the default (illustrative) path still computes."""
+    import pytest as _pytest
+    from src.valuation_engine import (load_inputs, pipeline_rnpv, forward_pipeline_rnpv,
+                                      contamination, independent_valuation_clean,
+                                      rnpv_input_provenance, PROV_VERIFIED)
+
+    inp = load_inputs()
+    prov = rnpv_input_provenance(inp)
+    assert set(prov) == {"rtb", "dev_cost"}, "the rNPV price inputs must be provenance-tagged"
+    # currently contaminated (manager claims) -> not clean
+    assert not independent_valuation_clean(inp)
+    assert {k for k, _ in contamination(inp)} == {"rtb", "dev_cost"}
+    # default path computes illustratively (no raise)
+    assert pipeline_rnpv(inp) > 0
+    # strict path fails loudly
+    with _pytest.raises(ValueError):
+        pipeline_rnpv(inp, require_verified=True)
+    with _pytest.raises(ValueError):
+        forward_pipeline_rnpv(inp, require_verified=True)
+    # if every rNPV input were verified, the guard would pass
+    inp.provenance["rtb"] = PROV_VERIFIED
+    inp.provenance["dev_cost"] = PROV_VERIFIED
+    assert independent_valuation_clean(inp)
+    assert forward_pipeline_rnpv(inp, require_verified=True) > 0
+
+
 def test_stage_analysis_risk_ladder():
     """The three value-chain stages form a risk ladder: operating is the safest downside."""
     from src.stage_analysis import compare

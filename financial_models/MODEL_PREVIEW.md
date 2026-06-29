@@ -14,7 +14,18 @@
 | Expected MOIC (multiple of money) | **0.88x** |
 | Scenario IRR range | -15.0% … 4.2% |
 
-> The Conservative case is a **total loss** (the company's net programme profit is negative, so its equity is worth ~0). This is the venture-style shape: a real chance of zero, a modest base case, and meaningful upside if approvals run hot.
+> The Conservative case is a **deep loss** (realised profit turns negative; only the residual forward pipeline has value, and the 1× liquidation preference recovers part). A venture-style shape: a base case that barely returns our money and meaningful downside.
+
+## Provenance & the contamination guard
+
+Every price/value input is tagged **Proposed (manager)** (a claim, unverified), **Independent (verified)**, or **Placeholder**. The independent forward-pipeline rNPV may consume only *Independent (verified)* inputs; the engine guard rejects the others.
+
+| rNPV price input | Provenance |
+|---|---|
+| rtb | Proposed (manager) |
+| dev_cost | Proposed (manager) |
+
+> **Independent-valuation status: **UNVERIFIED — uses the manager's RTB & dev-cost claims; verify before relying**.** The ~$7.2m base-case value is illustrative until the manager's RTB and dev-cost prices are verified against a primary source and re-tagged *Independent (verified)*. Verifying them is more likely to lower than raise the value — widening the entry-price gap.
 
 ## Our stake — the cap table (placeholders to confirm)
 
@@ -89,7 +100,7 @@
 
 ## Integrity checks
 
-All **17** model checks pass → master check reads `OK`.
+All **19** model checks pass → master check reads `OK`.
 
 | Check | Result |
 |---|---|
@@ -109,6 +120,8 @@ All **17** model checks pass → master check reads `OK`.
 | First-Chicago IRR within range | ✅ OK |
 | exit basis is pipeline_rnpv | ✅ OK |
 | no double-count (distributed + exit value <= realised + forward pipeline) | ✅ OK |
+| rNPV price inputs provenance-tagged | ✅ OK |
+| rNPV contamination not silently treated as verified | ✅ OK |
 | every input has a source | ✅ OK |
 
 ## See the full model

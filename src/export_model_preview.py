@@ -68,8 +68,28 @@ def build_markdown() -> str:
     L.append(f"| Expected MOIC (multiple of money) | **{_x(fc['expected_moic'])}** |")
     L.append(f"| Scenario IRR range | {_pct(fc['min_irr'])} … {_pct(fc['max_irr'])} |")
     L.append("")
-    L.append("> The Conservative case is a **total loss** (the company's net programme profit is negative, so its equity is worth ~0). "
-             "This is the venture-style shape: a real chance of zero, a modest base case, and meaningful upside if approvals run hot.")
+    L.append("> The Conservative case is a **deep loss** (realised profit turns negative; only the residual forward pipeline has value, "
+             "and the 1× liquidation preference recovers part). A venture-style shape: a base case that barely returns our money and "
+             "meaningful downside.")
+    L.append("")
+
+    # provenance & contamination guard (change5)
+    clean = s["independent_valuation_clean"]
+    L.append("## Provenance & the contamination guard")
+    L.append("")
+    L.append("Every price/value input is tagged **Proposed (manager)** (a claim, unverified), **Independent (verified)**, or "
+             "**Placeholder**. The independent forward-pipeline rNPV may consume only *Independent (verified)* inputs; the engine guard "
+             "rejects the others.")
+    L.append("")
+    L.append("| rNPV price input | Provenance |")
+    L.append("|---|---|")
+    for k, tag in s["rnpv_input_provenance"].items():
+        L.append(f"| {k} | {tag} |")
+    L.append("")
+    status = "clean (all verified)" if clean else "**UNVERIFIED — uses the manager's RTB & dev-cost claims; verify before relying**"
+    L.append(f"> **Independent-valuation status: {status}.** The ~$7.2m base-case value is illustrative until the manager's RTB and "
+             "dev-cost prices are verified against a primary source and re-tagged *Independent (verified)*. Verifying them is more likely "
+             "to lower than raise the value — widening the entry-price gap.")
     L.append("")
 
     L.append("## Our stake — the cap table (placeholders to confirm)")
