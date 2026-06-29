@@ -29,7 +29,7 @@ Thumbs.db
 .idea/
 
 # ---- Outputs that are regenerated ----
-# Keep committed: outputs/dashboard.pdf, outputs/figures/*.png (portfolio artefacts).
+# Keep committed: outputs/dashboard.pdf, outputs/figures/*.png (committed outputs).
 # Ignore stray exports:
 outputs/*.log
 .claude/

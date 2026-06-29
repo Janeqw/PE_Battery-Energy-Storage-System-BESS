@@ -9,7 +9,7 @@
 | **Deal type** | Direct equity (minority share stake) — venture / growth, infrastructure development |
 | **Recommendation** | **CONDITIONAL — proceed to confirmatory due diligence; do NOT commit on the founders' figures alone** |
 
-> **Status & standing.** This is an **educational portfolio artefact** and an **independent rebuild** of an (unnamed) startup founder's projections — **not investment advice**. Every figure attributed to the founders is a forward-looking **claim to verify**; our independent public-data findings sit alongside. The company and pipeline are treated as **illustrative**. Wholesale-investor context — read the company's disclosure materials; **capital is at risk.** All figures must be independently re-verified before any decision. See [Appendix A — Methods & sources](#appendix-a--methods--sources). *Acronyms (short forms) are spelled out on first use.*
+> **Status & standing.** This is an **independent rebuild** of an (unnamed) startup founder's projections — **not investment advice**. Every figure attributed to the founders is a forward-looking **claim to verify**; our independent public-data findings sit alongside. The company, the parties and all figures are **illustrative** and do not identify any real company, person or transaction. Wholesale-investor context — read the company's disclosure materials; **capital is at risk.** All figures must be independently re-verified before any decision. See [Appendix A — Methods & sources](#appendix-a--methods--sources). *Acronyms (short forms) are spelled out on first use.*
 
 > **▶ Open the interactive model online:** **[BESS Pipeline Valuation — live Excel workbook](https://1drv.ms/x/c/4486f9b7c333bd96/IQCSSeOA23OMS4zJdfkVXoeYASG_3AC1gFmTnfmMDz3hXkE?e=JalxsN)** — opens in Excel for the web and recalculates in your browser (no download). No-click alternatives: [model results preview](financial_models/MODEL_PREVIEW.md) · [one-page dashboard (PDF)](outputs/dashboard.pdf).
 
@@ -532,12 +532,12 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 
 ## Appendix A — Methods & sources
 
-**Why this exists (portfolio note).** This repository demonstrates two interview-tested skills:
+**How this analysis is built.** It rests on two components:
 
-1. **Data engineering** — a configuration-driven, reproducible Python pipeline over free public Australian data (Reserve Bank of Australia; the Commonwealth Scientific and Industrial Research Organisation's GenCost report; the Australian Energy Market Operator; New South Wales / Victoria / South Australia planning portals; energy trade press), with verify-then-fallback and full source logging.
-2. **Advanced financial modelling** — a formula-driven, institutional-standard Excel model that values the develop-and-flip company and the **return on our direct-equity stake**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a development funnel, a **forward-pipeline exit-equity build** (forward-pipeline rNPV + retained cash − debt, with an earnings-multiple cross-check), a cap table with dilution and a 1× liquidation preference, and First-Chicago scenario weighting.
+1. **Data pipeline** — a configuration-driven, reproducible Python pipeline over free public Australian data (Reserve Bank of Australia; the Commonwealth Scientific and Industrial Research Organisation's GenCost report; the Australian Energy Market Operator; New South Wales / Victoria / South Australia planning portals; energy trade press), with verify-then-fallback and full source logging.
+2. **Financial model** — a formula-driven, institutional-standard Excel model that values the develop-and-flip company and the **return on our direct-equity stake**, via a probability-of-default-style survival curve, per-project risk-adjusted net present value, a development funnel, a **forward-pipeline exit-equity build** (forward-pipeline rNPV + retained cash − debt, with an earnings-multiple cross-check), a cap table with dilution and a 1× liquidation preference, and First-Chicago scenario weighting.
 
-The headline story: *applying credit-risk (probability-of-default / survival) discipline and institutional Excel standards to a direct-equity stake in an infrastructure-development startup — independently rebuilding a founder's claims on fully public data.*
+In short: *credit-risk (probability-of-default / survival) discipline and institutional Excel standards applied to a direct-equity stake in an infrastructure-development startup — independently rebuilding a founder's claims on public data.*
 
 **Methodology (what the model computes).**
 
@@ -617,9 +617,9 @@ In every case the inputs come from **free public data**, and the founders' figur
 
 **Honesty notes.**
 
-- The valued company is **illustrative (synthetic)**, built from real public project sizes/locations. It is not a real company.
+- The valued company is **illustrative (synthetic)**, built from real public project sizes/locations. It is not a real company, and no real company, person or transaction is identified.
 - Comps rely on **publicly reported deals** only. The richest deal databases (BloombergNEF, Enerdatics, Mergermarket) are paid and out of scope — a transparent limitation, not a hidden gap.
-- This is an educational portfolio artefact and **not investment advice**.
+- This document is **illustrative** and **not investment advice**.
 
 **Excel model standards (house rules followed).** Built to the FAST / ICAEW / Macabacus / Operis conventions:
 
@@ -632,7 +632,7 @@ In every case the inputs come from **free public data**, and the founders' figur
 
 **The 15 tabs:** Cover · Contents · Change Log · Inputs · Timeline · Scenarios · Calc_Survival · Calc_Project_rNPV · Calc_Company · Returns · Calc_CrossChecks · Sensitivity · Checks · Dashboard · Sources & Glossary.
 
-**Who built what (integrity).** This repository is a **version-1 draft built by Claude Code** — the pipeline plumbing and the model scaffold (structure, formulas, checks). **The judgement inputs are the analyst's to own and defend**, and the founders' figures are claims to verify:
+**Judgement inputs (integrity).** The data pipeline and the model scaffold (structure, formulas, checks) are mechanical. **The judgement inputs are the analyst's to own and defend**, and the founders' figures are claims to verify:
 
 - the three scenario development-approval gates (40% / 65% / 80%) and the connection/sale gates beyond them — i.e. true flip success (Base ≈ 36%; independent benchmark ≈ 45%).
 - ready-to-build dollar-per-MW by state (need independent comparables).
@@ -774,4 +774,4 @@ The exit assumption is now the single biggest swing factor in the memo, so we sh
 
 ---
 
-*Forward-looking statements are projections, not promises. This is an illustrative, educational document and **not investment advice** — it assesses an **illustrative** opportunity and is an **independent rebuild of an unnamed third-party founder's forward-looking claims**, which must be independently verified. The context is **wholesale-investor only — read the company's disclosure materials; capital is at risk.** Any real decision rests with the relevant investment committee on independently verified figures. Data extraction respects each source's terms of use, `robots.txt`, and rate limits, and prefers official downloads/application programming interfaces over scraping. Licensed under the MIT licence (see `LICENSE`).*
+*Forward-looking statements are projections, not promises. This is an **illustrative** document and **not investment advice** — it assesses an **illustrative** opportunity and is an **independent rebuild of an unnamed third-party founder's forward-looking claims**, which must be independently verified. No real company, person or transaction is identified, and all monetary figures are illustrative placeholders. The context is **wholesale-investor only — read the company's disclosure materials; capital is at risk.** Any real decision rests with the relevant investment committee on independently verified figures. Data extraction respects each source's terms of use, `robots.txt`, and rate limits, and prefers official downloads/application programming interfaces over scraping. Licensed under the MIT licence (see `LICENSE`).*

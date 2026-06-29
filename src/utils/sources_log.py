@@ -116,7 +116,8 @@ def write_markdown() -> None:
         "transparent limitation, not a hidden gap."
     )
     lines.append(
-        "- This is an educational portfolio artefact and **not investment advice**."
+        "- This is an **illustrative** analysis and **not investment advice**; "
+        "no real company, person or transaction is identified."
     )
     out = PROJECT_ROOT / "financial_models" / "SOURCES_LOG.md"
     out.parent.mkdir(parents=True, exist_ok=True)

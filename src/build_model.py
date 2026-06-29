@@ -935,15 +935,15 @@ def build():
     b.put(CL, 4, 1, a["meta"]["as_at"], "input", align="center")
     b.put(CL, 4, 2, "v1.0", "input", align="center")
     b.put(CL, 4, 3, "Initial build: survival curve, per-project rNPV, programme funnel, returns, First-Chicago, cross-checks, sensitivity, checks, dashboard.", "label", wrap=True)
-    b.put(CL, 4, 4, "Claude Code (v1 draft)", "input")
+    b.put(CL, 4, 4, "Analyst (v1 draft)", "input")
     b.put(CL, 5, 1, a["meta"]["as_at"], "input", align="center")
     b.put(CL, 5, 2, "v2.0", "input", align="center")
     b.put(CL, 5, 3, "Reframed from a fund LP investment to a DIRECT-EQUITY stake: removed fees/carry/hurdle; renamed Calc_Fund→Calc_Company (programme → net profit → company exit equity value); added a cap table (pre-/post-money, ownership, dilution, 1x liquidation preference) on Returns; outputs are now the return on OUR shares (equity IRR/MOIC), First-Chicago weights proceeds; sensitivity outputs our equity IRR.", "label", wrap=True)
-    b.put(CL, 5, 4, "Claude Code (v2 reframe)", "input")
+    b.put(CL, 5, 4, "Analyst (v2 reframe)", "input")
     b.put(CL, 6, 1, a["meta"]["as_at"], "input", align="center")
     b.put(CL, 6, 2, "v3.0", "input", align="center")
     b.put(CL, 6, 3, "Fixed the exit-value basis (change2.md): PRIMARY exit equity is now FORWARD-PIPELINE rNPV (depth × per-project) + retained cash − debt, not net profit × a platform multiple. The earnings multiple is demoted to a CROSS-CHECK on FORWARD RUN-RATE profit (a sourced low/base/high range). Added pipeline depth / distribution-fraction / debt inputs; a retained-cash double-count guard; and the exit-value sensitivity (Exhibit D). Return = terminal proceeds + interim distributions (convention (b)).", "label", wrap=True)
-    b.put(CL, 6, 4, "Claude Code (v3 exit-basis)", "input")
+    b.put(CL, 6, 4, "Analyst (v3 exit-basis)", "input")
     b.put(CL, 7, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
 
     # =====================================================================

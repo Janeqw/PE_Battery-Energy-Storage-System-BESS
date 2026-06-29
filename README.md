@@ -1,6 +1,6 @@
 # Investment Assessment — Direct-Equity Stake in a Distribution-Network Battery "Develop-and-Flip" Startup
 
-> *Educational portfolio artefact — an independent rebuild of an unnamed founder's claims. **Not investment advice; capital is at risk.***
+> *Illustrative analysis — an independent rebuild of an unnamed founder's claims. No real company, person or transaction is identified; all monetary figures are illustrative placeholders. **Not investment advice; capital is at risk.***
 
 **Headline recommendation: CONDITIONAL, PASS-LEANING — proceed to confirmatory due diligence; do NOT commit on the founders' figures alone.** We buy shares directly in one early-stage battery-developer startup. On our independent rebuild — valuing the company as a development platform on its **forward pipeline** — the deal is materially less attractive than presented and is **value-destructive at the central estimate**.
 

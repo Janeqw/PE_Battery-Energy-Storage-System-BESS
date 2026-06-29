@@ -1,6 +1,6 @@
 """Generate figures + the one-page dashboard PDF from the valuation engine.
 
-Outputs (committed portfolio artefacts):
+Outputs (committed):
     outputs/figures/survival_curve.png
     outputs/figures/irr_by_scenario.png
     outputs/figures/valuation_range.png

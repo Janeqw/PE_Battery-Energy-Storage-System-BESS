@@ -27,4 +27,4 @@ _Last updated: 2026-06-26_
 
 - The valued company is **illustrative (synthetic)**, built from real public project sizes/locations. It is not a real company.
 - Comps rely on **publicly reported deals** only. The richest deal databases (BloombergNEF, Enerdatics, Mergermarket) are paid and out of scope — a transparent limitation, not a hidden gap.
-- This is an educational portfolio artefact and **not investment advice**.
+- This is an **illustrative** analysis and **not investment advice**; no real company, person or transaction is identified.
