@@ -240,6 +240,22 @@ def build():
     srow(xv0 + 6, "Cross-check multiple — base", inp.xmult_base, "xmult_base", FMULT, "multiple", status="TO CONFIRM")
     srow(xv0 + 7, "Cross-check multiple — high", inp.xmult_high, "xmult_high", FMULT, "multiple", status="TO CONFIRM")
 
+    # Provenance flags (change5) — 1 = Independent (verified) may enter the rNPV; 0 = Proposed/Placeholder
+    pv0 = xv0 + 9
+    _ver = lambda key: 1 if inp.provenance.get(key) == "Independent (verified)" else 0
+    b.put(INP, pv0, 1, "Input provenance flags (change5) — 1 = Independent (verified); 0 = Proposed/Placeholder", "sect", fill="sect")
+    b.put(INP, pv0 + 1, 1, "RTB $/MW verified? (feeds independent rNPV)", "label")
+    b.put(INP, pv0 + 1, 3, _ver("rtb"), "input", fmt=FNUM, border=True)
+    R["rtb_verified"] = b.ref(INP, 3, pv0 + 1)
+    b.put(INP, pv0 + 2, 1, "Dev cost verified? (feeds independent rNPV)", "label")
+    b.put(INP, pv0 + 2, 3, _ver("dev_cost"), "input", fmt=FNUM, border=True)
+    R["devcost_verified"] = b.ref(INP, 3, pv0 + 2)
+    b.put(INP, pv0 + 3, 1, "Provenance tagged & disclosed?", "label")
+    b.put(INP, pv0 + 3, 3, 1, "input", fmt=FNUM, border=True)
+    R["prov_disclosed"] = b.ref(INP, 3, pv0 + 3)
+    b.put(INP, pv0 + 4, 1, "RTB $/MW and dev cost are the manager's UNVERIFIED claims (Proposed) — verify against a primary "
+                           "source (comparable RTB sales; bottom-up costs) and set the flag to 1 before treating the rNPV as independent.", "note", wrap=True)
+
     # =====================================================================
     # SCENARIOS (3 cases: Conservative / Base / Ideal)
     # =====================================================================
@@ -760,6 +776,8 @@ def build():
          "Exit equity fully distributed (ours + others)", "VC waterfall integrity"),
         (f'=IF({R["exit_eq_by"][2]}<={R["fwd_by"][2]}+{R["retained_by"][2]}+0.000001,"OK","ERROR")',
          "No double-count (exit value ≤ realised + forward pipeline)", "Retained-cash-only guard"),
+        (f'=IF(OR(AND({R["rtb_verified"]}=1,{R["devcost_verified"]}=1),{R["prov_disclosed"]}=1),"OK","ERROR")',
+         "Provenance: unverified inputs flagged, not silently independent", "Contamination guard (see advisory below)"),
     ]
     for i, (formula, label, note) in enumerate(checks):
         r = cr0 + i
@@ -782,6 +800,16 @@ def build():
     err_rule = CellIsRule(operator="equal", formula=['"ERROR"'], fill=FILL_RED, font=Font(color="9C0006"))
     b.ws[CHK].conditional_formatting.add(f"B{cr0}:B{rmaster}", ok_rule)
     b.ws[CHK].conditional_formatting.add(f"B{cr0}:B{rmaster}", err_rule)
+    # provenance advisory (change5) — NOT in the master range; honest status of the independent valuation
+    adv = rmaster + 2
+    b.put(CHK, adv, 1, "PROVENANCE STATUS (advisory — not in master)", "disc", bold=True)
+    b.put(CHK, adv, 2, f'=IF(AND({R["rtb_verified"]}=1,{R["devcost_verified"]}=1),"Verified","UNVERIFIED — verify RTB & dev cost")',
+          "formula", border=True)
+    b.put(CHK, adv + 1, 1, "The independent pipeline rNPV currently consumes the manager's UNVERIFIED RTB $/MW and dev-cost "
+                           "claims (tagged Proposed). The value is illustrative until each is verified against a primary source "
+                           "and re-tagged Independent (verified). Verifying them is more likely to LOWER the value than raise it "
+                           "— widening, not closing, the entry-price gap. Master check is unaffected (this is a disclosure).", "note", wrap=True)
+    b.ws[CHK].merge_cells(f"A{adv + 1}:G{adv + 1}")
 
     # =====================================================================
     # DASHBOARD
@@ -944,7 +972,11 @@ def build():
     b.put(CL, 6, 2, "v3.0", "input", align="center")
     b.put(CL, 6, 3, "Fixed the exit-value basis (change2.md): PRIMARY exit equity is now FORWARD-PIPELINE rNPV (depth × per-project) + retained cash − debt, not net profit × a platform multiple. The earnings multiple is demoted to a CROSS-CHECK on FORWARD RUN-RATE profit (a sourced low/base/high range). Added pipeline depth / distribution-fraction / debt inputs; a retained-cash double-count guard; and the exit-value sensitivity (Exhibit D). Return = terminal proceeds + interim distributions (convention (b)).", "label", wrap=True)
     b.put(CL, 6, 4, "Analyst (v3 exit-basis)", "input")
-    b.put(CL, 7, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
+    b.put(CL, 7, 1, a["meta"]["as_at"], "input", align="center")
+    b.put(CL, 7, 2, "v4.0", "input", align="center")
+    b.put(CL, 7, 3, "Added input PROVENANCE (change5): every price/value input tagged Proposed (manager) / Independent (verified) / Placeholder, plus a contamination guard so the independent rNPV consumes only verified inputs. RTB $/MW and dev cost are the manager's UNVERIFIED claims, so the independent value is illustrative pending verification (advisory on this tab). Anonymised: no real names; all monetary figures are illustrative placeholders.", "label", wrap=True)
+    b.put(CL, 7, 4, "Analyst (v4 provenance)", "input")
+    b.put(CL, 8, 3, "[Analyst review pass — record changes here]", "input", wrap=True, fill="yel")
 
     # =====================================================================
     # SOURCES & GLOSSARY
