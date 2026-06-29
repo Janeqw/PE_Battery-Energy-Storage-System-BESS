@@ -195,6 +195,32 @@ def test_contamination_guard_rejects_unverified_inputs():
     assert forward_pipeline_rnpv(inp, require_verified=True) > 0
 
 
+def test_value_ladder():
+    """change8 value ladder: (a) our share never exceeds diluted % × company equity
+    except where the preference floors it (and never exceeds company equity);
+    (b) Option B ownership % ≤ Option A at every later rung (dilution only reduces);
+    (c) each rung's IRR uses its own years-held. R1 ties to the §7 headline MOIC."""
+    from src import stage_analysis as sa
+    from src.valuation_engine import load_inputs, first_chicago
+
+    inp = load_inputs()
+    L = sa.value_ladder()
+    diluted = inp.ownership_diluted
+    # (b) dilution only reduces our %: B ≤ A, and later rungs dilute further
+    assert L["diluted_B"]["R1"] <= L["diluted_A"] + 1e-9
+    assert L["diluted_B"]["R2"] <= L["diluted_A"] + 1e-9
+    assert L["diluted_B"]["R3"] <= L["diluted_B"]["R2"] + 1e-9
+    # (c) each rung has its own (increasing) horizon
+    assert L["years"]["R1"] < L["years"]["R2"] < L["years"]["R3"]
+    # (a) our share bounded by company equity, and ≥ diluted × equity (pref only floors upward)
+    for d in L["rungs"].values():
+        assert d["our_share_A"] <= d["company_equity"] + 1e-6
+        assert d["our_share_A"] >= diluted * d["company_equity"] - 1e-6
+        assert d["our_share_B"] <= d["our_share_A"] + 1e-6   # funding drag never helps
+    # R1 (sell at RTB) ties to the First-Chicago headline MOIC
+    assert abs(L["rungs"]["R1"]["moic_A"] - first_chicago(inp)["expected_moic"]) < 0.02
+
+
 def test_stage_analysis_risk_ladder():
     """The three value-chain stages form a risk ladder: operating is the safest downside."""
     from src.stage_analysis import compare

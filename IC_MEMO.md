@@ -469,6 +469,9 @@ Across the plausible 10–40 range the expected return stays between roughly −
 | RTB sale price | NSW $0.9–1.1m · VIC $0.8–1.0m · SA $0.5–0.7m per 5 MW | **Proposed (manager) — unverified** |
 | Built-asset cost (context only) | ~$1.8m / MW | Independent (verified) — CSIRO GenCost |
 | Discount rate | 18.8% | RBA yield + judgement premium |
+| Value ladder — years to R1 / R2 / R3 | 2.5 / 4.0 / 7.0 yrs | Placeholder |
+| Value ladder — stabilised-asset premium (R3) | 10% | Placeholder |
+| Value ladder — Option-B dilution at R2 / R3 | 70% / 50% | Placeholder (equity raised to build / operate) |
 
 ---
 

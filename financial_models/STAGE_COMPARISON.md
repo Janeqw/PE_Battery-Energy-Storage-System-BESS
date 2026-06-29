@@ -15,6 +15,18 @@
 
 ![Risk-return by stage](../outputs/figures/stage_comparison.png)
 
+## Value ladder — our return if we sell at each rung
+
+> We own the company and choose **when to sell**: R1 after approval (ready-to-build), R2 after construction, R3 after operating. **Option A** holds our ownership % constant; **Option B** funds the climb (new equity dilutes us, debt ranks ahead). First-Chicago weighted; illustrative. R1 ties to IC_MEMO §7 (0.88x MOIC).
+
+| Rung — sell after… | Company equity | Our share (A) | MOIC (A) | IRR (A) | Our share (B) | MOIC (B) | IRR (B) | Years |
+|---|---|---|---|---|---|---|---|---|
+| R1 approval (RTB) | $7.3m | $1.76m | 0.88x | -5.1% | $1.76m | 0.88x | -5.1% | 2.5 |
+| R2 construction | $27.9m | $4.26m | 2.13x | 20.8% | $1.20m | 0.60x | -11.9% | 4.0 |
+| R3 operating | $22.7m | $3.68m | 1.84x | 9.1% | $0.49m | 0.25x | -18.2% | 7.0 |
+
+**Best rung — Option A (no funding): R2. Option B (realistic, with funding): R1.** Holding longer grows the company's equity but dilutes our slice (A holds 14.4%; B falls to 2.2% by R3) — the funding drag. Years, stabilised premium and equity-raise dilution are placeholders to confirm.
+
 ## Stage 3 (own & operate) by merchant-price scenario
 
 | Scenario | Merchant revenue | Equity IRR | MOIC |

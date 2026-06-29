@@ -411,6 +411,27 @@ def write_markdown(path=STAGE_MD) -> None:
     L.append("")
     L.append("![Risk-return by stage](../outputs/figures/stage_comparison.png)")
     L.append("")
+    L.append("## Value ladder — our return if we sell at each rung")
+    L.append("")
+    vl = value_ladder(st)
+    L.append("> We own the company and choose **when to sell**: R1 after approval (ready-to-build), R2 after "
+             "construction, R3 after operating. **Option A** holds our ownership % constant; **Option B** funds the "
+             "climb (new equity dilutes us, debt ranks ahead). First-Chicago weighted; illustrative. R1 ties to "
+             "IC_MEMO §7 (0.88x MOIC).")
+    L.append("")
+    L.append("| Rung — sell after… | Company equity | Our share (A) | MOIC (A) | IRR (A) | Our share (B) | MOIC (B) | IRR (B) | Years |")
+    L.append("|---|---|---|---|---|---|---|---|---|")
+    labels = {"R1": "R1 approval (RTB)", "R2": "R2 construction", "R3": "R3 operating"}
+    for r in ("R1", "R2", "R3"):
+        d = vl["rungs"][r]
+        L.append(f"| {labels[r]} | ${d['company_equity']:.1f}m | ${d['our_share_A']:.2f}m | {d['moic_A']:.2f}x | "
+                 f"{_pct(d['irr_A'])} | ${d['our_share_B']:.2f}m | {d['moic_B']:.2f}x | {_pct(d['irr_B'])} | {d['years']:.1f} |")
+    L.append("")
+    L.append(f"**Best rung — Option A (no funding): {vl['best_A']}. Option B (realistic, with funding): {vl['best_B']}.** "
+             f"Holding longer grows the company's equity but dilutes our slice (A holds {vl['diluted_A']:.1%}; "
+             f"B falls to {vl['diluted_B']['R3']:.1%} by R3) — the funding drag. Years, stabilised premium and "
+             "equity-raise dilution are placeholders to confirm.")
+    L.append("")
     L.append("## Stage 3 (own & operate) by merchant-price scenario")
     L.append("")
     L.append("| Scenario | Merchant revenue | Equity IRR | MOIC |")
