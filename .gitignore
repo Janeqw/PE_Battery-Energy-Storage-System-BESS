@@ -36,3 +36,4 @@ outputs/*.log
 
 # ---- Local-only source/reference materials (not published) ----
 reference/
+change*.md
