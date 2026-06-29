@@ -27,7 +27,7 @@
 
 *Basis — the full data-source-and-method table is in [Appendix A — Methods & sources](#appendix-a--methods--sources). In brief: the headline **40% / 65% / 80%** are the **development-approval gate alone**; true flip success is that gate × grid connection (70%) × sale (80%), so the Base case is 0.65 × 0.70 × 0.80 = **36.4%** and the independent public benchmark (approval 80%) is 0.80 × 0.70 × 0.80 = **44.8%**; the **return on our shares** comes from our model — the company's exit equity value on the **primary forward-pipeline basis** (forward-pipeline risk-adjusted net present value + retained cash − debt), First-Chicago weighted, then our diluted ownership through the cap table, protected by a 1× liquidation preference; the founders' figures are stated claims to verify.*
 
-> **The decisive change (this rebuild).** We replaced the earlier exit basis — net programme profit × a single ~4× platform multiple ($19.3m company exit equity at Base) — with the **forward-pipeline basis**: what a buyer of a development platform actually pays is its **forward pipeline**, not past profit. On that basis the Base company exit equity falls to **~$7.2m**, *below* the **$10m post-money** we would pay — so our stake is underwater and we rely on the **1× liquidation preference** to recover most of our money. The expected return on our shares moves from **+7.6% / 1.44×** (old basis) to **−2.6% / 0.88×** (corrected). This single assumption — the **exit basis and the pipeline depth at exit** — is now the biggest swing factor in the memo (see [Appendix C, Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate)).
+> **The decisive change (this rebuild).** We replaced the earlier exit basis — net programme profit × a single ~4× platform multiple ($19.3m company exit equity at Base) — with the **forward-pipeline basis**: what a buyer of a development platform actually pays is its **forward pipeline**, not past profit. On that basis the Base company exit equity falls to **~$7.2m**, *below* the **$10m post-money** we would pay — so our stake is underwater and we rely on the **1× liquidation preference** to recover most of our money. The expected return on our shares moves from **+7.6% / 1.44×** (old basis) to **−2.6% / 0.88×** (corrected). This single assumption — the **exit basis and the pipeline depth at exit** — is the biggest swing factor in the memo (see [Appendix C, Exhibit D](#exhibit-d--exit-value-sensitivity-our-expected-return-across-pipeline-depth-at-exit--discount-rate)). And the finding underneath it is an **entry-price** problem: at ~$10m post-money we would pay roughly **$2.8m more than the company's ~$7.2m base-case value**, so the most direct lever is the **pre-money we negotiate** (and milestone-tranching our capital), not pipeline depth — see the entry-price check in [§6](#6-valuation--your-stake).
 
 **Recommendation in full: CONDITIONAL PROCEED (PASS-LEANING)** — proceed to confirmatory due diligence; commit **only if** every condition in [§10](#10-conditions--questions-for-the-founders) is met (else **Pass**). On the corrected gates *and* the corrected (forward-pipeline) exit basis the develop-and-flip is the **weakest risk-adjusted business model on the value chain** (expected return on our shares now **≈ −2.6% / 0.88×** — value-destructive at the central estimate, with a deep-loss Conservative case):
 
@@ -325,6 +325,20 @@ The valuation runs in two steps: **(1) value the whole company** — its exit eq
 
 *The company's ~$7.2m Base exit equity is **below** the ~$10m post-money we pay, so our diluted ~14.4% as-converted stake (~$1.04m) is worth less than our $2m cheque. The **1× liquidation preference** floors our terminal proceeds at ~$2.0m (we get our money back, no more) — i.e. at Base we make essentially nothing.*
 
+### Are we overpaying? The entry-price check (Base case)
+
+The central-case result is underwater mainly because of **day-one price**: we would pay more for the company than it is worth on the forward-pipeline basis.
+
+| | Amount | Basis |
+|---|---|---|
+| What we'd value the company at (post-money) | ~$10.0m | $8m pre-money `[[TO CONFIRM]]` + our $2m |
+| What the company is worth — base case (forward-pipeline rNPV) | ~$7.2m | engine, forward-pipeline basis |
+| **Entry-price gap (overpayment)** | **~$2.8m** | post-money − base-case value |
+
+For a startup equity bet we want the company worth **more** at exit than the post-money we paid; here it is worth **less** in the central case, so the **1× liquidation preference is the only thing keeping us at break-even**. **This is an entry-price problem, not just an exit problem — the main lever is the pre-money we negotiate, not pipeline depth.** Solving for the price at which we stop overpaying: base-case company value (~$7.2m) equals post-money when **pre-money ≈ $5.2m** (versus the $8m assumed); and because dilution then shrinks our stake, our diluted shares are only worth more than our $2m cheque at a **pre-money below ~$3.2m**.
+
+*Basis — Data source: [`config/assumptions.yaml`](config/assumptions.yaml) (`equity_deal`, `exit_value`) + the live RBA risk-free rate. Method: post-money = pre-money + our investment; base-case company value = forward-pipeline rNPV + retained cash − debt; break-even pre-money solves post-money = base-case value (and, for our stake, diluted ownership × base-case value = our investment). Calculation: $10.0m − $7.2m = ~$2.8m gap; break-even pre-money = $7.2m − $2m ≈ $5.2m (company level), ≈ $3.2m (our diluted stake).*
+
 ### Cross-check 1 — earnings multiple on forward run-rate profit (sanity check, not the headline)
 
 We keep the earnings multiple, but only as a sanity check on the pipeline result above — and with two fixes so it is defensible: (1) it is applied to **forward run-rate annual development profit** (the yearly stream an acquirer inherits ≈ realised profit ÷ programme term), **not** cumulative profit; and (2) the multiple is a **sourced low / base / high range**, each a `[[TO CONFIRM: cite comp or sector benchmark]]`, not one lone number.
@@ -483,11 +497,12 @@ We hold **shares**, so our money comes back only when we can sell those shares �
 
 **Commit only if all of the following are evidenced (the bar is explicit — any one unmet ⇒ Pass):**
 
-1. **Equity terms confirmed** — pre-money valuation, share class (preferred, not ordinary), price per share and share count, a **1× non-participating liquidation preference**, the option-pool size, and anti-dilution / pre-emption rights — all currently `[[TO CONFIRM]]`.
-2. **Governance & minority protections** — a board seat or observer, information rights, and veto / protective provisions over major decisions `[[TO CONFIRM]]`.
-3. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested"); a credible portfolio-aggregation exit (a **deep buyer pool**).
-4. **Success rate / gate evidence** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
-5. **Survivable downside** — the conservative case (deep loss, ~0.44×) and a stressed Base (a thin forward pipeline at exit, ready-to-build prices down 20–30%, flip success near ~22%) impair no more than the allocated, risk-tolerant amount.
+1. **Re-priced entry (the primary lever)** — **re-price the entry (lower pre-money) and/or release our capital in milestone tranches as the pipeline converts, rather than $10m post-money up front for a ~$7m base-case company.** Company value (~$7.2m) equals post-money at a pre-money of ~$5.2m, and our diluted stake only beats our cheque below ~$3.2m pre-money (versus $8m assumed). Without a re-price or tranching, the deal is value-destructive on the central case regardless of pipeline depth.
+2. **Equity terms confirmed** — pre-money valuation, share class (preferred, not ordinary), price per share and share count, a **1× non-participating liquidation preference**, the option-pool size, and anti-dilution / pre-emption rights — all currently `[[TO CONFIRM]]`.
+3. **Governance & minority protections** — a board seat or observer, information rights, and veto / protective provisions over major decisions `[[TO CONFIRM]]`.
+4. **Exit depth & pricing** — at least 3–4 credible, *contractually-progressing* ready-to-build buyers and **independent comparables** supporting the assumed price per project (not merely "interested"); a credible portfolio-aggregation exit (a **deep buyer pool**).
+5. **Success rate / gate evidence** — sub-5 MW, per-state evidence that the 65% is genuinely the development-approval gate, plus grid-connection and sale data supporting the ~70% and ~80% gates beyond it (true Base flip success ≈ 36%).
+6. **Survivable downside** — the conservative case (deep loss, ~0.44×) and a stressed Base (a thin forward pipeline at exit, ready-to-build prices down 20–30%, flip success near ~22%) impair no more than the allocated, risk-tolerant amount.
 
 **Approval sought:** authority to conduct confirmatory due diligence and, if every condition is met, to invest up to ~$2 million `[[TO CONFIRM]]` for a ~20% stake as a small, risk-tolerant allocation — noting that owning and integrating score better per unit of downside risk than develop-and-flip.
 
@@ -722,6 +737,7 @@ The exit assumption is now the single biggest swing factor in the memo, so we sh
 **Equity / cap-table terms**
 
 - [ ] **Pre-money valuation** ($8m assumed)
+- [ ] **Break-even / value-accretive pre-money** — the entry price at which base-case company value ≥ post-money (≈ **$5.2m**; our diluted stake only beats our cheque below ≈ **$3.2m** pre-money). Re-price toward this, or release capital in milestone tranches.
 - [ ] **Our investment amount** ($2m assumed)
 - [ ] **Share class** (preferred vs ordinary) and key terms
 - [ ] **Price per share** and **number of shares** we receive
