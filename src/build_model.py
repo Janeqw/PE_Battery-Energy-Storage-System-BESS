@@ -328,6 +328,21 @@ def build(rebuild_master: bool = False):
         b.put(INP, _wr, 2 + ci, float(inp.weights[name]), "input", fmt=FPCT, border=True, align="center")
         A_weights[ci + 1] = b.ref(INP, 2 + ci, _wr)
 
+    # Model constants (change15 / updated skill) — control tolerances + the scenario-count
+    # bound, each in its OWN labelled cell so no literal is buried in a check formula
+    # (only 0/1/-1/100 may appear inside a formula).
+    kc0 = _wr + 2
+    b.put(INP, kc0, 1, "Model constants (control tolerances & bounds)", "sect", fill="sect")
+    for di, (lab, val, key, fmt) in enumerate([
+            ("Tolerance — tight", 0.000001, "tol_tight", "0.000000"),
+            ("Tolerance — standard", 0.0001, "tol", "0.000000"),
+            ("Tolerance — loose", 0.001, "tol_loose", "0.000000"),
+            ("Scenario count (switch upper bound)", 3, "n_scen", FNUM)]):
+        r = kc0 + 1 + di
+        b.put(INP, r, 1, lab, "label")
+        b.put(INP, r, 3, val, "input", fmt=fmt, border=True)
+        R[key] = b.ref(INP, 3, r)
+
     # =====================================================================
     # SCENARIOS (3 cases: Conservative / Base / Ideal)
     # =====================================================================
@@ -828,32 +843,34 @@ def build(rebuild_master: bool = False):
     checks = [
         (f'=IF(AND(MIN({b.rng(INP,3,26,3,28)})>=0,MAX({b.rng(INP,3,26,3,28)})<=1),"OK","ERROR")',
          "Every gate probability ∈ [0,1]", "Gate probs bounded"),
-        (f'=IF({R["live_success"]}<=MIN({b.rng(SURV,2,4,2,6)})+0.000001,"OK","ERROR")',
+        (f'=IF({R["live_success"]}<=MIN({b.rng(SURV,2,4,2,6)})+{R["tol_tight"]},"OK","ERROR")',
          "Flip success ≤ each gate", "Survival monotonic"),
         (f'=IF(MIN({R["pipe_mw"]})>0,"OK","ERROR")', "All MW positive", "Sign check"),
         (f'=IF(MIN({b.rng(RNPV,7,4,7,4 + n - 1)})>0,"OK","ERROR")', "All RTB sale values positive", "Sign check"),
         (f'=IF({R["dev_cost"]}>0,"OK","ERROR")', "Dev cost positive", "Sign check"),
-        (f'=IF(AND({R["switch"]}>=1,{R["switch"]}<=3),"OK","ERROR")', "Scenario switch ∈ {1,2,3}", "Switch valid"),
+        (f'=IF(AND({R["switch"]}>=1,{R["switch"]}<={R["n_scen"]}),"OK","ERROR")', "Scenario switch ∈ {1,2,3}", "Switch valid"),
         (f'=IF(AND({R["scn_da"][1]}<={R["scn_da"][2]},{R["scn_da"][2]}<={R["scn_da"][3]}),"OK","ERROR")',
          "Scenario DA-gate monotonic", "Cons ≤ Base ≤ Ideal"),
-        (f'=IF(ABS({R["post_money"]}-({R["pre_money"]}+{R["investment"]}))<0.0001,"OK","ERROR")',
+        (f'=IF(ABS({R["post_money"]}-({R["pre_money"]}+{R["investment"]}))<{R["tol"]},"OK","ERROR")',
          "Post-money = pre-money + investment", "Cap-table identity"),
-        (f'=IF(ABS({R["own_entry"]}-{R["investment"]}/{R["post_money"]})<0.0001,"OK","ERROR")',
+        (f'=IF(ABS({R["own_entry"]}-{R["investment"]}/{R["post_money"]})<{R["tol"]},"OK","ERROR")',
          "Ownership = investment ÷ post-money", "Cap-table identity"),
-        (f'=IF({R["own_diluted"]}<={R["own_entry"]}+0.0001,"OK","ERROR")',
+        (f'=IF({R["own_diluted"]}<={R["own_entry"]}+{R["tol"]},"OK","ERROR")',
          "Diluted ownership ≤ entry ownership", "Dilution sign"),
         (f'=IF(AND({R["moic_by"][1]}<={R["moic_by"][2]},{R["moic_by"][2]}<={R["moic_by"][3]}),"OK","ERROR")',
          "Investor MOIC monotonic", "Cons ≤ Base ≤ Ideal"),
-        (f'=IF(ABS({R["weights_sum"]}-1)<0.001,"OK","ERROR")', "Scenario weights sum to 100%", "First-Chicago weights"),
-        (f'=IF(AND(G{fc_row}>=E{fc_row}-0.0001,G{fc_row}<=F{fc_row}+0.0001),"OK","ERROR")',
+        (f'=IF(ABS({R["weights_sum"]}-1)<{R["tol_loose"]},"OK","ERROR")', "Scenario weights sum to 100%", "First-Chicago weights"),
+        (f'=IF(AND(G{fc_row}>=E{fc_row}-{R["tol"]},G{fc_row}<=F{fc_row}+{R["tol"]}),"OK","ERROR")',
          "First-Chicago IRR within scenario range", "Weighting sanity (helpers E:G)"),
         (f'=IF(MIN({R["ret_proceeds_rng"]})>=0,"OK","ERROR")', "Our proceeds non-negative (all scenarios)", "Sign check"),
         (f'=IF(SUM(E{err_row}:G{err_row})=0,"OK","ERROR")', "No error cells in key outputs", "#REF!/#DIV0! scan"),
-        (f'=IF(AND(ABS({R["captable_entry_total"]}-1)<0.001,ABS({R["captable_exit_total"]}-1)<0.001),"OK","ERROR")',
-         "Cap table ties (ownership sums to 100%)", "VC cap-table integrity"),
-        (f'=IF(ABS({R["waterfall_distributed"]}-{R["waterfall_exit_eq"]})<0.001,"OK","ERROR")',
+        (f'=IF(ABS({R["captable_entry_total"]}-1)<{R["tol_loose"]},"OK","ERROR")',
+         "Cap table ties — entry ownership = 100%", "VC cap-table integrity"),
+        (f'=IF(ABS({R["captable_exit_total"]}-1)<{R["tol_loose"]},"OK","ERROR")',
+         "Cap table ties — exit ownership = 100%", "VC cap-table integrity"),
+        (f'=IF(ABS({R["waterfall_distributed"]}-{R["waterfall_exit_eq"]})<{R["tol_loose"]},"OK","ERROR")',
          "Exit equity fully distributed (ours + others)", "VC waterfall integrity"),
-        (f'=IF({R["exit_eq_by"][2]}<={R["fwd_by"][2]}+{R["retained_by"][2]}+0.000001,"OK","ERROR")',
+        (f'=IF({R["exit_eq_by"][2]}<={R["fwd_by"][2]}+{R["retained_by"][2]}+{R["tol_tight"]},"OK","ERROR")',
          "No double-count (exit value ≤ realised + forward pipeline)", "Retained-cash-only guard"),
         (f'=IF(OR(AND({R["rtb_verified"]}=1,{R["devcost_verified"]}=1),{R["prov_disclosed"]}=1),"OK","ERROR")',
          "Provenance: unverified inputs flagged, not silently independent", "Contamination guard (see advisory below)"),
@@ -1119,8 +1136,15 @@ def build(rebuild_master: bool = False):
         b.ws[name].freeze_panes = "A4" if name not in (COV, CON, DSH) else "A2"
 
     # --- mandatory formula-quality scan (calc + output + control sheets) ---
+    # Updated financial-modelling skill (§1.6/§8/§11.6): no hardcoded literal beyond
+    # 0/1/-1/100 may appear in a formula — every other number traces to its own cell.
     import re as _re
-    long_hits, nested_hits = [], []
+    _ALLOWED_LITS = {"0", "1", "-1", "100", "0.0", "1.0"}
+    _STRIP_STR = _re.compile(r'"[^"]*"')                       # string literals (text)
+    _STRIP_SHEET = _re.compile(r"'[^']*'")                     # quoted sheet names
+    _STRIP_REF = _re.compile(r'\$?[A-Za-z]{1,3}\$?[0-9]+')      # cell refs / ranges
+    _NUM = _re.compile(r'(?<![A-Za-z0-9_.])-?[0-9]+\.?[0-9]*')
+    long_hits, nested_hits, literal_hits = [], [], []
     for name in [TL, SCN, SURV, RNPV, FUND, RET, CC, SENS, CHK]:
         for row in b.ws[name].iter_rows():
             for c in row:
@@ -1130,6 +1154,10 @@ def build(rebuild_master: bool = False):
                         long_hits.append(f"{name}!{c.coordinate} ({len(v)} chars)")
                     if len(_re.findall(r"(?<!ERROR)\bIF\(", v)) >= 2:
                         nested_hits.append(f"{name}!{c.coordinate}")
+                    _s = _STRIP_REF.sub("", _STRIP_SHEET.sub("", _STRIP_STR.sub("", v)))
+                    for _num in _NUM.findall(_s):
+                        if _num not in _ALLOWED_LITS:
+                            literal_hits.append(f"{name}!{c.coordinate}={_num}")
 
     # Excel-first (change11): the master BESS_Valuation.xlsx is HAND-OWNED. A normal
     # run writes NOTHING — Python never overwrites the master. It is regenerated only
@@ -1143,10 +1171,12 @@ def build(rebuild_master: bool = False):
     out.parent.mkdir(parents=True, exist_ok=True)
     b.wb.save(out)
     print(f"[build_model] wrote {out}")
-    if long_hits or nested_hits:
-        print(f"[build_model] FORMULA SCAN FAILED — long: {long_hits[:8]}  nested IF: {nested_hits[:8]}")
+    if long_hits or nested_hits or literal_hits:
+        print(f"[build_model] FORMULA SCAN FAILED — long: {long_hits[:8]}  nested IF: {nested_hits[:8]}  "
+              f"hardcoded literals ({len(literal_hits)}): {literal_hits[:8]}")
     else:
-        print("[build_model] formula-quality scan PASSED — no long formulas, no nested IFs on any calc sheet")
+        print(f"[build_model] formula-quality scan PASSED — no long formulas, no nested IFs, "
+              f"{len(literal_hits)} hardcoded literals beyond 0/1/-1/100 (target 0)")
     return out
 
 
