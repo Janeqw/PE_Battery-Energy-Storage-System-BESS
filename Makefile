@@ -8,19 +8,21 @@
 
 PY ?= python
 
-.PHONY: all install extract transform refresh rebuild-master report test clean help
+.PHONY: all install extract transform build-source refresh rebuild-master report test clean help
 
 help:
 	@echo "Targets:"
 	@echo "  make install         pip install deps (+ playwright browser if used)"
 	@echo "  make extract         run src/extract/* -> data/raw + refresh source CSVs"
 	@echo "  make transform       clean pipeline, gate statistics, comps -> data/processed"
+	@echo "  make build-source    regenerate INPUTS_AND_ASSUMPTIONS.xlsx (Inputs from data/raw, Assumptions from config)"
 	@echo "  make refresh         push refreshed CSV inputs into the master's INPUT cells (--write-master)"
 	@echo "  make rebuild-master  regenerate the hand-owned master workbook from Python (overwrites it)"
 	@echo "  make report          export dashboard.pdf + figures"
-	@echo "  make test            pytest (recomputes the numbers + checks the master ties)"
+	@echo "  make test            pytest (recomputes the numbers + checks the model ties to the engine)"
 	@echo "  make all             extract -> transform -> report (master is hand-owned; not touched)"
 	@echo "  make clean           remove data/raw and regenerated outputs"
+	@echo "  Build order:         extract -> transform -> build-source -> rebuild-master"
 
 install:
 	$(PY) -m pip install -r requirements.txt
@@ -40,6 +42,13 @@ transform:
 	$(PY) -m src.transform.clean_pipeline
 	$(PY) -m src.transform.gate_statistics
 	$(PY) -m src.transform.build_comps
+
+# ---- Source workbook (change15): the model's Power Query feed --------------
+# Regenerate financial_models/INPUTS_AND_ASSUMPTIONS.xlsx — Inputs (sourced, from
+# data/raw/) + Assumptions (judgement, from config/assumptions.yaml). The model links
+# to it via Power Query; `make rebuild-master` snapshots it into the Raw_* feed tabs.
+build-source:
+	$(PY) -m src.build_source_workbook
 
 # ---- Phase B: refresh inputs (Excel-first: master is hand-owned) ------------
 # Explicitly push the latest processed CSV values into the master's INPUT cells

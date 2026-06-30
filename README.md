@@ -66,24 +66,29 @@ Every figure traces input → formula → result inside the Excel model. Full da
 
 ## The model is the Excel workbook
 
-**The model is [`financial_models/BESS_Valuation.xlsx`](financial_models/BESS_Valuation.xlsx).** Open it and drive it by hand: change the **scenario switch** (`Scenarios` tab — `1` / `2` / `3` for Conservative / Base / Ideal), or edit any **blue** input cell on the **Inputs** tab, and the workbook recalculates. The **Checks** tab must read all-**OK** (the Cover carries the master check); the **Dashboard** tab is the one-page summary.
+**The model is [`financial_models/BESS_Valuation.xlsx`](financial_models/BESS_Valuation.xlsx).** Open it and drive it by hand: change the **scenario switch** (`Scenarios` tab — `1` / `2` / `3` for Conservative / Base / Ideal), or edit a **blue** input cell on the **Assumptions** tab (the single junction every driver flows from), and the workbook recalculates. The **Checks** tab must read all-**OK** (the Cover carries the master check); the **Dashboard** tab is the one-page summary.
 
 **Colour convention:** **blue** = an input you can change · **black** = a formula · **green** = a link to another sheet.
 
-### Python is the data layer, not the model
+### Where the numbers come from
 
-The Python pipeline pulls and checks data; it does **not** own the workbook.
+- **Config — inspectable on GitHub — lives in [`config/`](config/):** [`assumptions.yaml`](config/assumptions.yaml) (judgement assumptions — the master), [`sources.yaml`](config/sources.yaml) (the source / extraction register), and [`SOURCES_LOG.md`](config/SOURCES_LOG.md) (the verification log). YAML renders on GitHub — read it there.
+- **One GENERATED source workbook:** [`financial_models/INPUTS_AND_ASSUMPTIONS.xlsx`](financial_models/INPUTS_AND_ASSUMPTIONS.xlsx) holds two sheets — **Inputs** (sourced data from `data/raw/`, each figure showing its source / raw file / page / provenance) and **Assumptions** (judgement, from `config/assumptions.yaml`). **GENERATED — do not hand-edit.**
+- **The model links to it via Power Query** (relative path, same folder): the `Raw_Inputs` / `Raw_Assumptions` tabs load those two sheets (each tab carries the exact PQ steps); the model's **Assumptions** tab green-links to them, so the model types no source numbers. Refresh with **Data → Refresh**.
+- **Python is the data + check layer, not the model:** `src/extract/*` pull source data into `data/raw/` → `data/processed/`; `src/valuation_engine.py` independently recomputes the numbers to confirm the workbook ties (`make test`). The master is hand-owned — a normal Python run writes nothing; regenerate it only with `make rebuild-master`.
 
-- **Data in** — `src/extract/*` and `src/refresh_model_inputs.py` pull the source inputs (AEMO ISP, CSIRO GenCost, RBA yields) into `data/processed/`, which the modeller links or pastes into the **Inputs** tab.
-- **Independent check** — `src/valuation_engine.py` recomputes the same numbers cell-for-cell, used only to **confirm the workbook ties** (`make test`). It does not produce the model.
-- **Hand-owned master** — there is **one** model file. A normal Python run writes nothing; Python never overwrites the master. Re-baseline it from Python only with `make rebuild-master`.
+### Edit paths
+
+- **Change a SOURCED input** → update the source data / re-run the extractors, then `make build-source`.
+- **Change a JUDGEMENT assumption** → edit [`config/assumptions.yaml`](config/assumptions.yaml), then `make build-source`.
 
 ```bash
-make install      # dependencies
-make extract      # refresh source data (AEMO / CSIRO / RBA) -> data/processed/
-make transform    # clean pipeline, gate stats, comps
-make test         # pytest — recomputes the numbers and checks the master ties
-make refresh      # OPTIONAL: push refreshed inputs into the master's blue cells (--write-master)
+make install        # dependencies
+make extract        # refresh source data (AEMO / CSIRO / RBA) -> data/raw/ -> data/processed/
+make transform      # clean pipeline, gate stats, comps
+make build-source   # regenerate INPUTS_AND_ASSUMPTIONS.xlsx (Inputs from data/raw, Assumptions from config)
+make rebuild-master # regenerate the model (refreshes its Raw_Inputs/Raw_Assumptions feed tabs)
+make test           # pytest — recomputes the numbers and checks the model ties to the engine
 ```
 
-**To change an input:** edit its **blue** cell on the **Inputs** tab (then the workbook recalculates), or run `make extract transform` and copy the refreshed value from `data/processed/` into that cell.
+**Build order:** `extract → transform → build-source → rebuild-master` (or, in Excel, **Data → Refresh** to pull the latest source workbook via Power Query).

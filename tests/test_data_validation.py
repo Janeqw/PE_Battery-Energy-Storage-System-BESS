@@ -295,3 +295,29 @@ def test_model_recalculates_clean():
     assert master_row, "could not find the MASTER CHECK row on the Checks tab"
     master = cells.get(("CHECKS", f"B{master_row}"))
     assert master == "OK", f"master check is {master!r}, expected OK"
+
+
+def test_model_ties_to_engine():
+    """change15: the workbook must compute the SAME headline as the Python engine.
+    The engine (config + data/processed) and the generated workbook share one upstream
+    source, so the recalculated workbook must contain the engine's First-Chicago IRR
+    and MOIC — a layout-robust tie-out check."""
+    formulas = pytest.importorskip("formulas")
+    import warnings
+
+    from src.valuation_engine import load_inputs, first_chicago
+
+    warnings.filterwarnings("ignore")
+    fc = first_chicago(load_inputs())
+    sol = formulas.ExcelModel().loads(str(MODEL)).finish().calculate()
+    nums = []
+    for v in sol.values():
+        val = v.value
+        if hasattr(val, "ravel"):
+            val = val.ravel()[0] if val.size else None
+        if isinstance(val, (int, float)) and not isinstance(val, bool):
+            nums.append(float(val))
+    assert any(abs(x - fc["expected_irr"]) < 1e-4 for x in nums), \
+        "workbook does not compute the engine's First-Chicago IRR (model/engine drift)"
+    assert any(abs(x - fc["expected_moic"]) < 1e-4 for x in nums), \
+        "workbook does not compute the engine's First-Chicago MOIC (model/engine drift)"
