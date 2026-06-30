@@ -21,7 +21,7 @@
 
 ## How the headline numbers are derived
 
-Every figure traces input → formula → result. Full data sourcing is in [IC_MEMO.md, Appendix A](IC_MEMO.md#appendix-a--methods--sources); the code is in [`src/valuation_engine.py`](src/valuation_engine.py); the inputs (each with a source and a `provenance` tag) are in [`config/assumptions.yaml`](config/assumptions.yaml).
+Every figure traces input → formula → result inside the Excel model. Full data sourcing is in [IC_MEMO.md, Appendix A](IC_MEMO.md#appendix-a--methods--sources); the inputs (each with a source and a `provenance` tag) are in [`config/assumptions.yaml`](config/assumptions.yaml). The same formulas are reproduced cell-for-cell in [`src/valuation_engine.py`](src/valuation_engine.py) — an independent recomputation used only to **check** the workbook ties, not to produce it. (Function names below point into that reference.)
 
 **Step 1 — Will a project succeed? (the three gates)**
 
@@ -64,12 +64,26 @@ Every figure traces input → formula → result. Full data sourcing is in [IC_M
 
 **Three inputs drive the result and are still `[[TO CONFIRM]]` placeholders:** pre-money ($8m), pipeline depth at exit (25 projects), and the interim-distribution fraction (0%). Each materially moves the answer — see [IC_MEMO.md, Exhibit D](IC_MEMO.md#exhibit-d--exit-value-sensitivity).
 
-## How to reproduce the model
+## The model is the Excel workbook
+
+**The model is [`financial_models/BESS_Valuation.xlsx`](financial_models/BESS_Valuation.xlsx).** Open it and drive it by hand: change the **scenario switch** (`Scenarios` tab — `1` / `2` / `3` for Conservative / Base / Ideal), or edit any **blue** input cell on the **Inputs** tab, and the workbook recalculates. The **Checks** tab must read all-**OK** (the Cover carries the master check); the **Dashboard** tab is the one-page summary.
+
+**Colour convention:** **blue** = an input you can change · **black** = a formula · **green** = a link to another sheet.
+
+### Python is the data layer, not the model
+
+The Python pipeline pulls and checks data; it does **not** own the workbook.
+
+- **Data in** — `src/extract/*` and `src/refresh_model_inputs.py` pull the source inputs (AEMO ISP, CSIRO GenCost, RBA yields) into `data/processed/`, which the modeller links or pastes into the **Inputs** tab.
+- **Independent check** — `src/valuation_engine.py` recomputes the same numbers cell-for-cell, used only to **confirm the workbook ties** (`make test`). It does not produce the model.
+- **Hand-owned master** — a normal Python run writes an autobuild *self-check* copy to `financial_models/_generated/`, never the master. Re-baseline the master from Python only with `make rebuild-master`.
 
 ```bash
-make install      # pip install -r requirements.txt (+ playwright chromium if used)
-make all          # extract -> transform -> refresh model inputs -> export report
-make test         # pytest
+make install      # dependencies
+make extract      # refresh source data (AEMO / CSIRO / RBA) -> data/processed/
+make transform    # clean pipeline, gate stats, comps
+make refresh      # refresh the autobuild self-check copy (master is hand-owned)
+make test         # pytest — recomputes the numbers and checks the master ties
 ```
 
-Then open `financial_models/BESS_Valuation.xlsx` (recalculates on open; Cover master check should read **OK**).
+**To change an input:** edit its **blue** cell on the **Inputs** tab (then the workbook recalculates), or run `make extract transform` and copy the refreshed value from `data/processed/` into that cell.
