@@ -36,7 +36,7 @@ from src.valuation_engine import load_inputs
 # ---------------------------------------------------------------------------
 # Sheet names (15 tabs)
 # ---------------------------------------------------------------------------
-COV, CON, CL, INP, TL, SCN = "Cover", "Contents", "Change Log", "Inputs", "Timeline", "Scenarios"
+COV, CON, CL, INP, TL, SCN = "Cover", "Contents", "Change Log", "Assumptions", "Timeline", "Scenarios"
 SURV, RNPV, FUND, RET = "Calc_Survival", "Calc_Project_rNPV", "Calc_Company", "Returns"
 CC, SENS, CHK, DSH, SG = "Calc_CrossChecks", "Sensitivity", "Checks", "Dashboard", "Sources & Glossary"
 ORDER = [COV, CON, CL, INP, TL, SCN, SURV, RNPV, FUND, RET, CC, SENS, CHK, DSH, SG]
@@ -147,7 +147,7 @@ def build(rebuild_master: bool = False):
     # INPUTS
     # =====================================================================
     b.width(INP, {"A": 36, "B": 10, "C": 14, "D": 13, "E": 50, "F": 12, "G": 12, "H": 12})
-    b.put(INP, 1, 1, "INPUTS — all model assumptions (blue = input cell)", "title")
+    b.put(INP, 1, 1, "ASSUMPTIONS — the single junction; every driver flows from here (blue = input cell)", "title")
     b.put(INP, 2, 1, "We buy SHARES directly in an ILLUSTRATIVE battery-developer startup (not a fund LP). Founder/manager figures are CLAIMS — verify; the equity-deal terms are placeholders to confirm. Every input traces to a source.", "note", wrap=True)
     b.header(INP, 3, ["Assumption", "", "Value", "Unit", "Source", "As at", "Status", "Duration (yrs)"])
 
@@ -261,6 +261,31 @@ def build(rebuild_master: bool = False):
     b.put(INP, pv0 + 4, 1, "RTB $/MW and dev cost are the manager's UNVERIFIED claims (Proposed) — verify against a primary "
                            "source (comparable RTB sales; bottom-up costs) and set the flag to 1 before treating the rNPV as independent.", "note", wrap=True)
 
+    # Scenario driver values (change15) — the SINGLE SOURCE for the per-scenario drivers.
+    # The Scenarios tab links to these cells; its switch + live CHOOSE row stay there.
+    sc0 = pv0 + 6
+    b.put(INP, sc0, 1, "Scenario driver values (by case) — single source; the Scenarios tab links here", "sect", fill="sect")
+    b.header(INP, sc0 + 1, ["Driver", "Conservative", "Base", "Ideal"])
+    _scn_fields = [("Development-approval rate (DA gate — 40/65/80%)", "da_rate", FPCT),
+                   ("RTB price multiplier", "sale_price_multiplier", FMULT),
+                   ("Dev cost multiplier", "dev_cost_multiplier", FMULT)]
+    A_scn = {}
+    for di, (label, field, fmt) in enumerate(_scn_fields):
+        r = sc0 + 2 + di
+        b.put(INP, r, 1, label, "label")
+        A_scn[field] = {}
+        for ci, cid in enumerate([1, 2, 3]):
+            v = inp.scenarios[cid].get(field)
+            v = 0 if v is None else float(v)
+            b.put(INP, r, 2 + ci, v, "input", fmt=fmt, border=True, align="center")
+            A_scn[field][cid] = b.ref(INP, 2 + ci, r)
+    _wr = sc0 + 5
+    b.put(INP, _wr, 1, "First-Chicago weight (by case)", "label")
+    A_weights = {}
+    for ci, name in enumerate(["Conservative", "Base", "Ideal"]):
+        b.put(INP, _wr, 2 + ci, float(inp.weights[name]), "input", fmt=FPCT, border=True, align="center")
+        A_weights[ci + 1] = b.ref(INP, 2 + ci, _wr)
+
     # =====================================================================
     # SCENARIOS (3 cases: Conservative / Base / Ideal)
     # =====================================================================
@@ -282,9 +307,8 @@ def build(rebuild_master: bool = False):
         r = 5 + di
         b.put(SCN, r, 1, label, "label")
         for ci, cid in enumerate([1, 2, 3]):
-            val = cases[cid].get(field)
-            val = 0 if val is None else float(val)
-            b.put(SCN, r, 2 + ci, val, "input", fmt=fmt, border=True, align="center")
+            # value lives on the Assumptions tab; link to it (green) — the one source
+            b.put(SCN, r, 2 + ci, f"={A_scn[field][cid]}", "link", fmt=fmt, border=True, align="center")
         b.put(SCN, r, 5, f"=CHOOSE({R['switch']},B{r},C{r},D{r})", "formula", fmt=fmt, bold=True, border=True)
         R[key] = b.ref(SCN, 5, r)
     # discount rate is fixed (scenarios move ONLY the DA gate, not the discount rate)
@@ -302,13 +326,15 @@ def build(rebuild_master: bool = False):
     b.header(SCN, 12, ["", "Conservative", "Base", "Ideal", "Sum"])
     b.put(SCN, 13, 1, "Weight", "label")
     for ci, name in enumerate(["Conservative", "Base", "Ideal"]):
-        b.put(SCN, 13, 2 + ci, float(inp.weights[name]), "input", fmt=FPCT, border=True, align="center")
+        # weight lives on the Assumptions tab; link to it (green)
+        b.put(SCN, 13, 2 + ci, f"={A_weights[ci + 1]}", "link", fmt=FPCT, border=True, align="center")
     b.put(SCN, 13, 5, "=SUM(B13:D13)", "formula", fmt=FPCT, bold=True, border=True)
     R["weights"] = b.rng(SCN, 2, 13, 4, 13)
     R["weights_sum"] = b.ref(SCN, 5, 13)
     b.put(SCN, 15, 1, "The 40/65/80% are the DEVELOPMENT-APPROVAL gate ONLY (the manager's deck). True flip success = development "
                       "approval x grid connection x sale — far below 65% (see Calc_Survival). The switch moves ONLY the DA gate; "
-                      "connection and sale are fixed public benchmarks. Scenarios are the analyst's to OWN.", "note", wrap=True)
+                      "connection and sale are fixed public benchmarks. Scenarios are the analyst's to OWN. The driver VALUES live on "
+                      "the Assumptions tab (the single source); this tab links to them and holds only the switch + live case.", "note", wrap=True)
 
     # =====================================================================
     # TIMELINE
@@ -734,7 +760,7 @@ def build(rebuild_master: bool = False):
         b.put(SENS, r, 2, da, "input", fmt=FPCT, fill="yel", align="center", border=True)
         b.put(SENS, r, 8, f"=$B{r}*$B$4", "formula", fmt=FPCT, border=True)
         b.put(SENS, r, 9, f"=IFERROR({R['target']}/H{r},0)", "formula", fmt=FNUM1, border=True)
-        b.put(SENS, r, 10, f"={R['target']}*{R['dev_cost']}+(I{r}-{R['target']})*{R['abandon']}*{R['dev_cost']}", "formula", fmt=FM, border=True)
+        b.put(SENS, r, 10, f"={R['dev_cost']}*({R['target']}+(I{r}-{R['target']})*{R['abandon']})", "formula", fmt=FM, border=True)
         for j in range(len(price_mults)):
             pc = get_column_letter(GC0 + j)    # price header / gross helper column
             eqc = get_column_letter(EQ0 + j)   # exit-equity grid column
@@ -814,7 +840,7 @@ def build(rebuild_master: bool = False):
     # provenance advisory (change5) — NOT in the master range; honest status of the independent valuation
     adv = rmaster + 2
     b.put(CHK, adv, 1, "PROVENANCE STATUS (advisory — not in master)", "disc", bold=True)
-    b.put(CHK, adv, 2, f'=IF(AND({R["rtb_verified"]}=1,{R["devcost_verified"]}=1),"Verified","UNVERIFIED — verify RTB & dev cost")',
+    b.put(CHK, adv, 2, f'=IF(AND({R["rtb_verified"]}=1,{R["devcost_verified"]}=1),"Verified","UNVERIFIED — verify inputs")',
           "formula", border=True)
     b.put(CHK, adv + 1, 1, "The independent pipeline rNPV currently consumes the manager's UNVERIFIED RTB $/MW and dev-cost "
                            "claims (tagged Proposed). The value is illustrative until each is verified against a primary source "

@@ -77,7 +77,7 @@ def run(write_master: bool = False) -> None:
 
     inp = load_inputs()
     wb = load_workbook(target)
-    ws = wb["Inputs"]
+    ws = wb["Assumptions"]
     n_updated = 0
 
     for row in ws.iter_rows(min_col=1, max_col=1):
