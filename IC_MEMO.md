@@ -360,7 +360,7 @@ The **liquidation preference governs the split**: on a sale we take the greater 
 
 ## Appendix A — Methods & sources
 
-**What this analysis is built on.** A reproducible Python pipeline over free public Australian data, feeding a formula-driven Excel model. The Python engine reproduces the workbook cell-for-cell; `make all` regenerates the data, model and figures.
+**What this analysis is built on.** The model is the hand-owned, formula-driven Excel workbook ([`BESS_Valuation.xlsx`](financial_models/BESS_Valuation.xlsx)) — open it and drive the scenario switch and blue input cells. A reproducible Python pipeline over free public Australian data is the **data + check layer**: it refreshes the source inputs and independently recomputes the workbook cell-for-cell to confirm it ties (`make test`). The workbook is regenerated from Python only on demand (`make rebuild-master`).
 
 **Methods (recognised techniques, not bespoke).**
 
@@ -371,10 +371,10 @@ The **liquidation preference governs the split**: on a sale we take the greater 
 | Forward-pipeline exit basis | Company exit equity = forward rNPV + retained cash − debt |
 | Pre-/post-money, cap table, dilution, liquidation preference | Our ownership and proceeds |
 | First-Chicago scenario weighting | Probability-weighted expected return |
-| Build-up discount rate (CFA) | 18.8% = RBA 10-year CGS yield 4.8% + 14.0% development risk premium |
+| Build-up discount rate (CFA) | 18.8% = RBA 10-year CGS yield 4.776% (17 Jun 2026) + 14.0% development risk premium |
 | Industry life-cycle · Porter · comparable transactions (CFA) | Market, competition, buyer landscape |
 
-**Data sources & provenance.** Every external input is named with its source and date in the model's source log ([`SOURCES_LOG.md`](financial_models/SOURCES_LOG.md)). Each price/value input is tagged: *Independent (verified)*, *Proposed (manager)* (a claim, unverified), or *Placeholder* (a reframe assumption). The independent valuation may consume only verified inputs; a guard enforces this. Live data: the RBA risk-free rate. Documented public benchmarks (verify): AEMO connection and ISP data; NSW/VIC/SA planning portals; CSIRO GenCost build cost; energy trade press for deal sizes. Founder claims (verify): RTB prices and development cost.
+**Data sources & provenance.** Every external input is named with its source and date in the model's source log ([`SOURCES_LOG.md`](financial_models/SOURCES_LOG.md)). Each price/value input is tagged: *Independent (verified)*, *Proposed (manager)* (a claim, unverified), or *Placeholder* (a reframe assumption). The independent valuation may consume only verified inputs; a guard enforces this. Live data: the RBA risk-free rate (daily 10-year CGS, table F2; the dated snapshot is archived in [`raw/`](raw/)). Documented public benchmarks (verify): AEMO connection and ISP data; NSW/VIC/SA planning portals; CSIRO GenCost build cost; energy trade press for deal sizes. Founder claims (verify): RTB prices and development cost.
 
 **Integrity & limitations.**
 

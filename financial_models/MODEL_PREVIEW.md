@@ -1,6 +1,6 @@
 # Model preview — direct-equity stake in a battery-developer startup (read-only snapshot)
 
-> **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** This page mirrors the model's key outputs so you can review the results here, with no software. Numbers are produced by `valuation_engine.py`, the cell-for-cell Python reference of the workbook ([`financial_models/BESS_Valuation.xlsx`](BESS_Valuation.xlsx)).
+> **GitHub does not render `.xlsx` files, and the workbook computes its values only when opened in Excel.** This page mirrors the model's key outputs so you can review the results here, with no software. The model is the hand-owned workbook ([`financial_models/BESS_Valuation.xlsx`](BESS_Valuation.xlsx)); the numbers here are recomputed by `valuation_engine.py`, its cell-for-cell independent check.
 
 *We invest **directly as a shareholder** in one illustrative battery-developer startup (not as a fund LP). Independent rebuild of the founder's claims; several equity-deal terms are **placeholders to confirm**. Not investment advice. See the [repository README](../README.md).*
 
