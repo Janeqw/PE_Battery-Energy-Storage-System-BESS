@@ -24,6 +24,22 @@
 # date and MUST be re-verified. Live values (RBA yield) refresh via `make extract`.
 # =============================================================================
 
+# -----------------------------------------------------------------------------
+# SOURCE-KEY SCHEME (change12) — every assumption carries a `source_key:` that
+# links it to a declared register entry in config/sources.yaml (the machine link;
+# the `source:` prose stays as the human note). Allowed values:
+#   <key>                       — a real key under `sources:` in sources.yaml
+#                                 (rba, csiro_gencost, nsw_planning, aemo_connections,
+#                                  aemo_generation_info, trade_press_comps, aemo_isp, …)
+#   context_only:<name>         — a context-only source (exact name from sources.yaml)
+#   none  (+ judgement: true)   — NO declared public source backs this input:
+#                                 analyst judgement, illustrative, company-plan,
+#                                 placeholder, OR a manager claim pending verification.
+#                                 The `provenance:` tag says which; a `none` input must
+#                                 NOT name a public source in its `source:` prose.
+# tests/test_sources_match.py enforces this so the two files cannot drift apart.
+# -----------------------------------------------------------------------------
+
 meta:
   fund_name: "Illustrative Distribution-BESS Develop-and-Flip Fund (ILLUSTRATIVE — NOT A REAL FUND)"
   currency: "AUD"
@@ -44,12 +60,15 @@ meta:
 discount_rate:
   risk_free:
     value: 0.0420            # ~Australian 10yr CGS yield; refreshed from RBA F2
+    source_key: rba
     source: "RBA Statistical Table F2 (Capital Market Yields — 10yr CGS)"
     as_at: "2026-06-26"
     verify: true
   risk_premium:
     value: 0.140            # development-stage equity risk premium (illustrative)
-    source: "Renewable-development valuation guidance (illustrative); all-in base ~18%"
+    source_key: none
+    judgement: true
+    source: "Analyst judgement — development-stage equity risk premium (illustrative); all-in base ~18%"
     as_at: "2026-06-26"
     verify: true
   # base discount (asset cross-checks) = risk_free + risk_premium (~0.182)
@@ -57,6 +76,8 @@ discount_rate:
 returns:
   vc_target_return:
     value: 0.250            # VC-method target return / discount rate for the exit-value PV
+    source_key: none
+    judgement: true
     source: "VC-method target return for development-stage equity (25%+); analyst judgement"
     as_at: "2026-06-26"
     verify: true
@@ -66,23 +87,23 @@ returns:
 #    We invest directly as a shareholder (see §2b), NOT as a fund LP.
 # -----------------------------------------------------------------------------
 company:
-  programme_capital_m: {value: 25.0, provenance: "Placeholder", source_ref: "Illustrative scale; verify against the company plan", source: "Illustrative scale of the company's equity-funded development programme; verify", as_at: "2026-06-26", verify: true}
-  projects_target:     {value: 35,   source: "Company plan — deliver & sell ~35 ready-to-build projects; verify", as_at: "2026-06-26", verify: true}
-  term_years:          {value: 3,    source: "Company plan — ~2+1 year develop-and-flip programme cycle; verify", as_at: "2026-06-26"}
-  capital_call_profile:  {value: [0.50, 0.50, 0.0, 0.0], source: "Illustrative — development spend in yrs 0-1", as_at: "2026-06-26"}
-  distribution_profile:  {value: [0.0, 0.0, 0.50, 0.50], source: "Illustrative — programme proceeds in yrs 2-3", as_at: "2026-06-26"}
+  programme_capital_m: {value: 25.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative scale; verify against the company plan", source: "Illustrative scale of the company's equity-funded development programme; verify", as_at: "2026-06-26", verify: true}
+  projects_target:     {value: 35,   source_key: none, judgement: true, source: "Company plan — deliver & sell ~35 ready-to-build projects; verify", as_at: "2026-06-26", verify: true}
+  term_years:          {value: 3,    source_key: none, judgement: true, source: "Company plan — ~2+1 year develop-and-flip programme cycle; verify", as_at: "2026-06-26"}
+  capital_call_profile:  {value: [0.50, 0.50, 0.0, 0.0], source_key: none, judgement: true, source: "Illustrative — development spend in yrs 0-1", as_at: "2026-06-26"}
+  distribution_profile:  {value: [0.0, 0.0, 0.50, 0.50], source_key: none, judgement: true, source: "Illustrative — programme proceeds in yrs 2-3", as_at: "2026-06-26"}
 
 # -----------------------------------------------------------------------------
 # 2b. DIRECT-EQUITY DEAL TERMS — we buy shares in the company.
 #     PLACEHOLDERS to confirm with the founders / term sheet ([[TO CONFIRM]]).
 # -----------------------------------------------------------------------------
 equity_deal:
-  pre_money_m:               {value: 8.0,  provenance: "Placeholder", source_ref: "Reframe placeholder we introduced (the original deal is an LP fund commitment with no pre-money / per-share price). Illustrative, not a manager figure.", source: "[[TO CONFIRM]] PLACEHOLDER — the company's pre-money valuation (value before our money goes in)", as_at: "2026-06-26", verify: true}
-  investment_amount_m:       {value: 2.0,  provenance: "Placeholder", source_ref: "Illustrative cheque size (reframe placeholder); not a figure from any real proposal.", source: "[[TO CONFIRM]] PLACEHOLDER — our equity cheque", as_at: "2026-06-26", verify: true}
-  option_pool_pct:           {value: 0.10, source: "[[TO CONFIRM]] PLACEHOLDER — staff option pool created at our round (dilutes us)", as_at: "2026-06-26", verify: true}
-  future_round_dilution_pct: {value: 0.20, source: "[[TO CONFIRM]] PLACEHOLDER — expected dilution from future capital raises before exit", as_at: "2026-06-26", verify: true}
-  liquidation_preference_x:  {value: 1.0,  source: "PLACEHOLDER — 1x non-participating preferred (the greater of our money back or our as-converted share); confirm in the term sheet", as_at: "2026-06-26", verify: true}
-  exit_year:                 {value: 5,    source: "[[TO CONFIRM]] PLACEHOLDER — years to our exit (we sell our shares)", as_at: "2026-06-26", verify: true}
+  pre_money_m:               {value: 8.0,  provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Reframe placeholder we introduced (the original deal is an LP fund commitment with no pre-money / per-share price). Illustrative, not a manager figure.", source: "[[TO CONFIRM]] PLACEHOLDER — the company's pre-money valuation (value before our money goes in)", as_at: "2026-06-26", verify: true}
+  investment_amount_m:       {value: 2.0,  provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative cheque size (reframe placeholder); not a figure from any real proposal.", source: "[[TO CONFIRM]] PLACEHOLDER — our equity cheque", as_at: "2026-06-26", verify: true}
+  option_pool_pct:           {value: 0.10, source_key: none, judgement: true, source: "[[TO CONFIRM]] PLACEHOLDER — staff option pool created at our round (dilutes us)", as_at: "2026-06-26", verify: true}
+  future_round_dilution_pct: {value: 0.20, source_key: none, judgement: true, source: "[[TO CONFIRM]] PLACEHOLDER — expected dilution from future capital raises before exit", as_at: "2026-06-26", verify: true}
+  liquidation_preference_x:  {value: 1.0,  source_key: none, judgement: true, source: "PLACEHOLDER — 1x non-participating preferred (the greater of our money back or our as-converted share); confirm in the term sheet", as_at: "2026-06-26", verify: true}
+  exit_year:                 {value: 5,    source_key: none, judgement: true, source: "[[TO CONFIRM]] PLACEHOLDER — years to our exit (we sell our shares)", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 2c. EXIT VALUE — how the company's exit equity value is built at our exit.
@@ -103,9 +124,9 @@ equity_deal:
 # -----------------------------------------------------------------------------
 exit_value:
   exit_basis: "pipeline_rnpv"   # PRIMARY switch: pipeline_rnpv (default) | earnings_multiple | comps (cross-checks)
-  pipeline_depth_at_exit:        {value: 25,  provenance: "Placeholder", source_ref: "Illustrative — projects in flight at exit; verify against the company's pipeline plan", source: "[[TO CONFIRM]] PLACEHOLDER — number of projects still IN FLIGHT (not yet sold) when we exit; the MAIN sensitivity of the pipeline basis (see Exhibit D). The company targets ~35 delivered over its programme.", as_at: "2026-06-26", verify: true}
-  interim_distribution_fraction: {value: 0.0, provenance: "Placeholder", source_ref: "Illustrative (conservative 0%); confirm the distribution policy", source: "[[TO CONFIRM]] PLACEHOLDER — fraction of realised net programme profit DISTRIBUTED to shareholders during the hold (convention (b), IC_MEMO §7). 0% (conservative) retains all realised profit and counts it ONCE, at face value, in the exit value — never at a multiple. Raise once the distribution policy is confirmed.", as_at: "2026-06-26", verify: true}
-  debt_at_exit_m:                {value: 0.0, provenance: "Placeholder", source_ref: "Illustrative ($0; equity-funded); confirm against the balance sheet", source: "[[TO CONFIRM]] PLACEHOLDER — company debt outstanding at exit; the company is equity-funded, so 0 by default.", as_at: "2026-06-26", verify: true}
+  pipeline_depth_at_exit:        {value: 25,  provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative — projects in flight at exit; verify against the company's pipeline plan", source: "[[TO CONFIRM]] PLACEHOLDER — number of projects still IN FLIGHT (not yet sold) when we exit; the MAIN sensitivity of the pipeline basis (see Exhibit D). The company targets ~35 delivered over its programme.", as_at: "2026-06-26", verify: true}
+  interim_distribution_fraction: {value: 0.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative (conservative 0%); confirm the distribution policy", source: "[[TO CONFIRM]] PLACEHOLDER — fraction of realised net programme profit DISTRIBUTED to shareholders during the hold (convention (b), IC_MEMO §7). 0% (conservative) retains all realised profit and counts it ONCE, at face value, in the exit value — never at a multiple. Raise once the distribution policy is confirmed.", as_at: "2026-06-26", verify: true}
+  debt_at_exit_m:                {value: 0.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative ($0; equity-funded); confirm against the balance sheet", source: "[[TO CONFIRM]] PLACEHOLDER — company debt outstanding at exit; the company is equity-funded, so 0 by default.", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 2d. EXIT VALUE CROSS-CHECK — earnings multiple (NOT the primary basis).
@@ -116,9 +137,9 @@ exit_value:
 # -----------------------------------------------------------------------------
 exit_value_crosscheck:
   earnings_multiple:
-    low:  {value: 3.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "low EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
-    base: {value: 5.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "base EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
-    high: {value: 7.0, provenance: "Placeholder", source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "high EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    low:  {value: 3.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "low EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    base: {value: 5.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "base EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
+    high: {value: 7.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "[[TO CONFIRM: cite comp or sector benchmark]]", source: "high EV/earnings multiple for a development platform", as_at: "2026-06-26", verify: true}
   comps_available: false   # set true and add Appendix-A comps if credible comparable developer-platform M&A deals exist
 
 # -----------------------------------------------------------------------------
@@ -135,8 +156,8 @@ exit_value_crosscheck:
 # 3. Development cost & funnel attrition
 # -----------------------------------------------------------------------------
 dev_cost:
-  per_project_m:        {value: 0.50, provenance: "Proposed (manager)", source_ref: "Manager deck/IM — not in repo; ~$500k/project is a claim to verify bottom-up", source: "Manager claim ~$500k/project — verify bottom-up", as_at: "2026-06-26", verify: true}
-  abandonment_fraction: {value: 0.30, provenance: "Placeholder", source_ref: "Illustrative (conservative) — set bottom-up", source: "Illustrative (conservative) — partial spend before a failed project is abandoned", as_at: "2026-06-26", verify: true}
+  per_project_m:        {value: 0.50, provenance: "Proposed (manager)", source_key: none, judgement: true, source_ref: "Manager deck/IM — not in repo; ~$500k/project is a claim to verify bottom-up", source: "Manager claim ~$500k/project — verify bottom-up", as_at: "2026-06-26", verify: true}
+  abandonment_fraction: {value: 0.30, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "Illustrative (conservative) — set bottom-up", source: "Illustrative (conservative) — partial spend before a failed project is abandoned", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 4. SURVIVAL GATES — each modelled SEPARATELY (the corrected logic)
@@ -147,19 +168,22 @@ gates:
   development_approval:        # planning / development approval — the gate the scenarios move
     independent: 0.80          # public-data planning-approval benchmark (for the independent cross-check)
     duration_years: 1.00
-    source: "NSW/VIC/SA planning portals — small-BESS approval rate (benchmark). The manager's 40/65/80% are THIS gate."
+    source_key: nsw_planning
+    source: "NSW Planning Portal — small-BESS approval rate (benchmark); VIC/SA are policy context only (not approval-rate data). The manager's 40/65/80% are THIS gate."
     as_at: "2026-06-26"
     verify: true
   grid_connection:             # separate gate (the bottleneck)
     probability: 0.70
     duration_years: 1.25
-    source: "AEMO Connections Scorecard / KCI; DNSP processes (benchmark)"
+    source_key: aemo_connections
+    source: "AEMO Connections Scorecard / KCI — grid-connection success rate & duration (benchmark); DNSP connection processes are context."
     as_at: "2026-06-26"
     verify: true
   reach_sale:                  # the flip exit gate (only paths that SELL bear it)
     probability: 0.80
     duration_years: 0.50
-    source: "RTB buyer-pool depth + AEMO proposed->committed attrition (benchmark)"
+    source_key: aemo_generation_info
+    source: "AEMO Generation Information — proposed->committed attrition (benchmark); RTB buyer-pool depth is judgement context."
     as_at: "2026-06-26"
     verify: true
 
@@ -172,21 +196,31 @@ rtb_comps_per_mw_m:
   VIC: 0.180
   SA:  0.120
   provenance: "Proposed (manager)"
+  source_key: trade_press_comps
   source_ref: "Manager's assumed RTB $/MW (deck/IM — not in repo). Independent comps needed (comparable RTB sales); paid deal DBs (BNEF/Enerdatics/Mergermarket) out of scope. VERIFY before this may enter the independent rNPV."
-  source: "Manager's assumed RTB prices by state (CLAIM). Independent comps needed; paid deal DBs out of scope."
+  source: "Manager's assumed RTB prices by state (CLAIM). Independent comps (trade_press_comps) needed; paid deal DBs out of scope."
   as_at: "2026-06-26"
   verify: true
 
 # -----------------------------------------------------------------------------
 # 6. Build-cost CONTEXT (buyer-funded; not in the fund's margin)
+#    Mismatch 3 (change12): $1.80m is an ALL-IN built-asset value ABOVE the GenCost
+#    2-hr CELL cost (~$1.05-1.16m/MW). It has no primary source, so it is a
+#    Placeholder / [[TO CONFIRM]] — NOT "Independent (verified)". Used only in the
+#    RTB-vs-built cross-check (context); never in the rNPV margin.
 # -----------------------------------------------------------------------------
 built_cost_context:
-  per_mw_m: {value: 1.80, provenance: "Independent (verified)", source_ref: "CSIRO GenCost (annual, with AEMO) — battery capex; context only (buyer funds construction; not in the rNPV margin)", source: "CSIRO GenCost-anchored build cost; context only — the buyer funds construction", as_at: "2026-06-26", verify: true}
+  per_mw_m: {value: 1.80, provenance: "Placeholder", source_key: csiro_gencost, source_ref: "CSIRO GenCost is the reference for the 2-hr CELL cost (~$1.05-1.16m/MW); $1.80m is an ALL-IN built-asset value ABOVE that — no primary source. [[TO CONFIRM]].", source: "[[TO CONFIRM]] all-in built-asset value (above the GenCost cell cost ~$1.1m/MW); context only — the buyer funds construction (not in the rNPV margin).", as_at: "2026-06-26", verify: true}
 
 # -----------------------------------------------------------------------------
 # 7. Illustrative project pipeline (representative ~5 MW distribution projects)
+#    Synthetic (not a real portfolio); sizes/locations grounded in public battery
+#    data but the pipeline itself is an analyst construction.
 # -----------------------------------------------------------------------------
 pipeline:
+  source_key: none
+  judgement: true
+  source: "Illustrative representative pipeline; sizes/locations synthetic (not a real portfolio)."
   n_projects: 6
   state_split: {NSW: 3, VIC: 2, SA: 1}
   projects:
@@ -210,7 +244,8 @@ stages:
     completion_prob: 0.90      # the construction gate (Stages 2 & 4)
     salvage_on_failure: 0.50
     cost_overrun_downside: 0.15
-    source: "CSIRO GenCost capex; project-finance norms (illustrative — verify)"
+    source_key: csiro_gencost
+    source: "CSIRO GenCost capex anchor (build_cost_per_mw_m); gearing/debt/completion params are illustrative judgement — verify."
     as_at: "2026-06-26"
     verify: true
   operating:
@@ -224,7 +259,8 @@ stages:
     debt_tenor_years: 12
     terminal_ebitda_multiple: 6.0
     asset_discount: 0.08
-    source: "AEMO QED price context; battery revenue-stack & infra norms (illustrative — verify)"
+    source_key: "context_only:AEMO — Quarterly Energy Dynamics (QED)"
+    source: "AEMO QED price context; revenue-stack & infra params are illustrative judgement — verify."
     as_at: "2026-06-26"
     verify: true
   operating_scenarios:
@@ -254,20 +290,24 @@ stages:
 # -----------------------------------------------------------------------------
 value_ladder:
   headline_mode: "A"   # which option leads the memo; both are always computed
-  years_to_r1:        {value: 2.5,  provenance: "Placeholder", source_ref: "years to a ready-to-build sale", source: "[[TO CONFIRM]] years to RTB sale", as_at: "2026-06-29", verify: true}
-  operating_ramp_years: {value: 3.0, provenance: "Placeholder", source_ref: "operating hold before selling a stabilised asset (R3)", source: "[[TO CONFIRM]] operating ramp before R3 sale", as_at: "2026-06-29", verify: true}
-  stabilised_premium: {value: 0.10, provenance: "Placeholder", source_ref: "value uplift of a stabilised, track-record asset vs a just-built one (R3 vs R2)", source: "[[TO CONFIRM]] stabilised-asset premium", as_at: "2026-06-29", verify: true}
-  equity_dilution_r2: {value: 0.70, provenance: "Placeholder", source_ref: "our dilution from the equity the company raises to fund CONSTRUCTION (Option B)", source: "[[TO CONFIRM]] equity raised to build dilutes us", as_at: "2026-06-29", verify: true}
-  equity_dilution_r3: {value: 0.50, provenance: "Placeholder", source_ref: "further dilution from equity raised to OPERATE (Option B), on top of R2", source: "[[TO CONFIRM]] equity raised to operate dilutes us further", as_at: "2026-06-29", verify: true}
+  years_to_r1:        {value: 2.5,  provenance: "Placeholder", source_key: none, judgement: true, source_ref: "years to a ready-to-build sale", source: "[[TO CONFIRM]] years to RTB sale", as_at: "2026-06-29", verify: true}
+  operating_ramp_years: {value: 3.0, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "operating hold before selling a stabilised asset (R3)", source: "[[TO CONFIRM]] operating ramp before R3 sale", as_at: "2026-06-29", verify: true}
+  stabilised_premium: {value: 0.10, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "value uplift of a stabilised, track-record asset vs a just-built one (R3 vs R2)", source: "[[TO CONFIRM]] stabilised-asset premium", as_at: "2026-06-29", verify: true}
+  equity_dilution_r2: {value: 0.70, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "our dilution from the equity the company raises to fund CONSTRUCTION (Option B)", source: "[[TO CONFIRM]] equity raised to build dilutes us", as_at: "2026-06-29", verify: true}
+  equity_dilution_r3: {value: 0.50, provenance: "Placeholder", source_key: none, judgement: true, source_ref: "further dilution from equity raised to OPERATE (Option B), on top of R2", source: "[[TO CONFIRM]] equity raised to operate dilutes us further", as_at: "2026-06-29", verify: true}
 
 # -----------------------------------------------------------------------------
 # 9. Scenarios — the switch moves ONLY the development-approval (DA) gate.
 #    Overall flip success = DA x grid connection x sale (see §4).
 #    DA rates 40/65/80% are the manager's claims (Conservative/Base/Ideal).
 #    1=Conservative 2=Base 3=Ideal
+#    source_key: none — the DA rates are the manager's CLAIM (Proposed (manager));
+#    the approval gate itself is benchmarked in gates.development_approval (nsw_planning).
 # -----------------------------------------------------------------------------
 scenarios:
   switch_default: 2
+  source_key: none
+  judgement: true
   cases:
     1: {name: "Conservative", da_rate: 0.40, sale_price_multiplier: 0.85, dev_cost_multiplier: 1.05}
     2: {name: "Base",         da_rate: 0.65, sale_price_multiplier: 1.00, dev_cost_multiplier: 1.00}

@@ -76,6 +76,7 @@ sources:
     description: "BESS major-project applications: name, capacity, status, lodgement & determination dates -> planning approval rate + timeline. Public submissions readable per project."
 
   trade_press_comps:
+    # Linked by rtb_comps_per_mw_m (assumptions.yaml) — independent comps to verify the manager's RTB $/MW.
     name: "Energy trade press — RTB / development-rights deal comps"
     landing_page: null
     url: null
@@ -94,6 +95,7 @@ sources:
     description: "Publicly reported battery deals -> $/MW comps by development stage. Richest databases (BNEF, Enerdatics, Mergermarket) are PAID and out of scope; comps rely on publicly reported deals (stated as a limitation)."
 
   aemo_isp:
+    # Feeds market_demand.csv (memo market-size); analysis source — no model assumption links it.
     name: "AEMO — Integrated System Plan 2026 (storage trajectory)"
     landing_page: "https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp"
     url: null
@@ -104,6 +106,7 @@ sources:
     description: "Storage trajectory by segment: small-scale/distributed vs grid-scale (GW/GWh) to 2030/2050 (Step Change). Answers 'is the market big?'."
 
   community_batteries:
+    # Context/reference only — feeds end_use.csv for the memo; no model assumption links it.
     name: "Community / distribution battery programs (DNSPs, CEFC, state)"
     landing_page: "https://www.energy-storage.news/tag/community-batteries/"
     url: null
@@ -113,6 +116,7 @@ sources:
     description: "What ~5 MW distribution/community batteries are for and who uses/owns them (households, DNSPs, government programs, aggregators)."
 
   bess_deals:
+    # Context/reference only — feeds deal_sizes.csv for the memo; no model assumption links it.
     name: "Reported Australian BESS deals & projects (size & buyer)"
     landing_page: "https://www.energy-storage.news/tag/australia/"
     url: null
@@ -123,9 +127,9 @@ sources:
 
   # ---- Context-only sources (cited in analysis, not parsed into model CSVs) ----
   context_only:
-    - name: "AEMO — Integrated System Plan (ISP)"
+    - name: "AEMO — Integrated System Plan (ISP) — narrative context only"
       landing_page: "https://www.aemo.com.au/energy-systems/major-publications/integrated-system-plan-isp"
-      description: "Storage need to 2050; cost/technology assumptions; supply gap (needed vs committed)."
+      description: "Narrative context only (storage need to 2050; supply gap). The PARSED ISP data source is the `aemo_isp` key above (feeds market_demand.csv); this entry is memo narrative, not a model feed."
     - name: "AEMO — Quarterly Energy Dynamics (QED)"
       landing_page: "https://www.aemo.com.au/energy-systems/major-publications/quarterly-energy-dynamics-qed"
       description: "Current market context: capacity added, prices, trends."

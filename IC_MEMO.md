@@ -487,7 +487,7 @@ How our R2 and R3 return moves as the Option-B dilution varies, everything else 
 | Projects delivered / sold | 35 | Placeholder |
 | Development cost | ~$0.5m / project | **Proposed (manager) — unverified** |
 | RTB sale price | NSW $0.9–1.1m · VIC $0.8–1.0m · SA $0.5–0.7m per 5 MW | **Proposed (manager) — unverified** |
-| Built-asset cost (context only) | ~$1.8m / MW | Independent (verified) — CSIRO GenCost |
+| All-in built-asset value (context only) | ~$1.8m / MW | **[[TO CONFIRM]]** — above the GenCost cell cost (~$1.1m/MW) |
 | Discount rate | 18.8% | RBA yield + judgement premium |
 | Value ladder — years to R1 / R2 / R3 | 2.5 / 4.0 / 7.0 yrs | Placeholder |
 | Value ladder — stabilised-asset premium (R3) | 10% | Placeholder |
