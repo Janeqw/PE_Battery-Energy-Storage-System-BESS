@@ -39,10 +39,12 @@ from src.valuation_engine import load_inputs
 COV, CON, CL, INP, TL, SCN = "Cover", "Contents", "Change Log", "Assumptions", "Timeline", "Scenarios"
 SURV, RNPV, FUND, RET = "Calc_Survival", "Calc_Project_rNPV", "Calc_Company", "Returns"
 CC, SENS, CHK, DSH, SG = "Calc_CrossChecks", "Sensitivity", "Checks", "Dashboard", "Sources & Glossary"
-ORDER = [COV, CON, CL, INP, TL, SCN, SURV, RNPV, FUND, RET, CC, SENS, CHK, DSH, SG]
+RAW_INP, RAW_ASM = "Raw_Inputs", "Raw_Assumptions"   # change15: Power Query feeds
+ORDER = [COV, CON, CL, INP, TL, SCN, SURV, RNPV, FUND, RET, CC, SENS, CHK, DSH, SG, RAW_INP, RAW_ASM]
 TABCOLOR = {COV: "000000", CON: "808080", CL: "808080", INP: "0070C0", TL: "00B0F0",
             SCN: "7030A0", SURV: "FFFFFF", RNPV: "FFFFFF", FUND: "FFFFFF", RET: "92D050",
-            CC: "FFFFFF", SENS: "FFFF00", CHK: "FF0000", DSH: "00B050", SG: "808080"}
+            CC: "FFFFFF", SENS: "FFFF00", CHK: "FF0000", DSH: "00B050", SG: "808080",
+            RAW_INP: "BFBFBF", RAW_ASM: "BFBFBF"}
 
 # ---------------------------------------------------------------------------
 # Styles
@@ -134,6 +136,46 @@ class B:
         for i, lab in enumerate(labels):
             self.put(sheet, r, start + i, lab, "head", fill="head",
                      align="center", wrap=True, border=True)
+
+
+def _build_raw_query_tabs(b):
+    """change15 Part 4 — populate Raw_Inputs / Raw_Assumptions stub tabs from the SOURCE
+    workbook (INPUTS_AND_ASSUMPTIONS.xlsx) and write the exact Power Query steps (relative
+    path) into each header. openpyxl can't author a LIVE Power Query, so these are
+    populated stubs: the user turns each into a refreshable PQ load in Excel (Data ->
+    Get Data -> Blank Query -> Advanced Editor), then Data -> Refresh. After that, the
+    Assumptions tab's sourced cells green-link to Raw_Inputs and its judgement cells to
+    Raw_Assumptions (documented here + in the README) so the model types no source numbers.
+    """
+    from openpyxl import load_workbook
+    src_path = io.PROJECT_ROOT / "financial_models" / "INPUTS_AND_ASSUMPTIONS.xlsx"
+    src = load_workbook(src_path, read_only=True, data_only=True) if src_path.exists() else None
+    for tab, sheet in [(RAW_INP, "Inputs"), (RAW_ASM, "Assumptions")]:
+        b.width(tab, {"A": 46, "B": 14, "C": 12, "D": 34, "E": 18, "F": 30, "G": 30, "H": 12, "I": 22})
+        b.put(tab, 1, 1, f"{tab} — Power Query feed from INPUTS_AND_ASSUMPTIONS.xlsx ('{sheet}' sheet)", "title")
+        b.put(tab, 2, 1, "GENERATED stub — do NOT hand-edit. Wire the live, refreshable Power Query below, then "
+                         "Data -> Refresh. The source workbook sits in the SAME folder as this model (relative path).", "note", wrap=True)
+        b.put(tab, 3, 1, "Step 1 — Formulas > Define Name 'WorkbookPath'  "
+                         "= LEFT(CELL(\"filename\",$A$1),FIND(\"[\",CELL(\"filename\",$A$1))-1)", "note", wrap=True)
+        b.put(tab, 4, 1, "Step 2 — Data > Get Data > Blank Query > Advanced Editor, paste:", "label")
+        m = ('let\n'
+             '    Path = Excel.CurrentWorkbook(){[Name="WorkbookPath"]}[Content]{0}[Column1],\n'
+             '    Source = Excel.Workbook(File.Contents(Path & "INPUTS_AND_ASSUMPTIONS.xlsx"), null, true),\n'
+             f'    Data = Source{{[Item="{sheet}",Kind="Sheet"]}}[Data]\n'
+             'in\n'
+             '    Data')
+        b.put(tab, 5, 1, m, "note", wrap=True)
+        b.ws[tab].merge_cells("A5:I10")
+        b.put(tab, 12, 1, "Static snapshot (replaced when the live query refreshes):", "sect", fill="sect")
+        if src is not None and sheet in src.sheetnames:
+            for ri, row in enumerate(src[sheet].iter_rows(values_only=True)):
+                for ci, val in enumerate(row):
+                    if val is not None:
+                        b.put(tab, 13 + ri, 1 + ci, val, "label")
+        else:
+            b.put(tab, 13, 1, "[[source workbook not found — run: python -m src.build_source_workbook]]", "disc")
+    if src is not None:
+        src.close()
 
 
 def build(rebuild_master: bool = False):
@@ -1064,6 +1106,9 @@ def build(rebuild_master: bool = False):
         r = gloss_r + 1 + i
         b.put(SG, r, 1, term, "label", bold=True)
         b.put(SG, r, 4, defn, "note", wrap=True)
+
+    # change15 Part 4 — Power Query feeds (Raw_Inputs / Raw_Assumptions stubs + PQ steps)
+    _build_raw_query_tabs(b)
 
     # back-to-contents links + freeze panes
     for name in ORDER:
