@@ -38,3 +38,17 @@ outputs/*.log
 reference/
 change*.md
 icmemo.md
+
+# ---- Confidential third-party documents — NEVER commit (change10) ----
+# The manager deck / Information Memorandum is the source of the Proposed (manager)
+# figures; it is confidential and held offline only.
+raw/manager-deck*
+raw/*information-memorandum*
+raw/*-confidential.*
+
+# ---- Large official PDFs — fetched locally, not committed (change10) ----
+# Static, freely-downloadable publications at stable URLs (AEMO ISP ~7.3 MB,
+# CSIRO GenCost ~2.2 MB). Keep the repo lean: `bash raw/download.sh` fetches them
+# locally and the SOURCES_LOG verification trail links straight to the live docs.
+# Only the small, rolling RBA CSV (raw/rba-cgs-10yr-2026-06.csv) is committed.
+raw/*.pdf
