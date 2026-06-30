@@ -76,14 +76,14 @@ The Python pipeline pulls and checks data; it does **not** own the workbook.
 
 - **Data in** — `src/extract/*` and `src/refresh_model_inputs.py` pull the source inputs (AEMO ISP, CSIRO GenCost, RBA yields) into `data/processed/`, which the modeller links or pastes into the **Inputs** tab.
 - **Independent check** — `src/valuation_engine.py` recomputes the same numbers cell-for-cell, used only to **confirm the workbook ties** (`make test`). It does not produce the model.
-- **Hand-owned master** — a normal Python run writes an autobuild *self-check* copy to `financial_models/_generated/`, never the master. Re-baseline the master from Python only with `make rebuild-master`.
+- **Hand-owned master** — there is **one** model file. A normal Python run writes nothing; Python never overwrites the master. Re-baseline it from Python only with `make rebuild-master`.
 
 ```bash
 make install      # dependencies
 make extract      # refresh source data (AEMO / CSIRO / RBA) -> data/processed/
 make transform    # clean pipeline, gate stats, comps
-make refresh      # refresh the autobuild self-check copy (master is hand-owned)
 make test         # pytest — recomputes the numbers and checks the master ties
+make refresh      # OPTIONAL: push refreshed inputs into the master's blue cells (--write-master)
 ```
 
 **To change an input:** edit its **blue** cell on the **Inputs** tab (then the workbook recalculates), or run `make extract transform` and copy the refreshed value from `data/processed/` into that cell.

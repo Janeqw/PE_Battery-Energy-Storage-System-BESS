@@ -15,11 +15,11 @@ help:
 	@echo "  make install         pip install deps (+ playwright browser if used)"
 	@echo "  make extract         run src/extract/* -> data/raw + refresh source CSVs"
 	@echo "  make transform       clean pipeline, gate statistics, comps -> data/processed"
-	@echo "  make refresh         refresh the AUTOBUILD self-check copy (master is hand-owned)"
+	@echo "  make refresh         push refreshed CSV inputs into the master's INPUT cells (--write-master)"
 	@echo "  make rebuild-master  regenerate the hand-owned master workbook from Python (overwrites it)"
 	@echo "  make report          export dashboard.pdf + figures"
-	@echo "  make test            pytest"
-	@echo "  make all             extract -> transform -> refresh -> report"
+	@echo "  make test            pytest (recomputes the numbers + checks the master ties)"
+	@echo "  make all             extract -> transform -> report (master is hand-owned; not touched)"
 	@echo "  make clean           remove data/raw and regenerated outputs"
 
 install:
@@ -42,9 +42,11 @@ transform:
 	$(PY) -m src.transform.build_comps
 
 # ---- Phase B: refresh inputs (Excel-first: master is hand-owned) ------------
-# A normal run refreshes the autobuild self-check copy, NOT the master.
+# Explicitly push the latest processed CSV values into the master's INPUT cells
+# (formulas are never touched). Kept OUT of `make all` so the pipeline never
+# silently writes the hand-owned master.
 refresh:
-	$(PY) -m src.refresh_model_inputs
+	$(PY) -m src.refresh_model_inputs --write-master
 
 # Escape hatch: regenerate the hand-owned master from Python (overwrites it).
 # Use only to re-baseline the master; normally you edit the master by hand.
@@ -59,8 +61,8 @@ report:
 test:
 	$(PY) -m pytest -q
 
-all: extract transform refresh report
-	@echo "== make all complete: data extracted, model inputs refreshed, report exported =="
+all: extract transform report
+	@echo "== make all complete: data extracted & transformed, report exported (master untouched) =="
 
 clean:
 	-rm -rf data/raw/*

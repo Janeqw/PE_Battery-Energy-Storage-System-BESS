@@ -16,11 +16,11 @@ The model is fully LIVE (formula strings) so it recalculates when opened in Exce
 Blue input cells are seeded from the same inputs the Python valuation engine uses,
 so the workbook reproduces the engine's numbers (incl. closed-form investor IRR).
 
-Excel-first (change11): the master workbook is HAND-OWNED. A normal run writes an
-autobuild *self-check* copy to financial_models/_generated/ — it does NOT overwrite
-the master. Regenerate the master from Python only with the explicit flag.
+Excel-first: the master workbook is HAND-OWNED. A normal run writes NOTHING — Python
+never overwrites the master, and there is no generated copy. Regenerate the master
+from Python only with the explicit flag.
 
-Run:  python -m src.build_model                 # writes the autobuild self-check copy
+Run:  python -m src.build_model                 # no-op (master is hand-owned)
       python -m src.build_model --rebuild-master  # regenerates the hand-owned master
 """
 from __future__ import annotations
@@ -1056,16 +1056,14 @@ def build(rebuild_master: bool = False):
                         nested_hits.append(f"{name}!{c.coordinate}")
 
     # Excel-first (change11): the master BESS_Valuation.xlsx is HAND-OWNED. A normal
-    # run writes the autobuild self-check copy, NOT the master. The master is only
-    # regenerated from Python with an explicit --rebuild-master.
-    fm_dir = io.PROJECT_ROOT / "financial_models"
-    if rebuild_master:
-        out = fm_dir / "BESS_Valuation.xlsx"
-        print("[build_model] --rebuild-master: regenerating the HAND-OWNED master workbook.")
-    else:
-        out = fm_dir / "_generated" / "BESS_Valuation_autobuild.xlsx"
-        print("[build_model] master workbook is hand-owned; writing autobuild self-check copy "
-              "(pass --rebuild-master to regenerate the master).")
+    # run writes NOTHING — Python never overwrites the master. It is regenerated only
+    # with an explicit --rebuild-master (there is one model file; no generated copy).
+    if not rebuild_master:
+        print("[build_model] the master workbook is hand-owned — nothing written.")
+        print("[build_model] pass --rebuild-master to regenerate the master from Python.")
+        return None
+    out = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
+    print("[build_model] --rebuild-master: regenerating the HAND-OWNED master workbook.")
     out.parent.mkdir(parents=True, exist_ok=True)
     b.wb.save(out)
     print(f"[build_model] wrote {out}")

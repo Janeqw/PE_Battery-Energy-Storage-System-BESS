@@ -34,12 +34,6 @@ Thumbs.db
 outputs/*.log
 .claude/
 
-# ---- Generated Excel self-check copy (change11) ----
-# Excel-first: BESS_Valuation.xlsx is the hand-owned master (committed). Python writes
-# this autobuild copy as an independent tie-out check; regenerate with
-# `python -m src.build_model`. Not committed.
-financial_models/_generated/
-
 # ---- Local-only source/reference materials (not published) ----
 reference/
 change*.md

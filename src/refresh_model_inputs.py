@@ -4,14 +4,14 @@ This is the data-layer fallback to Power Query: it writes input VALUES into the
 workbook's input cells only — it never touches a formula cell (any cell whose
 value starts with '=' is skipped).
 
-Excel-first (change11): the master BESS_Valuation.xlsx is HAND-OWNED. A normal run
-refreshes the autobuild *self-check* copy, NOT the master. To push refreshed inputs
-into the hand-owned master, pass --write-master explicitly.
+Excel-first: the master BESS_Valuation.xlsx is HAND-OWNED. A normal run writes NOTHING.
+To push refreshed inputs into the master's input cells (formulas never touched), pass
+--write-master explicitly.
 
-    python -m src.refresh_model_inputs                 # refreshes the autobuild copy
+    python -m src.refresh_model_inputs                 # no-op (master is hand-owned)
     python -m src.refresh_model_inputs --write-master  # updates the master's input cells
 
-If the target workbook does not exist yet, it is built first.
+If the master does not exist yet, it is built first (with --write-master).
 """
 from __future__ import annotations
 
@@ -22,7 +22,6 @@ from src.valuation_engine import load_inputs
 from src import build_model
 
 MASTER = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
-AUTOBUILD = io.PROJECT_ROOT / "financial_models" / "_generated" / "BESS_Valuation_autobuild.xlsx"
 
 # label substring (on Inputs col A) -> attribute on the Inputs dataclass (col C)
 SCALAR_MAP = {
@@ -65,16 +64,16 @@ def _set_input(ws, row, col, value):
 
 
 def run(write_master: bool = False) -> None:
-    target = MASTER if write_master else AUTOBUILD
-    if write_master:
-        print("[refresh] --write-master: updating input cells in the HAND-OWNED master "
-              "(formulas untouched).")
-    else:
-        print("[refresh] master is hand-owned; refreshing the autobuild self-check copy "
-              "(pass --write-master to update the master).")
+    if not write_master:
+        print("[refresh] the master workbook is hand-owned — nothing written.")
+        print("[refresh] pass --write-master to push refreshed inputs into the master.")
+        return
+    target = MASTER
+    print("[refresh] --write-master: updating input cells in the HAND-OWNED master "
+          "(formulas untouched).")
     if not target.exists():
-        print(f"[refresh] {target.name} not found — building it first")
-        build_model.build(rebuild_master=write_master)
+        print("[refresh] master not found — building it first")
+        build_model.build(rebuild_master=True)
 
     inp = load_inputs()
     wb = load_workbook(target)
