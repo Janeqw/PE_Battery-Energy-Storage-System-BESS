@@ -1,8 +1,11 @@
 """Extractor: AEMO Connections Scorecard / KCI -> grid-connection gate.
 
-Computes (or falls back to) the grid-connection success probability and typical
-duration, staged for gate_statistics.py. The scorecard is published as PDF/XLSX
-whose layout varies, so parsing is best-effort with a documented benchmark fallback.
+Computes (or falls back to) the RTB-stage connection-RIGHTS probability and typical
+duration, staged for gate_statistics.py. The gate is the development milestone —
+securing a connection AGREEMENT + GPS (ready-for-construction) — NOT energisation of
+a built battery; the parser rejects commissioning / full-output figures. The
+scorecard is published as PDF/XLSX whose layout varies, so parsing is best-effort
+with a documented benchmark fallback.
 """
 from __future__ import annotations
 
@@ -13,16 +16,27 @@ from src.utils import sources_log
 
 
 def _try_parse_pdf_rate(pdf_path) -> float | None:
-    """Best-effort: find a connection-completion percentage in the PDF text."""
+    """Best-effort: find the RTB-stage connection-AGREEMENT rate in the Scorecard text.
+
+    The gate is the development milestone — application -> executed connection
+    AGREEMENT + GPS (ready-for-construction) — NOT commissioning/energisation. So we
+    accept a % only where the context is the agreement/registration stage, and reject
+    anything near 'commission' / 'energis' / 'full output' (the downstream, WRONG
+    milestone — e.g. the Scorecard's '~75% commissioned to full output').
+    """
     try:
         import pdfplumber
 
         with pdfplumber.open(pdf_path) as pdf:
             text = "\n".join((page.extract_text() or "") for page in pdf.pages[:20])
-        # look for "... connection ... NN%" patterns
+        WRONG = ("commission", "energis", "energiz", "full output", "full capacity")
+        RIGHT = ("connection agreement", "executed connection", "registration",
+                 "ready for construction", "ready-to-build", "gps", "generator performance")
         for m in re.finditer(r"(\d{1,3})\s?%", text):
-            ctx = text[max(0, m.start() - 60): m.start()].lower()
-            if "connect" in ctx or "complet" in ctx or "success" in ctx:
+            ctx = text[max(0, m.start() - 80): m.start()].lower()
+            if any(w in ctx for w in WRONG):
+                continue
+            if any(w in ctx for w in RIGHT):
                 pct = int(m.group(1))
                 if 20 <= pct <= 99:
                     return round(pct / 100.0, 3)

@@ -157,7 +157,7 @@ A flip must clear three separate gates, and true success is their product. The f
 | Gate (Base case) | Pass rate |
 |---|---|
 | Development approval (the founders' headline) | 65% |
-| Grid connection | 70% |
+| Grid connection (RTB-stage rights) | 70% |
 | Reach a sale | 80% |
 | **True whole-funnel flip success** | **36.4%** |
 | *Independent benchmark (approval at 80%)* | *44.8%* |
@@ -165,6 +165,8 @@ A flip must clear three separate gates, and true success is their product. The f
 ![Survival curve — independent vs the founders' base case](outputs/figures/survival_curve.png)
 
 So the 65% headline overstates whole-funnel success. The right response is not to dismiss the company, but to ask for project-by-project, per-state evidence on each gate. *(Method: probability-of-default / survival analysis, credit-risk practice; [Appendix A](#appendix-a--methods--sources).)*
+
+> **What the gates mean.** *Grid connection* is the **RTB-stage connection rights** — securing the connection **agreement + Generator Performance Standards (GPS)** that make a project ready-to-build (AEMO Connections Scorecard "registration / executed connection agreement" stage) — **not** energising a built battery (a flip sells before construction). The 70% is a documented benchmark **[[TO CONFIRM]]** against that milestone; the Scorecard's ~75% "commissioned to full output" is a different, downstream figure and is **not** used. *Reach a sale* is then buyer/price risk on a genuinely-RTB project — a separate question from connection (see [§8](#8-risks--mitigants)).
 
 ---
 
@@ -290,6 +292,8 @@ Returns are modelled bottom-up: survival curve → company exit equity (forward-
 
 ## 8. Risks & mitigants
 
+> **Gates 2 and 3 are independent — no double-count.** Gate 2 (connection) asks whether the project *secured* the connection rights/GPS; gate 3 (sale) asks whether, *given a genuinely ready-to-build project*, a buyer paid RTB price — i.e. demand/price risk, not connection risk again. The two are multiplied as independent gates, so the same weakness is not penalised twice.
+
 | Risk | Severity | Mitigant required |
 |---|---|---|
 | **Entry price** | High | Re-cut the pre-money toward independent value, or milestone-tranche capital |
@@ -389,8 +393,9 @@ The **liquidation preference governs the split**: on a sale we take the greater 
 
 - **IRR** — internal rate of return; the annualised return on our shares.
 - **MOIC** — multiple on invested capital; proceeds ÷ investment.
-- **RTB (ready-to-build)** — a project taken through approval and grid connection, sold before construction.
+- **RTB (ready-to-build)** — a project taken through approval and grid-connection rights (agreement + GPS), sold before construction.
 - **DA gate** — development-approval gate; the founders' 40 / 65 / 80% measure this gate only.
+- **Grid-connection gate** — securing the connection *agreement* + Generator Performance Standards (GPS) that make a project ready-to-build (a pre-construction development milestone), **not** physically energising a built battery.
 - **Whole-funnel flip success** — the product of the three gates (approval, grid connection, sale); because they multiply, true success is far below the single-gate 65% headline (see [§4](#4-industry--market)).
 - **Forward-pipeline rNPV** — risk-adjusted value of projects still in flight at exit; the primary exit basis.
 - **Pre-money / post-money** — the company's value before / after our investment goes in.

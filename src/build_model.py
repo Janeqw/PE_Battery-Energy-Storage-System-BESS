@@ -194,7 +194,7 @@ def build(rebuild_master: bool = False):
 
     b.put(INP, 25, 1, "Survival gates — SEPARATE; scenarios move ONLY development approval", "sect", fill="sect")
     srow(26, "Development approval — public benchmark", inp.da_independent, "da_ind", FPCT, "prob", "da", dur=inp.dur_da)
-    srow(27, "Grid connection (separate gate)", inp.p_connection, "p_conn", FPCT, "prob", "connection", dur=inp.dur_connection)
+    srow(27, "Grid connection — RTB rights (agreement + GPS)", inp.p_connection, "p_conn", FPCT, "prob", "connection", dur=inp.dur_connection)
     srow(28, "Reach sale — flip exit (separate gate)", inp.p_sale, "p_sale", FPCT, "prob", "sale", dur=inp.dur_sale)
 
     b.put(INP, 29, 1, "RTB exit price — $/MW by state (the manager claim — verify)", "sect", fill="sect")
@@ -343,7 +343,7 @@ def build(rebuild_master: bool = False):
                       "from the scenario switch; grid connection and sale are fixed public benchmarks.", "note", wrap=True)
     b.header(SURV, 3, ["Gate", "Probability", "Cumulative survival"])
     gate_rows = [("Development approval (live scenario DA gate)", R["live_da"]),
-                 ("Grid connection", R["p_conn"]),
+                 ("Grid connection — RTB rights (agreement + GPS)", R["p_conn"]),
                  ("Reach sale (flip exit)", R["p_sale"])]
     for i, (label, pref) in enumerate(gate_rows):
         r = 4 + i
@@ -370,6 +370,11 @@ def build(rebuild_master: bool = False):
     b.put(SURV, 15, 1, "The 65% headline is the approval gate alone; after grid connection (~70%) and sale (~80%) the true flip success is "
                        "~36%. The DA gate is the master return driver — the scenarios move it 40/65/80%. The sub-5MW AEMO registration "
                        "exemption MAY lift small-distribution success — verify per state.", "note", wrap=True)
+    b.put(SURV, 17, 1, "Grid connection = RTB-stage connection RIGHTS: the connection AGREEMENT + Generator Performance Standards (GPS) "
+                       "that make a project ready-to-build (AEMO Scorecard 'registration / executed connection agreement' stage) — NOT "
+                       "energisation/commissioning of a built battery (a flip sells pre-construction). 70% is a benchmark [[TO CONFIRM]].", "note", wrap=True)
+    b.put(SURV, 18, 1, "Gates 2 & 3 are INDEPENDENT (no double-count): gate 2 = did the project SECURE connection rights/GPS; gate 3 = "
+                       "given a genuinely RTB project, did a BUYER pay RTB price (demand/price risk, not connection again).", "note", wrap=True)
 
     # =====================================================================
     # CALC_PROJECT_rNPV (per-project risk-adjusted NAV — dev cost only)

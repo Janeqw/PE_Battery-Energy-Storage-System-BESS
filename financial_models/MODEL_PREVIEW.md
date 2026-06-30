@@ -70,7 +70,7 @@ Every price/value input is tagged **Proposed (manager)** (a claim, unverified), 
 | Gate | Probability (public benchmark) | Cumulative survival |
 |---|---|---|
 | Development approval | 80.0% | 80.0% |
-| Grid connection | 70.0% | 56.0% |
+| Grid connection (RTB-stage rights) | 70.0% | 56.0% |
 | Reach sale (flip exit) | 80.0% | 44.8% |
 
 **At the founder's Base development-approval rate (65.0%), true flip success ≈ 65.0% × 70.0% × 80.0% = 36.4%** — far below the 65% headline. The gates beyond approval are not free; this drives the company's net programme profit and therefore its value.

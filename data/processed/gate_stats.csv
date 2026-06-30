@@ -1,4 +1,4 @@
 gate,probability,duration_years,source,as_at,status
 development_approval,0.8,1.25,NSW Planning Portal — approved vs refused/withdrawn BESS major projects (benchmark),2026-06-24,BENCHMARK
-grid_connection,0.7,1.5,AEMO Connections Scorecard / KCI — connection success rate & duration (benchmark),2026-06-24,BENCHMARK
+grid_connection,0.7,1.5,AEMO Connections Scorecard / KCI — RTB-stage connection AGREEMENT + GPS (registration / ready-for-construction; NOT energisation) [[TO CONFIRM]],2026-06-24,BENCHMARK
 reach_sale,0.8,0.5,AEMO proposed->committed attrition + active buyer pool (benchmark),2026-06-24,BENCHMARK

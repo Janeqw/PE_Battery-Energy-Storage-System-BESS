@@ -172,11 +172,17 @@ gates:
     source: "NSW Planning Portal — small-BESS approval rate (benchmark); VIC/SA are policy context only (not approval-rate data). The manager's 40/65/80% are THIS gate."
     as_at: "2026-06-26"
     verify: true
-  grid_connection:             # separate gate (the bottleneck)
-    probability: 0.70
+  # Grid connection — RTB-stage connection RIGHTS gate (NOT energisation):
+  # the probability a development project secures the connection AGREEMENT + Generator
+  # Performance Standards (GPS) needed to be genuinely ready-to-build — the connection
+  # paperwork a buyer requires before paying RTB price. A pre-construction milestone
+  # (AEMO Connections Scorecard "registration / executed connection agreement" stage),
+  # NOT the physical hookup/commissioning of a built battery.
+  grid_connection:
+    probability: 0.70          # [[TO CONFIRM]] benchmark for the application->connection-agreement rate
     duration_years: 1.25
     source_key: aemo_connections
-    source: "AEMO Connections Scorecard / KCI — grid-connection success rate & duration (benchmark); DNSP connection processes are context."
+    source: "AEMO Connections Scorecard / KCI — share of development projects securing a connection AGREEMENT + GPS (RTB-stage 'registration / executed connection agreement' milestone; ready-for-construction), NOT commissioning/energisation of built plant. ~70% is a documented benchmark [[TO CONFIRM]] (the Scorecard's ~75% 'commissioned to full output' is a DIFFERENT, downstream milestone). Gate 3 (sale) covers buyer/price risk, not connection."
     as_at: "2026-06-26"
     verify: true
   reach_sale:                  # the flip exit gate (only paths that SELL bear it)

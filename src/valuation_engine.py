@@ -11,6 +11,11 @@ CORRECTED GATE LOGIC (carried over):
   must clear THREE gates, so true success is the product:
       flip success = DA x grid connection (~70%) x sale (~80%)
   e.g. Base = 0.65 x 0.70 x 0.80 = 0.364 — NOT 65%.
+  Gate 2 (grid connection) = securing the RTB-stage connection RIGHTS — the
+  connection AGREEMENT + Generator Performance Standards (GPS) that make a project
+  ready-to-build — NOT physical energisation of a built battery (a flip sells
+  pre-construction). Gate 3 (sale) is buyer/price risk on a genuinely-RTB project,
+  so the two gates are independent (no double-count).
 
 HOW THE EQUITY VALUE IS BUILT (change2.md — forward-pipeline basis):
   1. PRIMARY exit basis. A develop-and-flip company is a development PLATFORM, so a
@@ -98,7 +103,12 @@ class Inputs:
         return self.risk_free + self.risk_premium
 
     def flip_success(self, da: float) -> float:
-        """Flip success = development approval x grid connection x sale."""
+        """Flip success = development approval x grid connection x sale.
+
+        grid connection = RTB-stage connection RIGHTS (connection agreement + GPS,
+        ready-for-construction), not energisation; sale = buyer/price risk on a
+        genuinely-RTB project. Independent gates, so multiplied (no double-count).
+        """
         return da * self.p_connection * self.p_sale
 
     @property

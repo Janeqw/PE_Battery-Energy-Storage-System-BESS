@@ -28,7 +28,7 @@
     "url": "https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/connections",
     "output": "data/processed/gate_stats.csv (connection gate)",
     "status": "BENCHMARK",
-    "description": "Grid-connection success rate and typical duration -> the connection gate probability and timing.",
+    "description": "Share of development projects reaching a connection AGREEMENT + GPS (RTB-stage 'registration / executed connection agreement' milestone; ready-for-construction) and typical application->agreement duration -> the connection-RIGHTS gate. NOT physical commissioning/energisation of built plant.",
     "retrieved": "2026-06-24"
   },
   "nsw_planning": {

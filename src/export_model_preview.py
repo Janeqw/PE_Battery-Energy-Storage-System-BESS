@@ -146,7 +146,7 @@ def build_markdown() -> str:
     L.append("| Gate | Probability (public benchmark) | Cumulative survival |")
     L.append("|---|---|---|")
     L.append(f"| Development approval | {_pct(sc['development_approval'])} | {_pct(sc['after_approval'])} |")
-    L.append(f"| Grid connection | {_pct(sc['grid_connection'])} | {_pct(sc['after_connection'])} |")
+    L.append(f"| Grid connection (RTB-stage rights) | {_pct(sc['grid_connection'])} | {_pct(sc['after_connection'])} |")
     L.append(f"| Reach sale (flip exit) | {_pct(sc['reach_sale'])} | {_pct(sc['flip_cumulative'])} |")
     L.append("")
     L.append(f"**At the founder's Base development-approval rate ({_pct(s['da_base_manager'])}), true flip success "

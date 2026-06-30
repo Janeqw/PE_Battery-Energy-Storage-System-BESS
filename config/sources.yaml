@@ -49,7 +49,7 @@ sources:
     method: "scrape_then_download"
     discover_link_pattern: "(?i)(connection.?scorecard|key.?connection.?information|kci).*\\.(pdf|xlsx?)$"
     output_path: "data/raw/aemo_connections_{date}"
-    description: "Grid-connection success rate and typical duration -> the connection gate probability and timing."
+    description: "Share of development projects reaching a connection AGREEMENT + GPS (RTB-stage 'registration / executed connection agreement' milestone; ready-for-construction) and typical application->agreement duration -> the connection-RIGHTS gate. NOT physical commissioning/energisation of built plant (the Scorecard's ~75% 'commissioned to full output' is a different, downstream milestone)."
 
   csiro_gencost:
     name: "CSIRO — GenCost (annual, with AEMO)"
