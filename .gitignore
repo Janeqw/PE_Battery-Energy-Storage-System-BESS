@@ -41,7 +41,7 @@ icmemo.md
 
 # ---- Source-document verification archive (change10/11) ----
 # The raw source documents (AEMO ISP, CSIRO GenCost, RBA daily CSV, and the
-# confidential manager deck) live LOCALLY under "data/raw/data source/" — already
-# gitignored via `data/raw/` above, so nothing here is committed. Reproduce them
-# with that folder's download.sh; the SOURCES_LOG verification trail uses the live
-# URLs. The confidential manager deck is never committed.
+# confidential manager deck) live LOCALLY in "data/raw/" — already gitignored via
+# `data/raw/` above, so nothing here is committed. Reproduce them with
+# data/raw/download.sh; the SOURCES_LOG verification trail uses the live URLs.
+# The confidential manager deck is never committed.
