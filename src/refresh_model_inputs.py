@@ -1,12 +1,17 @@
 """Refresh the Excel model's BLUE INPUT cells from the processed CSVs / engine.
 
-This is the fallback to Power Query: it writes input VALUES into
-the model's input cells only — it never touches a formula cell (any cell whose
-value starts with '=' is skipped). Run after `make transform`:
+This is the data-layer fallback to Power Query: it writes input VALUES into the
+workbook's input cells only — it never touches a formula cell (any cell whose
+value starts with '=' is skipped).
 
-    python -m src.refresh_model_inputs
+Excel-first (change11): the master BESS_Valuation.xlsx is HAND-OWNED. A normal run
+refreshes the autobuild *self-check* copy, NOT the master. To push refreshed inputs
+into the hand-owned master, pass --write-master explicitly.
 
-If the model file does not exist yet, it is built first.
+    python -m src.refresh_model_inputs                 # refreshes the autobuild copy
+    python -m src.refresh_model_inputs --write-master  # updates the master's input cells
+
+If the target workbook does not exist yet, it is built first.
 """
 from __future__ import annotations
 
@@ -16,7 +21,8 @@ from src.utils import io
 from src.valuation_engine import load_inputs
 from src import build_model
 
-MODEL = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
+MASTER = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
+AUTOBUILD = io.PROJECT_ROOT / "financial_models" / "_generated" / "BESS_Valuation_autobuild.xlsx"
 
 # label substring (on Inputs col A) -> attribute on the Inputs dataclass (col C)
 SCALAR_MAP = {
@@ -58,13 +64,20 @@ def _set_input(ws, row, col, value):
     return True
 
 
-def run() -> None:
-    if not MODEL.exists():
-        print("[refresh] model not found — building it first")
-        build_model.build()
+def run(write_master: bool = False) -> None:
+    target = MASTER if write_master else AUTOBUILD
+    if write_master:
+        print("[refresh] --write-master: updating input cells in the HAND-OWNED master "
+              "(formulas untouched).")
+    else:
+        print("[refresh] master is hand-owned; refreshing the autobuild self-check copy "
+              "(pass --write-master to update the master).")
+    if not target.exists():
+        print(f"[refresh] {target.name} not found — building it first")
+        build_model.build(rebuild_master=write_master)
 
     inp = load_inputs()
-    wb = load_workbook(MODEL)
+    wb = load_workbook(target)
     ws = wb["Inputs"]
     n_updated = 0
 
@@ -108,10 +121,11 @@ def run() -> None:
             n_updated += 1
 
     wb.calculation.fullCalcOnLoad = True
-    wb.save(MODEL)
-    print(f"[refresh] updated {n_updated} input cells in {MODEL.name} (formulas untouched)")
+    wb.save(target)
+    print(f"[refresh] updated {n_updated} input cells in {target.name} (formulas untouched)")
     print("          Open in Excel to recalculate (fullCalcOnLoad is set).")
 
 
 if __name__ == "__main__":
-    run()
+    import sys
+    run(write_master="--write-master" in sys.argv)

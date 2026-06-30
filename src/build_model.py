@@ -16,7 +16,12 @@ The model is fully LIVE (formula strings) so it recalculates when opened in Exce
 Blue input cells are seeded from the same inputs the Python valuation engine uses,
 so the workbook reproduces the engine's numbers (incl. closed-form investor IRR).
 
-Run:  python -m src.build_model
+Excel-first (change11): the master workbook is HAND-OWNED. A normal run writes an
+autobuild *self-check* copy to financial_models/_generated/ — it does NOT overwrite
+the master. Regenerate the master from Python only with the explicit flag.
+
+Run:  python -m src.build_model                 # writes the autobuild self-check copy
+      python -m src.build_model --rebuild-master  # regenerates the hand-owned master
 """
 from __future__ import annotations
 
@@ -131,7 +136,7 @@ class B:
                      align="center", wrap=True, border=True)
 
 
-def build():
+def build(rebuild_master: bool = False):
     b = B()
     inp = load_inputs()
     n = len(inp.projects)
@@ -588,7 +593,8 @@ def build():
     cc = [
         (4, "Total pipeline MW", f"=SUM({R['rnpv_mw']})", FNUM, "formula"),
         (5, "Gross RTB asset value $m", f"=SUMPRODUCT({R['rnpv_mw']},{R['rnpv_rtb']})*{base_sale_mult}", FM, "formula"),
-        (6, "Total dev cost $m", f"={R['dev_cost']}*{base_dev_mult}*{n}", FM, "formula"),
+        # project count = COUNT of the representative pipeline (no hardcoded literal)
+        (6, "Total dev cost $m", f"={R['dev_cost']}*{base_dev_mult}*COUNT({R['rnpv_mw']})", FM, "formula"),
         (7, "Average years to sale", f"=AVERAGE({R['rnpv_years']})", FNUM1, "formula"),
         (8, "Flip success (Base, DA x conn x sale)", f"={base_success}", FPCT, "formula"),
         (9, "$/MW implied dev value $m", f"=IFERROR((C5-C6)*C8/(1+{R['discount_base']})^C7,0)", FM2, "formula"),
@@ -1049,7 +1055,17 @@ def build():
                     if len(_re.findall(r"(?<!ERROR)\bIF\(", v)) >= 2:
                         nested_hits.append(f"{name}!{c.coordinate}")
 
-    out = io.PROJECT_ROOT / "financial_models" / "BESS_Valuation.xlsx"
+    # Excel-first (change11): the master BESS_Valuation.xlsx is HAND-OWNED. A normal
+    # run writes the autobuild self-check copy, NOT the master. The master is only
+    # regenerated from Python with an explicit --rebuild-master.
+    fm_dir = io.PROJECT_ROOT / "financial_models"
+    if rebuild_master:
+        out = fm_dir / "BESS_Valuation.xlsx"
+        print("[build_model] --rebuild-master: regenerating the HAND-OWNED master workbook.")
+    else:
+        out = fm_dir / "_generated" / "BESS_Valuation_autobuild.xlsx"
+        print("[build_model] master workbook is hand-owned; writing autobuild self-check copy "
+              "(pass --rebuild-master to regenerate the master).")
     out.parent.mkdir(parents=True, exist_ok=True)
     b.wb.save(out)
     print(f"[build_model] wrote {out}")
@@ -1061,4 +1077,5 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    import sys
+    build(rebuild_master="--rebuild-master" in sys.argv)

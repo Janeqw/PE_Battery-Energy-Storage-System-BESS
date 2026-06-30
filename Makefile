@@ -8,18 +8,19 @@
 
 PY ?= python
 
-.PHONY: all install extract transform refresh report test clean help
+.PHONY: all install extract transform refresh rebuild-master report test clean help
 
 help:
 	@echo "Targets:"
-	@echo "  make install     pip install deps (+ playwright browser if used)"
-	@echo "  make extract     run src/extract/* -> data/raw + refresh source CSVs"
-	@echo "  make transform   clean pipeline, gate statistics, comps -> data/processed"
-	@echo "  make refresh     push processed CSV values into the Excel model inputs"
-	@echo "  make report      export dashboard.pdf + figures"
-	@echo "  make test        pytest"
-	@echo "  make all         extract -> transform -> refresh -> report"
-	@echo "  make clean       remove data/raw and regenerated outputs"
+	@echo "  make install         pip install deps (+ playwright browser if used)"
+	@echo "  make extract         run src/extract/* -> data/raw + refresh source CSVs"
+	@echo "  make transform       clean pipeline, gate statistics, comps -> data/processed"
+	@echo "  make refresh         refresh the AUTOBUILD self-check copy (master is hand-owned)"
+	@echo "  make rebuild-master  regenerate the hand-owned master workbook from Python (overwrites it)"
+	@echo "  make report          export dashboard.pdf + figures"
+	@echo "  make test            pytest"
+	@echo "  make all             extract -> transform -> refresh -> report"
+	@echo "  make clean           remove data/raw and regenerated outputs"
 
 install:
 	$(PY) -m pip install -r requirements.txt
@@ -40,9 +41,15 @@ transform:
 	$(PY) -m src.transform.gate_statistics
 	$(PY) -m src.transform.build_comps
 
-# ---- Phase B: push inputs into the Excel model ------------------------------
+# ---- Phase B: refresh inputs (Excel-first: master is hand-owned) ------------
+# A normal run refreshes the autobuild self-check copy, NOT the master.
 refresh:
 	$(PY) -m src.refresh_model_inputs
+
+# Escape hatch: regenerate the hand-owned master from Python (overwrites it).
+# Use only to re-baseline the master; normally you edit the master by hand.
+rebuild-master:
+	$(PY) -m src.build_model --rebuild-master
 
 # ---- Phase C: figures + dashboard + GitHub-friendly model preview ----------
 report:
