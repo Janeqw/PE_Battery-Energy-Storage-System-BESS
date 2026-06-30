@@ -76,8 +76,8 @@ def test_cumulative_le_each_gate():
 
 
 def test_sources_md_populated():
-    src = ROOT / "financial_models" / "SOURCES_LOG.md"
-    assert src.exists(), "financial_models/SOURCES_LOG.md missing — run an extractor"
+    src = ROOT / "config" / "SOURCES_LOG.md"
+    assert src.exists(), "config/SOURCES_LOG.md missing — run an extractor"
     text = src.read_text(encoding="utf-8")
     for token in ("RBA", "AEMO", "CSIRO", "Planning"):
         assert token in text, f"SOURCES_LOG.md should mention {token}"

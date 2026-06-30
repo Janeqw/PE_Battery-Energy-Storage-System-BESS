@@ -3,7 +3,7 @@
 Each extractor calls `record(...)` once. Records accumulate to a JSON ledger
 (data/processed/_sources_log.json) so re-running one extractor updates only its
 own row, then `write_markdown()` renders the committed model output
-financial_models/SOURCES_LOG.md (linked from IC_MEMO.md, Appendix A).
+config/SOURCES_LOG.md (linked from IC_MEMO.md, Appendix A).
 
 This delivers the project's "source honesty": every input traces to a
 source + date, and the status column makes clear whether a value is LIVE
@@ -150,6 +150,6 @@ def write_markdown() -> None:
         "- This is an **illustrative** analysis and **not investment advice**; "
         "no real company, person or transaction is identified."
     )
-    out = PROJECT_ROOT / "financial_models" / "SOURCES_LOG.md"
+    out = PROJECT_ROOT / "config" / "SOURCES_LOG.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
